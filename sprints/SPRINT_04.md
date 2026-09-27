@@ -43,7 +43,7 @@ RAG, OCR of scanned ministry documents (PDL-013).
 - Students and anonymous users read nothing of the new tables.
 
 ## Progress
-- [x] 1. `config/canonical-facts.json` (3 editions, 21 rules, every quote found on its page by
+- [x] 1. `config/canonical-facts.json` (3 editions, 20 rules, every quote found on its page by
       `tests/unit/knowledge.test.ts`); "Učitaj predmet i pravila" on `/app/kanon` re-checks SHA-256 and all quotes
       on the stored file before `load_canonical_facts`.
 - [x] 2. Migration 008 applied to Supabase; `npm run test:db` 45 new assertions; security advisor only the known
@@ -63,5 +63,8 @@ horizontal page scroll).
 
 Live verification (2026-09-27, evidence from the database): subjects `bhs_language_literature` (7 rules),
 `mathematics` (7), `german` (6) loaded by the Director with "Učitaj predmet i pravila"; subject-teacher grants
-haris.hamzic (mathematics), nizama.memija (bhs_language_literature), nikolina.todorovic (german). Still open:
-first review decisions by the three teachers (needs the app reachable outside the Director's computer).
+haris.hamzic (mathematics), nizama.memija (bhs_language_literature), nikolina.todorovic (german). 
+Review decisions (2026-09-27): the Director accepted 2 records and confirmed all 20 rules individually in the
+review screens; then, by the Director's order (PDL-016), ACA accepted the remaining 492 records in one transaction
+with the tag "Skupno prihvatanje po nalogu direktora, bez pojedinačnog pregleda". Database: 494 trusted question
+versions, 576 printed keys, 25 subject areas, 494 + 40 audit rows; 6 German records of unrecognised type pending.
