@@ -1,0 +1,37 @@
+{
+  "forbidden": [
+    {
+      "pattern": "AIzaSy[A-Za-z0-9_-]{10,}",
+      "reason": "Google API key material must never appear in a tracked file"
+    },
+    {
+      "pattern": "-----BEGIN (RSA |EC )?PRIVATE KEY-----",
+      "reason": "Private key material must never appear in a tracked file"
+    },
+    {
+      "pattern": "eyJhbGciOi",
+      "reason": "JWT-looking token must never appear in a tracked file"
+    },
+    {
+      "pattern": "sk-ant-[A-Za-z0-9_-]{10,}",
+      "reason": "Anthropic API key material must never appear in a tracked file"
+    },
+    {
+      "pattern": "SUPABASE_SERVICE_ROLE_KEY\\s*=\\s*\\S{20,}",
+      "reason": "Supabase service-role key must live only in the hosting secret store (A-7, A-8)"
+    },
+    {
+      "pattern": "NEXT_PUBLIC_[A-Z_]*(SECRET|SERVICE_ROLE|PRIVATE)[A-Z_]*",
+      "reason": "Secrets must never be exposed through NEXT_PUBLIC_ variables (DONE checklist)"
+    }
+  ],
+  "exclude": [
+    "node_modules",
+    ".git",
+    ".next",
+    "dist",
+    "build",
+    ".vercel",
+    ".claude"
+  ]
+}

@@ -10,6 +10,10 @@ Governance: Commander v1.6.1 (https://github.com/IDSS123a/commander) · Mode: FU
    Tier 2 for implementation (ENGINEERING_RULES, ARCHITECTURE_PATTERNS, C-1…C-5).
 3. Communicate with the Director in Bosnian; code, docs and commits in English.
 
+## Next.js 16
+Read `AGENTS.md` (Next.js 16 differs from older versions; docs in `node_modules/next/dist/docs/`).
+Checks: `npm run typecheck`, `npm run lint`, `npm run build`, `PW_CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e`.
+
 ## Where things are
 - Product mandate: `docs/mandate/INSTRUCTION-WEB-APP-IDSS-EGE.html`
 - Evidence: `docs/discovery/` (source inventory, prototype audit, ambiguities)

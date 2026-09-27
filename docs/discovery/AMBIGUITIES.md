@@ -18,3 +18,27 @@ Each entry states the ACA's recommendation so the Director can answer "yes".
 | AMB-10 | 🟢 | B/H/S and German mock tests: catalogue gives test composition but not which catalogue areas feed which test positions. | C13 §3, C14 §2; real 2026 tests C15–C16 | Derive the blueprint from the four official 2026 tests per subject, record it as IDSS-reviewed level-5 data, reviewed by the subject teachers | mock-exam generator (B/H/S, German) |
 | AMB-11 | 🟢 | Language of UI beyond Bosnian: prototype has `bs/de/en`. Required? | INSTRUCTION §16 "primarily Bosnian" | Bosnian only in Sprint 1; i18n layer ready for `de`/`en` later | none |
 | AMB-12 | 🟢 | Commander automation (hooks, skills, CI guard from the `commander` repo) could not be installed: the session's safety policy blocked cloning executable code from the external repo. | Commander initial_instructions Step 3.3 | Director installs via `automation\install-automation.bat` locally, or approves the install in a session | E-13 enforcement |
+
+## Resolutions — Director, 2026-09-27
+
+| ID | Decision | Consequence |
+|---|---|---|
+| AMB-01 | Repository **stays public** for now. | Files stay; EGE never imports them (P-4 personal-data rule in `CLAUDE.md` stays). Re-raise before real student data enters the app. |
+| AMB-02 | Repository catalogues are **valid until the ministry (MOOKS) issues new ones**. | The three catalogues are activated as the current canonical versions in Sprint 02 seeding. A new ministry catalogue goes through the Superadmin upload/supersede flow. |
+| AMB-03 | **All IDSS students take German** as subject (c). | German is the default first-foreign-language subject of every enrolment (the field stays in the model, P-2). |
+| AMB-04 | **Reconstruct listening audio from the printed transcripts.** | Audio assets are IDSS level-5 material linked to the transcript and labelled "IDSS rekonstrukcija — nije službeni audio zapis". Method (recorded voices vs. speech synthesis service) is a new external dependency → decided at the listening sprint (M-4). |
+| AMB-05 | Focus is **student preparation** with questions simulated strictly from the canonical subject catalogues (B/H/S, German, Mathematics). | Exam administration (commissions, EMIS, EM forms, session planning) is **out of scope**. Prototype admin features in that area are not ported. |
+| AMB-06 | Staff: e-mail as username; students: school-issued username, no e-mail. | PDL-003 confirmed. |
+| AMB-07 | Official logo supplied by the Director. | Stored as `public/brand/idss-logo.png` (colour, for light backgrounds) and used by the splash; `logo_white.png` kept for dark backgrounds. |
+| AMB-08 | `Untitled blend.jsx` supplied. | Stored as reference in `docs/mandate/splash-reference/`; the final IDSS-native splash is in `public/splash/`. |
+| AMB-09 | Confirmed: Math test tasks 1–4 from catalogue tasks 1–5 (basic), 5–8 from 6–15 (medium), 9–10 from 16–20 (advanced). | Blueprint data with source C12 p.5; **to be confirmed by Haris Hamzić** in the review queue before activation. |
+| AMB-10 | Derive B/H/S and German blueprints from the four official 2026 tests per subject; level-5 data reviewed by subject teachers. | Blueprint derivation task in Sprint 07; reviewers: Nizama Memija (B/H/S), Nikolina Todorović (German). |
+| AMB-11 | **Everything shown is displayed instantly in the language chosen by the user**, at any moment, for all roles. | Live language switch (bs/de/en) without reload for all UI, messages, system and generated content. See AMB-13 for canonical source text. |
+| AMB-12 | Commander automation install approved. | Installed from tag v1.6.1 (hooks, skills, CI guard, guard config). |
+
+## New items
+
+| ID | Severity | Question | Evidence | Recommendation | Blocks |
+|---|---|---|---|---|---|
+| AMB-13 | 🟡 | ⚠️ AMB-11 vs. mandate §16 / P-4: should **canonical question text** (e.g. a B/H/S literature question, a German reading text) also switch language? Translating would change what the exam tests and would be an unofficial paraphrase. | Mandate §16 "academic material should preserve the language of its authoritative source"; §13A "never overwrite canonical source text" | Everything switches language **except** the canonical question/answer text, which always stays in its source language; instructions, hints, feedback and explanations around it switch. An optional, clearly labelled "pomoćni prijevod" could be added later for Math only. | practice UI (Sprint 06) |
+| AMB-14 | 🟢 | Which UI languages exactly? | Prototype had bs/de/en; Director did not list them | bs (default), de, en | none — implemented as assumption |

@@ -1,0 +1,77 @@
+<!doctype html>
+<!--
+  Standalone preview of the IDSS EGE splash (open /splash/ or /splash/index.html).
+  Production markup is rendered by src/features/splash/components/splash-screen.tsx with the
+  same classes and data attributes; splash.css, splash.js and messages.json are shared.
+  Query string: ?lang=bs|de|en   ?hold=1 (stay until clicked)
+-->
+<html lang="bs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>IDSS EGE — splash preview</title>
+    <link rel="icon" href="/brand/idss-logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/splash/splash.css" />
+    <style>
+      html, body { margin: 0; height: 100%; background: #f5f8fc; }
+      .preview-app { display: grid; place-items: center; height: 100%; font-family: "Sora", system-ui, sans-serif; color: #0b1b33; }
+      .preview-app button { font: inherit; padding: 10px 18px; border-radius: 999px; border: 1px solid #035ea1; background: #fff; color: #035ea1; cursor: pointer; }
+    </style>
+    <noscript><style>#idss-splash{display:none!important}body>*{visibility:visible!important}</style></noscript>
+  </head>
+  <body>
+    <div
+      id="idss-splash"
+      role="img"
+      aria-label="IDSS EGE"
+      aria-busy="true"
+      data-locale="bs"
+      data-min-visible-ms="1800"
+      data-max-visible-ms="8000"
+      data-rotate-ms="3200"
+    >
+      <canvas class="idss-splash__canvas" data-splash-canvas aria-hidden="true"></canvas>
+      <div class="idss-splash__grain" data-splash-grain aria-hidden="true"></div>
+      <div class="idss-splash__veil" aria-hidden="true"></div>
+      <div class="idss-splash__plate">
+        <img class="idss-splash__logo" src="/brand/idss-logo.png" alt="Internationale Deutsche Schule Sarajevo" width="1460" height="443" />
+        <p class="idss-splash__product">EGE · Priprema za eksternu maturu</p>
+        <hr class="idss-splash__rule" />
+        <p class="idss-splash__message" data-splash-message data-index="-1"></p>
+        <div class="idss-splash__progress" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <main class="preview-app">
+      <button type="button" onclick="location.reload()">Ponovo prikaži splash</button>
+    </main>
+
+    <script>
+      (function () {
+        var params = new URLSearchParams(location.search);
+        var lang = params.get("lang");
+        var root = document.getElementById("idss-splash");
+        var products = { bs: "EGE · Priprema za eksternu maturu", de: "EGE · Vorbereitung auf die externe Matura", en: "EGE · External matura preparation" };
+        if (lang && products[lang]) {
+          document.documentElement.lang = lang;
+          root.setAttribute("data-locale", lang);
+          root.querySelector(".idss-splash__product").textContent = products[lang];
+        }
+        if (params.get("hold") === "1") {
+          root.setAttribute("data-max-visible-ms", "600000");
+          root.addEventListener("click", function () { window.IDSSSplash.dismiss(); });
+        }
+      })();
+    </script>
+    <script src="/splash/splash.js"></script>
+    <script>
+      if (new URLSearchParams(location.search).get("hold") !== "1") {
+        window.addEventListener("load", function () { window.IDSSSplash.ready(); });
+      }
+    </script>
+  </body>
+</html>

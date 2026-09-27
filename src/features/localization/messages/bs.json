@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "title": "IDSS EGE — Priprema za eksternu maturu",
+    "description": "Platforma Internationale Deutsche Schule Sarajevo za pripremu učenika IX razreda za eksternu maturu."
+  },
+  "splash": {
+    "label": "IDSS EGE se učitava",
+    "product": "EGE · Priprema za eksternu maturu",
+    "logoAlt": "Internationale Deutsche Schule Sarajevo"
+  },
+  "language": {
+    "label": "Jezik",
+    "names": { "bs": "Bosanski", "de": "Deutsch", "en": "English" }
+  },
+  "home": {
+    "eyebrow": "Internationale Deutsche Schule Sarajevo",
+    "title": "IDSS EGE",
+    "subtitle": "Priprema za eksternu maturu kroz izazove, misije i vježbu zasnovanu isključivo na službenim ispitnim katalozima.",
+    "statusTitle": "Platforma je u izgradnji",
+    "statusBody": "Trenutno se gradi Sprint 01: temelji platforme — prijava korisničkim imenom i lozinkom, uloge i prava pristupa, te registar kanonskih dokumenata.",
+    "replaySplash": "Prikaži uvodni ekran ponovo"
+  }
+}
