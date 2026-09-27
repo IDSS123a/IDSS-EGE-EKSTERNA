@@ -30,8 +30,13 @@
   --radius-lg: 24px;
   --radius-pill: 999px;
   --shadow-raised: 0 18px 50px -24px rgba(3, 30, 70, 0.35);
-  --space-page-x: clamp(20px, 5vw, 64px);
-  --content-max-width: 1080px;
+  /*
+   * Full-width layout (CONSTITUTION P-14): content spans margin to margin on every screen;
+   * margins grow with the viewport and respect device safe areas (notches, rounded corners).
+   */
+  --space-page-x: clamp(16px, 4vw, 72px);
+  --space-page-left: max(var(--space-page-x), env(safe-area-inset-left));
+  --space-page-right: max(var(--space-page-x), env(safe-area-inset-right));
 }
 
 @theme inline {
@@ -42,8 +47,27 @@
   --font-sans: var(--font-body);
 }
 
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
 body {
   margin: 0;
+  overflow-wrap: break-word;
   min-height: 100dvh;
   background: var(--color-surface);
   color: var(--color-ink);
@@ -107,20 +131,16 @@ body {
 }
 .page__main {
   width: 100%;
-  max-width: var(--content-max-width);
-  margin: 0 auto;
-  padding: clamp(40px, 8vw, 96px) var(--space-page-x);
-  box-sizing: border-box;
-}
-.page__main--narrow {
-  max-width: 520px;
+  flex: 1;
+  padding: clamp(28px, 6vw, 96px) var(--space-page-right) max(clamp(28px, 6vw, 96px), env(safe-area-inset-bottom)) var(--space-page-left);
 }
 .site-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 16px;
-  padding: 16px var(--space-page-x);
+  padding: max(16px, env(safe-area-inset-top)) var(--space-page-right) 16px var(--space-page-left);
   border-bottom: 1px solid var(--color-border);
   background: var(--color-surface-raised);
 }
@@ -167,6 +187,14 @@ body {
 /* ---------------------------------------------------------------- forms & auth */
 .auth-card {
   margin-top: 0;
+  display: grid;
+  gap: clamp(20px, 4vw, 64px);
+}
+@media (min-width: 960px) {
+  .auth-card {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
 }
 .auth-card__title {
   margin: 0;
@@ -258,7 +286,6 @@ body {
   letter-spacing: -0.03em;
 }
 .home__subtitle {
-  max-width: 62ch;
   margin: 18px 0 0;
   font-size: clamp(1rem, 2.2vw, 1.2rem);
   line-height: 1.6;

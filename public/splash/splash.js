@@ -369,7 +369,7 @@
 
   function maybeLeave() {
     if (!state.root || !state.readyRequested || state.leaving) return;
-    var remaining = numberAttribute("data-min-visible-ms", 1800) - (now() - state.startedAt);
+    var remaining = numberAttribute("data-min-visible-ms", 5800) - (now() - state.startedAt);
     if (remaining <= 0) leave(false);
     else window.setTimeout(function () { leave(false); }, remaining);
   }
@@ -401,7 +401,7 @@
     });
 
     // Fail-safe: never trap the user behind the splash if the app never signals readiness.
-    window.setTimeout(function () { leave(false); }, numberAttribute("data-max-visible-ms", 8000));
+    window.setTimeout(function () { leave(false); }, numberAttribute("data-max-visible-ms", 12000));
     maybeLeave();
   }
 

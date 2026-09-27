@@ -71,6 +71,15 @@ text with a forbidden phrase regenerated, never displayed).
 Exception: canonical source text (official questions, answers, catalogue excerpts) stays
 verbatim (P-4, AMB-13).
 
+## P-14. Every device, full width (🔴, Director 2026-09-27)
+All UI works on every device class the app can run on (phones, tablets, laptops, desktops,
+large and touch screens), every browser and operating system (Android, iOS/iPadOS, Windows,
+macOS, Linux, ChromeOS) and every network operator. On desktops and laptops all content spans
+the full screen width, margin to margin; no fixed content column. Means: fluid layout without
+max-width columns, margins as `--space-page-x` with device safe areas, touch targets at least
+44 px, user zoom allowed, no hover-only functions, `100dvh`. Enforced by `tests/e2e/layout.spec.ts`
+(no horizontal scroll from 320 px to 2560 px; desktop content spans the width).
+
 ## P-12. Known limitation (E-4)
 Blocking a user prevents new logins immediately; an already-issued access token stays
 valid until expiry (≤ 1 h). Shown in the admin UI when blocking.

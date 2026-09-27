@@ -24,7 +24,7 @@ test("pages render with zero CSP violations", async ({ page }) => {
   });
   for (const path of ["/", "/prijava"]) {
     await page.goto(path);
-    await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 6000 });
+    await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 10000 });
   }
   expect(violations).toEqual([]);
 });
@@ -41,7 +41,7 @@ test("an injected inline script without the nonce is blocked", async ({ page }) 
     await route.fulfill({ response, body: html });
   });
   await page.goto("/prijava");
-  await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 6000 });
+  await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 10000 });
   expect(await page.evaluate(() => (window as unknown as { __attack?: boolean }).__attack === true)).toBe(false);
   expect(violations.length).toBeGreaterThan(0);
 });

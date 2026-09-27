@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Script from "next/script";
 import { headers } from "next/headers";
@@ -14,6 +14,17 @@ import "./globals.css";
 
 const displayFont = Sora({ variable: "--font-display", subsets: ["latin", "latin-ext"], display: "swap" });
 const bodyFont = Inter({ variable: "--font-body", subsets: ["latin", "latin-ext"], display: "swap" });
+
+/**
+ * Viewport for every device class (CONSTITUTION P-14): device width, user zoom allowed
+ * (accessibility), content drawn under notches with safe-area padding in globals.css.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#035ea1",
+};
 
 /** Localised document metadata from the request's interface language. */
 export async function generateMetadata(): Promise<Metadata> {

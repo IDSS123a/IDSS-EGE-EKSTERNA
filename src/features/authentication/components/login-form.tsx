@@ -21,10 +21,13 @@ export function LoginForm(): ReactNode {
   return (
     <div className="page">
       <SiteHeader />
-      <main className="page__main page__main--narrow">
+      <main className="page__main">
         <section className="card auth-card" aria-labelledby="login-title">
-          <h1 id="login-title" className="auth-card__title">{dictionary.auth.title}</h1>
-          <p className="auth-card__subtitle">{dictionary.auth.subtitle}</p>
+          <div className="auth-card__intro">
+            <h1 id="login-title" className="auth-card__title">{dictionary.auth.title}</h1>
+            <p className="auth-card__subtitle">{dictionary.auth.subtitle}</p>
+            <Link href="/" className="auth-card__back">{dictionary.auth.backHome}</Link>
+          </div>
 
           <form action={formAction} className="form" noValidate>
             <div className="form__field">
@@ -65,7 +68,6 @@ export function LoginForm(): ReactNode {
               {pending ? dictionary.auth.submitting : dictionary.auth.submit}
             </button>
           </form>
-          <Link href="/" className="auth-card__back">{dictionary.auth.backHome}</Link>
         </section>
       </main>
     </div>

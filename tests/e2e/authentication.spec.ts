@@ -6,7 +6,7 @@ import { expect, test } from "@playwright/test";
  */
 test.beforeEach(async ({ page }) => {
   await page.goto("/prijava");
-  await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 6000 });
+  await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 10000 });
 });
 
 test("signed-out visitor is redirected from /app to /prijava", async ({ page }) => {

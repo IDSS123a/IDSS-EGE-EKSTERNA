@@ -36,6 +36,8 @@ Supabase project: `dezevstfmfliyasdeflj`. After every migration run the Supabase
 - No AI characters or AI phrasing in any app text or AI-generated content (P-13):
   no em/en dash, ellipsis character, curly quotes, middle dot, arrows, emoji, "Odlično pitanje"...
   Run `npm run check:text`. Canonical source text is exempt (stays verbatim).
+- Every device, OS and operator; on desktop/laptop content spans the full width margin to
+  margin (P-14). No max-width content columns; `tests/e2e/layout.spec.ts` must pass.
 - Destructive actions, history rewrites, production deploys: ask the Director first (M-4, M-23).
 
 ## Standing order — delivery (Director, 2026-09-27)

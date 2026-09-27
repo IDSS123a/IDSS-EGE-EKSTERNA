@@ -26,7 +26,7 @@ test("splash leaves after the app is ready and the app becomes visible, without 
   const errors = trackErrors(page);
   await page.goto("/");
   await expect(page.locator("#idss-splash")).toBeVisible();
-  await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 6000 });
+  await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 10000 });
   await expect(page.locator("#idss-splash")).toBeHidden();
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   expect(errors.filter((text) => !text.includes("net::ERR_"))).toEqual([]);
@@ -34,7 +34,7 @@ test("splash leaves after the app is ready and the app becomes visible, without 
 
 test("language switches instantly without reload and persists", async ({ page }) => {
   await page.goto("/");
-  await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 6000 });
+  await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 10000 });
   const navigationMarker = await page.evaluate(() => performance.timeOrigin);
 
   await page.getByText("DE", { exact: true }).click();
@@ -54,7 +54,7 @@ test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
   test("splash renders a static field and still leaves", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 6000 });
+    await expect(page.locator("html")).toHaveAttribute("data-splash", "done", { timeout: 10000 });
   });
 });
 

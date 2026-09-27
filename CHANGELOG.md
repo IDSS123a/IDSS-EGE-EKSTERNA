@@ -23,3 +23,5 @@
 [2026-09-27] [DATABASE] Migration 005: RLS performance (merged policies, auth.uid() init-plan, FK indexes)
 [2026-09-27] [SPRINT] Sprint 01 closed: DONE checklist, compliance score, handoff note
 [2026-09-27] [RULE] P-13 no AI characters or AI phrasing in app text; UI text cleaned; npm run check:text + CI step; runtime filter src/lib/text-style.ts
+[2026-09-27] [CONFIG] Splash minimum 5.8 s (+4 s, Director), fail-safe 12 s
+[2026-09-27] [RULE] P-14 every device, full width on desktop; fluid layout, safe areas, viewport; e2e layout test 320 to 2560 px
