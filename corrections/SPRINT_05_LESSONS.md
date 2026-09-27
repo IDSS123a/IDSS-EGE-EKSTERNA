@@ -1,5 +1,5 @@
 # Sprint 05 — Lessons Learned
-Date: 2026-09-27 (open)
+Date: 2026-09-27 (closed)
 
 ## Corrections Applied
 1. `websearch_to_tsquery` joins words with AND, so natural questions found nothing; caught by the live check on real
