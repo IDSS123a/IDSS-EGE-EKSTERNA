@@ -16,6 +16,8 @@ export type RetrievedChunk = {
   keywordRank?: number | null;
   /** Semantic search only: standard deviations above the query's mean similarity over all passages in scope (migration 016). */
   similarityZ?: number | null;
+  /** Source label the grounded answer cites (I1, I2, ...; PDL-025). */
+  label?: string;
 };
 
 /** A retrieval request: the provider decides how to rank, never what the caller may see (the database does). */
@@ -41,8 +43,18 @@ export type RetrievalErrorCode = "UNAUTHENTICATED" | "FORBIDDEN" | "VALIDATION" 
 /** Which ranking answered a search. */
 export type RetrievalMethod = "semantic" | "full_text";
 
+/**
+ * Grounded answer of a search (PDL-025): answered from the cited sources, not found in the sources, unavailable
+ * (the answer model failed; results by the evidence rule), or off (no Gemini key or no semantic index).
+ */
+export type SearchAnswer =
+  | { status: "answered"; text: string }
+  | { status: "not_found" }
+  | { status: "unavailable"; code: RetrievalErrorCode; detail: string | null }
+  | { status: "off" };
+
 export type SearchResult =
-  | { success: true; data: { results: RetrievedChunk[]; refused: boolean; method: RetrievalMethod; fallback: RetrievalErrorCode | null } }
+  | { success: true; data: { results: RetrievedChunk[]; refused: boolean; method: RetrievalMethod; fallback: RetrievalErrorCode | null; answer: SearchAnswer; terms: string[] } }
   | { success: false; code: RetrievalErrorCode };
 
 export type IndexResult =

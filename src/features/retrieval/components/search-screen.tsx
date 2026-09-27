@@ -108,18 +108,34 @@ export function SearchScreen({ subjects, chunkTotal, canBuild, embeddedTotal, se
         <div aria-live="polite">
           {result && !result.success && <p className="action-feedback--error" role="alert">{labels.errors[result.code]}</p>}
           {result?.success && result.data.fallback && <p className="notice">{labels.fallback}</p>}
-          {result?.success && <p className="form__hint">{labels.methods[result.data.method]}</p>}
+          {result?.success && (
+            <p className="form__hint">
+              {labels.methods[result.data.method]}
+              {result.data.terms.length > 0 ? `. ${labels.terms.replace("{terms}", result.data.terms.join(", "))}` : ""}
+            </p>
+          )}
+          {result?.success && result.data.answer.status === "unavailable" && (
+            <p className="notice">{labels.answerUnavailable.replace("{detail}", result.data.answer.detail ?? labels.errors[result.data.answer.code])}</p>
+          )}
           {result?.success && result.data.refused && <p className="notice">{labels.refusal}</p>}
+          {result?.success && result.data.answer.status === "answered" && (
+            <section className="search-answer" aria-labelledby="answer-title">
+              <h3 id="answer-title">{labels.answerTitle}</h3>
+              {/* Generated from the cited sources only (PDL-025); P-13 characters are replaced on the server. */}
+              <p className="search-answer__text">{result.data.answer.text}</p>
+              <p className="form__hint">{labels.answerNote}</p>
+            </section>
+          )}
           {result?.success && !result.data.refused && (
             <>
-              <p>{labels.results.replace("{n}", String(result.data.results.length))}</p>
+              <p>{result.data.answer.status === "answered" ? labels.sourcesTitle : labels.results.replace("{n}", String(result.data.results.length))}</p>
               <ol className="search-results">
                 {result.data.results.map((chunk) => {
                   const code = subjectCode(chunk.subjectId);
                   return (
                     <li key={chunk.chunkId} className="rule-item">
                       <div className="canon-version__head">
-                        <strong>{labels.kinds[chunk.sourceKind]}</strong>
+                        <strong>{chunk.label ? `[${chunk.label}] ` : ""}{labels.kinds[chunk.sourceKind]}</strong>
                         <span className="form__hint">{code ? dictionary.subjects[code] : ""}</span>
                       </div>
                       {/* Canonical text stays verbatim in its source language (AMB-13, P-13 exempt). */}

@@ -104,6 +104,19 @@ export const EMBEDDING_BUILD_BUDGET_MS = 45000;
  */
 export const RETRIEVAL_MIN_SIMILARITY_Z = 4;
 
+/**
+ * Grounded answers (PDL-025): Gemini text model that turns the question into search terms in Bosnian, German and
+ * English and answers only from the retrieved sources. Verified 27.09.2026: gemini-3.8-flash is generally available.
+ * GEMINI_ANSWER_MODEL in .env.local overrides it without a code change.
+ */
+export const ANSWER_MODEL = "gemini-3.8-flash";
+/** Longest wait for one answer-model request. */
+export const ANSWER_TIMEOUT_MS = 30000;
+/** Most search terms taken from the query translation. */
+export const QUERY_TERMS_MAX = 12;
+/** Passages given to the answer model (the database bounds k to 10). */
+export const ANSWER_CANDIDATE_COUNT = 10;
+
 /** Footer: product owner contact and the legal documents (Director, 2026-09-27; texts pending, AMB-20). */
 export const CONTACT_EMAIL = "ai@idss.ba";
 export const LEGAL_DOCUMENTS = [

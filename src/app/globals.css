@@ -814,6 +814,21 @@ body {
   padding: 0;
   list-style: none;
 }
+.search-answer {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--color-brand);
+  border-radius: 8px;
+  background: var(--color-surface);
+}
+.search-answer h3 {
+  margin: 0 0 6px;
+}
+.search-answer__text {
+  margin: 0 0 6px;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
 
 /* ---------------------------------------------------------------- settings (PDL-020) */
 .palette-swatch {

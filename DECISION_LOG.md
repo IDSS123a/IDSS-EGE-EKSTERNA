@@ -332,3 +332,33 @@ Each semantic search now records `top_similarity` and `top_similarity_z` (no que
 **Implementation:** migrations 017 and 018, `src/features/practice`, `/app` (Game Hub for students), `/app/predmet/[code]`,
 `/app/vjezba`.
 
+## PDL-025: Multilingual grounded answers in search (query translation, answer from cited sources)
+**Date:** 2026-09-27 (Director: "Postavio sam upit \"class\" i nema odgovora ... AI pretraživanje nad RAG sistemom na
+bosanskom, engleskom i njemačkom jeziku")
+**Problem:** the retrieval audit of the Director's 7 searches shows the best passage at z = 2.7 to 3.9 in six of them, so
+the z >= 4 floor (PDL-023 addendum 3) refused them. The catalogues are in B/H/S and German; an English word such as
+"class" shares no word with them ("razred" in 6 passages, "Klasse" in 5) and a one-word query does not stand out in
+meaning. A fixed floor cannot serve both "Ministar" (no passage, refusal is right) and "class" (answer exists).
+**Decision:**
+1. **Query translation:** a Gemini text model turns the query into up to 12 search terms in Bosnian, German and English
+   (translation, base form, usual catalogue words) and names the query language. Terms are cleaned (letters, digits,
+   spaces; 40 characters). Retrieval runs on the query plus its terms: words match across languages, and the embedding
+   carries all three.
+2. **Answer from sources:** the 10 best passages (fused rank) go to the model as numbered, neutralised source blocks
+   after the fixed grounding instruction. The model answers in the query language only from those blocks, marks each
+   statement with its source label, or answers "not found". Only the cited passages are shown, under the answer. No
+   cited source means not found. The relevance judgement moves from a numeric floor to the model reading the passages.
+3. **P-13 for generated text:** forbidden characters are replaced on the server; an answer that still contains
+   forbidden phrasing is not shown (counts as not found).
+4. **Fallback:** if the model fails, the evidence rule of PDL-023 decides (word match or z >= 4) and the screen shows
+   the Gemini detail. No key or no semantic index: search by words, no answer.
+**Model:** `gemini-3.8-flash` (verified 27.09.2026 through search results: generally available; the docs site is
+blocked from the sandbox), `GEMINI_ANSWER_MODEL` in `.env.local` overrides it. Same rotating keys as the embeddings.
+**Data sent to Google:** unchanged in kind: query text and catalogue text (Privacy Policy section 8 already names
+"objašnjenja na osnovu službenih materijala").
+**Not verified yet:** the sandbox has no Gemini key; the calls are covered by unit tests with a fake Gemini and the
+word side was checked live ("razred" 6, "Klasse" 5, "ministar" 0 passages). The Director's first searches are the live
+check.
+**Implementation:** `src/lib/ai/gemini-answer.ts`, `geminiRequest` in `gemini-embeddings.ts`,
+`searchCanonAction`, `groundedContextOf` and `expandedQuery` in `domain/context.ts`, answer panel in the search screen.
+

@@ -547,7 +547,7 @@
     "navLink": "Suche in den offiziellen Materialien",
     "title": "Suche in den offiziellen Materialien",
     "subtitle": "Durchsucht nur geprüfte Aufgaben und bestätigte Regeln der gültigen Kataloge. Jedes Ergebnis nennt Quelle und Seite.",
-    "method": "Die Suche nach Bedeutung nutzt Gemini und die offiziellen Materialien; ohne Schlüssel oder semantischen Index sucht sie nach Wörtern (unabhängig von diakritischen Zeichen und Fällen).",
+    "method": "Stellen Sie eine Frage oder geben Sie einen Begriff auf Bosnisch, Deutsch oder Englisch ein. Gemini übersetzt die Anfrage in alle drei Sprachen, findet Abschnitte der offiziellen Materialien nach Bedeutung und Wörtern und antwortet nur aus ihnen, mit Quellenangabe. Ohne Schlüssel oder semantischen Index sucht sie nach Wörtern.",
     "query": "Frage oder Begriff",
     "queryHint": "Zum Beispiel: wie lange dauert die Prüfung, Taschenrechner, Perfekt, Hasanaginica.",
     "subject": "Fach",
@@ -595,7 +595,12 @@
       "semantic": "Suche nach Bedeutung",
       "full_text": "Suche nach Wörtern"
     },
-    "fallback": "Die Suche nach Bedeutung ist gerade fehlgeschlagen; angezeigt werden die Ergebnisse der Suche nach Wörtern."
+    "fallback": "Die Suche nach Bedeutung ist gerade fehlgeschlagen; angezeigt werden die Ergebnisse der Suche nach Wörtern.",
+    "answerTitle": "Antwort",
+    "answerNote": "Die Antwort stammt nur aus den offiziellen Materialien unten; die Marke [I1] verweist auf die Quelle I1. Prüfen Sie die Antwort vor der Verwendung in der Quelle.",
+    "answerUnavailable": "Eine Antwort kann gerade nicht erstellt werden ({detail}). Angezeigt werden Abschnitte, deren Wörter passen oder die sich nach Bedeutung deutlich abheben.",
+    "terms": "Auch gesucht als: {terms}",
+    "sourcesTitle": "Quellen"
   },
   "settings": {
     "navLink": "Einstellungen",
