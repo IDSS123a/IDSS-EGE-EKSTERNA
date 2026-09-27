@@ -60,7 +60,7 @@ function codeForStatus(status: number): EmbeddingErrorCode {
   return "UNAVAILABLE";
 }
 
-type FetchLike = (input: string, init: RequestInit) => Promise<Response>;
+export type FetchLike = (input: string, init: RequestInit) => Promise<Response>;
 
 /** Attempts for server errors and network failures (quota and refusals rotate through all keys instead). */
 const RETRY_ATTEMPTS = 3;
@@ -82,19 +82,19 @@ function pause(milliseconds: number): Promise<void> {
 let nextKey = 0;
 
 /**
- * Gemini embedder over one or more keys. Keys travel in the x-goog-api-key header, never in the URL (it would
- * appear in logs).
+ * One Gemini REST call over the rotating keys (shared by embeddings and generation, PDL-023, PDL-025). Keys travel in
+ * the x-goog-api-key header, never in the URL (it would appear in logs).
  * @throws EmbeddingError: NOT_CONFIGURED without keys; RATE_LIMITED when every key is over quota; REJECTED when
- *   every key was refused; UNAVAILABLE on other failures or an unexpected answer
+ *   every key was refused or the model is unknown (404); UNAVAILABLE on other failures
  */
-export function geminiEmbedder(apiKeys: readonly string[], fetchImpl: FetchLike = fetch, model: string = EMBEDDING_MODEL): Embedder {
-  async function send(apiKey: string, method: string, body: unknown): Promise<Response> {
+export async function geminiRequest(apiKeys: readonly string[], fetchImpl: FetchLike, path: string, body: unknown, timeoutMs: number = EMBEDDING_TIMEOUT_MS): Promise<unknown> {
+  async function send(apiKey: string): Promise<Response> {
     try {
-      return await fetchImpl(`${API_ROOT}/models/${model}:${method}`, {
+      return await fetchImpl(`${API_ROOT}/${path}`, {
         method: "POST",
         headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
         body: JSON.stringify(body),
-        signal: AbortSignal.timeout(EMBEDDING_TIMEOUT_MS),
+        signal: AbortSignal.timeout(timeoutMs),
       });
     } catch (error) {
       const name = error instanceof Error ? error.name : "unknown";
@@ -102,41 +102,48 @@ export function geminiEmbedder(apiKeys: readonly string[], fetchImpl: FetchLike 
     }
   }
 
-  async function call(method: "embedContent" | "batchEmbedContents", body: unknown): Promise<unknown> {
-    if (apiKeys.length === 0) throw new EmbeddingError("NOT_CONFIGURED", "no Gemini API key is set");
-    const start = nextKey % apiKeys.length;
-    nextKey = (start + 1) % apiKeys.length;
-    let rateLimited = false;
-    let lastStatus = 0;
-    let failures = 0;
-    let refusals = 0;
-    for (let attempt = 0; refusals < apiKeys.length; attempt += 1) {
-      const apiKey = apiKeys[(start + attempt) % apiKeys.length];
-      let response: Response;
-      try {
-        response = await send(apiKey, method, body);
-      } catch (error) {
-        failures += 1;
-        if (failures >= RETRY_ATTEMPTS) throw error;
-        await pause(RETRY_PAUSE_MS * failures);
-        continue;
-      }
-      if (response.ok) return response.json();
-      lastStatus = response.status;
-      // 404 means the model or method is wrong, which no other key fixes.
-      if (response.status === 404) throw new EmbeddingError("REJECTED", "Gemini answered 404", "Gemini: 404");
-      const code = codeForStatus(response.status);
-      if (code === "UNAVAILABLE") {
-        failures += 1;
-        if (failures >= RETRY_ATTEMPTS) throw new EmbeddingError(code, `Gemini answered ${response.status}`, `Gemini: ${response.status}`);
-        await pause(RETRY_PAUSE_MS * failures);
-        continue;
-      }
-      if (code === "RATE_LIMITED") rateLimited = true;
-      refusals += 1;
+  if (apiKeys.length === 0) throw new EmbeddingError("NOT_CONFIGURED", "no Gemini API key is set");
+  const start = nextKey % apiKeys.length;
+  nextKey = (start + 1) % apiKeys.length;
+  let rateLimited = false;
+  let lastStatus = 0;
+  let failures = 0;
+  let refusals = 0;
+  for (let attempt = 0; refusals < apiKeys.length; attempt += 1) {
+    const apiKey = apiKeys[(start + attempt) % apiKeys.length];
+    let response: Response;
+    try {
+      response = await send(apiKey);
+    } catch (error) {
+      failures += 1;
+      if (failures >= RETRY_ATTEMPTS) throw error;
+      await pause(RETRY_PAUSE_MS * failures);
+      continue;
     }
-    throw new EmbeddingError(rateLimited ? "RATE_LIMITED" : "REJECTED", `every Gemini key was refused (${apiKeys.length})`, `Gemini: ${lastStatus}`);
+    if (response.ok) return response.json();
+    lastStatus = response.status;
+    // 404 means the model or method is wrong, which no other key fixes.
+    if (response.status === 404) throw new EmbeddingError("REJECTED", "Gemini answered 404", "Gemini: 404");
+    const code = codeForStatus(response.status);
+    if (code === "UNAVAILABLE") {
+      failures += 1;
+      if (failures >= RETRY_ATTEMPTS) throw new EmbeddingError(code, `Gemini answered ${response.status}`, `Gemini: ${response.status}`);
+      await pause(RETRY_PAUSE_MS * failures);
+      continue;
+    }
+    if (code === "RATE_LIMITED") rateLimited = true;
+    refusals += 1;
   }
+  throw new EmbeddingError(rateLimited ? "RATE_LIMITED" : "REJECTED", `every Gemini key was refused (${apiKeys.length})`, `Gemini: ${lastStatus}`);
+}
+
+/**
+ * Gemini embedder over one or more keys (see geminiRequest).
+ * @throws EmbeddingError: NOT_CONFIGURED without keys; RATE_LIMITED when every key is over quota; REJECTED when
+ *   every key was refused; UNAVAILABLE on other failures or an unexpected answer
+ */
+export function geminiEmbedder(apiKeys: readonly string[], fetchImpl: FetchLike = fetch, model: string = EMBEDDING_MODEL): Embedder {
+  const call = (method: "embedContent" | "batchEmbedContents", body: unknown) => geminiRequest(apiKeys, fetchImpl, `models/${model}:${method}`, body);
 
   const request = (text: string) => ({ model: `models/${model}`, content: { parts: [{ text }] }, outputDimensionality: EMBEDDING_DIMENSIONS });
 

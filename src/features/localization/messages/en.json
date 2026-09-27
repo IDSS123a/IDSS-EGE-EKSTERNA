@@ -547,7 +547,7 @@
     "navLink": "Search the official materials",
     "title": "Search the official materials",
     "subtitle": "Searches only checked questions and confirmed rules of the active catalogues. Every result names its source and page.",
-    "method": "Search by meaning uses Gemini and the official materials; without a key or semantic index it searches by words (regardless of diacritics and grammatical cases).",
+    "method": "Ask a question or type a term in Bosnian, German or English. Gemini translates the query into all three languages, finds passages of the official materials by meaning and by words, and answers only from them, citing the source. Without a key or semantic index the search works by words.",
     "query": "Question or term",
     "queryHint": "For example: how long is the exam, calculator, Perfekt, Hasanaginica.",
     "subject": "Subject",
@@ -595,7 +595,12 @@
       "semantic": "Search by meaning",
       "full_text": "Search by words"
     },
-    "fallback": "Search by meaning failed just now; the results of the search by words are shown."
+    "fallback": "Search by meaning failed just now; the results of the search by words are shown.",
+    "answerTitle": "Answer",
+    "answerNote": "The answer comes only from the official materials below; the mark [I1] points to source I1. Check the answer in the source before using it.",
+    "answerUnavailable": "An answer cannot be composed right now ({detail}). Shown are passages whose words match or that clearly stand out by meaning.",
+    "terms": "Also searched as: {terms}",
+    "sourcesTitle": "Sources"
   },
   "settings": {
     "navLink": "Settings",

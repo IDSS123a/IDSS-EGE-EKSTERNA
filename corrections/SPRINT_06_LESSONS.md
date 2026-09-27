@@ -40,6 +40,12 @@ Date: 2026-09-27 (open)
     used it; fixed by migration 018. New data-shaped logic is checked against every live record, not only fixtures.
 11. All radio groups of a multi-item question shared the name "response", so choosing in one item cleared the others;
     caught while reading the form before the first render → one field name per item.
+12. The z >= 4 floor fixed "Ministar" but refused "class" and five of the Director's other six searches (audit: best
+    passage z 2.7 to 3.9). One numeric floor was tuned on one complaint and never replayed against the other queries
+    already in the audit log. Cross-language queries (English against B/H/S and German catalogues) were not considered.
+    Now: the query is translated into all three languages and the answer model judges relevance from the passages
+    (PDL-025). A relevance change is checked against every recorded query, and against a query in each supported
+    language, before it ships.
 
 ## Gotchas Discovered
 - Browser textareas submit line breaks as \r\n; the first live revisions stored \r\n while the catalogue text uses \n.

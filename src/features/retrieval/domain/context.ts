@@ -46,9 +46,28 @@ export function relevant(chunks: readonly RetrievedChunk[], minRank: number, min
 
 /** Build the grounded context, or refuse when nothing relevant was retrieved. */
 export function buildGroundedContext(chunks: readonly RetrievedChunk[], minRank: number, minSimilarityZ?: number): GroundedContext {
-  const evidence = relevant(chunks, minRank, minSimilarityZ);
+  return groundedContextOf(relevant(chunks, minRank, minSimilarityZ));
+}
+
+/**
+ * Grounded context of the given chunks, unfiltered (PDL-025: the answer model judges relevance and names the sources
+ * it used; it may also answer "not found"). Labels I1, I2, ... follow the chunk order.
+ */
+export function groundedContextOf(evidence: readonly RetrievedChunk[]): GroundedContext {
   if (evidence.length === 0) return { kind: "refusal", reason: "NO_SOURCE" };
   const sources = evidence.map((chunk, index) => ({ label: `I${index + 1}`, citation: citationOf(chunk), text: neutralise(chunk.content) }));
   const blocks = sources.map((source) => `${SOURCE_OPEN} ${source.label} (${source.citation})\n${source.text}\n${SOURCE_CLOSE}`);
   return { kind: "grounded", sources, prompt: [GROUNDING_INSTRUCTION, ...blocks].join("\n\n") };
+}
+
+/** The search text sent to retrieval: the query followed by its translated terms, within maxLength characters. */
+export function expandedQuery(query: string, terms: readonly string[], maxLength: number): string {
+  let text = query.trim();
+  const present = new Set(text.toLowerCase().split(/\s+/));
+  for (const term of terms) {
+    if (present.has(term.toLowerCase())) continue;
+    if (text.length + 1 + term.length > maxLength) break;
+    text = `${text} ${term}`;
+  }
+  return text;
 }

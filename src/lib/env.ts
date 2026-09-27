@@ -65,3 +65,11 @@ export function getGeminiApiKeys(env: Record<string, string | undefined> = proce
   }
   return keys;
 }
+
+const MODEL_NAME = /^[a-z0-9][a-z0-9.-]{1,62}$/;
+
+/** Answer model override (GEMINI_ANSWER_MODEL, PDL-025); null when unset or not a valid model name. */
+export function getAnswerModelOverride(env: Record<string, string | undefined> = process.env): string | null {
+  const value = env.GEMINI_ANSWER_MODEL?.trim();
+  return value && MODEL_NAME.test(value) ? value : null;
+}

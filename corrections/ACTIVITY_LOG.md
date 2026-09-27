@@ -60,3 +60,6 @@
 - [2026-09-27 21:53] Write: migrations/017_practice.sql
 - [2026-09-27 21:56] Write: src/features/practice/components/practice-screen.tsx
 - [2026-09-27] Sprint 06 items 3-4: migrations 017-018 applied, Game Hub and practice (PDL-024)
+- [2026-09-27 22:19] Write: src/lib/ai/gemini-answer.ts
+- [2026-09-27 22:21] Write: tests/unit/gemini-answer.test.ts
+- [2026-09-27] Search: multilingual query translation and grounded answers (PDL-025; Director: "class" returned nothing)

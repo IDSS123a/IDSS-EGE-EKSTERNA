@@ -78,3 +78,4 @@
 [2026-09-27] [FIX] Search by meaning: relevance measured per query (z value, migration 016) instead of the guessed 0.6 floor that let unrelated passages through ("Ministar"); top similarity recorded per search for tuning
 [2026-09-27] [DATABASE] Migrations 017_practice and 018_practice_item_options applied: practice answers per person, questions without keys, solution after the answer, auto-check by the effective key (PDL-024)
 [2026-09-27] [FEATURE] Game Hub for students: practice streak, daily mission (5 tasks), the three subjects with mastery; subject pages with areas; practice screen with choice, true/false and open answers, feedback and catalogue solution; listening transcript labelled (AMB-04)
+[2026-09-27] [FEATURE] Search: query translated into bs/de/en, grounded answer from cited sources with Gemini (PDL-025)
