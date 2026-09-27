@@ -50,6 +50,11 @@ Page numbers below are PDF page numbers unless stated as "printed p.".
 | C17 | `OSTALI-DOKUMENTI/Prigovor … EM9 - Njemacki.pdf`, `EM9-PASIC.pdf/.docx` | Official form EM9 (filled) | 2 (form) / personal data | German | June 2026 | Complaint form structure (EM9) — **filled with a named student's data** | official-forms register only |
 | C18 | `OSTALI-DOKUMENTI/Obrazac EM11 - OŠ.xlsx`, `Kopija Obrazac EM11 - OŠ.xlsx` | Official form EM11 (result list) | 2 | all | two files with identical extracted content but different bytes ("Kopija" = copy) | Result list template per subject | official-forms register |
 | C19 | `OSTALI-DOKUMENTI/EKSTERNA IPP OBRAZAC TESTA.docx`, `… RJEŠENJE TESTA.docx` | Official template (IPP adapted test) | 2 | all | 2025/26 | Header/score table template for adapted tests | accommodations, official forms |
+| C20 | `OSTALI-DOKUMENTI/Odluka o kriterijima--.pdf` | Government decision ("Službene novine KS" 11/25, 20.03.2025, Broj 02-04-7346-7/25) | 1 | enrolment 2025/26 | text layer; published with the 2025 notice (C24) | **How matura points count for secondary-school enrolment:** max 111 points (Art. 10); school results max 100 = general success VI–IX ×2.60 (max 52) + three significant subjects VIII–IX ×0.80 (max 24) + **external matura points ×0.80 (max 24)** (Art. 12); matura-points equivalent without matura: sum of final grades VI–IX per subject ×0.50 (Art. 18(4)); minimum 78 points for gimnazija, 71 for health/economics schools (Art. 17); B/H/S, Matematika and first foreign language are the significant subjects for gimnazija (Art. 11) | enrolment-points explanation for students (later sprint), motivation |
+| C21 | `OSTALI-DOKUMENTI/ODLUKA  EKSTERNA MATURA ŠK 25 26.pdf` | Ministerial decision (Broj 11-04-34-50150/25, 20.10.2025) | 2 | all, school year 2025/26 | scan, no text layer (read visually); page 2 blank | Matura is mandatory at the end of the final grade in 2025/26 (I–II); **point III: tests are created exclusively from the tasks of the official exam catalogues published on the ministry website**; matura bodies appointed per Pravilnik Art. 27 (25/18, 17/19, 24/19) | **confirms the mock-exam design: tests only from catalogue tasks**; canon registry |
+| C22 | `OSTALI-DOKUMENTI/KALENDAR AKTIVNOSTI 2025.pdf` | Ministerial decision (Broj 11-07/04-34-7074/25, 28.02.2025) | 2 | 2024/25 cycle | text layer | Calendar 2025: end of classes 3.6.; **matura 17.–18.6.2025**; results entry 19.–20.6.; enrolment rounds 23.6.–4.7. | countdown/calendar feature (needs the 2026/27 edition) |
+| C23 | `OSTALI-DOKUMENTI/Termini_Odrzavanja_Eksterne_Mature.pdf` | Ministry web notice (print of mo.ks.gov.ba, captured 27.09.2026) | 2 | 2024/25 cycle | no text layer (read visually) | 17.06.2025: B/H/S 9–10h, Matematika 11–12h; 18.06.2025: Engleski 9–10h, **Njemački 9–10h (for students who learned German as first foreign language)**; every test 60 minutes | consistent with C1 (60 min, max two subjects per day), C8 and AMB-03 |
+| C24 | `OSTALI-DOKUMENTI/Eksterna matura - Informacija za učenike koji su osnovno obrazovanje završili izvan Kantona Sarajevo.pdf` | Ministry web notice (print, captured 27.09.2026) | 2 | 2024/25 cycle | no text layer (read visually) | Students from outside KS or foreign programmes take the matura in one of six named schools; registration deadline 10.06.2025 (extended to 13.06.2025); nostrification via form N/E 1; refers to C20 | out of scope for IDSS students (AMB-05); informational |
 
 ## 3. Administrative / institutional documents (levels 2 and 5)
 
@@ -63,6 +68,11 @@ Page numbers below are PDF page numbers unless stated as "printed p.".
 | A6 | `OSTALI-DOKUMENTI/Eksterna_Matura_Izvjestaj_BHS-Njemacki_17062026.docx` | IDSS internal report | 5 | 2026 results report (student initials, results) | historical analytics evidence; personal data |
 | A7 | `OSTALI-DOKUMENTI/Ucenici-Imena_Bar-Kodovi-Rezultati.docx` | IDSS internal notes | 5 | Named students, test groups, scoring disputes — documents that an **official ministry key contained an error** in 2026 | evidence for answer-key conflict handling; personal data |
 | A8 | `OSTALI-DOKUMENTI/IDSS_Ispit_Ne_Smetaj.docx` | IDSS signage | 5 | empty/1 character of text | none |
+
+Administrative additions (27.09.2026), level 2, outside EGE scope (AMB-05), no personal data:
+`Obrazac Zahtjev za Nostrifikaciju.pdf` (blank form N/E 1), `upute_o_popunjavanju_uplatnice (1).pdf` and
+`Iznos uplate.jpg` (fees: nostrification 100 KM, equivalence 50 KM per grade; public budget account),
+two `.url` shortcuts to mo.ks.gov.ba (taxonomy 14 and 15: enrolment and external matura pages).
 
 ## 4. Non-canonical project material (level 6 and mandate)
 
@@ -107,6 +117,9 @@ These facts will be stored as **data derived from the active canonical version**
 | Allowed / forbidden aids | graphite pencil + eraser while working; final in blue/black pen; no phones/calculators (Math), no dictionaries (German) | C12 §3; C13 §4; C14 §3 |
 | Catalogue question universe | Math 200 tasks; B/H/S 200 questions (+20 supplementary); German 200 items | C12 §2; C13 Uvod; C14 (counted) — see `tools/canon-ingestion/output/INGESTION_REPORT.md` |
 | Pass threshold | **none defined** — the matura score is a component of secondary-school enrolment (C1) | C1 |
+| Source of test tasks | Tests are created **exclusively** from the official catalogue tasks | C21 point III (2025/26) |
+| Matura total | 30 points (3 subjects × 10); consistent with the enrolment formula (×0.80 = max 24) and the equivalent (4 grades × 5 × 0.50 = 10 per subject) | C12–C14; C20 Art. 12, 18 |
+| Weight in enrolment | external matura ×0.80 = max 24 of 111 enrolment points; gimnazija minimum 78 | C20 (for enrolment 2025/26) |
 
 ## 7. Conflicts found between sources
 
@@ -116,3 +129,4 @@ These facts will be stored as **data derived from the active canonical version**
 | CF-02 | Prototype knowledge base cites laws/articles ("Član 88/89", "Pravilnik … 2025", IDSS "Ustav") that do not exist in the repository | Treated as fabricated; excluded from the canon. |
 | CF-03 | An official 2026 B/H/S answer key was disputed by IDSS (A7) | Answer keys can be wrong → data model must allow a reviewed correction with provenance, never silent overwrite (see architecture). |
 | CF-04 | Catalogue editions (Math 2022, B/H/S 2022/23, German 2024) vs. C5 requiring catalogues for 2025/26 | Currency unverified → AMB-02. |
+| CF-05 | C20–C24 describe the 2024/25 or 2025/26 cycles; the cohort served now sits the matura in June 2027 (school year 2026/27) | No contradiction with the system; dates and enrolment rules are per school year → registered as dated data, next editions expected (AMB-18). |

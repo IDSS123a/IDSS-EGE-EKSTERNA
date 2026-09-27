@@ -11,7 +11,7 @@
  * register_canon_version, activate_canon_version. Safe to re-run: a catalogue that is already
  * registered is only activated if it is not active yet; nothing is ever deleted.
  */
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import { CANON_BUCKET, CANON_MIME_TYPE } from "../src/constants";
@@ -20,12 +20,21 @@ import manifest from "../tools/canon-seed/catalogues.json";
 
 const ROOT = join(__dirname, "..");
 
+/** A seed failure with a message for the Director (Bosnian). */
+class SeedError extends Error {}
+
 function fail(message: string): never {
-  console.error(`\n[GREŠKA] ${message}`);
-  process.exit(1);
+  throw new SeedError(message);
 }
 
 async function main(): Promise<void> {
+  // Check the local files before touching the database: a missing catalogue usually means it
+  // was deleted from the local folder (it is still in git).
+  for (const catalogue of manifest.catalogues) {
+    await access(join(ROOT, catalogue.file)).catch(() =>
+      fail(`Fajl "${catalogue.file}" nije u lokalnom folderu projekta. Vratite ga iz git-a komandom:  git restore -- "${catalogue.file}"`),
+    );
+  }
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !serviceRoleKey) fail("U .env.local nedostaju NEXT_PUBLIC_SUPABASE_URL ili SUPABASE_SERVICE_ROLE_KEY.");
@@ -38,7 +47,8 @@ async function main(): Promise<void> {
 
   for (const catalogue of manifest.catalogues) {
     console.log(`\n${catalogue.documentTitle}`);
-    const bytes = new Uint8Array(await readFile(join(ROOT, catalogue.file)));
+    const filePath = join(ROOT, catalogue.file);
+    const bytes = new Uint8Array(await readFile(filePath));
     if (!hasPdfSignature(bytes) || !isAcceptableSize(bytes.byteLength)) fail(`${catalogue.file} nije ispravan PDF ili je prevelik.`);
     const sha256 = await sha256Hex(bytes);
     if (sha256 !== catalogue.sha256) fail(`${catalogue.file}: SHA-256 se ne slaže s tools/canon-seed/catalogues.json. Fajl je izmijenjen, ništa nije učitano.`);
@@ -88,4 +98,9 @@ async function main(): Promise<void> {
   console.log("\nGotovo. Registar je na /app/kanon.");
 }
 
-main().catch((error: unknown) => fail(error instanceof Error ? error.message : String(error)));
+// exitCode instead of process.exit(): lets Node close its handles (process.exit could abort on
+// Windows with "Assertion failed: !(handle->flags & UV_HANDLE_CLOSING)").
+main().catch((error: unknown) => {
+  console.error(`\n[GREŠKA] ${error instanceof Error ? error.message : String(error)}`);
+  process.exitCode = 1;
+});

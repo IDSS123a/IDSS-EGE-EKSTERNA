@@ -36,3 +36,6 @@
 [2026-09-27] [DATABASE] Migration 007_ingestion: ingestion jobs and untrusted records, append-only, dependency map; applied to Supabase
 [2026-09-27] [FEATURE] Question extraction per catalogue version on /app/kanon (canon.publish): job report, review notes in bs/de/en, failed runs recorded with their reason
 [2026-09-27] [FIX] Abandoned staging uploads older than a day are removed on the next upload (Sprint 02 debt)
+[2026-09-27] [DISCOVERY] Nine new ministry documents reviewed (C20 to C24 + administrative); tests only from catalogue tasks (C21); enrolment weight of the matura (C20); AMB-17, AMB-18
+[2026-09-27] [DOCS] docs/architecture/EXAM_SIMULATION.md: mock exams and practice sets from official catalogue tasks, anti-repetition design
+[2026-09-27] [FIX] canon:seed checks local files first with a restore hint and exits cleanly on Windows

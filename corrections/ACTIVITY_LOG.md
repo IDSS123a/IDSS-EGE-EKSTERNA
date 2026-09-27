@@ -34,3 +34,5 @@
 - [2026-09-27] Sprint 03 started; TS extractor reproduces Sprint 00 reference (500/500)
 - [2026-09-27 15:31] Write: migrations/007_ingestion.sql
 - [2026-09-27] Sprint 03: migration 007 applied, ingestion action + panel, staging clean-up
+- [2026-09-27 15:53] Write: docs/architecture/EXAM_SIMULATION.md
+- [2026-09-27] New ministry documents reviewed; EXAM_SIMULATION design; seed script fix
