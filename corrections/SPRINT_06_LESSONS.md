@@ -35,6 +35,11 @@ Date: 2026-09-27 (open)
   is classified as a footnote only after its font size and position were read from the page.
 - `pkill -f next` / `kill $(pgrep -f next-server)` in the same shell matched the shell's own command line and killed
   it (exit 144); dev servers are stopped by the PID written when they start.
+- The Gemini docs site is blocked from the sandbox; the model was verified through search results (release notes,
+  issue trackers). `gemini-embedding-2` ignores `taskType`: the task instruction must be written into the text,
+  otherwise retrieval quality silently drops.
+- pgvector is not in the sandbox PostgreSQL by default (`apt-get install postgresql-16-pgvector`), and the Supabase
+  stub needs schema `extensions` with usage for the API roles; `scripts/test-db.sh` now says so when it is missing.
 
 ## Commander Improvement Candidates
 None yet.

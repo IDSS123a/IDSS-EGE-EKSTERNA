@@ -51,3 +51,5 @@
 - [2026-09-27] Director feedback: review navigation, Moj nalog button, splash interweaving, legal documents v2.0
 - [2026-09-27 20:10] Write: src/features/splash/flow.ts
 - [2026-09-27] AMB-19 resolved (5 revisions verified live); migration 014 applied; legal documents v2.1 with IDSS identity
+- [2026-09-27 20:42] Write: migrations/015_semantic_retrieval.sql
+- [2026-09-27] Sprint 06 item 2: migration 015 applied, Gemini semantic search (PDL-023)

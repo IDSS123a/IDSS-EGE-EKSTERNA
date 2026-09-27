@@ -20,6 +20,8 @@ npm run dev
 
 U `.env.local` upisati ključeve iz Supabase → Project Settings → API (projekt
 `dezevstfmfliyasdeflj`). `.env.local` se nikad ne commituje.
+Za pretragu po značenju u `.env.local` treba i red `GEMINI_API_KEY=...` (ključ iz Google AI Studio; prihvata se i
+naziv `GOOGLE_API_KEY`). Bez njega pretraga radi po riječima.
 
 Ako mapa već postoji: `cd C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027` pa `git pull`.
 

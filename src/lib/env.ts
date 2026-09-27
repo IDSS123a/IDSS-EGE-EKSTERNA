@@ -41,3 +41,16 @@ export function getServiceRoleKey(): string {
   if (!parsed.success) throw new ConfigurationError("SUPABASE_SERVICE_ROLE_KEY missing or invalid");
   return parsed.data.SUPABASE_SERVICE_ROLE_KEY;
 }
+
+const GeminiEnvSchema = z.object({ GEMINI_API_KEY: z.string().min(20).optional(), GOOGLE_API_KEY: z.string().min(20).optional() });
+
+/**
+ * Gemini API key for embeddings (PDL-023) — server only, never NEXT_PUBLIC_ (A-8). GEMINI_API_KEY is
+ * preferred; GOOGLE_API_KEY (the Google SDK's other name) is accepted. Null when not configured: the
+ * search then stays on full-text ranking.
+ */
+export function getGeminiApiKey(): string | null {
+  const parsed = GeminiEnvSchema.safeParse(process.env);
+  if (!parsed.success) return null;
+  return parsed.data.GEMINI_API_KEY ?? parsed.data.GOOGLE_API_KEY ?? null;
+}

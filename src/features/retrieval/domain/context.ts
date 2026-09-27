@@ -29,14 +29,23 @@ export function citationOf(chunk: RetrievedChunk): string {
   return pages.length > 0 ? `${key}, str. ${pages.join(", ")}` : key;
 }
 
+/**
+ * True when a chunk counts as evidence: full-text results by their rank; semantic results when a content
+ * word matched (keyword rank at the floor) or the meaning is close enough (similarity at its floor).
+ */
+export function isEvidence(chunk: RetrievedChunk, minRank: number, minSimilarity = Number.POSITIVE_INFINITY): boolean {
+  if (chunk.similarity === undefined && chunk.keywordRank === undefined) return chunk.rank >= minRank;
+  return (chunk.keywordRank ?? 0) >= minRank || (chunk.similarity ?? Number.NEGATIVE_INFINITY) >= minSimilarity;
+}
+
 /** Chunks that count as evidence. */
-export function relevant(chunks: readonly RetrievedChunk[], minRank: number): RetrievedChunk[] {
-  return chunks.filter((chunk) => chunk.rank >= minRank);
+export function relevant(chunks: readonly RetrievedChunk[], minRank: number, minSimilarity?: number): RetrievedChunk[] {
+  return chunks.filter((chunk) => isEvidence(chunk, minRank, minSimilarity));
 }
 
 /** Build the grounded context, or refuse when nothing relevant was retrieved. */
-export function buildGroundedContext(chunks: readonly RetrievedChunk[], minRank: number): GroundedContext {
-  const evidence = relevant(chunks, minRank);
+export function buildGroundedContext(chunks: readonly RetrievedChunk[], minRank: number, minSimilarity?: number): GroundedContext {
+  const evidence = relevant(chunks, minRank, minSimilarity);
   if (evidence.length === 0) return { kind: "refusal", reason: "NO_SOURCE" };
   const sources = evidence.map((chunk, index) => ({ label: `I${index + 1}`, citation: citationOf(chunk), text: neutralise(chunk.content) }));
   const blocks = sources.map((source) => `${SOURCE_OPEN} ${source.label} (${source.citation})\n${source.text}\n${SOURCE_CLOSE}`);

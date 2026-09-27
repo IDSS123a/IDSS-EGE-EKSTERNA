@@ -36,6 +36,8 @@ Mock exams and teacher grading (Sprint 07), XP and badges (Sprint 08), staff das
       prepared proposals for the five Math questions (PDL-021); DEU-4.2.5 is printed text, unchanged. Waiting for a
       reviewer to confirm the five proposals in the app. Confirmed by the Director 27.09.2026, AMB-19 resolved; migration 014
       (no-op revisions refused, line breaks normalised).
-- [ ] 2. Gemini semantic search
+- [x] 2. Gemini semantic search: migration 015 (applied live), `gemini-embedding-2` over REST, index build and search by
+      meaning fused with word search, fallback to words (PDL-023). The Director builds the index on his computer
+      ("Izgradi indeks po značenju"); the similarity floor 0.6 is tuned on the first real searches.
 - [ ] 3. Game Hub
 - [ ] 4. Practice loop, mastery, missions v1
