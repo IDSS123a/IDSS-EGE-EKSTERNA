@@ -21,3 +21,4 @@
 [2026-09-27] [CONFIG] Student minimum password length set to 10 (Director, AMB-15)
 [2026-09-27] [SECURITY] Nonce-based Content-Security-Policy per request (src/proxy.ts); e2e proves injected inline scripts are blocked
 [2026-09-27] [DATABASE] Migration 005: RLS performance (merged policies, auth.uid() init-plan, FK indexes)
+[2026-09-27] [SPRINT] Sprint 01 closed: DONE checklist, compliance score, handoff note
