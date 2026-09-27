@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNTS_PATH, CANON_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH } from "@/constants";
+import { ACCOUNTS_PATH, CANON_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -53,6 +53,7 @@ export function AccountHome({
             {canOpenReview && <Link href={REVIEW_PATH} className="button-primary">{dictionary.review.navLink}</Link>}
             {canOpenReview && <Link href={SEARCH_PATH} className="button-primary">{dictionary.search.navLink}</Link>}
             {canManageSettings && <Link href={SETTINGS_PATH} className="button-primary">{dictionary.settings.navLink}</Link>}
+            <Link href={OWN_ACCOUNT_PATH} className="button-secondary">{dictionary.ownAccount.navLink}</Link>
           </div>
         </section>
       </main>

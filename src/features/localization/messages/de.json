@@ -580,5 +580,28 @@
     "product": "IDSS - External Graduate Examination ist ein Produkt der IDSS. Kontakt: {email}.",
     "navLabel": "Rechtliche Dokumente",
     "back": "Zurück zur Startseite"
+  },
+  "ownAccount": {
+    "navLink": "Mein Konto",
+    "title": "Mein Konto",
+    "changePassword": "Passwort ändern",
+    "intro": "Geben Sie Ihr aktuelles Passwort ein und zweimal das neue. Das neue Passwort muss mindestens {min} Zeichen haben.",
+    "current": "Aktuelles Passwort",
+    "new": "Neues Passwort",
+    "confirm": "Neues Passwort wiederholen",
+    "submit": "Passwort ändern",
+    "submitting": "Wird geändert",
+    "messages": {
+      "PASSWORD_CHANGED": "Das Passwort wurde geändert. Melden Sie sich beim nächsten Mal mit dem neuen Passwort an."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "VALIDATION": "Das neue Passwort ist zu kurz oder ungültig.",
+      "MISMATCH": "Das neue Passwort und die Wiederholung stimmen nicht überein.",
+      "UNCHANGED": "Das neue Passwort muss sich vom aktuellen unterscheiden.",
+      "WRONG_PASSWORD": "Das aktuelle Passwort ist nicht korrekt.",
+      "LOCKED": "Zu viele Fehlversuche. Bitte versuchen Sie es in einigen Minuten erneut.",
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+    }
   }
 }

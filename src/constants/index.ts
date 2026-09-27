@@ -87,6 +87,9 @@ export const LEGAL_DOCUMENTS = [
   { key: "cookies", path: "/kolacici" },
 ] as const;
 
+/** Own account page: every signed-in user changes their own password here (Sprint 06). */
+export const OWN_ACCOUNT_PATH = "/app/nalog";
+
 /** Application settings for the Superadmin (PDL-020). */
 export const SETTINGS_PATH = "/app/postavke";
 /** Public, unauthenticated route the splash reads its palette from (outside the auth proxy, like /splash/*). */

@@ -580,5 +580,28 @@
     "product": "IDSS - External Graduate Examination je proizvod IDSS-a. Kontakt: {email}.",
     "navLabel": "Pravni dokumenti",
     "back": "Nazad na početnu"
+  },
+  "ownAccount": {
+    "navLink": "Moj nalog",
+    "title": "Moj nalog",
+    "changePassword": "Promjena lozinke",
+    "intro": "Upišite trenutnu lozinku i dva puta novu. Nova lozinka mora imati najmanje {min} znakova.",
+    "current": "Trenutna lozinka",
+    "new": "Nova lozinka",
+    "confirm": "Ponovite novu lozinku",
+    "submit": "Promijeni lozinku",
+    "submitting": "Promjena u toku",
+    "messages": {
+      "PASSWORD_CHANGED": "Lozinka je promijenjena. Sljedeći put se prijavite novom lozinkom."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "VALIDATION": "Nova lozinka je prekratka ili neispravna.",
+      "MISMATCH": "Nova lozinka i ponovljena lozinka se ne podudaraju.",
+      "UNCHANGED": "Nova lozinka mora biti drugačija od trenutne.",
+      "WRONG_PASSWORD": "Trenutna lozinka nije tačna.",
+      "LOCKED": "Previše neuspjelih pokušaja. Pokušajte ponovo za nekoliko minuta.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    }
   }
 }
