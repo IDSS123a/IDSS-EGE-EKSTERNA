@@ -39,5 +39,8 @@ Mock exams and teacher grading (Sprint 07), XP and badges (Sprint 08), staff das
 - [x] 2. Gemini semantic search: migration 015 (applied live), `gemini-embedding-2` over REST, index build and search by
       meaning fused with word search, fallback to words (PDL-023). The Director builds the index on his computer
       ("Izgradi indeks po značenju"); the similarity floor 0.6 is tuned on the first real searches.
+      Live (27.09.2026): the Director built the index on his computer, 514 of 514 passages with vectors (first run
+      stopped at 100, fixed by retry and isolation, PR #31). Check in the database: every vector has unit length; the
+      nearest other passage is from the same subject for 99.6 % (B/H/S), 100 % (German) and 100 % (Math).
 - [ ] 3. Game Hub
 - [ ] 4. Practice loop, mastery, missions v1
