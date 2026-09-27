@@ -33,6 +33,9 @@ Supabase project: `dezevstfmfliyasdeflj`. After every migration run the Supabase
 - Never invent questions, answers, scoring, timing, thresholds. Unknown → `docs/discovery/AMBIGUITIES.md`.
 - Never import files containing personal data (`SOURCE_INVENTORY.md` §5).
 - Authorization server-side + RLS; UI hiding is not authorization.
+- No AI characters or AI phrasing in any app text or AI-generated content (P-13):
+  no em/en dash, ellipsis character, curly quotes, middle dot, arrows, emoji, "Odlično pitanje"...
+  Run `npm run check:text`. Canonical source text is exempt (stays verbatim).
 - Destructive actions, history rewrites, production deploys: ask the Director first (M-4, M-23).
 
 ## Standing order — delivery (Director, 2026-09-27)

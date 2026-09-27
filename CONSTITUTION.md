@@ -60,6 +60,17 @@ Next.js + Supabase + Vercel (Commander default, see `DECISION_LOG.md` PDL-001).
 - IDSS palette: #035EA1, #08ABE6, #FFCB29, #E8262C, #000000 — used through semantic tokens.
 - Official logo: https://idss.edu.ba/wp-content/uploads/2024/03/logo_white.png (never recreated).
 
+## P-13. No AI characters or AI phrasing in app text (🔴, Director 2026-09-27)
+Every text the app shows or the AI creates (UI, simulation texts, feedback, explanations,
+chatbot answers) must not contain recognisable AI characters or AI phrasing: em dash, en dash,
+the ellipsis character, curly quotes, middle dot, bullets, arrows, emoji, and phrases such as
+"Odlično pitanje", "Nadam se da ovo pomaže", "Kao AI". The list is data in
+`config/app-text-style.json`; `npm run check:text` (also in CI) enforces it on app text, and
+generated text goes through `src/lib/text-style.ts` before it is shown (characters replaced,
+text with a forbidden phrase regenerated, never displayed).
+Exception: canonical source text (official questions, answers, catalogue excerpts) stays
+verbatim (P-4, AMB-13).
+
 ## P-12. Known limitation (E-4)
 Blocking a user prevents new logins immediately; an already-issued access token stays
 valid until expiry (≤ 1 h). Shown in the admin UI when blocking.

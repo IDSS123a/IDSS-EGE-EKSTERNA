@@ -31,8 +31,8 @@ export function AccountRow({ account, editable, canResetPassword, isSelf }: Prop
         <strong>{account.displayName}</strong>
         <span className="account-row__username">{account.username}</span>
         <span className="account-row__meta">
-          {dictionary.account.roles[account.role]} · <span className="status-pill" data-status={account.status}>{labels.statuses[account.status]}</span>
-          {isSelf ? ` · ${labels.you}` : ""}
+          {dictionary.account.roles[account.role]}, <span className="status-pill" data-status={account.status}>{labels.statuses[account.status]}</span>
+          {isSelf ? `, ${labels.you}` : ""}
         </span>
         {account.bundles.length > 0 && (
           <span className="account-row__bundles">
@@ -65,7 +65,7 @@ export function AccountRow({ account, editable, canResetPassword, isSelf }: Prop
                     <input type="hidden" name="bundle" value={bundle} />
                     <input type="hidden" name="grant" value={granted ? "revoke" : "grant"} />
                     <button type="submit" className={granted ? "chip chip--on" : "chip"} disabled={bundlePending} aria-pressed={granted}>
-                      {labels.bundles[bundle]} · {granted ? labels.revoke : labels.grant}
+                      {labels.bundles[bundle]}: {granted ? labels.revoke : labels.grant}
                     </button>
                   </form>
                 );

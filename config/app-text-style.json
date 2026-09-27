@@ -1,0 +1,28 @@
+{
+  "_source": "Director rule 2026-09-27 (CONSTITUTION P-13): recognisable AI characters and AI syntax are forbidden in every text the app shows or the AI generates. Canonical source text (official questions and answers) is exempt and stays verbatim (P-4, AMB-13).",
+  "forbiddenCharacters": [
+    { "char": "—", "name": "em dash", "replacement": ", " },
+    { "char": "–", "name": "en dash", "replacement": "-" },
+    { "char": "‒", "name": "figure dash", "replacement": "-" },
+    { "char": "―", "name": "horizontal bar", "replacement": ", " },
+    { "char": "…", "name": "ellipsis character", "replacement": "..." },
+    { "char": "“", "name": "left double quotation mark", "replacement": "\"" },
+    { "char": "”", "name": "right double quotation mark", "replacement": "\"" },
+    { "char": "„", "name": "low double quotation mark", "replacement": "\"" },
+    { "char": "‘", "name": "left single quotation mark", "replacement": "'" },
+    { "char": "’", "name": "right single quotation mark", "replacement": "'" },
+    { "char": "·", "name": "middle dot", "replacement": ", " },
+    { "char": "•", "name": "bullet", "replacement": "-" },
+    { "char": "→", "name": "right arrow", "replacement": "->" },
+    { "char": "←", "name": "left arrow", "replacement": "<-" },
+    { "char": "⇒", "name": "double right arrow", "replacement": "->" }
+  ],
+  "forbidEmoji": true,
+  "forbiddenPhrases": [
+    "kao AI", "kao umjetna inteligencija", "kao jezički model", "odlično pitanje", "sjajno pitanje",
+    "nadam se da ovo pomaže", "nadam se da je ovo od pomoći", "svakako!", "naravno!", "slobodno pitaj",
+    "as an AI", "as a language model", "great question", "I hope this helps", "certainly!", "feel free to",
+    "delve", "let's dive in", "it's important to note",
+    "als KI", "als Sprachmodell", "gute Frage", "ich hoffe, das hilft", "gerne!", "tauchen wir ein"
+  ]
+}

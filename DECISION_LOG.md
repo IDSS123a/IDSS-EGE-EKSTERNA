@@ -102,3 +102,16 @@ styled with the project's CSS tokens instead of Shadcn/UI.
 **Rationale:** Few, simple forms; adding the Shadcn tool chain and Radix dependencies for them would
 add weight without benefit. Revisit at Sprint 06 (student Game Hub), where rich components (dialogs,
 tabs, toasts) start to pay off; from then on DL-011 applies.
+
+## PDL-011: No AI characters or AI phrasing in app text
+**Date:** 2026-09-27
+**Decision (Director):** recognisable AI characters and AI syntax are strictly forbidden in every
+detail the AI creates in the app (simulation texts, chatbot answers, all UI text). Recorded as
+CONSTITUTION P-13.
+**Implementation:** rule list as data (`config/app-text-style.json`), shared by the CI/local check
+(`scripts/check-app-text.mjs`, `npm run check:text`) and the runtime filter for generated text
+(`src/lib/text-style.ts`). Existing UI text cleaned (dashes, ellipses, middle dots, arrow).
+**Scope limit:** canonical source text keeps its original characters (P-4, AMB-13); code comments
+and internal docs are not app text.
+**Open:** the Director's message began with "am, an", read as "em dash, en dash"; the full
+character and phrase list awaits the Director's confirmation.
