@@ -34,7 +34,7 @@ async function authenticated(): Promise<CurrentAccount | null> {
 /**
  * POST (Server Action) createAccountAction
  * Role required: capability accounts.manage.
- * Body: FormData { username, displayName, role: administrator|student, password }.
+ * Body: FormData { newAccountLogin (the new username), displayName, role: administrator|student, initialPassword }.
  * Response: { success: true, data: { message: "CREATED" } } or { success: false, code }.
  * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, USERNAME_ROLE_MISMATCH, USERNAME_TAKEN, UNAVAILABLE.
  */
@@ -46,10 +46,10 @@ async function createAccount(_previous: AccountActionResult | null, formData: Fo
   const role = formData.get("role");
   const minLength = role === "student" ? STUDENT_PASSWORD_MIN_LENGTH : STAFF_PASSWORD_MIN_LENGTH;
   const parsed = createAccountSchema(minLength).safeParse({
-    username: formData.get("username"),
+    username: formData.get("newAccountLogin"),
     displayName: formData.get("displayName"),
     role,
-    password: formData.get("password"),
+    password: formData.get("initialPassword"),
   });
   if (!parsed.success) {
     const mismatch = parsed.error.issues.some((issue) => issue.message === "USERNAME_ROLE_MISMATCH");

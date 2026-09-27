@@ -63,3 +63,4 @@
 - [2026-09-27 22:19] Write: src/lib/ai/gemini-answer.ts
 - [2026-09-27 22:21] Write: tests/unit/gemini-answer.test.ts
 - [2026-09-27] Search: multilingual query translation and grounded answers (PDL-025; Director: "class" returned nothing)
+- [2026-09-27] New-account form: no browser password manager offer (Director); practice screen explains practice vs mock exam

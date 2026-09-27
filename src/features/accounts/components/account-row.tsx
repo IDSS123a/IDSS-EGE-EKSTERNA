@@ -99,7 +99,7 @@ export function AccountRow({ account, editable, canResetPassword, isSelf, subjec
             <form action={passwordAction} className="inline-form">
               <input type="hidden" name="userId" value={account.userId} />
               <label className="sr-only" htmlFor={`password-${account.userId}`}>{labels.resetPassword}</label>
-              <input id={`password-${account.userId}`} name="password" type="password" placeholder={labels.resetPassword} minLength={minLength} maxLength={200} autoComplete="new-password" />
+              <input id={`password-${account.userId}`} name="password" type="password" placeholder={labels.resetPassword} minLength={minLength} maxLength={200} autoComplete="off" data-1p-ignore data-lpignore="true" data-form-type="other" />
               <button type="submit" className="button-secondary" disabled={passwordPending}>{labels.resetSubmit}</button>
               <ActionFeedback result={passwordResult} />
             </form>

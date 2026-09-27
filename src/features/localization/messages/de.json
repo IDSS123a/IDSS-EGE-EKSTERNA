@@ -718,6 +718,7 @@
       "VALIDATION": "Beantworte jede Aufgabe.",
       "NOT_FOUND": "Die Frage ist nicht mehr verfügbar. Öffne die nächste.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Versuche es erneut."
-    }
+    },
+    "modeNote": "Das ist eine Übung: Die Fragen wechseln ohne Ende und ohne Zeitlimit, bis du selbst aufhörst. Die Probeprüfung mit Fragenzahl, Punkten und Dauer wie bei der externen Matura ist ein eigener Teil der Anwendung (bald verfügbar)."
   }
 }
