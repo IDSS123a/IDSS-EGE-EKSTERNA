@@ -506,5 +506,39 @@
       "NOT_ACCEPTABLE": "A structurally invalid record cannot be accepted.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
     }
+  },
+  "search": {
+    "navLink": "Search the official materials",
+    "title": "Search the official materials",
+    "subtitle": "Searches only checked questions and confirmed rules of the active catalogues. Every result names its source and page.",
+    "method": "For now the search works on words (ignoring diacritics and endings). Semantic search follows once an AI service is enabled.",
+    "query": "Question or term",
+    "queryHint": "For example: how long is the exam, calculator, Perfekt, Hasanaginica.",
+    "subject": "Subject",
+    "allSubjects": "All my subjects",
+    "submit": "Search",
+    "searching": "Searching",
+    "results": "Sources found: {n}",
+    "refusal": "The official materials contain no answer to this question.",
+    "kinds": {
+      "question_version": "Catalogue question",
+      "canonical_rule": "Exam rule"
+    },
+    "source": "Source",
+    "empty": "The index has no text yet. The Superadministrator builds it with \"Build index\".",
+    "index": {
+      "title": "Search index",
+      "intro": "The index holds checked questions and confirmed rules of the active catalogues. Build it again after new review decisions; existing text stays.",
+      "build": "Build index",
+      "building": "Building the index",
+      "counts": "In the index: {total} text pieces.",
+      "built": "Added: {q} questions and {r} rules. Total: {total}."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You may not search this subject.",
+      "VALIDATION": "Enter a question or term of at least 2 characters.",
+      "UNAVAILABLE": "The service is not available right now. Please try again."
+    }
   }
 }

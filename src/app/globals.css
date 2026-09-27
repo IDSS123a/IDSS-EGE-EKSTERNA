@@ -756,3 +756,15 @@ body {
 .rule-item .inline-form input[name="note"] {
   flex: 1 1 220px;
 }
+
+/* ---------------------------------------------------------------- search (Sprint 05) */
+.search-form__query {
+  grid-column: 1 / -1;
+}
+.search-results {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}

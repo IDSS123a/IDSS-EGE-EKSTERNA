@@ -506,5 +506,39 @@
       "NOT_ACCEPTABLE": "Strukturno neispravan zapis se ne može prihvatiti.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
+  },
+  "search": {
+    "navLink": "Pretraga službenih materijala",
+    "title": "Pretraga službenih materijala",
+    "subtitle": "Pretražuje samo provjerena pitanja i potvrđena pravila iz važećih kataloga. Svaki rezultat navodi izvor i stranicu.",
+    "method": "Pretraga je zasad po riječima (bez obzira na kvačice i padeže). Semantička pretraga dolazi kada se uključi AI servis.",
+    "query": "Pitanje ili pojam",
+    "queryHint": "Na primjer: koliko traje ispit, kalkulator, Perfekt, Hasanaginica.",
+    "subject": "Predmet",
+    "allSubjects": "Svi moji predmeti",
+    "submit": "Traži",
+    "searching": "Pretraga u toku",
+    "results": "Pronađeno izvora: {n}",
+    "refusal": "U službenim materijalima nema odgovora na ovo pitanje.",
+    "kinds": {
+      "question_version": "Pitanje iz kataloga",
+      "canonical_rule": "Pravilo ispita"
+    },
+    "source": "Izvor",
+    "empty": "U indeksu još nema teksta. Superadministrator ga gradi dugmetom \"Izgradi indeks\".",
+    "index": {
+      "title": "Indeks za pretragu",
+      "intro": "Indeks sadrži provjerena pitanja i potvrđena pravila važećih kataloga. Nakon novih odluka u pregledu, izgradite ga ponovo; postojeći tekst ostaje.",
+      "build": "Izgradi indeks",
+      "building": "Izgradnja u toku",
+      "counts": "U indeksu: {total} dijelova teksta.",
+      "built": "Dodano: {q} pitanja i {r} pravila. Ukupno: {total}."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Nemate pravo pretrage za ovaj predmet.",
+      "VALIDATION": "Upišite pitanje ili pojam od najmanje 2 znaka.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    }
   }
 }

@@ -64,6 +64,16 @@ export function canOpenReview(account: CurrentAccount): boolean {
   return canPublishCanon(account) || hasCapability(account, "canon.review");
 }
 
+/** Search trusted canon (reviewers for their subjects, publishers for all); the database scopes results again. */
+export function canSearchCanon(account: CurrentAccount): boolean {
+  return canOpenReview(account);
+}
+
+/** Build the retrieval index from trusted content (Sprint 05). */
+export function canBuildIndex(account: CurrentAccount): boolean {
+  return canPublishCanon(account);
+}
+
 /** See the canon registry, its history and download source files (publishers and reviewers). */
 export function canViewCanon(account: CurrentAccount): boolean {
   return canPublishCanon(account) || hasCapability(account, "canon.review");

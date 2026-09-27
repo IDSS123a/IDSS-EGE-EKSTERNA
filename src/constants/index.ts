@@ -64,6 +64,19 @@ export const REVIEW_REGION_MARGIN_POINTS = 12;
 export const REVIEW_RENDER_SCALE = 1.5;
 /** Outline of the record's region on a whole-page source view (drawn on canvas, where CSS tokens do not apply). */
 export const REVIEW_REGION_STROKE = "rgba(200, 30, 30, 0.9)";
+
+/** Staff search over trusted canon (Sprint 05, retrieval foundation). */
+export const SEARCH_PATH = "/app/pretraga";
+/** Results per search (the database bounds k to 10). */
+export const RETRIEVAL_RESULT_COUNT = 8;
+/** Query length bounds (the database enforces the same). */
+export const RETRIEVAL_QUERY_MIN_LENGTH = 2;
+export const RETRIEVAL_QUERY_MAX_LENGTH = 500;
+/**
+ * Relevance floor: a chunk counts as evidence when it contains at least this many of the query's content words
+ * (rank = matched words + full-text rank, migration 011). Below it the answer is the fixed refusal.
+ */
+export const RETRIEVAL_MIN_RANK = 1;
 /** Private storage bucket for canonical source files (created by migration 006). */
 export const CANON_BUCKET = "canon-documents";
 /** Same limit as the bucket (and the Supabase project upload limit): 50 MB. */
