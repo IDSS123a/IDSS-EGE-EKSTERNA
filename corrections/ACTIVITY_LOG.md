@@ -50,3 +50,4 @@
 - [2026-09-27] Sprint 06 item 1: migration 013 applied, text revisions in the review screen, AMB-19 proposals (PDL-021)
 - [2026-09-27] Director feedback: review navigation, Moj nalog button, splash interweaving, legal documents v2.0
 - [2026-09-27 20:10] Write: src/features/splash/flow.ts
+- [2026-09-27] AMB-19 resolved (5 revisions verified live); migration 014 applied; legal documents v2.1 with IDSS identity

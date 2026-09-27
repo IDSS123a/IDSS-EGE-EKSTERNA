@@ -252,6 +252,17 @@ body {
 .review-text-form {
   margin-top: 16px;
 }
+.review-text-details {
+  margin-top: 16px;
+}
+.review-text-details > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--color-brand);
+  font-weight: 600;
+  cursor: pointer;
+}
 .form__field input[aria-invalid="true"] {
   border-color: var(--color-danger);
 }

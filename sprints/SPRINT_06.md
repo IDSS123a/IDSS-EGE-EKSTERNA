@@ -34,7 +34,8 @@ Mock exams and teacher grading (Sprint 07), XP and badges (Sprint 08), staff das
       feed the login lockout; audited).
 - [x] 1. AMB-19 text revisions: migration 013 (applied live), review screen section "Tekst pitanja za učenike" with
       prepared proposals for the five Math questions (PDL-021); DEU-4.2.5 is printed text, unchanged. Waiting for a
-      reviewer to confirm the five proposals in the app.
+      reviewer to confirm the five proposals in the app. Confirmed by the Director 27.09.2026, AMB-19 resolved; migration 014
+      (no-op revisions refused, line breaks normalised).
 - [ ] 2. Gemini semantic search
 - [ ] 3. Game Hub
 - [ ] 4. Practice loop, mastery, missions v1

@@ -4,7 +4,7 @@ import { RegistryFunctionError } from "@/features/canon/repository";
 import type { CatalogueRecord } from "@/features/ingestion/types";
 import type { Subject } from "@/features/knowledge/types";
 import { countStates, reviewState } from "./domain/queue";
-import { allTextProposals, type QuestionText } from "./domain/text-revision";
+import { allTextProposals, normalizeLineBreaks, type QuestionText } from "./domain/text-revision";
 import type { AnswerKeyView, QueueItem, RecordForReview, ReviewDecision, SubjectQueue, TextProposalStatus } from "./types";
 
 /**
@@ -91,13 +91,13 @@ type VersionRow = { id: string; raw_text: string; stem_text: string | null; opti
 type TextRevisionRow = { content: { raw_text: string; stem_text: string | null; options: { label: string; text: string }[]; scored_items: { item_number: number; raw_text: string }[] }; reason: string; evidence: string | null; revised_by: string; created_at: string };
 type RevisionRow = { answer_key_id: string; corrected_answer: string; reason: string; evidence: string | null; proposed_by: string; created_at: string };
 
-/** Database text fields (version row or revision content) as the app's QuestionText. */
+/** Database text fields (version row or revision content) as the app's QuestionText, with \n line breaks. */
 function questionText(row: Omit<VersionRow, "id">): QuestionText {
   return {
-    rawText: row.raw_text,
-    stemText: row.stem_text,
-    options: row.options.map((option) => ({ label: option.label, text: option.text })),
-    scoredItems: row.scored_items.map((item) => ({ itemNumber: item.item_number, rawText: item.raw_text })),
+    rawText: normalizeLineBreaks(row.raw_text),
+    stemText: row.stem_text === null ? null : normalizeLineBreaks(row.stem_text),
+    options: row.options.map((option) => ({ label: option.label, text: normalizeLineBreaks(option.text) })),
+    scoredItems: row.scored_items.map((item) => ({ itemNumber: item.item_number, rawText: normalizeLineBreaks(item.raw_text) })),
   };
 }
 

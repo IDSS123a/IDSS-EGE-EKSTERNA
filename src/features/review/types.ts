@@ -80,6 +80,7 @@ export type ReviewErrorCode =
   | "STALE_RECORD"
   | "ALREADY_ACCEPTED"
   | "NOT_ACCEPTABLE"
+  | "UNCHANGED"
   | "UNAVAILABLE";
 
 /** Standard action result (E-5). */

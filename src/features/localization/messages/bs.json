@@ -505,7 +505,8 @@
       "STALE_RECORD": "Zapis je iz starijeg izdvajanja. Otvorite listu ponovo.",
       "ALREADY_ACCEPTED": "Zapis je već prihvaćen.",
       "NOT_ACCEPTABLE": "Strukturno neispravan zapis se ne može prihvatiti.",
-      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo.",
+      "UNCHANGED": "Tekst je isti kao tekst koji učenici već vide. Ispravka nije sačuvana."
     },
     "text": {
       "title": "Tekst pitanja za učenike",
@@ -523,7 +524,8 @@
       "evidence": "Dokaz (stranica, fusnota)",
       "submit": "Sačuvaj ispravku teksta",
       "confirm": "Sačuvati ispravku teksta? Učenici će vidjeti ovaj tekst.",
-      "history": "Ispravke teksta"
+      "history": "Ispravke teksta",
+      "open": "Ispravi tekst"
     },
     "keySearch": {
       "label": "Pronađi pitanje po oznaci",
