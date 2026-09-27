@@ -41,8 +41,8 @@ export const LOGIN_PATH = "/prijava";
 export const APP_HOME_PATH = "/app";
 /** Minimum password length for staff accounts set by the bootstrap and admin flows. */
 export const STAFF_PASSWORD_MIN_LENGTH = 12;
-/** Minimum password length for student accounts — ASSUMED equal to staff until the Director decides (AMB-15). */
-export const STUDENT_PASSWORD_MIN_LENGTH = STAFF_PASSWORD_MIN_LENGTH;
+/** Minimum password length for student accounts — Director decision 2026-09-27 (AMB-15). */
+export const STUDENT_PASSWORD_MIN_LENGTH = 10;
 /** Upper bound of rows on the account screen (A-3: every list query is bounded). */
 export const ACCOUNT_LIST_LIMIT = 500;
 /** Route of the account administration screen. */

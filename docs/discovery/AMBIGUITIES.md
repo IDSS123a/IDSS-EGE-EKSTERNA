@@ -57,3 +57,9 @@ Each entry states the ACA's recommendation so the Director can answer "yes".
 |---|---|---|---|---|---|
 | AMB-15 | 🟢 | Minimum password length for **student** accounts? | Mandate §7A.5 requires passwords but sets no length | 📌 ASSUMED 12 (same as staff); a shorter minimum (e.g. 10) is easier for Grade 9 students. Constant `STUDENT_PASSWORD_MIN_LENGTH`. | none |
 | AMB-16 | 🟢 | Subject-teacher rights need a subject scope, but exam subjects become database rows only in Sprint 04 (derived from the active rulebook). | DATA_MODEL §4; P-3 | Until then Haris Hamzić, Nikolina Todorović and Nizama Memija get `admin_operations`; `subject_teacher` is granted per subject in Sprint 04. | canon review by teachers |
+
+## Resolutions — Director, 2026-09-27 (third round)
+
+| ID | Decision | Consequence |
+|---|---|---|
+| AMB-15 | Minimum student password length = **10** characters. | `STUDENT_PASSWORD_MIN_LENGTH = 10`; staff stays 12. Applies to account creation and password reset. |

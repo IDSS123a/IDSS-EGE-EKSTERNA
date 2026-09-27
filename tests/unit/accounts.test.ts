@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { STAFF_PASSWORD_MIN_LENGTH, STUDENT_PASSWORD_MIN_LENGTH } from "@/constants";
 import { authBanFor, needsPersonRecord } from "@/features/accounts/domain";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { canChangeAccount, canManageAccounts, canResetPasswords, canViewAccounts } from "@/lib/permissions";
@@ -47,6 +48,13 @@ describe("account schemas", () => {
     expect(schema.safeParse({ username: "ana.test", displayName: "A", role: "administrator", password: "x".repeat(12) }).success).toBe(false);
     expect(schema.safeParse({ username: "ana@x.ba", displayName: "A", role: "student", password: "x".repeat(12) }).success).toBe(false);
     expect(schema.safeParse({ username: "ana.test", displayName: "A", role: "student", password: "x".repeat(12) }).success).toBe(true);
+  });
+  it("uses 10 characters for students and 12 for staff (AMB-15)", () => {
+    expect(STUDENT_PASSWORD_MIN_LENGTH).toBe(10);
+    expect(STAFF_PASSWORD_MIN_LENGTH).toBe(12);
+    const studentSchema = createAccountSchema(STUDENT_PASSWORD_MIN_LENGTH);
+    expect(studentSchema.safeParse({ username: "ana.test", displayName: "A", role: "student", password: "x".repeat(10) }).success).toBe(true);
+    expect(studentSchema.safeParse({ username: "ana.test", displayName: "A", role: "student", password: "x".repeat(9) }).success).toBe(false);
   });
   it("never allows creating a Superadministrator and enforces the password minimum", () => {
     expect(schema.safeParse({ username: "boss@idss.ba", displayName: "A", role: "superadmin", password: "x".repeat(12) }).success).toBe(false);
