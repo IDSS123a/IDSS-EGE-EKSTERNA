@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "IDSS EGE: Priprema za eksternu maturu",
+    "title": "IDSS - External Graduate Examination: Priprema za eksternu maturu",
     "description": "Platforma Internationale Deutsche Schule Sarajevo za pripremu učenika IX razreda za eksternu maturu."
   },
   "splash": {
-    "label": "IDSS EGE se učitava",
-    "product": "EGE: Priprema za eksternu maturu",
+    "label": "IDSS - External Graduate Examination se učitava",
+    "product": "IDSS - External Graduate Examination",
     "logoAlt": "Internationale Deutsche Schule Sarajevo"
   },
   "language": {
@@ -18,7 +18,7 @@
   },
   "home": {
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
-    "title": "IDSS EGE",
+    "title": "IDSS - External Graduate Examination",
     "subtitle": "Priprema za eksternu maturu kroz izazove, misije i vježbu zasnovanu isključivo na službenim ispitnim katalozima.",
     "statusTitle": "Platforma je u izgradnji",
     "statusBody": "Trenutno se gradi Sprint 02: registar kanonskih dokumenata, s trajnom historijom verzija, aktivacijom i vraćanjem ranijih verzija.",

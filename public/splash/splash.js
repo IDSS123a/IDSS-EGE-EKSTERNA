@@ -1,5 +1,5 @@
 /**
- * IDSS EGE — first-paint splash screen (static module, no dependencies).
+ * IDSS - External Graduate Examination: first-paint splash screen (static module, no dependencies).
  *
  * Why a static file in /public: the splash must be the first UI the user sees,
  * before the React app hydrates (INSTRUCTION §7A.8). The markup is server-rendered

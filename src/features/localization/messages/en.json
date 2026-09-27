@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "IDSS EGE: External matura preparation",
+    "title": "IDSS - External Graduate Examination: External matura preparation",
     "description": "Internationale Deutsche Schule Sarajevo platform preparing Grade 9 students for the external matura."
   },
   "splash": {
-    "label": "IDSS EGE is loading",
-    "product": "EGE: External matura preparation",
+    "label": "IDSS - External Graduate Examination is loading",
+    "product": "IDSS - External Graduate Examination",
     "logoAlt": "Internationale Deutsche Schule Sarajevo"
   },
   "language": {
@@ -18,7 +18,7 @@
   },
   "home": {
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
-    "title": "IDSS EGE",
+    "title": "IDSS - External Graduate Examination",
     "subtitle": "External matura preparation through challenges, missions and practice based exclusively on the official exam catalogues.",
     "statusTitle": "The platform is under construction",
     "statusBody": "Sprint 02 is in progress: the canonical document registry with a permanent version history, activation and restoring earlier versions.",

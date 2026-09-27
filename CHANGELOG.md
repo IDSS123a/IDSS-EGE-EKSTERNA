@@ -56,3 +56,4 @@
 [2026-09-27] [SPRINT] Sprint 05 closed: retrieval foundation used live; DONE checklist, compliance score, handoff note
 [2026-09-27] [DESIGN] Splash palette: yellow, blue and sky prevail, red only in traces (PDL-019); measured on rendered frames
 [2026-09-27] [FEATURE] Postavke: the Superadmin sets the splash colour shares in percent; measured calibration turns them into shader thresholds (PDL-020, migration 012)
+[2026-09-27] [CONTENT] Product name in every app text: "IDSS - External Graduate Examination" (Director); meta titles, splash, home, preview

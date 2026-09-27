@@ -1,6 +1,6 @@
 # CLAUDE.md — IDSS EGE
 
-Project: IDSS EGE — External Matura Preparation Platform (Grade 9), IDSS Sarajevo
+Project: IDSS - External Graduate Examination (short in code and docs: IDSS EGE), external matura preparation platform (Grade 9), IDSS Sarajevo
 Repository: https://github.com/IDSS123a/IDSS-EGE-EKSTERNA
 Governance: Commander v1.6.1 (https://github.com/IDSS123a/commander) · Mode: FULL
 
@@ -28,6 +28,7 @@ Supabase project: `dezevstfmfliyasdeflj`. After every migration run the Supabase
 - Prototype (reference only, level 6): `CODE-PROTOTYPE/`
 
 ## Non-negotiables (details in CONSTITUTION.md)
+- Product name in every app text: "IDSS - External Graduate Examination", never "IDSS EGE" (Director, 2026-09-27).
 - Three subjects only (B/H/S, Matematika, first foreign language = Njemački for IDSS).
 - Canon is data with provenance; never hard-code exam rules, questions or keys.
 - Never invent questions, answers, scoring, timing, thresholds. Unknown → `docs/discovery/AMBIGUITIES.md`.

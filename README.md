@@ -1,4 +1,4 @@
-# IDSS EGE
+# IDSS - External Graduate Examination
 
 Priprema učenika IX razreda Internationale Deutsche Schule Sarajevo za eksternu maturu —
 platforma zasnovana isključivo na službenim ispitnim katalozima.
