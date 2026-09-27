@@ -588,7 +588,8 @@
       "built": "Dodano vektora: {stored}. Ukupno: {embedded}.",
       "continue": "Nije sve završeno u jednom koraku; kliknite ponovo da nastavite.",
       "noKey": "Nijedan ključ GEMINI_API_KEY (ili GEMINI_API_KEY_1 do GEMINI_API_KEY_10) nije postavljen u .env.local; pretraga radi po riječima.",
-      "privacy": "Tekst upita se radi pretrage po značenju šalje Googleu (Gemini). Ne upisujte lične podatke."
+      "privacy": "Tekst upita se radi pretrage po značenju šalje Googleu (Gemini). Ne upisujte lične podatke.",
+      "skipped": "Preskočeno dijelova teksta: {n} ({detail}). Kliknite ponovo; preskočeni dijelovi se pokušavaju iznova."
     },
     "methods": {
       "semantic": "Pretraga po značenju",

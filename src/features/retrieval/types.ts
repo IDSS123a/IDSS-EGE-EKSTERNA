@@ -48,5 +48,5 @@ export type IndexResult =
   | { success: false; code: RetrievalErrorCode };
 
 export type SemanticIndexResult =
-  | { success: true; data: { stored: number; embedded: number; complete: boolean } }
-  | { success: false; code: RetrievalErrorCode };
+  | { success: true; data: { stored: number; embedded: number; complete: boolean; skipped: number; detail: string | null } }
+  | { success: false; code: RetrievalErrorCode; detail?: string };

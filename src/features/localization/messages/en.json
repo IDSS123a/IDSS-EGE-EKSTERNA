@@ -588,7 +588,8 @@
       "built": "Vectors added: {stored}. Total: {embedded}.",
       "continue": "Not everything finished in one step; click again to continue.",
       "noKey": "No GEMINI_API_KEY key (or GEMINI_API_KEY_1 to GEMINI_API_KEY_10) is set in .env.local; search works by words.",
-      "privacy": "For search by meaning the query text is sent to Google (Gemini). Do not enter personal data."
+      "privacy": "For search by meaning the query text is sent to Google (Gemini). Do not enter personal data.",
+      "skipped": "Text passages skipped: {n} ({detail}). Click again; skipped passages are retried."
     },
     "methods": {
       "semantic": "Search by meaning",

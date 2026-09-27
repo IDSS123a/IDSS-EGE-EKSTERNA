@@ -296,3 +296,9 @@ build runs where the server reaches Google: the Director's computer now, the hos
 **Addendum (27.09.2026, Director):** ten keys `GEMINI_API_KEY_1` to `GEMINI_API_KEY_10` rotate because of quota limits.
 Requests start at the next key in turn (round robin); a key answering 429 (quota) or 401/403 (refused) hands the request
 to the following key; 404 and other failures are not retried. RATE_LIMITED only when every key is over quota.
+**Addendum 2 (27.09.2026, first live build):** the Director's first build stored 100 of 514 vectors, then Gemini
+failed on the third batch within 0.6 s and the whole click ended with "UNAVAILABLE" and no detail. Now: server errors
+and network failures are retried on the next key (at most 3 attempts, short pause); a batch that still fails is split
+until the failing passage is found, which is skipped for this click while the others are stored; the screen shows
+Gemini's answer (for example "Gemini: 500") and the number of skipped passages. Quota on every key, missing keys, a
+wrong model (404) and a refusal before anything worked still stop the build.

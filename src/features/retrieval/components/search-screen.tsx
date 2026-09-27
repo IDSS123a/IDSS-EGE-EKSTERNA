@@ -65,10 +65,20 @@ export function SearchScreen({ subjects, chunkTotal, canBuild, embeddedTotal, se
               {semanticResult?.success && (
                 <span className="action-feedback--ok">
                   {labels.semantic.built.replace("{stored}", String(semanticResult.data.stored)).replace("{embedded}", String(semanticResult.data.embedded))}
-                  {!semanticResult.data.complete && ` ${labels.semantic.continue}`}
+                  {!semanticResult.data.complete && semanticResult.data.skipped === 0 && ` ${labels.semantic.continue}`}
                 </span>
               )}
-              {semanticResult && !semanticResult.success && <span className="action-feedback--error">{labels.errors[semanticResult.code]}</span>}
+              {semanticResult?.success && semanticResult.data.skipped > 0 && (
+                <span className="action-feedback--error">
+                  {labels.semantic.skipped.replace("{n}", String(semanticResult.data.skipped)).replace("{detail}", semanticResult.data.detail ?? "")}
+                </span>
+              )}
+              {semanticResult && !semanticResult.success && (
+                <span className="action-feedback--error">
+                  {labels.errors[semanticResult.code]}
+                  {semanticResult.detail ? ` (${semanticResult.detail})` : ""}
+                </span>
+              )}
             </span>
           </form>
         </section>

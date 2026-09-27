@@ -77,6 +77,16 @@ describe("key rotation (Director: GEMINI_API_KEY_1 to _10)", () => {
     expect(getGeminiApiKeys({})).toEqual([]);
   });
 
+  it("recovers from a passing server error on the next attempt", async () => {
+    const statuses = [500, 200];
+    const fetchImpl = vi.fn<FetchLike>(async () => {
+      const status = statuses.shift() ?? 200;
+      return new Response(JSON.stringify(status === 200 ? { embedding: { values: vector(1) } } : {}), { status });
+    });
+    await expect(geminiEmbedder(["a-key-000000000000000000"], fetchImpl).embedQuery("x")).resolves.toHaveLength(EMBEDDING_DIMENSIONS);
+    expect(fetchImpl).toHaveBeenCalledTimes(2);
+  });
+
   it("hands the request to the next key when one is over quota or refused", async () => {
     const statuses = [429, 403, 200];
     const fetchImpl = vi.fn<FetchLike>(async () => {
@@ -88,14 +98,19 @@ describe("key rotation (Director: GEMINI_API_KEY_1 to _10)", () => {
     expect(new Set(used).size).toBe(3);
   });
 
-  it("reports RATE_LIMITED when every key is over quota, and does not retry other failures", async () => {
+  it("reports RATE_LIMITED when every key is over quota, and retries server errors a bounded number of times", async () => {
     const over = fakeFetch(429, {});
     const error = await geminiEmbedder(["a-key-000000000000000000", "b-key-000000000000000000"], over).embedQuery("x").catch((caught: unknown) => caught);
     expect(error instanceof EmbeddingError && error.code).toBe("RATE_LIMITED");
     expect(over).toHaveBeenCalledTimes(2);
     const down = fakeFetch(503, {});
-    await geminiEmbedder(["a-key-000000000000000000", "b-key-000000000000000000"], down).embedQuery("x").catch(() => undefined);
-    expect(down).toHaveBeenCalledTimes(1);
+    const failure = await geminiEmbedder(["a-key-000000000000000000", "b-key-000000000000000000"], down).embedQuery("x").catch((caught: unknown) => caught);
+    expect(down).toHaveBeenCalledTimes(3);
+    expect(failure instanceof EmbeddingError && failure.code).toBe("UNAVAILABLE");
+    expect(failure instanceof EmbeddingError && failure.detail).toBe("Gemini: 503");
+    const missing = fakeFetch(404, {});
+    await geminiEmbedder(["a-key-000000000000000000", "b-key-000000000000000000"], missing).embedQuery("x").catch(() => undefined);
+    expect(missing).toHaveBeenCalledTimes(1);
   });
 
   it("spreads successive requests over the keys", async () => {
@@ -123,5 +138,44 @@ describe("evidence rule with semantic results", () => {
     expect(isEvidence(chunk({ rank: 0.02, similarity: 0.72, keywordRank: null }), 1, 0.6)).toBe(true);
     expect(isEvidence(chunk({ rank: 0.02, similarity: 0.41, keywordRank: null }), 1, 0.6)).toBe(false);
     expect(relevant([chunk({ rank: 0.02, similarity: 0.41, keywordRank: null })], 1, 0.6)).toEqual([]);
+  });
+});
+
+describe("semantic index build: one bad passage never blocks the others", () => {
+  const passage = (id: string) => ({ chunkId: id, title: "T", content: `text ${id}`, contentSha256: "0".repeat(64) });
+
+  it("splits a failing batch, sets the failing passage aside and stores the rest", async () => {
+    const { embedAndStore } = await import("@/features/retrieval/domain/build");
+    const embedder = {
+      model: EMBEDDING_MODEL,
+      embedQuery: async () => vector(1),
+      embedDocuments: async (documents: readonly { title: string; text: string }[]) => {
+        if (documents.some((document) => document.text === "text c")) throw new EmbeddingError("UNAVAILABLE", "server error", "Gemini: 500");
+        return documents.map(() => vector(1));
+      },
+    };
+    const state = { stored: 0, skipped: new Map<string, string>(), anyEmbedded: false };
+    const stored: string[] = [];
+    await embedAndStore(embedder, ["a", "b", "c", "d", "e"].map(passage), state, async (rows) => {
+      stored.push(...rows.map((row) => row.chunkId));
+      return rows.length;
+    });
+    expect(stored.sort()).toEqual(["a", "b", "d", "e"]);
+    expect(state.stored).toBe(4);
+    expect([...state.skipped.entries()]).toEqual([["c", "Gemini: 500"]]);
+  });
+
+  it("stops the build on quota and on a refusal before anything worked", async () => {
+    const { embedAndStore } = await import("@/features/retrieval/domain/build");
+    const failing = (code: "RATE_LIMITED" | "REJECTED") => ({
+      model: EMBEDDING_MODEL,
+      embedQuery: async () => vector(1),
+      embedDocuments: async (): Promise<number[][]> => {
+        throw new EmbeddingError(code, "refused", "Gemini: 400");
+      },
+    });
+    const state = () => ({ stored: 0, skipped: new Map<string, string>(), anyEmbedded: false });
+    await expect(embedAndStore(failing("RATE_LIMITED"), [passage("a"), passage("b")], state(), async () => 0)).rejects.toThrow(EmbeddingError);
+    await expect(embedAndStore(failing("REJECTED"), [passage("a"), passage("b")], state(), async () => 0)).rejects.toThrow(EmbeddingError);
   });
 });

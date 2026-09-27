@@ -74,3 +74,4 @@
 [2026-09-27] [FEATURE] Search by meaning with Gemini (gemini-embedding-2, 768 dimensions): "Izgradi indeks po značenju" on /app/pretraga, search falls back to words without a key, index or on a Gemini failure; only catalogue and query text go to Google
 [2026-09-27] [ENV] Added GEMINI_API_KEY (server only; GOOGLE_API_KEY accepted) to .env.example
 [2026-09-27] [FEATURE] Gemini key rotation: GEMINI_API_KEY_1 to _10 (Director), round robin, next key on quota or refusal (PDL-023)
+[2026-09-27] [FIX] Semantic index build: retries Gemini server errors on the next key, isolates and skips a failing passage instead of stopping, shows Gemini's answer and the skipped count (first live build stopped at 100 of 514)
