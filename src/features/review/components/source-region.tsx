@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { PDFDocumentProxy } from "pdfjs-dist/legacy/build/pdf.mjs";
-import { REVIEW_RENDER_SCALE } from "@/constants";
+import { REVIEW_REGION_STROKE, REVIEW_RENDER_SCALE } from "@/constants";
 import { useI18n } from "@/features/localization/i18n-provider";
 
 /**
@@ -69,7 +69,7 @@ export function SourceRegion({ sourceUrl, page, region, label }: Props): ReactNo
           target.height = full.height;
           context.drawImage(full, 0, 0);
           if (region) {
-            context.strokeStyle = "rgba(200, 30, 30, 0.9)";
+            context.strokeStyle = REVIEW_REGION_STROKE;
             context.lineWidth = Math.max(2, scale);
             context.strokeRect(region[0] * scale, region[1] * scale, (region[2] - region[0]) * scale, (region[3] - region[1]) * scale);
           }

@@ -23,6 +23,8 @@
   --color-accent: var(--idss-sky);
   --color-highlight: var(--idss-yellow);
   --color-danger: var(--idss-red);
+  /* Background of rendered catalogue pages: printed paper stays white in every theme. */
+  --color-paper: #ffffff;
   --color-focus: var(--idss-sky);
   --gradient-brand: linear-gradient(90deg, var(--idss-red), var(--idss-yellow), var(--idss-sky), var(--idss-blue));
 
@@ -707,7 +709,7 @@ body {
   height: auto;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: #ffffff;
+  background: var(--color-paper);
 }
 .source-region__scroll {
   overflow-x: auto;

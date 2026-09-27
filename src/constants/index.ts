@@ -62,6 +62,8 @@ export const REVIEW_SOURCE_MAX_AGE_SECONDS = 3600;
 export const REVIEW_REGION_MARGIN_POINTS = 12;
 /** Render scale of source pages (device pixels per PDF point before devicePixelRatio). */
 export const REVIEW_RENDER_SCALE = 1.5;
+/** Outline of the record's region on a whole-page source view (drawn on canvas, where CSS tokens do not apply). */
+export const REVIEW_REGION_STROKE = "rgba(200, 30, 30, 0.9)";
 /** Private storage bucket for canonical source files (created by migration 006). */
 export const CANON_BUCKET = "canon-documents";
 /** Same limit as the bucket (and the Supabase project upload limit): 50 MB. */
