@@ -16,3 +16,5 @@ Date: 2026-09-27 (in progress)
 ## Commander Improvement Candidates
 - ARCHITECTURE_PATTERNS: add a "first-paint splash" pattern — static module in `public/`, server-rendered markup, `html[data-*]` phase attribute, `ready()` handshake from the app, fail-safe max time, no-JS `<noscript>` override.
 - 2026-09-27 — No lessons: routine content change (splash message 10 revised by the Director).
+- Supabase project was created under a different Supabase account (mulalic.davor@outlook.com) than the one the session's Supabase connector uses → migrations could not be applied; verified them on local PostgreSQL 16 with a Supabase stub instead → M-4 (second method before claiming DB work done).
+- A test that asserts `true` proves nothing: "student update of another profile affected nothing" was replaced by a server-side read of the target row after the attempt (DONE checklist: verify live, not by assumption).

@@ -31,6 +31,10 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run build`, `PW_CHROMIUM_PATH=
 - Authorization server-side + RLS; UI hiding is not authorization.
 - Destructive actions, history rewrites, production deploys: ask the Director first (M-4, M-23).
 
+## Standing order — delivery (Director, 2026-09-27)
+Push every verified change automatically (no asking). Work on the session branch and keep a
+pull request open against `main` so the CI project guard runs on every change.
+
 ## Lesson capture (M-18)
 The moment a correction or gotcha occurs, append it to `corrections/SPRINT_XX_LESSONS.md`
 in the same turn, and log sprint activity in `corrections/ACTIVITY_LOG.md`.

@@ -19,3 +19,6 @@
 - [2026-09-27 11:49] Write: src/features/home/components/home-shell.tsx
 - [2026-09-27 11:49] Write: src/app/globals.css
 - [2026-09-27 11:52] Write: docs/DESIGN_SYSTEM.md
+- [2026-09-27 12:04] Write: migrations/001_identity.sql
+- [2026-09-27 12:04] Write: migrations/002_canon_registry.sql
+- [2026-09-27 12:04] Write: migrations/003_audit.sql

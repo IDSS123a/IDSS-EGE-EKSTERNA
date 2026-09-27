@@ -10,3 +10,5 @@
 [2026-09-27] [FEATURE] Live interface language switch bs/de/en without reload
 [2026-09-27] [TEST] Playwright e2e: splash first paint, dismissal, language switch, reduced motion
 [2026-09-27] [CONTENT] Splash message 10 revised by the Director: "Spreman? Tvoj put upravo počinje." (de/en aligned)
+[2026-09-27] [DATABASE] Migrations 001_identity, 002_canon_registry, 003_audit + local RLS test harness (npm run test:db)
+[2026-09-27] [ENV] Added NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY to .env.example

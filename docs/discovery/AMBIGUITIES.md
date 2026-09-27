@@ -42,3 +42,11 @@ Each entry states the ACA's recommendation so the Director can answer "yes".
 |---|---|---|---|---|---|
 | AMB-13 | 🟡 | ⚠️ AMB-11 vs. mandate §16 / P-4: should **canonical question text** (e.g. a B/H/S literature question, a German reading text) also switch language? Translating would change what the exam tests and would be an unofficial paraphrase. | Mandate §16 "academic material should preserve the language of its authoritative source"; §13A "never overwrite canonical source text" | Everything switches language **except** the canonical question/answer text, which always stays in its source language; instructions, hints, feedback and explanations around it switch. An optional, clearly labelled "pomoćni prijevod" could be added later for Math only. | practice UI (Sprint 06) |
 | AMB-14 | 🟢 | Which UI languages exactly? | Prototype had bs/de/en; Director did not list them | bs (default), de, en | none — implemented as assumption |
+
+## Resolutions — Director, 2026-09-27 (second round)
+
+| ID | Decision | Consequence |
+|---|---|---|
+| AMB-13 | **Everything is translated except the text of the official question and its answer.** Instructions, hints and explanations around the question are translated. | `question_versions.raw_text`, options and answer keys are always shown in the source language; every surrounding UI string, hint, feedback and explanation follows the chosen language. |
+| AMB-14 | Implicitly confirmed with AMB-13: bs (default), de, en. | — |
+| — | Supabase project provided by the Director: `dezevstfmfliyasdeflj` (https://dezevstfmfliyasdeflj.supabase.co). | Used for all environments until the Director says otherwise. |
