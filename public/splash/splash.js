@@ -36,6 +36,16 @@
   var RECIPE = {
     // Reference stops #E8262C #08ABE6 #035EA1 #FFCB29, ordered for the cyclic palette.
     stops: ["#E8262C", "#035EA1", "#08ABE6", "#FFCB29"],
+    // Director 27.09.2026 (PDL-019): yellow, blue and sky prevail; red only in traces.
+    // Blue and yellow alternate in the main field; sky and red are layers from their own
+    // noise fields, drawn where that field exceeds its threshold (lower = more area).
+    // Thresholds measured on rendered frames: sky about a third, red about 2 %.
+    skyThreshold: 0.435,
+    // Where yellow starts in the blue/yellow cycle (lower = more yellow).
+    yellowFrom: 0.12,
+    redThreshold: 0.7,
+    // Half-width of every colour edge (field units).
+    blend: 0.03,
     scale: 56,
     distortion: 18,
     swirl: 13,
@@ -185,20 +195,18 @@
     "uniform vec2 u_res;uniform float u_time;",
     "uniform vec3 u_c0;uniform vec3 u_c1;uniform vec3 u_c2;uniform vec3 u_c3;",
     "uniform float u_scale;uniform float u_distortion;uniform float u_swirl;",
+    "uniform float u_blend;uniform float u_sky;uniform float u_red;uniform float u_yellow;",
     "float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}",
     "float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);",
     " return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y);}",
     "float fbm(vec2 p){float v=0.0;float a=0.5;mat2 r=mat2(0.8,0.6,-0.6,0.8);",
     " for(int i=0;i<4;i++){v+=a*noise(p);p=r*p*2.02+17.0;a*=0.5;}return v;}",
-    // Cyclic palette (red → blue → sky → yellow → red). Each colour holds most of its
-    // segment and only blends near the edge, so intermediate hues (orange, green) stay thin
-    // and the field reads as the four IDSS colours.
-    "vec3 palette(float t){float s=fract(t)*4.0;",
-    " vec3 c=u_c0;",
-    " c=mix(c,u_c1,smoothstep(0.55,1.0,clamp(s,0.0,1.0)));",
-    " c=mix(c,u_c2,smoothstep(0.55,1.0,clamp(s-1.0,0.0,1.0)));",
-    " c=mix(c,u_c3,smoothstep(0.55,1.0,clamp(s-2.0,0.0,1.0)));",
-    " return mix(c,u_c0,smoothstep(0.55,1.0,clamp(s-3.0,0.0,1.0)));}",
+    // Main field alternates blue (u_c1) and yellow (u_c3) with short edges; sky (u_c2) and
+    // red (u_c0) are laid on top in main() from their own noise fields, so red never forms
+    // a band between the other colours.
+    "vec3 palette(float t){float x=fract(t);",
+    " vec3 c=mix(u_c1,u_c3,smoothstep(u_yellow-u_blend,u_yellow+u_blend,x));",
+    " return mix(c,u_c1,smoothstep(1.0-u_blend,1.0,x));}",
     "void main(){",
     " vec2 uv=gl_FragCoord.xy/u_res;",
     " vec2 p=(uv-0.5)*vec2(u_res.x/u_res.y,1.0)*u_scale;",
@@ -210,6 +218,10 @@
     " float f=fbm(p+u_distortion*w);",
     " float v=f*2.4+0.9*w.y+t*0.015;",
     " vec3 col=palette(v);",
+    " float sky=fbm(p*0.7+q*1.1+vec2(11.3,4.1)+t*0.05);",
+    " col=mix(col,u_c2,smoothstep(u_sky-0.3*u_blend,u_sky+0.3*u_blend,sky));",
+    " float traces=fbm(p*0.9+w*1.3+vec2(3.1,7.7)-t*0.04);",
+    " col=mix(col,u_c0,smoothstep(u_red,u_red+u_blend,traces));",
     " col+=0.07*smoothstep(0.55,1.0,fbm(p*1.7+w*2.0-t*0.05));",
     " gl_FragColor=vec4(col,1.0);",
     "}"
@@ -259,7 +271,7 @@
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
 
     var uniforms = {};
-    ["u_res", "u_time", "u_c0", "u_c1", "u_c2", "u_c3", "u_scale", "u_distortion", "u_swirl"].forEach(function (name) {
+    ["u_res", "u_time", "u_c0", "u_c1", "u_c2", "u_c3", "u_scale", "u_distortion", "u_swirl", "u_blend", "u_sky", "u_red", "u_yellow"].forEach(function (name) {
       uniforms[name] = gl.getUniformLocation(program, name);
     });
     RECIPE.stops.forEach(function (hex, index) {
@@ -270,6 +282,10 @@
     gl.uniform1f(uniforms.u_scale, 0.6 + (RECIPE.scale / 100) * 1.2);
     gl.uniform1f(uniforms.u_distortion, 1.0 + (RECIPE.distortion / 100) * 3.0);
     gl.uniform1f(uniforms.u_swirl, RECIPE.swirl / 10);
+    gl.uniform1f(uniforms.u_blend, RECIPE.blend);
+    gl.uniform1f(uniforms.u_sky, RECIPE.skyThreshold);
+    gl.uniform1f(uniforms.u_red, RECIPE.redThreshold);
+    gl.uniform1f(uniforms.u_yellow, RECIPE.yellowFrom);
 
     state.gl = { context: gl, canvas: canvas, uniforms: uniforms };
     resizeField();

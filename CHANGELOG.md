@@ -54,3 +54,4 @@
 [2026-09-27] [TEST] Local test database created as UTF-8 (was SQL_ASCII), matching Supabase
 [2026-09-27] [DECISION] PDL-018: teacher grades mock exams (system pre-scores closed items), answers only after grading or after a practice answer, notifications per submitted exam plus daily summary, rewards follow the confirmed grade; AMB-19 footnote text in six trusted questions (five Math, one German)
 [2026-09-27] [SPRINT] Sprint 05 closed: retrieval foundation used live; DONE checklist, compliance score, handoff note
+[2026-09-27] [DESIGN] Splash palette: yellow, blue and sky prevail, red only in traces (PDL-019); measured on rendered frames
