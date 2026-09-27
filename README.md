@@ -23,5 +23,20 @@ U `.env.local` upisati ključeve iz Supabase → Project Settings → API (proje
 
 Ako mapa već postoji: `cd C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027` pa `git pull`.
 
+## Prvi nalog (Superadministrator)
+
+Jednom, na vlastitom računaru, nakon što su ključevi upisani u `.env.local`:
+
+```powershell
+npm run accounts:bootstrap
+```
+
+Skripta pravi nalog `direktor@idss.ba`; lozinku (najmanje 12 znakova) upisujete samo Vi,
+ne prikazuje se i nigdje se ne sprema. Zatim: `npm run dev` → http://localhost:3000/prijava.
+
+Preporučene postavke u Supabase → Authentication:
+- **Sign In / Providers → Allow new users to sign up: OFF** (naloge pravi samo Superadministrator).
+- **Email → Confirm email:** može ostati uključeno; skripta i admin potvrđuju e-mail pri kreiranju.
+
 ## Checks
 `npm run typecheck` · `npm run lint` · `npm run build` · `npm run test:e2e` · `npm run test:db` (needs PostgreSQL 15+ server binaries)

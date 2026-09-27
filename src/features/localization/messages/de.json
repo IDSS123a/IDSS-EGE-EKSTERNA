@@ -10,7 +10,11 @@
   },
   "language": {
     "label": "Sprache",
-    "names": { "bs": "Bosanski", "de": "Deutsch", "en": "English" }
+    "names": {
+      "bs": "Bosanski",
+      "de": "Deutsch",
+      "en": "English"
+    }
   },
   "home": {
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
@@ -18,6 +22,35 @@
     "subtitle": "Vorbereitung auf die externe Matura mit Herausforderungen, Missionen und Übungen, die ausschließlich auf den offiziellen Prüfungskatalogen beruhen.",
     "statusTitle": "Die Plattform ist im Aufbau",
     "statusBody": "Derzeit entsteht Sprint 01: die Grundlagen der Plattform — Anmeldung mit Benutzername und Passwort, Rollen und Zugriffsrechte sowie das Register der kanonischen Dokumente.",
-    "replaySplash": "Startbildschirm erneut anzeigen"
+    "replaySplash": "Startbildschirm erneut anzeigen",
+    "login": "Anmelden"
+  },
+  "auth": {
+    "title": "Anmeldung",
+    "subtitle": "Melden Sie sich mit Benutzername und Passwort an.",
+    "username": "Benutzername",
+    "usernameHint": "Personal: dienstliche E-Mail-Adresse. Schülerinnen und Schüler: von der Schule vergebener Benutzername.",
+    "password": "Passwort",
+    "submit": "Anmelden",
+    "submitting": "Anmeldung läuft…",
+    "errors": {
+      "VALIDATION": "Bitte geben Sie einen gültigen Benutzernamen und ein Passwort ein.",
+      "INVALID_CREDENTIALS": "Benutzername oder Passwort ist falsch.",
+      "LOCKED": "Zu viele fehlgeschlagene Versuche. Bitte versuchen Sie es in 15 Minuten erneut.",
+      "UNAVAILABLE": "Die Anmeldung ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut."
+    },
+    "backHome": "Zurück zur Startseite"
+  },
+  "account": {
+    "welcome": "Willkommen",
+    "roleLabel": "Rolle",
+    "roles": {
+      "superadmin": "Superadministrator",
+      "administrator": "Administrator",
+      "student": "Schüler/in"
+    },
+    "nextStepsTitle": "Wie es weitergeht",
+    "nextStepsBody": "Ihr Arbeitsbereich entsteht in den nächsten Sprints. Anmeldung, Rollen und Datenschutz sind aktiv.",
+    "logout": "Abmelden"
   }
 }

@@ -82,3 +82,15 @@ guard that keeps server modules out of client bundles — security, E-4); `@play
 (dev, end-to-end tests; mandate §22). Fonts via `next/font/google` (Sora, Inter), self-hosted at build.
 **Not added yet:** Supabase, Zod, React Hook Form, shadcn/ui, Sentry, Vitest — each arrives with
 the Sprint 01 step that needs it.
+
+## PDL-009 — Authentication dependencies and session model
+**Date:** 2026-09-27
+**Decision:** `@supabase/supabase-js` + `@supabase/ssr` (DL-001), `zod` 4 (E-2), dev: `vitest`,
+`tsx` (bootstrap script), `@types/node` 22 (matches Node 22). No browser Supabase client: the
+session cookie is HTTP-only and SameSite=Strict (E-4) and all auth runs in Server Actions,
+the Data Access Layer (`session.ts`, `auth.getUser()` on every request) and `proxy.ts`
+(optimistic redirects only). Lockout counts `security_events` (per username hash and per IP)
+instead of a new table or an external rate-limit service.
+**Known limitation (E-4):** blocking an account stops new sign-ins immediately; an already
+issued access token stays valid until it expires (≤ 1 h), although `getCurrentAccount()`
+refuses non-active accounts on every request.

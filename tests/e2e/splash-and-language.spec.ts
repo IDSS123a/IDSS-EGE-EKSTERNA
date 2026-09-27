@@ -15,7 +15,7 @@ test("splash is in the first HTML response with the official logo and a pool mes
   const response = await request.get("/");
   const html = await response.text();
   expect(html.indexOf('id="idss-splash"')).toBeGreaterThan(-1);
-  expect(html.indexOf('id="idss-splash"')).toBeLessThan(html.indexOf("home__main"));
+  expect(html.indexOf('id="idss-splash"')).toBeLessThan(html.indexOf("page__main"));
   expect(html).toContain('src="/brand/idss-logo.png"');
   expect(splashMessages.bs.some((message) => html.includes(message))).toBe(true);
   expect(response.headers()["x-frame-options"]).toBe("DENY");

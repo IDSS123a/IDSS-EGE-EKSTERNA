@@ -24,3 +24,6 @@ Date: 2026-09-27 (in progress)
 ## Commander Improvement Candidates (added)
 - ENGINEERING_RULES E-4 / DONE: "Run the Supabase security advisor after every migration" and "SECURITY DEFINER helpers live in a non-exposed schema (`private`), never `public`" — the default Supabase function grants make `public` helpers anonymous RPC endpoints.
 - `.gitignore` from create-next-app contains `.env*`, which silently ignored `.env.example`; it never reached GitHub and the Director's local setup failed → added `!.env.example` and verified with `git check-ignore` → A-7 / E-10 (check the committed tree, not the working tree).
+- Next.js renders its own `role="alert"` route announcer, so `getByRole("alert")` matched two elements → tests target the form's error by id.
+- React 19 resets an uncontrolled form after a Server Action, clearing the username on a failed login → the action echoes the caller's own normalised username (never the password) as `defaultValue`.
+- `.card p` outranked `.form__error` (specificity), so the error was not red → scoped the form rules under `.card`; caught only by looking at a screenshot, not by tests.
