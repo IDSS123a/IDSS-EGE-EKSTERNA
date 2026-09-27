@@ -38,3 +38,17 @@ test("the canon search is not reachable without a session", async ({ page }) => 
   await page.goto("/app/pretraga");
   await expect(page).toHaveURL(/\/prijava$/);
 });
+
+test("the settings screen is not reachable without a session", async ({ page }) => {
+  await page.goto("/app/postavke");
+  await expect(page).toHaveURL(/\/prijava$/);
+});
+
+test("the splash palette is public, cacheable and falls back to the default", async ({ request }) => {
+  const response = await request.get("/splash/palette");
+  expect(response.status()).toBe(200);
+  expect(response.headers()["cache-control"]).toContain("max-age=60");
+  const body = await response.json();
+  expect(Object.keys(body.shares).sort()).toEqual(["blue", "red", "sky", "yellow"]);
+  expect(body.thresholds.redThreshold).toBeGreaterThan(0);
+});

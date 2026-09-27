@@ -77,6 +77,13 @@ export const RETRIEVAL_QUERY_MAX_LENGTH = 500;
  * (rank = matched words + full-text rank, migration 011). Below it the answer is the fixed refusal.
  */
 export const RETRIEVAL_MIN_RANK = 1;
+
+/** Application settings for the Superadmin (PDL-020). */
+export const SETTINGS_PATH = "/app/postavke";
+/** Public, unauthenticated route the splash reads its palette from (outside the auth proxy, like /splash/*). */
+export const SPLASH_PALETTE_PATH = "/splash/palette";
+/** Browser and CDN cache of the splash palette; a change shows within this time. */
+export const SPLASH_PALETTE_MAX_AGE_SECONDS = 60;
 /** Private storage bucket for canonical source files (created by migration 006). */
 export const CANON_BUCKET = "canon-documents";
 /** Same limit as the bucket (and the Supabase project upload limit): 50 MB. */

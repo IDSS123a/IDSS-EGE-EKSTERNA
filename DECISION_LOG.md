@@ -229,3 +229,15 @@ their own noise fields, drawn above a threshold; thresholds are recipe data (`sk
 `blend`). Measured on rendered frames (1440 x 900, two moments): yellow 28 to 30 %, sky 26 to 27 %, blue 23 %, red 1.5 %,
 rest the card and edges. CSS fallback without WebGL: a small red spot, larger yellow fields; card rule and progress bar
 use red for 6 % of their length.
+
+## PDL-020: The Director sets the splash colour shares in percent
+**Date:** 2026-09-27 (Director)
+**Decision:** the share of each IDSS colour in the splash (#E8262C, #FFCB29, #035EA1, #08ABE6) is a setting the
+Superadmin enters in percent (Postavke), adding up to 100. Default: red 2, yellow 36, blue 29, sky 33.
+**Implementation:** migration 012 (`system_settings`, capability `settings.manage`, `set_splash_palette` validated and
+audited with before/after); `/app/postavke` form with live total and ratio bar; public route `/splash/palette` (outside
+the auth proxy, cached 60 s, default on any error) returns the shares and the shader thresholds; `splash.js` starts with
+the default thresholds and applies the Director's when they arrive. Percentages become thresholds through curves measured
+on rendered frames (`config/splash-calibration.json`, `src/features/splash/palette.ts`); verified by rendering four
+palettes: every colour within about 1.5 percentage points of its target. The CSS fallback (no WebGL) keeps the default
+proportions. Re-measure the curves whenever the shader changes.

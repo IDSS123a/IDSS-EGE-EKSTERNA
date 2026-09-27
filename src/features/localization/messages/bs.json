@@ -540,5 +540,36 @@
       "VALIDATION": "Upišite pitanje ili pojam od najmanje 2 znaka.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
+  },
+  "settings": {
+    "navLink": "Postavke",
+    "title": "Postavke",
+    "subtitle": "Postavke aplikacije koje mijenja superadministrator. Svaka promjena se bilježi.",
+    "palette": {
+      "title": "Boje uvodnog ekrana",
+      "intro": "Upišite koliki dio pozadine uvodnog ekrana zauzima svaka IDSS boja. Zbir mora biti 100 %. Promjena je vidljiva pri sljedećem otvaranju aplikacije (najkasnije za jednu minutu).",
+      "colors": {
+        "red": "Crvena",
+        "yellow": "Žuta",
+        "blue": "Plava",
+        "sky": "Svijetloplava"
+      },
+      "sum": "Ukupno: {sum} %",
+      "sumWrong": "Zbir mora biti 100 %.",
+      "preview": "Omjer boja",
+      "save": "Sačuvaj",
+      "saving": "Čuvanje",
+      "reset": "Vrati zadano",
+      "note": "Omjeri su izmjereni na iscrtanom ekranu; stvarni udio odstupa do oko 1,5 procentna poena."
+    },
+    "messages": {
+      "SAVED": "Boje su sačuvane."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Nemate pravo mijenjati postavke.",
+      "VALIDATION": "Svaki udio mora biti između 0 i 100, a zbir 100 %.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    }
   }
 }

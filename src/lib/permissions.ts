@@ -74,6 +74,11 @@ export function canBuildIndex(account: CurrentAccount): boolean {
   return canPublishCanon(account);
 }
 
+/** Change application settings such as the splash palette (Superadmin, PDL-020). */
+export function canManageSettings(account: CurrentAccount): boolean {
+  return hasCapability(account, "settings.manage");
+}
+
 /** See the canon registry, its history and download source files (publishers and reviewers). */
 export function canViewCanon(account: CurrentAccount): boolean {
   return canPublishCanon(account) || hasCapability(account, "canon.review");

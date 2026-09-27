@@ -118,6 +118,12 @@ export const CanonTransitionSchema = z.object({
 /** POST run the catalogue extraction for one document version (Sprint 03). */
 export const IngestionRunSchema = z.object({ versionId: z.uuid() });
 
+const share = z.coerce.number().min(0).max(100);
+/** POST splash palette: four shares in percent that add up to 100 (PDL-020). */
+export const SplashPaletteSchema = z
+  .object({ red: share, yellow: share, blue: share, sky: share })
+  .refine((value) => Math.abs(value.red + value.yellow + value.blue + value.sky - 100) < 0.1);
+
 /** POST search over trusted canon (Sprint 05). */
 export const CanonSearchSchema = z.object({
   query: z.string().trim().min(RETRIEVAL_QUERY_MIN_LENGTH).max(RETRIEVAL_QUERY_MAX_LENGTH),

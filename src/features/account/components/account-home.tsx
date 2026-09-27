@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNTS_PATH, CANON_PATH, REVIEW_PATH, SEARCH_PATH } from "@/constants";
+import { ACCOUNTS_PATH, CANON_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -17,6 +17,7 @@ export function AccountHome({
   canViewAccounts,
   canViewCanon,
   canOpenReview,
+  canManageSettings,
 }: {
   account: Pick<CurrentAccount, "displayName" | "role">;
   /** Decided on the server (lib/permissions.ts). */
@@ -24,6 +25,8 @@ export function AccountHome({
   /** Decided on the server (lib/permissions.ts). */
   canViewCanon: boolean;
   canOpenReview: boolean;
+  /** Decided on the server (lib/permissions.ts). */
+  canManageSettings: boolean;
 }): ReactNode {
   const { dictionary } = useI18n();
   return (
@@ -49,6 +52,7 @@ export function AccountHome({
             {canViewCanon && <Link href={CANON_PATH} className="button-primary">{dictionary.canon.navLink}</Link>}
             {canOpenReview && <Link href={REVIEW_PATH} className="button-primary">{dictionary.review.navLink}</Link>}
             {canOpenReview && <Link href={SEARCH_PATH} className="button-primary">{dictionary.search.navLink}</Link>}
+            {canManageSettings && <Link href={SETTINGS_PATH} className="button-primary">{dictionary.settings.navLink}</Link>}
           </div>
         </section>
       </main>

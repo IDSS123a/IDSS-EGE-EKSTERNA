@@ -540,5 +540,36 @@
       "VALIDATION": "Enter a question or term of at least 2 characters.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
     }
+  },
+  "settings": {
+    "navLink": "Settings",
+    "title": "Settings",
+    "subtitle": "Application settings changed by the Superadministrator. Every change is logged.",
+    "palette": {
+      "title": "Splash screen colours",
+      "intro": "Enter how much of the splash background each IDSS colour covers. The total must be 100 %. The change shows the next time the app opens (within one minute).",
+      "colors": {
+        "red": "Red",
+        "yellow": "Yellow",
+        "blue": "Blue",
+        "sky": "Sky blue"
+      },
+      "sum": "Total: {sum} %",
+      "sumWrong": "The total must be 100 %.",
+      "preview": "Colour ratio",
+      "save": "Save",
+      "saving": "Saving",
+      "reset": "Restore default",
+      "note": "Shares were measured on the rendered screen; the actual share differs by up to about 1.5 percentage points."
+    },
+    "messages": {
+      "SAVED": "The colours were saved."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You may not change the settings.",
+      "VALIDATION": "Every share must be between 0 and 100 and the total 100 %.",
+      "UNAVAILABLE": "The service is not available right now. Please try again."
+    }
   }
 }
