@@ -4,7 +4,7 @@ import { MC_OPTION, baseRecord, finaliseStructural, joined, readLines, segmentBy
 import type { ParserProfile } from "./profiles";
 
 /**
- * Mathematics catalogue ("matematika_-_katalog.pdf"). Structure (catalogue p.4–5): 10 areas × 20
+ * Mathematics catalogue ("Ispitni katalog za Matematika.pdf"). Structure (catalogue p.4–5): 10 areas × 20
  * tasks; tasks 1–5 osnovni nivo (multiple choice, 4 options), 6–15 srednji, 16–20 napredni
  * (open, stepwise). Answers in §6 "Rješenja zadataka po oblastima".
  */

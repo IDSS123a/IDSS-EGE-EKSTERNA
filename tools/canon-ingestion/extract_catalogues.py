@@ -224,7 +224,7 @@ def segment_by(lines: list[Line], start: Callable[[Line, list[str]], Optional[tu
 
 
 # --------------------------------------------------------------------------- #
-# Mathematics — "matematika_-_katalog.pdf"
+# Mathematics — "Ispitni katalog za Matematika.pdf"
 # Structure (catalogue p.4–5): 10 areas × 20 tasks; tasks 1–5 osnovni nivo
 # (MC, 4 options), 6–15 srednji nivo, 16–20 napredni nivo (open, stepwise).
 # --------------------------------------------------------------------------- #
@@ -680,9 +680,9 @@ def split_de_key(key: str) -> list[str]:
 # Orchestration + report
 # --------------------------------------------------------------------------- #
 CATALOGUES = [
-    {"subject": "mathematics", "file": "matematika_-_katalog.pdf",
+    {"subject": "mathematics", "file": "Ispitni katalog za Matematika.pdf",
      "official_title": "Eksterna matura — Matematika: Ispitni katalog pitanja", "extract": extract_mathematics},
-    {"subject": "bhs_language_literature", "file": "bjk_hjk_sjk_katalog_eksterna_matura_2022_2023.pdf",
+    {"subject": "bhs_language_literature", "file": "Ispitni katalog za BHS jezik.pdf",
      "official_title": "Eksterna matura — Bosanski jezik i književnost, Hrvatski jezik i književnost, "
                        "Srpski jezik i književnost: Ispitni katalog (2022/2023)", "extract": extract_bhs},
     {"subject": "german", "file": "Ispitni katalog za Njemački jezik.pdf",

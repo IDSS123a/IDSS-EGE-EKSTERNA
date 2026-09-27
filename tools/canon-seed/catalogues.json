@@ -2,7 +2,7 @@
   "_source": "Director decision AMB-02 (2026-09-27): the three repository catalogues are the current canonical versions until the ministry (MOOKS) issues new ones. Metadata below is read from each PDF itself (document properties and cover page, checked 2026-09-27); fields the PDFs do not state (publication date, act number) are left empty on purpose (P-4).",
   "catalogues": [
     {
-      "file": "matematika_-_katalog.pdf",
+      "file": "Ispitni katalog za Matematika.pdf",
       "sha256": "450a10071ffceecaa989b824077ab36d6688d8cafcd036a783e1b34867855149",
       "typeCode": "subject_catalogue",
       "documentTitle": "Ispitni katalog: Matematika",
@@ -10,10 +10,10 @@
       "issuingAuthority": "Ministarstvo za odgoj i obrazovanje Kantona Sarajevo",
       "officialTitle": "Ispitni katalog za polaganje Eksterne mature iz Matematike",
       "revisionLabel": null,
-      "_source": "PDF properties: Title and Author; cover page p.1 names the ministry. 75 pages, created 2022-08-19."
+      "_source": "PDF properties: Title and Author; cover page p.1 names the ministry. 75 pages, created 2022-08-19. Original ministry file name: matematika_-_katalog.pdf (renamed 27.09.2026, same SHA-256)."
     },
     {
-      "file": "bjk_hjk_sjk_katalog_eksterna_matura_2022_2023.pdf",
+      "file": "Ispitni katalog za BHS jezik.pdf",
       "sha256": "ba11dfbb0bcafcf09117b673348f370fc88bcfa333e1e13d5ef50586ac3ad3e8",
       "typeCode": "subject_catalogue",
       "documentTitle": "Ispitni katalog: Bosanski, hrvatski, srpski jezik i književnost",
@@ -21,7 +21,7 @@
       "issuingAuthority": "Ministarstvo za odgoj i obrazovanje Kantona Sarajevo",
       "officialTitle": "EKSTERNA MATURA: Bosanski jezik i književnost, Hrvatski jezik i književnost, Srpski jezik i književnost",
       "revisionLabel": "2022/2023",
-      "_source": "Cover p.2 (title) and PDF Author; edition 2022/2023 from the official file name. 89 pages, created 2022-08-21."
+      "_source": "Cover p.2 (title) and PDF Author; edition 2022/2023 from the original ministry file name bjk_hjk_sjk_katalog_eksterna_matura_2022_2023.pdf (renamed in the repository on 27.09.2026, content unchanged: same SHA-256). 89 pages, created 2022-08-21."
     },
     {
       "file": "Ispitni katalog za Njemački jezik.pdf",

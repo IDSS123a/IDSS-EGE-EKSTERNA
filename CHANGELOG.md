@@ -39,3 +39,5 @@
 [2026-09-27] [DISCOVERY] Nine new ministry documents reviewed (C20 to C24 + administrative); tests only from catalogue tasks (C21); enrolment weight of the matura (C20); AMB-17, AMB-18
 [2026-09-27] [DOCS] docs/architecture/EXAM_SIMULATION.md: mock exams and practice sets from official catalogue tasks, anti-repetition design
 [2026-09-27] [FIX] canon:seed checks local files first with a restore hint and exits cleanly on Windows
+[2026-09-27] [DECISION] PDL-014 (AMB-17): mock exams only from official tasks; practice variants only with teacher approval
+[2026-09-27] [CONTENT] Catalogue PDFs renamed to one pattern (Ispitni katalog za ...); same SHA-256

@@ -16,8 +16,8 @@ import type { CatalogueRecord } from "@/features/ingestion/types";
  */
 const ROOT = join(__dirname, "../..");
 const CATALOGUES = [
-  { file: "matematika_-_katalog.pdf", reference: "mathematics", units: 200, scored: 200 },
-  { file: "bjk_hjk_sjk_katalog_eksterna_matura_2022_2023.pdf", reference: "bhs_language_literature", units: 220, scored: 200 },
+  { file: "Ispitni katalog za Matematika.pdf", reference: "mathematics", units: 200, scored: 200 },
+  { file: "Ispitni katalog za BHS jezik.pdf", reference: "bhs_language_literature", units: 220, scored: 200 },
   { file: "Ispitni katalog za Njemački jezik.pdf", reference: "german", units: 80, scored: 200 },
 ];
 
