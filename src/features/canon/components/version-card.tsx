@@ -3,6 +3,7 @@
 import { useActionState, type FormEvent, type ReactNode } from "react";
 import { CANON_PATH, CANON_REASON_MAX_LENGTH } from "@/constants";
 import { IngestionPanel } from "@/features/ingestion/components/ingestion-panel";
+import { FactsPanel, type FactsStatus } from "@/features/knowledge/components/facts-panel";
 import type { IngestionJobSummary } from "@/features/ingestion/repository";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { transitionCanonVersionAction } from "../actions";
@@ -12,7 +13,7 @@ import { CanonFeedback } from "./canon-feedback";
 import { formatBytes, formatDateTime } from "./format";
 
 /** One version of a canonical document: metadata, status, download and lifecycle actions. */
-export function VersionCard({ version, job, canPublish }: { version: CanonVersion; job: IngestionJobSummary | null; canPublish: boolean }): ReactNode {
+export function VersionCard({ version, job, facts, canPublish }: { version: CanonVersion; job: IngestionJobSummary | null; facts: FactsStatus | null; canPublish: boolean }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.canon;
   const [result, formAction, pending] = useActionState<CanonActionResult | null, FormData>(transitionCanonVersionAction, null);
@@ -67,6 +68,7 @@ export function VersionCard({ version, job, canPublish }: { version: CanonVersio
         )}
       </div>
       <IngestionPanel versionId={version.id} status={version.status} job={job} canPublish={canPublish} />
+      {facts && <FactsPanel versionId={version.id} status={version.status} facts={facts} canPublish={canPublish} />}
     </li>
   );
 }

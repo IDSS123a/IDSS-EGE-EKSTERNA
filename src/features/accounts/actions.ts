@@ -13,6 +13,7 @@ import { logError, logInfo } from "@/lib/logger";
 import { canChangeAccount, canManageAccounts, canResetPasswords } from "@/lib/permissions";
 import { BundleChangeSchema, ChangeStatusSchema, createAccountSchema, resetPasswordSchema } from "@/lib/validation/schemas";
 import { authBanFor, needsPersonRecord } from "./domain";
+import { subjectExists } from "@/features/knowledge/repository";
 import { findAccountTarget, grantBundle, insertPerson, insertProfile, revokeBundle, updateAccountStatus, usernameExists } from "./repository";
 import type { AccountActionResult } from "./types";
 
@@ -132,14 +133,20 @@ async function changeAccountStatus(_previous: AccountActionResult | null, formDa
 /**
  * POST (Server Action) changeBundleAction
  * Role required: accounts.manage; not on self or a Superadministrator; administrators only.
- * Body: FormData { userId, bundle: pedagogue|psychologist|admin_operations, grant: grant|revoke }.
+ * Body: FormData { userId, bundle: pedagogue|psychologist|admin_operations|subject_teacher,
+ *   subjectId (required for subject_teacher only), grant: grant|revoke }.
  * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
  */
 async function changeBundle(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
   const actor = await authenticated();
   if (!actor) return { success: false, code: "UNAUTHENTICATED" };
   if (!canManageAccounts(actor)) return { success: false, code: "FORBIDDEN" };
-  const parsed = BundleChangeSchema.safeParse({ userId: formData.get("userId"), bundle: formData.get("bundle"), grant: formData.get("grant") });
+  const parsed = BundleChangeSchema.safeParse({
+    userId: formData.get("userId"),
+    bundle: formData.get("bundle"),
+    subjectId: formData.get("subjectId") ?? undefined,
+    grant: formData.get("grant"),
+  });
   if (!parsed.success) return { success: false, code: "VALIDATION" };
 
   try {
@@ -148,15 +155,17 @@ async function changeBundle(_previous: AccountActionResult | null, formData: For
     if (!target) return { success: false, code: "NOT_FOUND" };
     // Staff bundles are for administrators only — a student can never receive staff capabilities.
     if (!canChangeAccount(actor, target) || target.role !== "administrator") return { success: false, code: "FORBIDDEN" };
-    if (parsed.data.grant === "grant") await grantBundle(admin, target.userId, parsed.data.bundle, actor.userId);
-    else await revokeBundle(admin, target.userId, parsed.data.bundle);
+    const subjectId = parsed.data.subjectId ?? null;
+    if (subjectId && !(await subjectExists(admin, subjectId))) return { success: false, code: "NOT_FOUND" };
+    if (parsed.data.grant === "grant") await grantBundle(admin, target.userId, parsed.data.bundle, actor.userId, subjectId);
+    else await revokeBundle(admin, target.userId, parsed.data.bundle, subjectId);
     await insertAuditLog(admin, {
       actorUserId: actor.userId,
       action: parsed.data.grant === "grant" ? "account.bundle_granted" : "account.bundle_revoked",
       entityType: "profile",
       entityId: target.userId,
       ipAddress: await requestIp(),
-      details: { bundle: parsed.data.bundle },
+      details: parsed.data.subjectId ? { bundle: parsed.data.bundle, subject_id: parsed.data.subjectId } : { bundle: parsed.data.bundle },
     });
   } catch (error) {
     logError("accounts/actions.changeBundleAction", error);

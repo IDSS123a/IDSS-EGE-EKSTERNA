@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNTS_PATH, CANON_PATH } from "@/constants";
+import { ACCOUNTS_PATH, CANON_PATH, REVIEW_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -16,12 +16,14 @@ export function AccountHome({
   account,
   canViewAccounts,
   canViewCanon,
+  canOpenReview,
 }: {
   account: Pick<CurrentAccount, "displayName" | "role">;
   /** Decided on the server (lib/permissions.ts). */
   canViewAccounts: boolean;
   /** Decided on the server (lib/permissions.ts). */
   canViewCanon: boolean;
+  canOpenReview: boolean;
 }): ReactNode {
   const { dictionary } = useI18n();
   return (
@@ -45,6 +47,7 @@ export function AccountHome({
           <div className="link-row">
             {canViewAccounts && <Link href={ACCOUNTS_PATH} className="button-primary">{dictionary.accounts.navLink}</Link>}
             {canViewCanon && <Link href={CANON_PATH} className="button-primary">{dictionary.canon.navLink}</Link>}
+            {canOpenReview && <Link href={REVIEW_PATH} className="button-primary">{dictionary.review.navLink}</Link>}
           </div>
         </section>
       </main>

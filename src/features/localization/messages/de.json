@@ -94,11 +94,12 @@
     "bundles": {
       "pedagogue": "Pädagoge/Pädagogin",
       "psychologist": "Psychologe/Psychologin",
-      "admin_operations": "Administrative Vorgänge"
+      "admin_operations": "Administrative Vorgänge",
+      "subject_teacher": "Fachlehrkraft"
     },
     "grant": "Erteilen",
     "revoke": "Entziehen",
-    "subjectTeacherNote": "Fachlehrerrechte werden vergeben, sobald die Fächer aus den Katalogen geladen sind (Sprint 04).",
+    "subjectTeacherNote": "Eine Fachlehrkraft prüft Aufgaben, Lösungen und Regeln nur ihres eigenen Fachs.",
     "resetPassword": "Neues Passwort",
     "resetSubmit": "Passwort setzen",
     "tokenNote": "Hinweis: Eine Sperre verhindert sofort neue Anmeldungen; eine bereits offene Sitzung endet spätestens nach 1 Stunde.",
@@ -116,7 +117,8 @@
       "USERNAME_ROLE_MISMATCH": "Administratoren verwenden eine E-Mail als Benutzernamen, Schüler/innen nicht.",
       "NOT_FOUND": "Konto nicht gefunden.",
       "UNAVAILABLE": "Die Aktion ist fehlgeschlagen. Bitte versuchen Sie es erneut."
-    }
+    },
+    "noSubjects": "Die Fächer sind noch nicht geladen. Starten Sie im Register der kanonischen Dokumente \"Fach und Regeln laden\" für jeden Katalog."
   },
   "canon": {
     "navLink": "Register der kanonischen Dokumente",
@@ -277,6 +279,232 @@
       "keyCount": "Anzahl der Lösungen passt nicht zur Anzahl der Einheiten",
       "structure": "Aufbau der Aufgabe entspricht nicht dem Katalog",
       "other": "Weitere Hinweise"
+    }
+  },
+  "subjects": {
+    "bhs_language_literature": "Bosnisch, Kroatisch, Serbisch",
+    "mathematics": "Mathematik",
+    "german": "Deutsch"
+  },
+  "facts": {
+    "title": "Fach und Prüfungsregeln",
+    "intro": "Name des Fachs und Prüfungsregeln (Dauer, Punkte, Aufbau des Tests, Hilfsmittel) mit wörtlichem Zitat und Seite aus diesem Katalog. Vor dem Speichern wird jedes Zitat in der gespeicherten PDF geprüft.",
+    "run": "Fach und Regeln laden",
+    "running": "Zitate werden geprüft und gespeichert",
+    "confirm": "Fach und Regeln aus dieser Katalogversion laden?",
+    "loaded": "Geladen: {rules} Regeln.",
+    "none": "Für diese Katalogausgabe sind keine Regeln vorbereitet.",
+    "messages": {
+      "FACTS_LOADED": "Fach und {rules} Regeln wurden geladen."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "FORBIDDEN": "Sie haben keine Berechtigung für diese Aktion.",
+      "VALIDATION": "Ungültige Anfrage.",
+      "NOT_FOUND": "Die Version existiert nicht.",
+      "INVALID_TRANSITION": "Regeln werden nur aus einem gültigen oder zu prüfenden Katalog geladen.",
+      "NO_FACTS": "Für diese Katalogausgabe sind keine Regeln vorbereitet.",
+      "INTEGRITY": "Die gespeicherte Datei stimmt nicht mit der registrierten überein (SHA-256).",
+      "SOURCE_MISSING": "Die gespeicherte Datei wurde nicht gefunden.",
+      "QUOTE_MISMATCH": "Ein Zitat wurde auf der angegebenen Seite nicht gefunden. Nichts wurde gespeichert.",
+      "ALREADY_LOADED": "Die Regeln dieser Version sind bereits geladen.",
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+    }
+  },
+  "review": {
+    "navLink": "Prüfung von Aufgaben und Regeln",
+    "title": "Prüfung von Aufgaben und Regeln",
+    "subtitle": "Die Lehrkraft prüft jeden extrahierten Datensatz neben der Originalseite des Katalogs. Schülerinnen und Schüler erhalten nur angenommene Aufgaben.",
+    "back": "Zurück zur Startseite",
+    "noSubjects": "Die Fächer sind noch nicht geladen. Der Superadministrator lädt sie im Register der kanonischen Dokumente (\"Fach und Regeln laden\").",
+    "noScope": "Ihnen ist kein Fach zur Prüfung zugewiesen.",
+    "noQueue": "Für dieses Fach gibt es noch keine extrahierten Aufgaben aus dem gültigen Katalog.",
+    "subjectsLabel": "Fach",
+    "filterLabel": "Anzeige",
+    "filters": {
+      "pending": "Zu prüfen",
+      "returned": "Zurückgegeben",
+      "accepted": "Angenommen",
+      "all": "Alle"
+    },
+    "states": {
+      "pending": "Zu prüfen",
+      "returned": "Zurückgegeben",
+      "accepted": "Angenommen"
+    },
+    "structural": {
+      "passed": "Ohne Hinweise",
+      "passed_with_flags": "Mit Hinweisen",
+      "failed": "Strukturell fehlerhaft"
+    },
+    "columns": {
+      "key": "Kennung",
+      "area": "Bereich",
+      "type": "Typ",
+      "structure": "Extraktion",
+      "state": "Status"
+    },
+    "empty": "Keine Datensätze für diese Anzeige.",
+    "pageOf": "Seite {page} von {pages}",
+    "previousPage": "Zurück",
+    "nextPage": "Weiter",
+    "rulesLink": "Prüfungsregeln",
+    "progress": "{done} von {total} geprüft",
+    "taskTypes": {
+      "multiple_choice_single_answer": "Mehrfachauswahl (eine richtige Antwort)",
+      "matching": "Zuordnung",
+      "completion": "Ergänzung",
+      "short_constructed_response": "Kurzantwort",
+      "open_constructed_response_stepwise": "Offene Aufgabe mit Lösungsweg",
+      "open_extended_response": "Offene Aufgabe (längere Antwort)",
+      "true_false": "Richtig oder falsch",
+      "completion_from_word_bank": "Ergänzung aus vorgegebenen Wörtern",
+      "unclassified": "Nicht erkannt"
+    },
+    "record": {
+      "extracted": "Extrahierter Text",
+      "options": "Antwortmöglichkeiten",
+      "subParts": "Teilaufgaben",
+      "items": "Bewertete Items",
+      "item": "Item {n}",
+      "printedKey": "Lösung aus dem Katalog",
+      "noKey": "Der Katalog enthält keine Lösung für diese Aufgabe.",
+      "flags": "Hinweise der Extraktion",
+      "area": "Bereich",
+      "level": "Niveau",
+      "pages": "Seiten",
+      "history": "Verlauf der Entscheidungen",
+      "noHistory": "Noch keine Entscheidungen.",
+      "readOnly": "Dieser Datensatz stammt aus einer älteren Extraktion oder Version und kann nicht geändert werden.",
+      "previous": "Vorheriger Datensatz",
+      "next": "Nächster Datensatz",
+      "backToQueue": "Zurück zur Liste",
+      "compareHint": "Vergleichen Sie den extrahierten Text mit der Originalseite: Aufgabentext, Antwortmöglichkeiten, Formeln und Lösung.",
+      "transcript": "Hörtext",
+      "notFound": "Der Datensatz existiert nicht oder gehört nicht zu Ihrem Fach."
+    },
+    "decision": {
+      "title": "Entscheidung",
+      "taskType": "Aufgabentyp (bestätigen oder korrigieren)",
+      "accept": "Als geprüft annehmen",
+      "reason": "Grund der Rückgabe",
+      "reasonHint": "Was nicht stimmt, z. B. fehlende Option, falsche Lösung, fehlerhafte Formel.",
+      "return": "Mit Grund zurückgeben",
+      "confirmAccept": "Diesen Datensatz als geprüft annehmen? Die Entscheidung ist endgültig; die Lösung kann später durch eine Revision korrigiert werden.",
+      "acceptedNote": "Angenommen. Die Aufgabe ist geprüft und kann verwendet werden.",
+      "by": "{name}, {date}"
+    },
+    "keys": {
+      "title": "Lösung und Revisionen",
+      "printed": "Gedruckte Lösung",
+      "effective": "Gültige Lösung",
+      "revisions": "Revisionen",
+      "corrected": "Korrigierte Lösung",
+      "reason": "Grund",
+      "evidence": "Nachweis (Lösungsweg oder Quelle)",
+      "submit": "Revision speichern",
+      "hint": "Die gedruckte Lösung wird nie geändert. Die Revision wird daneben gespeichert und wird zur gültigen Lösung.",
+      "noRevisions": "Keine Revisionen."
+    },
+    "source": {
+      "page": "Originalseite {page}",
+      "wholePage": "Ganze Seite",
+      "regionOnly": "Nur Ausschnitt",
+      "loading": "Seite wird geladen",
+      "error": "Die Seite kann nicht angezeigt werden.",
+      "alt": "Ausschnitt der Originalseite des Katalogs, Datensatz {key}"
+    },
+    "rules": {
+      "title": "Prüfungsregeln",
+      "intro": "Jede Regel hat ein wörtliches Zitat und die Seite des Katalogs. Bestätigen Sie, dass die Regel richtig gelesen wurde, oder widersprechen Sie mit einer Notiz.",
+      "quote": "Zitat",
+      "page": "S. {page}",
+      "value": "Gelesen",
+      "confirm": "Bestätigen",
+      "dispute": "Widersprechen",
+      "note": "Notiz",
+      "noteHint": "Beim Widerspruch erforderlich.",
+      "status": {
+        "none": "Nicht geprüft",
+        "confirmed": "Bestätigt",
+        "disputed": "Widersprochen"
+      },
+      "legalBasis": "Rechtsgrundlage",
+      "subjectSource": "Name des Fachs im Katalog",
+      "empty": "Die Regeln für dieses Fach sind noch nicht geladen.",
+      "codes": {
+        "exam.duration_minutes": "Prüfungsdauer",
+        "exam.task_count": "Anzahl der Aufgaben im Test",
+        "exam.total_points": "Gesamtpunktzahl",
+        "exam.scoring": "Bewertung",
+        "exam.level_blueprint": "Verteilung der Niveaus im Test (AMB-09)",
+        "exam.allowed_aids": "Erlaubte Hilfsmittel",
+        "exam.forbidden_aids": "Nicht erlaubte Hilfsmittel",
+        "exam.composition": "Aufbau des Tests (AMB-10)",
+        "exam.script_choice": "Schrift",
+        "exam.area_points": "Punkte je Bereich"
+      },
+      "valueKeys": {
+        "minutes": "Minuten",
+        "tasks": "Aufgaben",
+        "points": "Punkte",
+        "tasks_1_to_8_points": "Punkte für Aufgaben 1 bis 8",
+        "tasks_9_and_10_points_per_part": "Punkte je Teil für Aufgaben 9 und 10",
+        "negative_points": "Minuspunkte",
+        "positions": "Positionen",
+        "from": "von",
+        "to": "bis",
+        "catalogue_level": "Niveau",
+        "catalogue_tasks_per_area": "Katalogaufgaben je Bereich",
+        "ambiguity": "offene Frage",
+        "aids": "Hilfsmittel",
+        "final_version": "Endfassung",
+        "multiple_choice_single_answer": "Mehrfachauswahl",
+        "multiple_choice_option_counts": "Anzahl der Antwortmöglichkeiten",
+        "completion_or_short_answer": "Ergänzung oder Kurzantwort",
+        "matching": "Zuordnung",
+        "first_16_tasks_points": "Punkte für die ersten 16 Aufgaben",
+        "matching_points_by_correct_pairs": "Punkte der Zuordnung nach richtigen Paaren",
+        "test_script": "Schrift des Tests",
+        "student_chooses_script": "Schrift nach Wahl",
+        "areas": "Bereiche",
+        "item_points": "Punkte je Item"
+      },
+      "valueWords": {
+        "graphite_pencil": "Bleistift",
+        "eraser": "Radiergummi",
+        "indelible_pen_black_or_blue": "dokumentenechter Kugelschreiber, schwarz oder blau",
+        "indelible_pen_blue_or_black": "dokumentenechter Kugelschreiber, blau oder schwarz",
+        "mobile_phone": "Mobiltelefon",
+        "calculator": "Taschenrechner",
+        "logarithm_tables": "Logarithmentafeln",
+        "other_technical_or_written_aids": "andere technische oder schriftliche Hilfsmittel",
+        "other_electronic_devices": "andere elektronische Geräte",
+        "dictionary": "Wörterbuch",
+        "latin": "Lateinschrift",
+        "true": "ja",
+        "false": "nein",
+        "range": "bis"
+      },
+      "showPage": "Seite anzeigen"
+    },
+    "messages": {
+      "ACCEPTED": "Der Datensatz wurde angenommen.",
+      "RETURNED": "Der Datensatz wurde mit Grund zurückgegeben.",
+      "KEY_REVISED": "Die Revision der Lösung wurde gespeichert.",
+      "RULE_CONFIRMED": "Die Regel wurde bestätigt.",
+      "RULE_DISPUTED": "Der Regel wurde widersprochen."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "FORBIDDEN": "Sie haben keine Prüfberechtigung für dieses Fach.",
+      "VALIDATION": "Bitte prüfen Sie die Eingabe: zum Annehmen einen Aufgabentyp wählen, zum Zurückgeben einen Grund angeben.",
+      "NOT_FOUND": "Der Datensatz existiert nicht.",
+      "SUBJECT_MISSING": "Das Fach dieses Datensatzes ist noch nicht geladen.",
+      "STALE_RECORD": "Der Datensatz stammt aus einer älteren Extraktion. Öffnen Sie die Liste erneut.",
+      "ALREADY_ACCEPTED": "Der Datensatz wurde bereits angenommen.",
+      "NOT_ACCEPTABLE": "Ein strukturell fehlerhafter Datensatz kann nicht angenommen werden.",
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
     }
   }
 }

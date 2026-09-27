@@ -27,6 +27,8 @@ export function buildContentSecurityPolicy(nonce: string, isDevelopment: boolean
     // All data access runs on the server. The single exception is the direct upload of a
     // canonical PDF to a server-issued, single-use signed URL (files larger than a request body).
     `connect-src 'self'${canonUpload}`,
+    // pdf.js renders catalogue pages in the review screen with its own module worker (same origin).
+    "worker-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",

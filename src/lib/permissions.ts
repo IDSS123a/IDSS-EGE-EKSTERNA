@@ -40,6 +40,30 @@ export function canPublishCanon(account: CurrentAccount): boolean {
   return hasCapability(account, "canon.publish");
 }
 
+/**
+ * True when the account holds the capability for this subject: through the role, an unscoped
+ * bundle, or a bundle scoped to exactly this subject (twin of private.has_capability(code, subject)).
+ */
+export function hasSubjectCapability(account: CurrentAccount, capability: string, subjectId: string): boolean {
+  const scope = account.subjectScopes.get(capability);
+  return scope === "all" || (scope !== undefined && scope.has(subjectId));
+}
+
+/** Review ingested records and canonical rules of one subject (Sprint 04). */
+export function canReviewSubject(account: CurrentAccount, subjectId: string): boolean {
+  return canPublishCanon(account) || hasSubjectCapability(account, "canon.review", subjectId);
+}
+
+/** Record a reviewed answer-key correction for one subject (CF-03). */
+export function canReviseAnswerKeys(account: CurrentAccount, subjectId: string): boolean {
+  return hasSubjectCapability(account, "answer_keys.propose_revision", subjectId);
+}
+
+/** Open the review area at all (reviewers of any subject and publishers). */
+export function canOpenReview(account: CurrentAccount): boolean {
+  return canPublishCanon(account) || hasCapability(account, "canon.review");
+}
+
 /** See the canon registry, its history and download source files (publishers and reviewers). */
 export function canViewCanon(account: CurrentAccount): boolean {
   return canPublishCanon(account) || hasCapability(account, "canon.review");

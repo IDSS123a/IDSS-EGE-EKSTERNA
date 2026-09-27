@@ -3,7 +3,8 @@
 import { useActionState, type ReactNode } from "react";
 import { STAFF_PASSWORD_MIN_LENGTH, STUDENT_PASSWORD_MIN_LENGTH } from "@/constants";
 import { useI18n } from "@/features/localization/i18n-provider";
-import { GRANTABLE_BUNDLES, SETTABLE_STATUSES } from "@/lib/validation/schemas";
+import type { Subject } from "@/features/knowledge/types";
+import { GRANTABLE_BUNDLES, SETTABLE_STATUSES, SUBJECT_BUNDLE } from "@/lib/validation/schemas";
 import { changeAccountStatusAction, changeBundleAction, resetPasswordAction } from "../actions";
 import type { AccountActionResult, AccountSummary } from "../types";
 import { ActionFeedback } from "./action-feedback";
@@ -14,15 +15,25 @@ type Props = {
   editable: boolean;
   canResetPassword: boolean;
   isSelf: boolean;
+  /** Exam subjects (migration 008) for subject-teacher grants; empty until loaded from the catalogues. */
+  subjects: Subject[];
 };
 
 /** One account with its lifecycle, rights and password controls. */
-export function AccountRow({ account, editable, canResetPassword, isSelf }: Props): ReactNode {
+export function AccountRow({ account, editable, canResetPassword, isSelf, subjects }: Props): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.accounts;
   const [statusResult, statusAction, statusPending] = useActionState<AccountActionResult | null, FormData>(changeAccountStatusAction, null);
   const [bundleResult, bundleAction, bundlePending] = useActionState<AccountActionResult | null, FormData>(changeBundleAction, null);
   const [passwordResult, passwordAction, passwordPending] = useActionState<AccountActionResult | null, FormData>(resetPasswordAction, null);
+  const subjectLabel = (id: string) => {
+    const subject = subjects.find((candidate) => candidate.id === id);
+    return subject ? dictionary.subjects[subject.code] : id;
+  };
+  const shownBundles = [
+    ...account.bundles.map((bundle) => labels.bundles[bundle as keyof typeof labels.bundles] ?? bundle),
+    ...account.teachesSubjectIds.map((id) => `${labels.bundles.subject_teacher} (${subjectLabel(id)})`),
+  ];
   const minLength = account.role === "student" ? STUDENT_PASSWORD_MIN_LENGTH : STAFF_PASSWORD_MIN_LENGTH;
 
   return (
@@ -34,11 +45,7 @@ export function AccountRow({ account, editable, canResetPassword, isSelf }: Prop
           {dictionary.account.roles[account.role]}, <span className="status-pill" data-status={account.status}>{labels.statuses[account.status]}</span>
           {isSelf ? `, ${labels.you}` : ""}
         </span>
-        {account.bundles.length > 0 && (
-          <span className="account-row__bundles">
-            {account.bundles.map((bundle) => labels.bundles[bundle as keyof typeof labels.bundles] ?? bundle).join(", ")}
-          </span>
-        )}
+        {shownBundles.length > 0 && <span className="account-row__bundles">{shownBundles.join(", ")}</span>}
       </div>
 
       {editable ? (
@@ -66,6 +73,20 @@ export function AccountRow({ account, editable, canResetPassword, isSelf }: Prop
                     <input type="hidden" name="grant" value={granted ? "revoke" : "grant"} />
                     <button type="submit" className={granted ? "chip chip--on" : "chip"} disabled={bundlePending} aria-pressed={granted}>
                       {labels.bundles[bundle]}: {granted ? labels.revoke : labels.grant}
+                    </button>
+                  </form>
+                );
+              })}
+              {subjects.map((subject) => {
+                const granted = account.teachesSubjectIds.includes(subject.id);
+                return (
+                  <form key={subject.id} action={bundleAction} className="inline-form">
+                    <input type="hidden" name="userId" value={account.userId} />
+                    <input type="hidden" name="bundle" value={SUBJECT_BUNDLE} />
+                    <input type="hidden" name="subjectId" value={subject.id} />
+                    <input type="hidden" name="grant" value={granted ? "revoke" : "grant"} />
+                    <button type="submit" className={granted ? "chip chip--on" : "chip"} disabled={bundlePending} aria-pressed={granted}>
+                      {labels.bundles.subject_teacher} ({dictionary.subjects[subject.code]}): {granted ? labels.revoke : labels.grant}
                     </button>
                   </form>
                 );

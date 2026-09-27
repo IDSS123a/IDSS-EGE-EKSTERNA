@@ -149,3 +149,21 @@ allowed only per item with the subject teacher's approval and the visible label
 "Vježba (nije službeno pitanje)"; until that workflow exists there are none.
 **Design:** `docs/architecture/EXAM_SIMULATION.md`.
 
+## PDL-015: Exam subjects and rules as canonical facts with verified page quotes
+**Date:** 2026-09-27 (Sprint 04)
+**Decision:** the three exam subjects and the exam rules (duration, task count, total points, scoring,
+test composition, allowed and forbidden aids, Math level blueprint) are data in
+`config/canonical-facts.json`, one entry per catalogue edition bound by SHA-256. Every value carries
+verbatim quotes with their PDF page; `tests/unit/knowledge.test.ts` finds each quote on its page in
+the repository copy, and the server repeats the check on the stored file before `load_canonical_facts`
+(migration 008) writes anything. Subject teachers confirm or dispute each rule (AMB-09, AMB-10).
+**Why the catalogues and not the rulebook:** the rulebook PDF (C2) has an unusable text layer (broken
+font encoding), so its Art. 5 cannot be quoted verifiably without OCR (PDL-013: no OCR). Each subject
+row cites Pravilnik Art. 5 as legal basis and quotes its own catalogue (level 3, text layer verified).
+When a PDF of the rulebook with a readable text layer exists, an Art. 5 quote is added as evidence.
+**Also decided (implementation):** question options and scored items of a trusted question version are
+stored as JSON in `question_versions` (not yet as `question_options` / `scored_items` rows, DATA_MODEL §4)
+until practice needs row-level access (Sprint 06); keys are rows (`answer_keys`) so revisions can
+reference them (CF-03). pdf.js renders source regions in the browser from the legacy build (the modern
+build needs `Map.prototype.getOrInsertComputed`, missing in current and older browsers, P-14); CSP gains
+`worker-src 'self'` for its worker.

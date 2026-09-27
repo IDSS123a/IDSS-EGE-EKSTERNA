@@ -4,6 +4,9 @@ import { requireAccount } from "@/features/authentication/session";
 import { CanonScreen } from "@/features/canon/components/canon-screen";
 import { findDisplayNames, loadRegistry } from "@/features/canon/repository";
 import { latestJobs } from "@/features/ingestion/repository";
+import type { FactsStatus } from "@/features/knowledge/components/facts-panel";
+import { factsForSha256 } from "@/features/knowledge/domain/facts";
+import { versionsWithFacts } from "@/features/knowledge/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { createSupabaseServerClient } from "@/lib/db/supabase-server";
 import { logError } from "@/lib/logger";
@@ -21,15 +24,20 @@ export default async function CanonPage(): Promise<ReactNode> {
 
   let registry;
   let jobs;
+  let facts: Record<string, FactsStatus>;
   try {
     const admin = createSupabaseAdminClient();
     const client = await createSupabaseServerClient();
     registry = await loadRegistry(client, (ids) => findDisplayNames(admin, ids));
     jobs = Object.fromEntries(await latestJobs(client, registry.documents.flatMap((document) => document.versions.map((version) => version.id))));
+    // Subject and rules come from catalogue editions that have reviewed facts (PDL-015).
+    const catalogueVersions = registry.documents.filter((document) => document.typeCode === "subject_catalogue").flatMap((document) => document.versions);
+    const loaded = await versionsWithFacts(client, catalogueVersions.map((version) => version.id));
+    facts = Object.fromEntries(catalogueVersions.map((version) => [version.id, { available: factsForSha256(version.sha256) !== null, loadedRules: loaded.get(version.id) ?? 0 }]));
   } catch (error) {
     // Logged with location here; the /app error boundary shows the friendly message.
     logError("app/kanon/page", error);
     throw error;
   }
-  return <CanonScreen registry={registry} jobs={jobs} canPublish={canPublishCanon(account)} />;
+  return <CanonScreen registry={registry} jobs={jobs} facts={facts} canPublish={canPublishCanon(account)} />;
 }

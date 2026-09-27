@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 
 /**
  * Shared Zod schemas (Commander E-2: every boundary validated, schemas in one place).
@@ -24,8 +25,10 @@ export type LoginInput = z.infer<typeof LoginSchema>;
 export const CREATABLE_ROLES = ["administrator", "student"] as const;
 /** Lifecycle states a manager may set (mandate §7A.4). `invited` is only the initial state. */
 export const SETTABLE_STATUSES = ["active", "suspended", "blocked", "deactivated", "archived"] as const;
-/** Bundles grantable before exam subjects exist; subject_teacher needs a subject scope (Sprint 04). */
+/** Unscoped staff bundles; subject_teacher is granted per subject (SUBJECT_BUNDLE, migration 008). */
 export const GRANTABLE_BUNDLES = ["pedagogue", "psychologist", "admin_operations"] as const;
+/** The bundle that is always scoped to exactly one exam subject (AMB-16). */
+export const SUBJECT_BUNDLE = "subject_teacher";
 
 const passwordSchema = (minLength: number) => z.string().min(minLength).max(200);
 
@@ -51,11 +54,15 @@ export const ChangeStatusSchema = z.object({
 });
 
 /** POST grant or revoke a bundle. */
-export const BundleChangeSchema = z.object({
-  userId: z.uuid(),
-  bundle: z.enum(GRANTABLE_BUNDLES),
-  grant: z.enum(["grant", "revoke"]),
-});
+export const BundleChangeSchema = z
+  .object({
+    userId: z.uuid(),
+    bundle: z.enum([...GRANTABLE_BUNDLES, SUBJECT_BUNDLE]),
+    subjectId: z.uuid().optional(),
+    grant: z.enum(["grant", "revoke"]),
+  })
+  // A subject-teacher grant always names its subject; other bundles never do.
+  .refine((value) => (value.bundle === SUBJECT_BUNDLE) === (value.subjectId !== undefined));
 
 /** POST reset password. */
 export function resetPasswordSchema(minPasswordLength: number) {
@@ -110,3 +117,45 @@ export const CanonTransitionSchema = z.object({
 
 /** POST run the catalogue extraction for one document version (Sprint 03). */
 export const IngestionRunSchema = z.object({ versionId: z.uuid() });
+
+/** POST load canonical facts of one catalogue version (Sprint 04). */
+export const FactsLoadSchema = z.object({ versionId: z.uuid() });
+
+const reviewText = z.string().trim().min(1).max(REVIEW_TEXT_MAX_LENGTH);
+const optionalReviewText = z.preprocess((value) => (typeof value === "string" && value.trim() === "" ? undefined : value), reviewText.optional());
+
+/** POST confirm or dispute a canonical rule; a dispute needs a note. */
+export const RuleReviewSchema = z
+  .object({ ruleId: z.uuid(), subjectId: z.uuid(), decision: z.enum(["confirmed", "disputed"]), note: optionalReviewText })
+  .refine((value) => value.decision === "confirmed" || value.note !== undefined);
+
+/** Task types a reviewer may confirm (the extractor vocabulary, AMB-10). */
+export const REVIEW_TASK_TYPES = [
+  "multiple_choice_single_answer",
+  "matching",
+  "completion",
+  "short_constructed_response",
+  "open_constructed_response_stepwise",
+  "open_extended_response",
+  "true_false",
+  "completion_from_word_bank",
+] as const;
+
+/** POST accept (with confirmed task type) or return (with reason) an ingested record. */
+export const RecordDecisionSchema = z
+  .object({
+    recordId: z.coerce.number().int().positive(),
+    decision: z.enum(["accepted", "returned"]),
+    taskType: z.preprocess((value) => (value === "" ? undefined : value), z.enum(REVIEW_TASK_TYPES).optional()),
+    reason: optionalReviewText,
+  })
+  .refine((value) => (value.decision === "accepted" ? value.taskType !== undefined : value.reason !== undefined));
+
+/** POST reviewed answer-key correction (CF-03): corrected answer and reason required. */
+export const KeyRevisionSchema = z.object({
+  answerKeyId: z.uuid(),
+  subjectId: z.uuid(),
+  correctedAnswer: reviewText,
+  reason: reviewText,
+  evidence: optionalReviewText,
+});

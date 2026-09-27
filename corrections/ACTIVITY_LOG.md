@@ -38,3 +38,7 @@
 - [2026-09-27] New ministry documents reviewed; EXAM_SIMULATION design; seed script fix
 - [2026-09-27] AMB-17 decided (PDL-014); catalogue files renamed
 - [2026-09-27] Sprint 03 closed (DONE checklist, compliance, handoff)
+- [2026-09-27 16:27] Write: sprints/SPRINT_04.md
+- [2026-09-27 16:28] Write: config/canonical-facts.json
+- [2026-09-27 16:31] Write: migrations/008_review_knowledge.sql
+- [2026-09-27] Sprint 04 started: canonical facts, migration 008 applied, scoped grants, review queue, key revisions, rules review (PR #17)

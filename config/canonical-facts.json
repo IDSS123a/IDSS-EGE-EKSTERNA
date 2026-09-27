@@ -1,0 +1,179 @@
+{
+  "_about": "Canonical facts with provenance (PDL-015). One entry per catalogue edition, bound by SHA-256. Every quote is verbatim source text (whitespace collapsed) and must be found on its 1-based PDF page; tests/unit/knowledge.test.ts checks the repository copies, the server checks the stored file before loading. Values are the structured reading of the quotes; subject teachers confirm each rule in review. Canonical text is exempt from P-13.",
+  "version": 1,
+  "editions": [
+    {
+      "sha256": "450a10071ffceecaa989b824077ab36d6688d8cafcd036a783e1b34867855149",
+      "file": "Ispitni katalog za Matematika.pdf",
+      "subject": {
+        "code": "mathematics",
+        "official_name": "Matematika",
+        "legal_basis": "Pravilnik o polaganju eksterne mature, član 5 (SOURCE_INVENTORY C1, C2)",
+        "evidence": [
+          { "page": 4, "quote": "Matematika je obavezan predmet na Eksternoj maturi za sve učenike koji su završili deveti razred, devetogodišnje osnovne škole." }
+        ]
+      },
+      "rules": [
+        {
+          "code": "exam.duration_minutes",
+          "value": { "minutes": 60 },
+          "evidence": [{ "page": 7, "quote": "Na ispitu, koji traje 60 minuta, dozvoljena je upotreba grafitnih olovaka i gumica tokom rješavanja testa." }]
+        },
+        {
+          "code": "exam.task_count",
+          "value": { "tasks": 10 },
+          "evidence": [{ "page": 5, "quote": "Ispitni test sadrži 10 zadataka, koji su određeni stepenom različitog nivoa težine (osnovni, srednji i napredni nivo)." }]
+        },
+        {
+          "code": "exam.total_points",
+          "value": { "points": 10 },
+          "evidence": [{ "page": 7, "quote": "Ukupan broj bodova finalnog testa je 10 bodova." }]
+        },
+        {
+          "code": "exam.scoring",
+          "value": { "tasks_1_to_8_points": 1, "tasks_9_and_10_points_per_part": 0.5, "negative_points": false },
+          "evidence": [
+            { "page": 7, "quote": "Zadaci od 1. do 8. se boduju sa 1 bod, a zadaci 9. i 10. sa 0,5 bodova za svaki dio zadatka pod a) i b)." },
+            { "page": 5, "quote": "Tačno riješen zadatak nosi 1 bod, dok netačno urađen ne donosi negativne bodove" }
+          ]
+        },
+        {
+          "code": "exam.level_blueprint",
+          "value": {
+            "positions": [
+              { "from": 1, "to": 4, "catalogue_level": "osnovni nivo", "catalogue_tasks_per_area": [1, 5] },
+              { "from": 5, "to": 8, "catalogue_level": "srednji nivo", "catalogue_tasks_per_area": [6, 15] },
+              { "from": 9, "to": 10, "catalogue_level": "napredni nivo", "catalogue_tasks_per_area": [16, 20] }
+            ],
+            "ambiguity": "AMB-09"
+          },
+          "evidence": [
+            { "page": 6, "quote": "prva četiri zadatka na Ispitnom testu treba da budu iz osnovnog nivoa," },
+            { "page": 6, "quote": "naredna četiri zadatka iz srednjeg i" },
+            { "page": 6, "quote": "posljednja dva zadatka iz dijela zadataka naprednog nivoa." },
+            { "page": 6, "quote": "U prvom osnovnom nivou u svakoj oblasti po 5 zadataka (od 1. do 5.)" },
+            { "page": 6, "quote": "U srednjem nivou, u svakoj oblasti je 10 zadataka (od 6. do 15.)" },
+            { "page": 6, "quote": "U naprednom nivou u svakoj oblasti po 5 zahtjevnih zadataka (od 16. do 20.)" }
+          ]
+        },
+        {
+          "code": "exam.allowed_aids",
+          "value": { "aids": ["graphite_pencil", "eraser"], "final_version": "indelible_pen_black_or_blue" },
+          "evidence": [
+            { "page": 7, "quote": "dozvoljena je upotreba grafitnih olovaka i gumica tokom rješavanja testa." },
+            { "page": 7, "quote": "Konačna verzija urađenog testa koji se predaje, mora biti napisana isključivo neizbrisivom hemijskom olovkom, crne ili plave boje." }
+          ]
+        },
+        {
+          "code": "exam.forbidden_aids",
+          "value": { "aids": ["mobile_phone", "calculator", "logarithm_tables", "other_technical_or_written_aids"] },
+          "evidence": [{ "page": 7, "quote": "upotreba mobitela, kalkulatora, logaritamskih tablica" }]
+        }
+      ]
+    },
+    {
+      "sha256": "ba11dfbb0bcafcf09117b673348f370fc88bcfa333e1e13d5ef50586ac3ad3e8",
+      "file": "Ispitni katalog za BHS jezik.pdf",
+      "subject": {
+        "code": "bhs_language_literature",
+        "official_name": "Bosanski jezik i književnost, Hrvatski jezik i književnost, Srpski jezik i književnost",
+        "legal_basis": "Pravilnik o polaganju eksterne mature, član 5 (SOURCE_INVENTORY C1, C2)",
+        "evidence": [
+          { "page": 3, "quote": "Ispitni katalog iz nastavnog predmeta Bosanski jezik i književnost, Hrvatski jezik i književnost, Srpski jezik i književnost kreiran je kako bi vam olakšao pripremu za polaganje eksterne mature" }
+        ]
+      },
+      "rules": [
+        {
+          "code": "exam.duration_minutes",
+          "value": { "minutes": 60 },
+          "evidence": [{ "page": 6, "quote": "Vrijeme predviđeno za rješavanje zadataka je 60 minuta." }]
+        },
+        {
+          "code": "exam.task_count",
+          "value": { "tasks": 18 },
+          "evidence": [{ "page": 6, "quote": "Test ima 18 pitanja" }]
+        },
+        {
+          "code": "exam.composition",
+          "value": { "multiple_choice_single_answer": 12, "multiple_choice_option_counts": [3, 4], "completion_or_short_answer": 4, "matching": 2, "ambiguity": "AMB-10" },
+          "evidence": [{ "page": 6, "quote": "Test ima 18 pitanja, i to: 12 zadataka u kojima treba zaokružiti jedan od ponuđena tri ili četiri odgovora; 4 zadatka dopunjavanja ili davanja odgovora i 2 zadatka povezivanja." }]
+        },
+        {
+          "code": "exam.total_points",
+          "value": { "points": 10 },
+          "evidence": [{ "page": 7, "quote": "Test je vrednovan sa 10 bodova." }]
+        },
+        {
+          "code": "exam.scoring",
+          "value": { "first_16_tasks_points": 0.5, "matching_points_by_correct_pairs": { "0": 0, "1": 0, "2": 0.5, "3": 0.5, "4": 1 } },
+          "evidence": [
+            { "page": 7, "quote": "Prvih 16 zadataka, u kojima je samo jedan tačan odgovor bez obzira na vrstu/tip zadatka, bodovano je sa 0,5 boda." },
+            { "page": 7, "quote": "Pitanja povezivanja boduju se na način da se dva tačna odgovora boduju sa 0,5 boda, a sva četiri tačna sa 1 bodom." },
+            { "page": 7, "quote": "Ukoliko učenici/učenice odgovore tačno samo na jedan od četiri zahtjeva, zadatak se boduje sa 0 bodova, a ukoliko odgovori tačno na tri zahtjeva, zadatak će se bodovati sa 0,5 boda." }
+          ]
+        },
+        {
+          "code": "exam.allowed_aids",
+          "value": { "aids": ["graphite_pencil", "eraser"], "final_version": "indelible_pen_blue_or_black" },
+          "evidence": [{ "page": 6, "quote": "Tokom izrade testa učenici mogu koristiti grafitnu olovku i gumicu, ali test koji se predaje mora biti napisan neizbrisivom hemijskom olovkom plave ili crne boje." }]
+        },
+        {
+          "code": "exam.script_choice",
+          "value": { "test_script": "latin", "student_chooses_script": true },
+          "evidence": [{ "page": 6, "quote": "Iako je test ponuđen na latiničnom pismu, učenicima se prepušta da odaberu pismo kojim će popunjavati test." }]
+        }
+      ]
+    },
+    {
+      "sha256": "51a8d531227e2eb7a443bd218e4095aaaa100db6cae662f8f99d441cfab89c05",
+      "file": "Ispitni katalog za Njemački jezik.pdf",
+      "subject": {
+        "code": "german",
+        "official_name": "Njemački jezik",
+        "legal_basis": "Pravilnik o polaganju eksterne mature, član 5 (SOURCE_INVENTORY C1, C2); prvi strani jezik za učenike IDSS (AMB-03)",
+        "evidence": [
+          { "page": 4, "quote": "Polazna osnova za izradu Ispitnog kataloga pitanja za eksternu maturu iz nastavnog predmeta Njemački jezik su:" },
+          { "page": 4, "quote": "Cilj izvođenja nastave iz njemačkog jezika, kao prvog stranog jezika u devetom razredu je potpuno dostizanje nivoa A2.2." }
+        ]
+      },
+      "rules": [
+        {
+          "code": "exam.duration_minutes",
+          "value": { "minutes": 60 },
+          "evidence": [{ "page": 8, "quote": "Na ispitu, koji traje 60 minuta, dozvoljena je upotreba grafitnih olovaka i gumica tokom rješavanja testa." }]
+        },
+        {
+          "code": "exam.area_points",
+          "value": { "areas": { "HÖRVERSTEHEN": 2, "LESEVERSTEHEN": 2, "WORTSCHATZ": 2, "GRAMMATIK": 2, "KOMMUNIKATION": 2 } },
+          "evidence": [{ "page": 6, "quote": "HÖRVERSTEHEN 2 LESEVERSTEHEN 2 WORTSCHATZ 2 GRAMMATIK 2 KOMMUNIKATION 2 Ukupno: 10" }]
+        },
+        {
+          "code": "exam.total_points",
+          "value": { "points": 10 },
+          "evidence": [{ "page": 8, "quote": "Ukupan broj bodova finalnog testa je 10 bodova." }]
+        },
+        {
+          "code": "exam.scoring",
+          "value": { "item_points": 0.5 },
+          "evidence": [{ "page": 8, "quote": "Zadaci se boduju sa 0.50 bodova." }]
+        },
+        {
+          "code": "exam.allowed_aids",
+          "value": { "aids": ["graphite_pencil", "eraser"], "final_version": "indelible_pen_black_or_blue" },
+          "evidence": [
+            { "page": 8, "quote": "dozvoljena je upotreba grafitnih olovaka i gumica tokom rješavanja testa." },
+            { "page": 8, "quote": "Konačna verzija urađenog testa koji se predaje, mora biti napisana (neizbrisivom) hemijskom olovkom, crne ili plave boje." }
+          ]
+        },
+        {
+          "code": "exam.forbidden_aids",
+          "value": { "aids": ["mobile_phone", "other_electronic_devices", "dictionary"] },
+          "evidence": [
+            { "page": 8, "quote": "upotreba mobilnih telefona i drugih elektronskih uređaja, i" },
+            { "page": 8, "quote": "upotreba rječnika." }
+          ]
+        }
+      ]
+    }
+  ]
+}

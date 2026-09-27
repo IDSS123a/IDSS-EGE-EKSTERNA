@@ -4,6 +4,7 @@ import { AccountsScreen } from "@/features/accounts/components/accounts-screen";
 import { ForbiddenScreen } from "@/features/accounts/components/forbidden-screen";
 import { listAccounts } from "@/features/accounts/repository";
 import { requireAccount } from "@/features/authentication/session";
+import { listSubjects } from "@/features/knowledge/repository";
 import { createSupabaseServerClient } from "@/lib/db/supabase-server";
 import { logError } from "@/lib/logger";
 import { canChangeAccount, canManageAccounts, canResetPasswords, canViewAccounts } from "@/lib/permissions";
@@ -18,8 +19,10 @@ export default async function AccountsPage(): Promise<ReactNode> {
   if (!canViewAccounts(account)) return <ForbiddenScreen />;
 
   let accounts;
+  let subjects;
   try {
-    accounts = await listAccounts(await createSupabaseServerClient(), ACCOUNT_LIST_LIMIT);
+    const client = await createSupabaseServerClient();
+    [accounts, subjects] = await Promise.all([listAccounts(client, ACCOUNT_LIST_LIMIT), listSubjects(client)]);
   } catch (error) {
     // Logged with location here; the /app error boundary shows the friendly message.
     logError("app/nalozi/page", error);
@@ -34,6 +37,7 @@ export default async function AccountsPage(): Promise<ReactNode> {
       canManage={canManageAccounts(account)}
       canResetPassword={canResetPasswords(account)}
       editableUserIds={editableUserIds}
+      subjects={subjects}
     />
   );
 }
