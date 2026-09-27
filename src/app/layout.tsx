@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Script from "next/script";
+import { headers } from "next/headers";
 import { Inter, Sora } from "next/font/google";
 import { BRAND_LOGO_PATH, SPLASH_SCRIPT_PATH, SPLASH_STYLESHEET_PATH } from "@/constants";
 import { I18nProvider } from "@/features/localization/i18n-provider";
@@ -35,13 +36,15 @@ export default async function RootLayout({ children }: { children: ReactNode }):
   const locale = await getRequestLocale();
   const dictionary = getDictionary(locale);
   const firstSplashIndex = pickFirstSplashMessageIndex(splashMessages[locale].length);
+  // Per-request CSP nonce set by src/proxy.ts; Next.js applies it to its own scripts.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
     <html lang={locale} className={`${displayFont.variable} ${bodyFont.variable}`} suppressHydrationWarning>
       <head>
         <link rel="stylesheet" href={SPLASH_STYLESHEET_PATH} />
         <noscript>
-          <style>{"#idss-splash{display:none!important}body>*{visibility:visible!important}"}</style>
+          <style nonce={nonce}>{"#idss-splash{display:none!important}body>*{visibility:visible!important}"}</style>
         </noscript>
       </head>
       <body>
@@ -50,7 +53,7 @@ export default async function RootLayout({ children }: { children: ReactNode }):
           {children}
           <SplashReadySignal />
         </I18nProvider>
-        <Script src={SPLASH_SCRIPT_PATH} strategy="beforeInteractive" />
+        <Script src={SPLASH_SCRIPT_PATH} strategy="beforeInteractive" nonce={nonce} />
       </body>
     </html>
   );
