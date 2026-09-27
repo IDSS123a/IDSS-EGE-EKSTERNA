@@ -1,3 +1,24 @@
 # Activity Log
 
 - 2026-09-27 — Sprint 00: governance loaded; repository audited; ingestion evidence produced (200/200/200); architecture and Sprint 01 proposed. No product code, no database, no deployment.
+- [2026-09-27 11:45] Write: public/splash/index.html
+- [2026-09-27 11:48] Write: src/constants/index.ts
+- [2026-09-27 11:48] Write: src/features/localization/messages/bs.json
+- [2026-09-27 11:48] Write: src/features/localization/messages/de.json
+- [2026-09-27 11:48] Write: src/features/localization/messages/en.json
+- [2026-09-27 11:48] Write: src/features/localization/config.ts
+- [2026-09-27 11:48] Write: src/features/localization/server.ts
+- [2026-09-27 11:48] Write: src/features/localization/i18n-provider.tsx
+- [2026-09-27 11:48] Write: src/features/localization/language-switcher.tsx
+- [2026-09-27 11:48] Write: src/types/index.ts
+- [2026-09-27 11:49] Write: src/features/splash/components/splash-screen.tsx
+- [2026-09-27 11:49] Write: src/features/splash/components/splash-ready-signal.tsx
+- [2026-09-27 11:49] Write: src/features/splash/components/replay-splash-button.tsx
+- [2026-09-27 11:49] Write: src/app/layout.tsx
+- [2026-09-27 11:49] Write: src/app/page.tsx
+- [2026-09-27 11:49] Write: src/features/home/components/home-shell.tsx
+- [2026-09-27 11:49] Write: src/app/globals.css
+- [2026-09-27 11:52] Write: docs/DESIGN_SYSTEM.md
+- [2026-09-27 12:04] Write: migrations/001_identity.sql
+- [2026-09-27 12:04] Write: migrations/002_canon_registry.sql
+- [2026-09-27 12:04] Write: migrations/003_audit.sql

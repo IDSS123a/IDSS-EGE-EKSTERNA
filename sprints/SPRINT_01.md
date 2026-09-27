@@ -1,6 +1,6 @@
 # SPRINT 01 — Foundation: skeleton, identity, canon registry schema, auth
 
-Status: proposed · Prerequisites: Director confirms PDL-001 (stack), answers AMB-01, AMB-03, AMB-06.
+Status: **in progress** (started 2026-09-27) · Prerequisites met: PDL-001 confirmed; AMB-01…12 answered by the Director.
 Required reading (Tier 2): Commander M-1…M-5, ENGINEERING_RULES, ARCHITECTURE_PATTERNS, C-1…C-5,
 `CONSTITUTION.md`, this document, `docs/architecture/*`.
 
@@ -26,3 +26,21 @@ Canon upload UI, ingestion, question bank, practice, gamification, AI (Sprints 0
 - Superadmin can create and block an account; the event appears in the audit log.
 - Splash shows before the login screen, rotates without immediate repeats, and is static under reduced motion.
 - `npx tsc --noEmit`, lint, unit/integration/e2e green; `npm run build` green.
+
+## Progress
+- [x] 1. Next.js 16 App Router scaffold at repo root, TypeScript strict, Tailwind 4, ESLint, Playwright (Vitest and shadcn/ui arrive with steps 4–6)
+- [x] 2. Design tokens (`src/app/globals.css`, `docs/DESIGN_SYSTEM.md`)
+- [x] 3. Splash screen — final version in `public/splash/` with the official logo (`public/brand/`), 12 messages × bs/de/en, non-repeating rotation, reduced motion, WebGL/CSS/no-JS fallbacks; server-rendered first paint in the root layout
+- [x] (added by AMB-11) Live language switch bs/de/en without reload, persisted in a preference cookie
+- [x] Baseline security headers (`next.config.ts`); nonce CSP pending step 5
+- [~] 4. Supabase project `dezevstfmfliyasdeflj` provided by the Director. Migrations `001_identity`, `002_canon_registry`, `003_audit` written and verified locally (`npm run test:db`: 30 RLS/integrity assertions — anon, forged token, student, scoped teacher, superadmin, blocked account, one-active-version, append-only audit). **Not yet applied:** the Supabase connector in this session is signed in to a different Supabase account than mulalic.davor@outlook.com.
+- [ ] 5. Username + password auth, rate limit, lockout, CSP
+- [ ] 6. Superadmin account lifecycle UI
+- [ ] 7. Seed named staff accounts
+- [ ] 8. Integration tests (RLS), rate-limit boundary tests
+
+Verification so far: `npm run typecheck`, `npm run lint`, `npm run build` green;
+`PW_CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e` → 8/8 (desktop + mobile):
+splash in first HTML before app content, official logo, pool message, security headers,
+splash leaves and app appears with zero console errors, live language switch without reload
++ persistence, reduced-motion path. Dev-mode run: zero hydration warnings.

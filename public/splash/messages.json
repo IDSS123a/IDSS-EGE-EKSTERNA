@@ -1,0 +1,45 @@
+{
+  "_source": "bs: INSTRUCTION-WEB-APP-IDSS-EGE §7A.8 (Director); message 10 revised by the Director 2026-09-27. de/en: ACA translations, pending Director review. Single source for the splash (app + preview). Later seeded into splash_messages (editable by Superadmin).",
+  "bs": [
+    "Tvoj cilj. Tvoj izazov. Tvoj rezultat.",
+    "Svaki dan jedan korak bliže cilju.",
+    "Ne uči za igru. Igraj da naučiš.",
+    "Danas vježbaš. Sutra pokazuješ šta znaš.",
+    "Greška nije kraj. Greška je sljedeći trag.",
+    "Tvoj napredak počinje prvim pitanjem.",
+    "Fokusiraj se. Izazov počinje sada.",
+    "Osvoji znanje, ne samo bodove.",
+    "Još jedan izazov. Još jedan nivo znanja.",
+    "Spreman? Tvoj put upravo počinje.",
+    "Svaki tačan odgovor gradi tvoju sigurnost.",
+    "Uči pametno. Vježbaj uporno. Napreduj svaki dan."
+  ],
+  "de": [
+    "Dein Ziel. Deine Herausforderung. Dein Ergebnis.",
+    "Jeden Tag einen Schritt näher am Ziel.",
+    "Lerne nicht für das Spiel. Spiele, um zu lernen.",
+    "Heute übst du. Morgen zeigst du, was du kannst.",
+    "Ein Fehler ist nicht das Ende. Ein Fehler ist die nächste Spur.",
+    "Dein Fortschritt beginnt mit der ersten Frage.",
+    "Konzentrier dich. Die Herausforderung beginnt jetzt.",
+    "Erobere Wissen, nicht nur Punkte.",
+    "Noch eine Herausforderung. Noch ein Level Wissen.",
+    "Bereit? Dein Weg beginnt genau jetzt.",
+    "Jede richtige Antwort stärkt deine Sicherheit.",
+    "Lerne klug. Übe beharrlich. Werde jeden Tag besser."
+  ],
+  "en": [
+    "Your goal. Your challenge. Your result.",
+    "Every day, one step closer to your goal.",
+    "Don't learn for the game. Play to learn.",
+    "Today you practise. Tomorrow you show what you know.",
+    "A mistake is not the end. A mistake is the next clue.",
+    "Your progress starts with the first question.",
+    "Focus. The challenge starts now.",
+    "Win knowledge, not just points.",
+    "One more challenge. One more level of knowledge.",
+    "Ready? Your journey starts right now.",
+    "Every correct answer builds your confidence.",
+    "Learn smart. Practise steadily. Improve every day."
+  ]
+}

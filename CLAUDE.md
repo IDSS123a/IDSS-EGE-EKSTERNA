@@ -10,6 +10,10 @@ Governance: Commander v1.6.1 (https://github.com/IDSS123a/commander) · Mode: FU
    Tier 2 for implementation (ENGINEERING_RULES, ARCHITECTURE_PATTERNS, C-1…C-5).
 3. Communicate with the Director in Bosnian; code, docs and commits in English.
 
+## Next.js 16
+Read `AGENTS.md` (Next.js 16 differs from older versions; docs in `node_modules/next/dist/docs/`).
+Checks: `npm run typecheck`, `npm run lint`, `npm run build`, `PW_CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e`.
+
 ## Where things are
 - Product mandate: `docs/mandate/INSTRUCTION-WEB-APP-IDSS-EGE.html`
 - Evidence: `docs/discovery/` (source inventory, prototype audit, ambiguities)
@@ -26,6 +30,10 @@ Governance: Commander v1.6.1 (https://github.com/IDSS123a/commander) · Mode: FU
 - Never import files containing personal data (`SOURCE_INVENTORY.md` §5).
 - Authorization server-side + RLS; UI hiding is not authorization.
 - Destructive actions, history rewrites, production deploys: ask the Director first (M-4, M-23).
+
+## Standing order — delivery (Director, 2026-09-27)
+Push every verified change automatically (no asking). Work on the session branch and keep a
+pull request open against `main` so the CI project guard runs on every change.
 
 ## Lesson capture (M-18)
 The moment a correction or gotcha occurs, append it to `corrections/SPRINT_XX_LESSONS.md`
