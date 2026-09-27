@@ -61,7 +61,10 @@ Parsing/ingestion of uploaded files (Sprint 03), review queue (Sprint 04), any s
       no horizontal scroll, 0 console errors.
 
 Live verification (Director, 2026-09-27): `npm run canon:seed` ran; the three catalogues are active in
-`/app/kanon`; a manual upload, activation and restore of a test PDF worked (signed upload path verified live).
+`/app/kanon`. Corrected 2026-09-27 (Sprint 03) from the live audit log: five manual uploads reached the
+server through the signed upload path and were correctly refused as `DUPLICATE_FILE` (the same catalogue
+files), so the direct upload and server-side verification are proven live; activating and restoring a
+second version has not been exercised live yet (covered by the DB tests).
 
 Known debt: staging objects of uploads that were never registered stay in `staging/` (private,
 unreferenced); a clean-up job belongs to Sprint 03 ingestion jobs.
@@ -106,7 +109,7 @@ live: Director seeded and exercised the registry.
 | | DECISION_LOG | PASS (no new technology; upload pattern recorded in lessons and PR) |
 | Build/deploy | Build green; no new dependency; production start without devDependencies | PASS |
 | | Cleanup checks errors (staging and orphan removal log failures) | PASS |
-| | Test data | PASS (DB tests in a throw-away database). The Director's test PDF stays in the registry as an archived version with its history, by design (nothing is deleted); it is marked archived and never active |
+| | Test data | PASS (DB tests in a throw-away database; the live registry holds only the three catalogues; the five refused duplicate uploads left audit rows only, staging objects were removed) |
 | | Rate limit N / N+1 | N/A (no new rate limit; registry writes are Superadmin-only) |
 | Post-deploy | Production URL checks | N/A (not deployed; Vercel needs Director approval, M-4) |
 | Learning | `corrections/SPRINT_02_LESSONS.md` | PASS |

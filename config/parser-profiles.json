@@ -1,0 +1,41 @@
+{
+  "_source": "Parser profiles (Sprint 03, PDL-013): per catalogue edition, the page ranges and header band measured during Sprint 00 discovery (tools/canon-ingestion/extract_catalogues.py v0.1.0). A profile applies only to the exact files listed by SHA-256; a new edition needs a reviewed new profile (no guessing, P-4).",
+  "profiles": [
+    {
+      "code": "subject_catalogue.mathematics",
+      "version": 1,
+      "extractor": "mathematics",
+      "subject": "mathematics",
+      "id_prefix": "MAT",
+      "applies_to_sha256": ["450a10071ffceecaa989b824077ab36d6688d8cafcd036a783e1b34867855149"],
+      "header_band": 62,
+      "pages": { "tasks": [23, 55], "solutions": [57, 68] },
+      "declared_total": 200,
+      "declared_source": "catalogue §2: '200 zadataka … 10 oblasti po 20 zadataka'"
+    },
+    {
+      "code": "subject_catalogue.bhs_language_literature",
+      "version": 1,
+      "extractor": "bhs_language_literature",
+      "subject": "bhs_language_literature",
+      "id_prefix": "BHS",
+      "applies_to_sha256": ["ba11dfbb0bcafcf09117b673348f370fc88bcfa333e1e13d5ef50586ac3ad3e8"],
+      "header_band": 78,
+      "pages": { "tasks": [9, 58], "solutions": [59, 71], "supplementary": [72, 81] },
+      "declared_total": 200,
+      "declared_source": "catalogue Uvod p.3: 'Katalog sadrži 200 pitanja sa rješenjima'"
+    },
+    {
+      "code": "subject_catalogue.german",
+      "version": 1,
+      "extractor": "german",
+      "subject": "german",
+      "id_prefix": "DEU",
+      "applies_to_sha256": ["51a8d531227e2eb7a443bd218e4095aaaa100db6cae662f8f99d441cfab89c05"],
+      "header_band": 68,
+      "pages": { "tasks": [10, 62], "solutions": [64, 67] },
+      "declared_total": null,
+      "declared_source": "catalogue declares no total; §2 lists 5 areas × 2 points, §3 0.50 points per item"
+    }
+  ]
+}

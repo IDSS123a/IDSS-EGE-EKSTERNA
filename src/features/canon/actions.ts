@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { CANON_PATH } from "@/constants";
+import { CANON_PATH, CANON_STAGING_MAX_AGE_MS } from "@/constants";
 import { auditIfFailed, formId } from "@/features/audit/failures";
 import { clientIpFrom } from "@/features/authentication/domain";
 import { getCurrentAccount } from "@/features/authentication/session";
@@ -15,6 +15,7 @@ import {
   RegistryFunctionError,
   createStagingUploadUrl,
   downloadObject,
+  removeStaleStaging,
   findVersionStatus,
   registerVersion,
   removeObjects,
@@ -64,8 +65,13 @@ async function prepareUpload(request: { byteSize: number }): Promise<CanonUpload
   if (!isAcceptableSize(parsed.data.byteSize)) return { success: false, code: "TOO_LARGE" };
 
   try {
+    const admin = createSupabaseAdminClient();
+    // Housekeeping: abandoned uploads (never registered) older than a day are removed here.
+    const cleanup = await removeStaleStaging(admin, CANON_STAGING_MAX_AGE_MS, Date.now());
+    if (cleanup.error) logError("canon/actions.prepareCanonUploadAction.cleanup", new Error(cleanup.error));
+    else if (cleanup.removed > 0) logInfo("canon/actions.prepareCanonUploadAction.cleanup", "stale staging uploads removed", { removed: cleanup.removed });
     const uploadId = crypto.randomUUID();
-    const uploadUrl = await createStagingUploadUrl(createSupabaseAdminClient(), stagingPath(uploadId));
+    const uploadUrl = await createStagingUploadUrl(admin, stagingPath(uploadId));
     return { success: true, data: { uploadId, uploadUrl } };
   } catch (error) {
     logError("canon/actions.prepareCanonUploadAction", error);

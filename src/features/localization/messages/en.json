@@ -227,5 +227,56 @@
     "errorBody": "The data could not be loaded. Please try again in a moment.",
     "retry": "Try again",
     "loading": "Loading"
+  },
+  "ingestion": {
+    "title": "Question extraction",
+    "none": "No questions have been extracted from this version yet.",
+    "run": "Extract questions",
+    "rerun": "Extract again",
+    "running": "Extraction running",
+    "confirm": "Extract the questions from this version? The result is stored as a new run; earlier runs stay in the history.",
+    "lastRun": "Last extraction",
+    "succeeded": "Succeeded",
+    "failed": "Failed",
+    "units": "Questions or tasks",
+    "scoredUnits": "Scored units",
+    "passed": "Without notes",
+    "flagged": "With notes for review",
+    "structuralFailed": "Structurally invalid",
+    "withKey": "With answer key",
+    "supplementary": "Supplementary tasks",
+    "declaredMatch": "Count matches the catalogue",
+    "declaredMismatch": "Count does NOT match the catalogue",
+    "flags": "Notes for review",
+    "untrusted": "Nothing extracted is verified yet: questions reach students only after teacher review (Sprint 04).",
+    "profile": "Profile",
+    "messages": {
+      "INGESTED": "Extracted: {units} questions or tasks, {scored} scored units."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You are not allowed to do this.",
+      "VALIDATION": "Invalid request.",
+      "NOT_FOUND": "The version does not exist.",
+      "INVALID_TRANSITION": "Only valid versions and versions awaiting validation are extracted.",
+      "NO_PROFILE": "There is no reviewed extraction profile for this catalogue edition. A new edition needs a new profile.",
+      "INTEGRITY": "The stored file does not match the registered one (SHA-256). Nothing was extracted.",
+      "SOURCE_MISSING": "The stored file was not found.",
+      "UNREADABLE_PDF": "The PDF cannot be read.",
+      "NO_TEXT_LAYER": "The PDF has no text layer (scanned document). An OCR decision is needed.",
+      "UNAVAILABLE": "The service is currently unavailable. Please try again."
+    },
+    "flagTexts": {
+      "notation": "Mathematical notation (fractions, exponents, radicals) must be checked on the original page",
+      "figure": "The question relies on a drawing or table on the original page",
+      "graphicOptions": "The answer options are images on the original page",
+      "noAnswer": "No answer found in the solutions chapter",
+      "noAudio": "Listening task: no official audio, only the transcript",
+      "supplementary": "Supplementary task outside the 200, no answer in the catalogue",
+      "unclassified": "Task type not recognised from the wording",
+      "keyCount": "Number of answers does not match the number of items",
+      "structure": "Task structure does not match the catalogue",
+      "other": "Other notes"
+    }
   }
 }

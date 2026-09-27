@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { APP_HOME_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import { useI18n } from "@/features/localization/i18n-provider";
+import type { IngestionJobSummary } from "@/features/ingestion/repository";
 import { SiteHeader } from "@/features/shell/components/site-header";
 import type { CanonDocument, CanonRegistry } from "../types";
 import { formatDateTime } from "./format";
@@ -16,7 +17,7 @@ import { VersionCard } from "./version-card";
  * and the capability decision; lifecycle buttons appear only for canon.publish and are
  * checked again by the actions and the database.
  */
-export function CanonScreen({ registry, canPublish }: { registry: CanonRegistry; canPublish: boolean }): ReactNode {
+export function CanonScreen({ registry, jobs, canPublish }: { registry: CanonRegistry; jobs: Record<string, IngestionJobSummary>; canPublish: boolean }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.canon;
   return (
@@ -39,14 +40,14 @@ export function CanonScreen({ registry, canPublish }: { registry: CanonRegistry;
         {registry.documents.length === 0 ? (
           <section className="card"><p>{labels.empty}</p></section>
         ) : (
-          registry.documents.map((document) => <DocumentCard key={document.id} document={document} registry={registry} canPublish={canPublish} />)
+          registry.documents.map((document) => <DocumentCard key={document.id} document={document} registry={registry} jobs={jobs} canPublish={canPublish} />)
         )}
       </main>
     </div>
   );
 }
 
-function DocumentCard({ document, registry, canPublish }: { document: CanonDocument; registry: CanonRegistry; canPublish: boolean }): ReactNode {
+function DocumentCard({ document, registry, jobs, canPublish }: { document: CanonDocument; registry: CanonRegistry; jobs: Record<string, IngestionJobSummary>; canPublish: boolean }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.canon;
   const type = registry.types.find((candidate) => candidate.code === document.typeCode);
@@ -67,7 +68,7 @@ function DocumentCard({ document, registry, canPublish }: { document: CanonDocum
 
       <h3>{labels.versions}</h3>
       <ul className="canon-version-list">
-        {document.versions.map((version) => <VersionCard key={version.id} version={version} canPublish={canPublish} />)}
+        {document.versions.map((version) => <VersionCard key={version.id} version={version} job={jobs[version.id] ?? null} canPublish={canPublish} />)}
       </ul>
 
       <details className="canon-history">

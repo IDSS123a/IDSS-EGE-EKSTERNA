@@ -32,3 +32,7 @@
 [2026-09-27] [CONFIG] Next.js dev indicator hidden (devIndicators: false); dev-only, errors still shown
 [2026-09-27] [FIX] Server error no longer hides the app behind the splash: splash ends when its module never ran, CSS fail-safe, /app error boundary and loading state
 [2026-09-27] [SPRINT] Sprint 02 closed: DONE checklist, compliance score, handoff note
+[2026-09-27] [CANON] TypeScript catalogue extractor (pdf.js) with parser profiles; reproduces the Sprint 00 reference for all 500 records (regression test)
+[2026-09-27] [DATABASE] Migration 007_ingestion: ingestion jobs and untrusted records, append-only, dependency map; applied to Supabase
+[2026-09-27] [FEATURE] Question extraction per catalogue version on /app/kanon (canon.publish): job report, review notes in bs/de/en, failed runs recorded with their reason
+[2026-09-27] [FIX] Abandoned staging uploads older than a day are removed on the next upload (Sprint 02 debt)

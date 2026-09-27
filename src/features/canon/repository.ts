@@ -1,6 +1,6 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { CANON_BUCKET, CANON_DOCUMENT_LIST_LIMIT, CANON_MIME_TYPE } from "@/constants";
+import { CANON_BUCKET, CANON_DOCUMENT_LIST_LIMIT, CANON_MIME_TYPE, CANON_STAGING_LIST_LIMIT, CANON_STAGING_PREFIX } from "@/constants";
 import type { CanonAction, CanonDocument, CanonDocumentType, CanonEvent, CanonRegistry, CanonVersion, CanonVersionStatus } from "./types";
 
 /**
@@ -294,3 +294,18 @@ export async function findVersionStatus(admin: SupabaseClient, versionId: string
   if (error) fail("findVersionStatus", error);
   return data?.status ?? null;
 }
+
+/**
+ * Remove staging objects older than `maxAgeMs` (uploads that were never registered).
+ * @returns the number removed; failures are reported to the caller, never thrown
+ */
+export async function removeStaleStaging(admin: SupabaseClient, maxAgeMs: number, now: number): Promise<{ removed: number; error: string | null }> {
+  const folder = CANON_STAGING_PREFIX.replace(/\/$/u, "");
+  const { data, error } = await admin.storage.from(CANON_BUCKET).list(folder, { limit: CANON_STAGING_LIST_LIMIT });
+  if (error) return { removed: 0, error: error.message };
+  const stale = (data ?? []).filter((object) => object.created_at && now - Date.parse(object.created_at) > maxAgeMs).map((object) => `${folder}/${object.name}`);
+  if (stale.length === 0) return { removed: 0, error: null };
+  const removeError = await removeObjects(admin, stale);
+  return { removed: removeError ? 0 : stale.length, error: removeError };
+}
+
