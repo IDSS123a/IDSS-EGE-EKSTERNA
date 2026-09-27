@@ -6,7 +6,7 @@ import { canChangeAccount, canManageAccounts, canResetPasswords, canViewAccounts
 import { BundleChangeSchema, ChangeStatusSchema, createAccountSchema } from "@/lib/validation/schemas";
 
 function account(role: CurrentAccount["role"], capabilities: string[], userId = "00000000-0000-0000-0000-00000000000a"): CurrentAccount {
-  return { userId, username: "x", displayName: "X", role, status: "active", capabilities: new Set(capabilities) };
+  return { userId, username: "x", displayName: "X", role, status: "active", capabilities: new Set(capabilities), subjectScopes: new Map(capabilities.map((code) => [code, "all" as const])) };
 }
 const superadmin = account("superadmin", ["accounts.manage", "accounts.view", "accounts.reset_password"]);
 const staffViewer = account("administrator", ["accounts.view"], "00000000-0000-0000-0000-00000000000b");

@@ -94,11 +94,12 @@
     "bundles": {
       "pedagogue": "Pedagog",
       "psychologist": "Psiholog",
-      "admin_operations": "Administrativne operacije"
+      "admin_operations": "Administrativne operacije",
+      "subject_teacher": "Predmetni nastavnik"
     },
     "grant": "Dodijeli",
     "revoke": "Ukloni",
-    "subjectTeacherNote": "Prava predmetnog nastavnika dodjeljuju se kada predmeti budu učitani iz kataloga (Sprint 04).",
+    "subjectTeacherNote": "Predmetni nastavnik pregleda pitanja, rješenja i pravila samo svog predmeta.",
     "resetPassword": "Nova lozinka",
     "resetSubmit": "Postavi lozinku",
     "tokenNote": "Napomena: blokiranje odmah sprječava novu prijavu; već otvorena sesija ističe najkasnije za 1 sat.",
@@ -116,7 +117,8 @@
       "USERNAME_ROLE_MISMATCH": "Administrator mora imati e-mail kao korisničko ime, a učenik ne smije.",
       "NOT_FOUND": "Nalog nije pronađen.",
       "UNAVAILABLE": "Akcija trenutno nije uspjela. Pokušajte ponovo."
-    }
+    },
+    "noSubjects": "Predmeti još nisu učitani. Na stranici Registar kanonskih dokumenata pokrenite \"Učitaj predmet i pravila\" za svaki katalog."
   },
   "canon": {
     "navLink": "Registar kanonskih dokumenata",
@@ -277,6 +279,232 @@
       "keyCount": "Broj rješenja se ne slaže s brojem stavki",
       "structure": "Struktura zadatka ne odgovara katalogu",
       "other": "Ostale napomene"
+    }
+  },
+  "subjects": {
+    "bhs_language_literature": "B/H/S jezik i književnost",
+    "mathematics": "Matematika",
+    "german": "Njemački jezik"
+  },
+  "facts": {
+    "title": "Predmet i pravila ispita",
+    "intro": "Naziv predmeta i pravila ispita (trajanje, bodovi, sastav testa, pomagala) s doslovnim citatom i stranicom iz ovog kataloga. Prije upisa svaki citat se provjerava u sačuvanom PDF-u.",
+    "run": "Učitaj predmet i pravila",
+    "running": "Provjera citata i upis",
+    "confirm": "Učitati predmet i pravila iz ove verzije kataloga?",
+    "loaded": "Učitano: {rules} pravila.",
+    "none": "Za ovo izdanje kataloga nema pripremljenih pravila.",
+    "messages": {
+      "FACTS_LOADED": "Predmet i {rules} pravila su učitani."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Nemate pravo za ovu radnju.",
+      "VALIDATION": "Neispravan zahtjev.",
+      "NOT_FOUND": "Verzija ne postoji.",
+      "INVALID_TRANSITION": "Pravila se učitavaju samo iz važećeg kataloga ili kataloga koji čeka provjeru.",
+      "NO_FACTS": "Za ovo izdanje kataloga nema pripremljenih pravila.",
+      "INTEGRITY": "Sačuvani fajl se ne slaže s registrovanim (SHA-256).",
+      "SOURCE_MISSING": "Sačuvani fajl nije pronađen.",
+      "QUOTE_MISMATCH": "Citat nije pronađen na navedenoj stranici. Ništa nije upisano.",
+      "ALREADY_LOADED": "Pravila iz ove verzije su već učitana.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    }
+  },
+  "review": {
+    "navLink": "Pregled pitanja i pravila",
+    "title": "Pregled pitanja i pravila",
+    "subtitle": "Nastavnik provjerava svaki izdvojeni zapis uz originalnu stranicu kataloga. Učenici dobijaju samo prihvaćena pitanja.",
+    "back": "Nazad na početnu",
+    "noSubjects": "Predmeti još nisu učitani. Superadministrator ih učitava na stranici Registar kanonskih dokumenata (\"Učitaj predmet i pravila\").",
+    "noScope": "Nemate dodijeljen predmet za pregled.",
+    "noQueue": "Za ovaj predmet još nema izdvojenih pitanja iz važećeg kataloga.",
+    "subjectsLabel": "Predmet",
+    "filterLabel": "Prikaz",
+    "filters": {
+      "pending": "Čeka pregled",
+      "returned": "Vraćeno",
+      "accepted": "Prihvaćeno",
+      "all": "Sve"
+    },
+    "states": {
+      "pending": "Čeka pregled",
+      "returned": "Vraćeno",
+      "accepted": "Prihvaćeno"
+    },
+    "structural": {
+      "passed": "Bez napomena",
+      "passed_with_flags": "S napomenama",
+      "failed": "Strukturno neispravno"
+    },
+    "columns": {
+      "key": "Oznaka",
+      "area": "Oblast",
+      "type": "Vrsta",
+      "structure": "Izdvajanje",
+      "state": "Stanje"
+    },
+    "empty": "Nema zapisa za ovaj prikaz.",
+    "pageOf": "Stranica {page} od {pages}",
+    "previousPage": "Prethodna",
+    "nextPage": "Sljedeća",
+    "rulesLink": "Pravila ispita",
+    "progress": "Pregledano {done} od {total}",
+    "taskTypes": {
+      "multiple_choice_single_answer": "Višestruki izbor (jedan tačan odgovor)",
+      "matching": "Povezivanje",
+      "completion": "Dopunjavanje",
+      "short_constructed_response": "Kratak odgovor",
+      "open_constructed_response_stepwise": "Otvoreni zadatak s postupkom",
+      "open_extended_response": "Otvoreni zadatak (duži odgovor)",
+      "true_false": "Tačno ili netačno",
+      "completion_from_word_bank": "Dopunjavanje iz ponuđenih riječi",
+      "unclassified": "Nije prepoznato"
+    },
+    "record": {
+      "extracted": "Izdvojeni tekst",
+      "options": "Ponuđeni odgovori",
+      "subParts": "Dijelovi zadatka",
+      "items": "Bodovne stavke",
+      "item": "Stavka {n}",
+      "printedKey": "Rješenje iz kataloga",
+      "noKey": "Katalog ne daje rješenje za ovaj zadatak.",
+      "flags": "Napomene izdvajanja",
+      "area": "Oblast",
+      "level": "Nivo",
+      "pages": "Stranice",
+      "history": "Historija odluka",
+      "noHistory": "Još nema odluka.",
+      "readOnly": "Ovaj zapis je iz starijeg izdvajanja ili verzije i ne može se mijenjati.",
+      "previous": "Prethodni zapis",
+      "next": "Sljedeći zapis",
+      "backToQueue": "Nazad na listu",
+      "compareHint": "Uporedite izdvojeni tekst s originalnom stranicom: tekst zadatka, ponuđene odgovore, zapis formula i rješenje.",
+      "transcript": "Transkript slušanja",
+      "notFound": "Zapis ne postoji ili nije iz vašeg predmeta."
+    },
+    "decision": {
+      "title": "Odluka",
+      "taskType": "Vrsta zadatka (potvrdite ili ispravite)",
+      "accept": "Prihvati kao provjereno",
+      "reason": "Razlog vraćanja",
+      "reasonHint": "Šta nije u redu, npr. nedostaje opcija, pogrešno rješenje, loš zapis formule.",
+      "return": "Vrati s razlogom",
+      "confirmAccept": "Prihvatiti ovaj zapis kao provjeren? Odluka je konačna; rješenje se kasnije može ispraviti revizijom.",
+      "acceptedNote": "Prihvaćeno. Pitanje je provjereno i može se koristiti.",
+      "by": "{name}, {date}"
+    },
+    "keys": {
+      "title": "Rješenje i revizije",
+      "printed": "Štampano rješenje",
+      "effective": "Važeće rješenje",
+      "revisions": "Revizije",
+      "corrected": "Ispravljeno rješenje",
+      "reason": "Razlog",
+      "evidence": "Dokaz (postupak ili izvor)",
+      "submit": "Sačuvaj reviziju",
+      "hint": "Štampano rješenje se nikada ne mijenja. Revizija se čuva uz njega i postaje važeće rješenje.",
+      "noRevisions": "Nema revizija."
+    },
+    "source": {
+      "page": "Originalna stranica {page}",
+      "wholePage": "Cijela stranica",
+      "regionOnly": "Samo isječak",
+      "loading": "Učitavanje stranice",
+      "error": "Stranica se ne može prikazati.",
+      "alt": "Isječak originalne stranice kataloga, zapis {key}"
+    },
+    "rules": {
+      "title": "Pravila ispita",
+      "intro": "Svako pravilo ima doslovan citat i stranicu kataloga. Potvrdite da je pravilo tačno pročitano ili ga osporite s napomenom.",
+      "quote": "Citat",
+      "page": "str. {page}",
+      "value": "Pročitano",
+      "confirm": "Potvrdi",
+      "dispute": "Ospori",
+      "note": "Napomena",
+      "noteHint": "Obavezno kod osporavanja.",
+      "status": {
+        "none": "Nije pregledano",
+        "confirmed": "Potvrđeno",
+        "disputed": "Osporeno"
+      },
+      "legalBasis": "Pravni osnov",
+      "subjectSource": "Naziv predmeta u katalogu",
+      "empty": "Pravila za ovaj predmet još nisu učitana.",
+      "codes": {
+        "exam.duration_minutes": "Trajanje ispita",
+        "exam.task_count": "Broj zadataka u testu",
+        "exam.total_points": "Ukupan broj bodova",
+        "exam.scoring": "Bodovanje",
+        "exam.level_blueprint": "Raspored nivoa u testu (AMB-09)",
+        "exam.allowed_aids": "Dozvoljeni pribor",
+        "exam.forbidden_aids": "Nedozvoljena pomagala",
+        "exam.composition": "Sastav testa (AMB-10)",
+        "exam.script_choice": "Pismo",
+        "exam.area_points": "Bodovi po oblastima"
+      },
+      "valueKeys": {
+        "minutes": "minuta",
+        "tasks": "zadataka",
+        "points": "bodova",
+        "tasks_1_to_8_points": "bodova za zadatke 1 do 8",
+        "tasks_9_and_10_points_per_part": "bodova po dijelu za zadatke 9 i 10",
+        "negative_points": "negativni bodovi",
+        "positions": "pozicije",
+        "from": "od",
+        "to": "do",
+        "catalogue_level": "nivo",
+        "catalogue_tasks_per_area": "zadaci kataloga po oblasti",
+        "ambiguity": "otvoreno pitanje",
+        "aids": "pomagala",
+        "final_version": "konačna verzija",
+        "multiple_choice_single_answer": "višestruki izbor",
+        "multiple_choice_option_counts": "broj ponuđenih odgovora",
+        "completion_or_short_answer": "dopunjavanje ili kratak odgovor",
+        "matching": "povezivanje",
+        "first_16_tasks_points": "bodova za prvih 16 zadataka",
+        "matching_points_by_correct_pairs": "bodovi povezivanja po broju tačnih parova",
+        "test_script": "pismo testa",
+        "student_chooses_script": "učenik bira pismo",
+        "areas": "oblasti",
+        "item_points": "bodova po stavci"
+      },
+      "valueWords": {
+        "graphite_pencil": "grafitna olovka",
+        "eraser": "gumica",
+        "indelible_pen_black_or_blue": "neizbrisiva hemijska olovka, crna ili plava",
+        "indelible_pen_blue_or_black": "neizbrisiva hemijska olovka, plava ili crna",
+        "mobile_phone": "mobitel",
+        "calculator": "kalkulator",
+        "logarithm_tables": "logaritamske tablice",
+        "other_technical_or_written_aids": "ostala tehnička ili pisana pomagala",
+        "other_electronic_devices": "ostali elektronski uređaji",
+        "dictionary": "rječnik",
+        "latin": "latinica",
+        "true": "da",
+        "false": "ne",
+        "range": "do"
+      },
+      "showPage": "Prikaži stranicu"
+    },
+    "messages": {
+      "ACCEPTED": "Zapis je prihvaćen.",
+      "RETURNED": "Zapis je vraćen s razlogom.",
+      "KEY_REVISED": "Revizija rješenja je sačuvana.",
+      "RULE_CONFIRMED": "Pravilo je potvrđeno.",
+      "RULE_DISPUTED": "Pravilo je osporeno."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Nemate pravo pregleda za ovaj predmet.",
+      "VALIDATION": "Provjerite unos: za prihvatanje izaberite vrstu zadatka, za vraćanje upišite razlog.",
+      "NOT_FOUND": "Zapis ne postoji.",
+      "SUBJECT_MISSING": "Predmet ovog zapisa još nije učitan.",
+      "STALE_RECORD": "Zapis je iz starijeg izdvajanja. Otvorite listu ponovo.",
+      "ALREADY_ACCEPTED": "Zapis je već prihvaćen.",
+      "NOT_ACCEPTABLE": "Strukturno neispravan zapis se ne može prihvatiti.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
   }
 }

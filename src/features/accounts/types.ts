@@ -8,6 +8,8 @@ export type AccountSummary = {
   role: AccountRole;
   status: AccountStatus;
   bundles: string[];
+  /** Subject ids of the account's subject_teacher grants. */
+  teachesSubjectIds: string[];
   createdAt: string;
 };
 

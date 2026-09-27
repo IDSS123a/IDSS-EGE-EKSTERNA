@@ -6,6 +6,7 @@ import { APP_HOME_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { SiteHeader } from "@/features/shell/components/site-header";
+import type { Subject } from "@/features/knowledge/types";
 import type { AccountSummary } from "../types";
 import { AccountRow } from "./account-row";
 import { CreateAccountForm } from "./create-account-form";
@@ -17,10 +18,11 @@ type Props = {
   canResetPassword: boolean;
   /** userIds the server allows the actor to change. */
   editableUserIds: string[];
+  subjects: Subject[];
 };
 
 /** Account administration (mandate §7A.2). All decisions arrive from the server; the UI only reflects them. */
-export function AccountsScreen({ accounts, actorUserId, canManage, canResetPassword, editableUserIds }: Props): ReactNode {
+export function AccountsScreen({ accounts, actorUserId, canManage, canResetPassword, editableUserIds, subjects }: Props): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.accounts;
   const editable = new Set(editableUserIds);
@@ -44,7 +46,7 @@ export function AccountsScreen({ accounts, actorUserId, canManage, canResetPassw
 
         <section className="card" aria-labelledby="accounts-list-title">
           <h2 id="accounts-list-title">{labels.listTitle} ({accounts.length})</h2>
-          {canManage && <p>{labels.subjectTeacherNote}</p>}
+          {canManage && <p>{subjects.length > 0 ? labels.subjectTeacherNote : labels.noSubjects}</p>}
           {accounts.length <= 1 ? <p>{labels.empty}</p> : null}
           <ul className="account-list">
             {accounts.map((account) => (
@@ -54,6 +56,7 @@ export function AccountsScreen({ accounts, actorUserId, canManage, canResetPassw
                 editable={editable.has(account.userId)}
                 canResetPassword={canResetPassword}
                 isSelf={account.userId === actorUserId}
+                subjects={subjects}
               />
             ))}
           </ul>

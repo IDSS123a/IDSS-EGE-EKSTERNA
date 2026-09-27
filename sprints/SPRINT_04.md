@@ -43,9 +43,21 @@ RAG, OCR of scanned ministry documents (PDL-013).
 - Students and anonymous users read nothing of the new tables.
 
 ## Progress
-- [ ] 1. Canonical facts config + quote verification
-- [ ] 2. Migration 008 + DB tests + advisors
-- [ ] 3. Scoped subject-teacher grants
-- [ ] 4. Review queue with source region, trust decisions
-- [ ] 5. Answer-key revisions
-- [ ] 6. Rules review
+- [x] 1. `config/canonical-facts.json` (3 editions, 21 rules, every quote found on its page by
+      `tests/unit/knowledge.test.ts`); "Učitaj predmet i pravila" on `/app/kanon` re-checks SHA-256 and all quotes
+      on the stored file before `load_canonical_facts`.
+- [x] 2. Migration 008 applied to Supabase; `npm run test:db` 45 new assertions; security advisor only the known
+      Auth WARN, performance advisor INFO only; live grants: anon/authenticated cannot execute the new functions.
+- [x] 3. `/app/nalozi`: "Predmetni nastavnik (predmet)" per subject; accounts carry subject scopes
+      (`subjectScopes`, twin of `private.has_capability(code, subject)`).
+- [x] 4. `/app/pregled`: subject tabs (own subjects only), filters, progress, paging; record screen with the source
+      region rendered by pdf.js (legacy build) from `/app/pregled/izvor/[versionId]` (same origin, SHA-256
+      re-checked, subject scope), whole-page toggle, sideways scroll inside the frame on phones; accept with
+      confirmed task type (AMB-10) or return with reason; history.
+- [x] 5. Key revisions on accepted questions: printed key unchanged, newest revision is the effective key.
+- [x] 6. `/app/pregled/pravila`: rules with quotes, readable values, page view, confirm or dispute with note.
+
+Verified in the sandbox: typecheck, lint, `check:text`, Vitest 62/62, `npm run test:db`, build, Playwright 54/54
+(new `tests/e2e/review.spec.ts`), fixture renders of Math, German and rules screens at 1440 px and 390 px (no
+horizontal page scroll). Live steps need the Director: load facts for the three catalogues, grant the three
+subject teachers.

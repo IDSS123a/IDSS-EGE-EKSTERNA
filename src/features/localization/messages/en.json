@@ -94,11 +94,12 @@
     "bundles": {
       "pedagogue": "Pedagogue",
       "psychologist": "Psychologist",
-      "admin_operations": "Administrative operations"
+      "admin_operations": "Administrative operations",
+      "subject_teacher": "Subject teacher"
     },
     "grant": "Grant",
     "revoke": "Revoke",
-    "subjectTeacherNote": "Subject-teacher rights are granted once the subjects are loaded from the catalogues (Sprint 04).",
+    "subjectTeacherNote": "A subject teacher reviews questions, answer keys and rules of their own subject only.",
     "resetPassword": "New password",
     "resetSubmit": "Set password",
     "tokenNote": "Note: blocking stops new sign-ins immediately; an already open session ends within 1 hour at the latest.",
@@ -116,7 +117,8 @@
       "USERNAME_ROLE_MISMATCH": "Administrators use an e-mail as username; students must not.",
       "NOT_FOUND": "Account not found.",
       "UNAVAILABLE": "The action failed. Please try again."
-    }
+    },
+    "noSubjects": "Subjects are not loaded yet. In the canonical document registry, run \"Load subject and rules\" for each catalogue."
   },
   "canon": {
     "navLink": "Canonical document registry",
@@ -277,6 +279,232 @@
       "keyCount": "Number of answers does not match the number of items",
       "structure": "Task structure does not match the catalogue",
       "other": "Other notes"
+    }
+  },
+  "subjects": {
+    "bhs_language_literature": "Bosnian, Croatian, Serbian",
+    "mathematics": "Mathematics",
+    "german": "German"
+  },
+  "facts": {
+    "title": "Subject and exam rules",
+    "intro": "Subject name and exam rules (duration, points, test composition, aids) with a verbatim quote and page from this catalogue. Every quote is checked in the stored PDF before it is saved.",
+    "run": "Load subject and rules",
+    "running": "Checking quotes and saving",
+    "confirm": "Load the subject and rules from this catalogue version?",
+    "loaded": "Loaded: {rules} rules.",
+    "none": "No rules are prepared for this catalogue edition.",
+    "messages": {
+      "FACTS_LOADED": "Subject and {rules} rules loaded."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You are not allowed to do this.",
+      "VALIDATION": "Invalid request.",
+      "NOT_FOUND": "The version does not exist.",
+      "INVALID_TRANSITION": "Rules are loaded only from an active catalogue or one awaiting validation.",
+      "NO_FACTS": "No rules are prepared for this catalogue edition.",
+      "INTEGRITY": "The stored file does not match the registered one (SHA-256).",
+      "SOURCE_MISSING": "The stored file was not found.",
+      "QUOTE_MISMATCH": "A quote was not found on its page. Nothing was saved.",
+      "ALREADY_LOADED": "The rules of this version are already loaded.",
+      "UNAVAILABLE": "The service is not available right now. Please try again."
+    }
+  },
+  "review": {
+    "navLink": "Review of questions and rules",
+    "title": "Review of questions and rules",
+    "subtitle": "The teacher checks every extracted record beside the original catalogue page. Students only get accepted questions.",
+    "back": "Back to home",
+    "noSubjects": "Subjects are not loaded yet. The Superadministrator loads them in the canonical document registry (\"Load subject and rules\").",
+    "noScope": "No subject is assigned to you for review.",
+    "noQueue": "There are no extracted questions from the active catalogue for this subject yet.",
+    "subjectsLabel": "Subject",
+    "filterLabel": "Show",
+    "filters": {
+      "pending": "To review",
+      "returned": "Returned",
+      "accepted": "Accepted",
+      "all": "All"
+    },
+    "states": {
+      "pending": "To review",
+      "returned": "Returned",
+      "accepted": "Accepted"
+    },
+    "structural": {
+      "passed": "No notes",
+      "passed_with_flags": "With notes",
+      "failed": "Structurally invalid"
+    },
+    "columns": {
+      "key": "Key",
+      "area": "Area",
+      "type": "Type",
+      "structure": "Extraction",
+      "state": "State"
+    },
+    "empty": "No records for this view.",
+    "pageOf": "Page {page} of {pages}",
+    "previousPage": "Previous",
+    "nextPage": "Next",
+    "rulesLink": "Exam rules",
+    "progress": "{done} of {total} reviewed",
+    "taskTypes": {
+      "multiple_choice_single_answer": "Multiple choice (one correct answer)",
+      "matching": "Matching",
+      "completion": "Completion",
+      "short_constructed_response": "Short answer",
+      "open_constructed_response_stepwise": "Open task with working",
+      "open_extended_response": "Open task (extended answer)",
+      "true_false": "True or false",
+      "completion_from_word_bank": "Completion from a word bank",
+      "unclassified": "Not recognised"
+    },
+    "record": {
+      "extracted": "Extracted text",
+      "options": "Answer options",
+      "subParts": "Task parts",
+      "items": "Scored items",
+      "item": "Item {n}",
+      "printedKey": "Answer key from the catalogue",
+      "noKey": "The catalogue gives no answer for this task.",
+      "flags": "Extraction notes",
+      "area": "Area",
+      "level": "Level",
+      "pages": "Pages",
+      "history": "Decision history",
+      "noHistory": "No decisions yet.",
+      "readOnly": "This record comes from an older extraction or version and cannot be changed.",
+      "previous": "Previous record",
+      "next": "Next record",
+      "backToQueue": "Back to the list",
+      "compareHint": "Compare the extracted text with the original page: task text, answer options, formulas and answer key.",
+      "transcript": "Listening transcript",
+      "notFound": "The record does not exist or is not from your subject."
+    },
+    "decision": {
+      "title": "Decision",
+      "taskType": "Task type (confirm or correct)",
+      "accept": "Accept as checked",
+      "reason": "Reason for returning",
+      "reasonHint": "What is wrong, e.g. a missing option, a wrong answer, a broken formula.",
+      "return": "Return with reason",
+      "confirmAccept": "Accept this record as checked? The decision is final; the answer can later be corrected by a revision.",
+      "acceptedNote": "Accepted. The question is checked and can be used.",
+      "by": "{name}, {date}"
+    },
+    "keys": {
+      "title": "Answer key and revisions",
+      "printed": "Printed answer",
+      "effective": "Effective answer",
+      "revisions": "Revisions",
+      "corrected": "Corrected answer",
+      "reason": "Reason",
+      "evidence": "Evidence (working or source)",
+      "submit": "Save revision",
+      "hint": "The printed answer is never changed. The revision is stored beside it and becomes the effective answer.",
+      "noRevisions": "No revisions."
+    },
+    "source": {
+      "page": "Original page {page}",
+      "wholePage": "Whole page",
+      "regionOnly": "Region only",
+      "loading": "Loading the page",
+      "error": "The page cannot be shown.",
+      "alt": "Region of the original catalogue page, record {key}"
+    },
+    "rules": {
+      "title": "Exam rules",
+      "intro": "Every rule has a verbatim quote and page from the catalogue. Confirm that the rule was read correctly, or dispute it with a note.",
+      "quote": "Quote",
+      "page": "p. {page}",
+      "value": "Read as",
+      "confirm": "Confirm",
+      "dispute": "Dispute",
+      "note": "Note",
+      "noteHint": "Required for a dispute.",
+      "status": {
+        "none": "Not reviewed",
+        "confirmed": "Confirmed",
+        "disputed": "Disputed"
+      },
+      "legalBasis": "Legal basis",
+      "subjectSource": "Subject name in the catalogue",
+      "empty": "The rules for this subject are not loaded yet.",
+      "codes": {
+        "exam.duration_minutes": "Exam duration",
+        "exam.task_count": "Number of tasks in the test",
+        "exam.total_points": "Total points",
+        "exam.scoring": "Scoring",
+        "exam.level_blueprint": "Levels by test position (AMB-09)",
+        "exam.allowed_aids": "Allowed materials",
+        "exam.forbidden_aids": "Forbidden aids",
+        "exam.composition": "Test composition (AMB-10)",
+        "exam.script_choice": "Script",
+        "exam.area_points": "Points per area"
+      },
+      "valueKeys": {
+        "minutes": "minutes",
+        "tasks": "tasks",
+        "points": "points",
+        "tasks_1_to_8_points": "points for tasks 1 to 8",
+        "tasks_9_and_10_points_per_part": "points per part for tasks 9 and 10",
+        "negative_points": "negative points",
+        "positions": "positions",
+        "from": "from",
+        "to": "to",
+        "catalogue_level": "level",
+        "catalogue_tasks_per_area": "catalogue tasks per area",
+        "ambiguity": "open question",
+        "aids": "aids",
+        "final_version": "final version",
+        "multiple_choice_single_answer": "multiple choice",
+        "multiple_choice_option_counts": "number of options",
+        "completion_or_short_answer": "completion or short answer",
+        "matching": "matching",
+        "first_16_tasks_points": "points for the first 16 tasks",
+        "matching_points_by_correct_pairs": "matching points by correct pairs",
+        "test_script": "test script",
+        "student_chooses_script": "student chooses the script",
+        "areas": "areas",
+        "item_points": "points per item"
+      },
+      "valueWords": {
+        "graphite_pencil": "pencil",
+        "eraser": "eraser",
+        "indelible_pen_black_or_blue": "indelible pen, black or blue",
+        "indelible_pen_blue_or_black": "indelible pen, blue or black",
+        "mobile_phone": "mobile phone",
+        "calculator": "calculator",
+        "logarithm_tables": "logarithm tables",
+        "other_technical_or_written_aids": "other technical or written aids",
+        "other_electronic_devices": "other electronic devices",
+        "dictionary": "dictionary",
+        "latin": "Latin script",
+        "true": "yes",
+        "false": "no",
+        "range": "to"
+      },
+      "showPage": "Show page"
+    },
+    "messages": {
+      "ACCEPTED": "The record was accepted.",
+      "RETURNED": "The record was returned with a reason.",
+      "KEY_REVISED": "The answer revision was saved.",
+      "RULE_CONFIRMED": "The rule was confirmed.",
+      "RULE_DISPUTED": "The rule was disputed."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You may not review this subject.",
+      "VALIDATION": "Check your input: choose a task type to accept, enter a reason to return.",
+      "NOT_FOUND": "The record does not exist.",
+      "SUBJECT_MISSING": "The subject of this record is not loaded yet.",
+      "STALE_RECORD": "The record comes from an older extraction. Open the list again.",
+      "ALREADY_ACCEPTED": "The record is already accepted.",
+      "NOT_ACCEPTABLE": "A structurally invalid record cannot be accepted.",
+      "UNAVAILABLE": "The service is not available right now. Please try again."
     }
   }
 }

@@ -20,11 +20,13 @@ export async function listAccounts(client: SupabaseClient, limit: number): Promi
     .limit(limit)
     .returns<ProfileRow[]>();
   if (profiles.error) throw new Error(`listAccounts failed: ${profiles.error.message}`);
-  const bundles = await client.from("profile_bundles").select("profile_user_id, bundle_code");
+  const bundles = await client.from("profile_bundles").select("profile_user_id, bundle_code, scope_subject_id");
   if (bundles.error) throw new Error(`listAccounts(bundles) failed: ${bundles.error.message}`);
   const byUser = new Map<string, string[]>();
-  for (const row of bundles.data as { profile_user_id: string; bundle_code: string }[]) {
-    byUser.set(row.profile_user_id, [...(byUser.get(row.profile_user_id) ?? []), row.bundle_code]);
+  const subjectsByUser = new Map<string, string[]>();
+  for (const row of bundles.data as { profile_user_id: string; bundle_code: string; scope_subject_id: string | null }[]) {
+    if (row.scope_subject_id) subjectsByUser.set(row.profile_user_id, [...(subjectsByUser.get(row.profile_user_id) ?? []), row.scope_subject_id]);
+    else byUser.set(row.profile_user_id, [...(byUser.get(row.profile_user_id) ?? []), row.bundle_code]);
   }
   return (profiles.data ?? []).map((row) => ({
     userId: row.user_id,
@@ -33,6 +35,7 @@ export async function listAccounts(client: SupabaseClient, limit: number): Promi
     role: row.role,
     status: row.account_status,
     bundles: (byUser.get(row.user_id) ?? []).sort(),
+    teachesSubjectIds: subjectsByUser.get(row.user_id) ?? [],
     createdAt: row.created_at,
   }));
 }
@@ -86,17 +89,21 @@ export async function updateAccountStatus(admin: SupabaseClient, userId: string,
   return data !== null;
 }
 
-/** Grant an unscoped bundle (idempotent). */
-export async function grantBundle(admin: SupabaseClient, userId: string, bundle: string, grantedBy: string): Promise<void> {
-  const existing = await admin.from("profile_bundles").select("id").eq("profile_user_id", userId).eq("bundle_code", bundle).is("scope_subject_id", null).maybeSingle();
+/** Grant a bundle, unscoped (subjectId null) or for one subject (idempotent). */
+export async function grantBundle(admin: SupabaseClient, userId: string, bundle: string, grantedBy: string, subjectId: string | null = null): Promise<void> {
+  let check = admin.from("profile_bundles").select("id").eq("profile_user_id", userId).eq("bundle_code", bundle);
+  check = subjectId ? check.eq("scope_subject_id", subjectId) : check.is("scope_subject_id", null);
+  const existing = await check.maybeSingle();
   if (existing.error) throw new Error(`grantBundle(check) failed: ${existing.error.message}`);
   if (existing.data) return;
-  const { error } = await admin.from("profile_bundles").insert({ profile_user_id: userId, bundle_code: bundle, granted_by: grantedBy });
+  const { error } = await admin.from("profile_bundles").insert({ profile_user_id: userId, bundle_code: bundle, granted_by: grantedBy, scope_subject_id: subjectId });
   if (error) throw new Error(`grantBundle failed: ${error.message}`);
 }
 
-/** Revoke an unscoped bundle. */
-export async function revokeBundle(admin: SupabaseClient, userId: string, bundle: string): Promise<void> {
-  const { error } = await admin.from("profile_bundles").delete().eq("profile_user_id", userId).eq("bundle_code", bundle).is("scope_subject_id", null);
+/** Revoke a bundle, unscoped (subjectId null) or for one subject. */
+export async function revokeBundle(admin: SupabaseClient, userId: string, bundle: string, subjectId: string | null = null): Promise<void> {
+  let query = admin.from("profile_bundles").delete().eq("profile_user_id", userId).eq("bundle_code", bundle);
+  query = subjectId ? query.eq("scope_subject_id", subjectId) : query.is("scope_subject_id", null);
+  const { error } = await query;
   if (error) throw new Error(`revokeBundle failed: ${error.message}`);
 }

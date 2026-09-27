@@ -42,3 +42,8 @@
 [2026-09-27] [DECISION] PDL-014 (AMB-17): mock exams only from official tasks; practice variants only with teacher approval
 [2026-09-27] [CONTENT] Catalogue PDFs renamed to one pattern (Ispitni katalog za ...); same SHA-256
 [2026-09-27] [SPRINT] Sprint 03 closed: live ingestion verified by database fingerprints; DONE checklist, compliance score, handoff note
+[2026-09-27] [CANON] Canonical facts (subjects and exam rules) with verbatim page quotes per catalogue edition, verified by test and on the server (PDL-015)
+[2026-09-27] [DATABASE] Migration 008_review_knowledge: subjects, subject areas, canonical rules and rule reviews, record reviews, trusted question versions, printed answer keys, key revisions; subject-scoped write functions (service role only); applied to Supabase
+[2026-09-27] [FEATURE] Subject-teacher rights per subject on /app/nalozi (AMB-16)
+[2026-09-27] [FEATURE] Review queue /app/pregled: each record beside its original page region (pdf.js), accept with confirmed task type or return with reason; answer-key revisions that never change the printed key; exam rules with quotes, confirm or dispute
+[2026-09-27] [SECURITY] CSP worker-src 'self' (pdf.js worker); review source served same-origin only to reviewers of that subject, SHA-256 re-checked

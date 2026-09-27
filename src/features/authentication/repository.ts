@@ -21,7 +21,7 @@ export async function findProfileByUserId(client: SupabaseClient, userId: string
     .maybeSingle<ProfileRow>();
   if (error) throw new Error(`findProfileByUserId failed: ${error.message}`);
   if (!data) return null;
-  const capabilities = await findCapabilities(client, data.user_id, data.role);
+  const { capabilities, subjectScopes } = await findCapabilities(client, data.user_id, data.role);
   return {
     userId: data.user_id,
     username: data.username,
@@ -29,27 +29,41 @@ export async function findProfileByUserId(client: SupabaseClient, userId: string
     role: data.role,
     status: data.account_status,
     capabilities,
+    subjectScopes,
   };
 }
 
 /**
  * Capabilities of one account: role grants plus bundle grants. With a user-scoped client
  * RLS lets a user read only their own bundles; capability tables are readable by all
- * signed-in users. Subject scope is enforced by the database (has_capability) for data access.
+ * signed-in users. The subject scope of each capability mirrors private.has_capability(code, subject).
  */
-async function findCapabilities(client: SupabaseClient, userId: string, role: AccountRole): Promise<ReadonlySet<string>> {
+async function findCapabilities(
+  client: SupabaseClient,
+  userId: string,
+  role: AccountRole,
+): Promise<{ capabilities: ReadonlySet<string>; subjectScopes: ReadonlyMap<string, "all" | ReadonlySet<string>> }> {
   const roleGrants = await client.from("role_capabilities").select("capability_code").eq("role", role);
   if (roleGrants.error) throw new Error(`findCapabilities(role) failed: ${roleGrants.error.message}`);
-  const bundles = await client.from("profile_bundles").select("bundle_code").eq("profile_user_id", userId);
+  const bundles = await client.from("profile_bundles").select("bundle_code, scope_subject_id").eq("profile_user_id", userId);
   if (bundles.error) throw new Error(`findCapabilities(bundles) failed: ${bundles.error.message}`);
-  const codes = new Set<string>((roleGrants.data ?? []).map((row: { capability_code: string }) => row.capability_code));
-  const bundleCodes = (bundles.data ?? []).map((row: { bundle_code: string }) => row.bundle_code);
-  if (bundleCodes.length > 0) {
-    const bundleGrants = await client.from("bundle_capabilities").select("capability_code").in("bundle_code", bundleCodes);
+  const scopes = new Map<string, "all" | Set<string>>();
+  const widen = (code: string, subjectId: string | null) => {
+    const current = scopes.get(code);
+    if (current === "all") return;
+    if (subjectId === null) scopes.set(code, "all");
+    else scopes.set(code, new Set([...(current ?? []), subjectId]));
+  };
+  for (const row of (roleGrants.data ?? []) as { capability_code: string }[]) widen(row.capability_code, null);
+  const grants = (bundles.data ?? []) as { bundle_code: string; scope_subject_id: string | null }[];
+  if (grants.length > 0) {
+    const bundleGrants = await client.from("bundle_capabilities").select("bundle_code, capability_code").in("bundle_code", [...new Set(grants.map((grant) => grant.bundle_code))]);
     if (bundleGrants.error) throw new Error(`findCapabilities(bundle grants) failed: ${bundleGrants.error.message}`);
-    for (const row of bundleGrants.data as { capability_code: string }[]) codes.add(row.capability_code);
+    for (const row of bundleGrants.data as { bundle_code: string; capability_code: string }[]) {
+      for (const grant of grants) if (grant.bundle_code === row.bundle_code) widen(row.capability_code, grant.scope_subject_id);
+    }
   }
-  return codes;
+  return { capabilities: new Set(scopes.keys()), subjectScopes: scopes };
 }
 
 /**

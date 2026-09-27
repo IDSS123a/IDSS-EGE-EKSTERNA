@@ -50,6 +50,18 @@ export const ACCOUNTS_PATH = "/app/nalozi";
 
 /** Canon registry (Sprint 02, migration 006). */
 export const CANON_PATH = "/app/kanon";
+/** Review of ingested records and canonical rules by subject teachers (Sprint 04). */
+export const REVIEW_PATH = "/app/pregled";
+/** Records per page of the review queue (A-3: every list is bounded). */
+export const REVIEW_PAGE_SIZE = 25;
+/** Longest reason, note or evidence text a reviewer may enter (matches the migration 008 checks). */
+export const REVIEW_TEXT_MAX_LENGTH = 2000;
+/** Browser cache lifetime of a source PDF served for review (the file never changes per version). */
+export const REVIEW_SOURCE_MAX_AGE_SECONDS = 3600;
+/** Context around a record's region in the source view, in PDF points. */
+export const REVIEW_REGION_MARGIN_POINTS = 12;
+/** Render scale of source pages (device pixels per PDF point before devicePixelRatio). */
+export const REVIEW_RENDER_SCALE = 1.5;
 /** Private storage bucket for canonical source files (created by migration 006). */
 export const CANON_BUCKET = "canon-documents";
 /** Same limit as the bucket (and the Supabase project upload limit): 50 MB. */
