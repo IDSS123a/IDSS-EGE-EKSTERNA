@@ -1,4 +1,4 @@
--- RLS and integrity tests for migrations 001–007. Any failed assertion raises and stops psql
+-- RLS and integrity tests for migrations 001–008. Any failed assertion raises and stops psql
 -- (ON_ERROR_STOP), so the runner's exit code is the test result.
 \set ON_ERROR_STOP on
 set client_min_messages = warning;
@@ -16,6 +16,16 @@ insert into public.profiles (user_id, username, display_name, role, account_stat
   ('00000000-0000-0000-0000-00000000000c', 'student.one', 'Test Student One', 'student', 'active'),
   ('00000000-0000-0000-0000-00000000000d', 'student.two', 'Test Student Two', 'student', 'active'),
   ('00000000-0000-0000-0000-00000000000e', 'blocked.admin', 'Test Blocked', 'superadmin', 'blocked');
+-- A subject (migration 008) backed by a fixture catalogue version, for scoped grants.
+insert into public.canonical_documents (id, type_code, title)
+  values ('66666666-6666-6666-6666-666666666601', 'subject_catalogue', 'Fixture catalogue');
+insert into public.canonical_document_versions (id, document_id, storage_path, sha256, mime_type, byte_size,
+  issuing_authority, official_title, status, uploaded_by, activated_at)
+  values ('77777777-7777-7777-7777-777777777701', '66666666-6666-6666-6666-666666666601', 'x/fixture.pdf', repeat('1', 64),
+  'application/pdf', 1, 'Test authority', 'Fixture v1', 'active', '00000000-0000-0000-0000-00000000000a', now());
+insert into public.subjects (id, code, official_name, legal_basis, source_version_id, evidence, facts_version)
+  values ('11111111-1111-1111-1111-111111111111', 'mathematics', 'Matematika', 'Test', '77777777-7777-7777-7777-777777777701',
+  '[{"page": 1, "quote": "Test"}]', 1);
 insert into public.profile_bundles (profile_user_id, bundle_code, scope_subject_id) values
   ('00000000-0000-0000-0000-00000000000b', 'subject_teacher', '11111111-1111-1111-1111-111111111111');
 insert into public.persons (id, profile_user_id) values
@@ -107,9 +117,9 @@ insert into public.canonical_document_versions (document_id, storage_path, sha25
   'Test authority', 'Test draft', 'validation_required', '00000000-0000-0000-0000-00000000000a');
 set role authenticated;
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
-select pg_temp.assert((select count(*) from public.canonical_document_versions) = 1, 'student sees only the active version');
+select pg_temp.assert((select count(*) from public.canonical_document_versions where document_id = '66666666-6666-6666-6666-666666666666') = 1, 'student sees only the active version');
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a', false);
-select pg_temp.assert((select count(*) from public.canonical_document_versions) = 2, 'superadmin sees full version history');
+select pg_temp.assert((select count(*) from public.canonical_document_versions where document_id = '66666666-6666-6666-6666-666666666666') = 2, 'superadmin sees full version history');
 reset role;
 
 -- 6. Audit log is append-only, even for the service role.
@@ -322,3 +332,144 @@ exception when insufficient_privilege then raise notice 'ok - signed-in users ca
 end $$;
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS still enabled on every public table');
+
+-- 11. Review and knowledge (migration 008): facts with provenance, scoped review, trusted copies, key revisions.
+set role service_role;
+create function pg_temp.facts(sha text, code text) returns jsonb language sql as $$
+  select jsonb_build_object('sha256', sha, 'facts_version', 1,
+    'subject', jsonb_build_object('code', code, 'official_name', 'Njemački jezik', 'legal_basis', 'Test basis',
+      'evidence', '[{"page": 4, "quote": "Test quote"}]'::jsonb),
+    'rules', '[{"code": "exam.duration_minutes", "value": {"minutes": 60}, "evidence": [{"page": 8, "quote": "traje 60 minuta"}]},
+               {"code": "exam.total_points", "value": {"points": 10}, "evidence": [{"page": 8, "quote": "10 bodova"}]}]'::jsonb)
+$$;
+select pg_temp.expect_error($$select public.load_canonical_facts('00000000-0000-0000-0000-00000000000b', '77777777-7777-7777-7777-777777777770', pg_temp.facts(repeat('0', 64), 'german'), null)$$,
+  'FORBIDDEN', 'a subject teacher cannot load canonical facts');
+select pg_temp.expect_error($$select public.load_canonical_facts('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-777777777770', pg_temp.facts(repeat('9', 64), 'german'), null)$$,
+  'INTEGRITY', 'facts bound to another edition are refused');
+select pg_temp.expect_error($$select public.load_canonical_facts('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-77777777777f', pg_temp.facts(repeat('f', 64), 'german'), null)$$,
+  'INVALID_TRANSITION', 'facts are never loaded from a rejected version');
+create temp table t_german as select public.load_canonical_facts('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-777777777770',
+  pg_temp.facts(repeat('0', 64), 'german'), null) as id;
+select pg_temp.assert((select code from public.subjects where id = (select id from t_german)) = 'german', 'loading facts creates the subject');
+select pg_temp.assert((select count(*) from public.canonical_rules where subject_id = (select id from t_german)) = 2, 'loading facts stores the rules with evidence');
+select pg_temp.assert((select scope_subject_id from public.canonical_documents where id = (select id from t_doc)) = (select id from t_german), 'the catalogue document is scoped to its subject');
+select pg_temp.assert((select count(*) from public.canonical_dependencies where dependent_table in ('canonical_rules', 'subjects')) = 3, 'rules and subject are in the dependency map');
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'canon.facts_loaded'), 'facts load audited');
+select pg_temp.expect_error($$select public.load_canonical_facts('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-777777777770', pg_temp.facts(repeat('0', 64), 'german'), null)$$,
+  'ALREADY_LOADED', 'facts of one edition are loaded once');
+do $$ begin
+  insert into public.profile_bundles (profile_user_id, bundle_code) values ('00000000-0000-0000-0000-00000000000d', 'subject_teacher');
+  raise exception 'FAIL: unscoped subject teacher granted';
+exception when check_violation then raise notice 'ok - a subject teacher grant always names its subject';
+end $$;
+
+-- Records on the fixture Math version (subject 1111, the teacher's scope).
+create function pg_temp.rec(key text, subject text, status text, logic jsonb) returns jsonb language sql as $$
+  select jsonb_build_object('record_key', key, 'record_kind', 'official_catalogue_question', 'structural_status', status,
+    'record', jsonb_build_object('id', key, 'subject', subject,
+      'source', '{"original_number": "5.1.1", "section_path": ["5.1 Brojevni izrazi", "osnovni nivo"], "pages": [23], "regions": [{"page": 23, "bbox": [72, 194.9, 540, 302.9]}]}'::jsonb,
+      'syntax', '{"raw_text": "5.1.1. Test?", "stem_text": "5.1.1. Test?", "options": [{"label": "a", "text": "0"}], "emphasis_spans": [], "has_figure_reference": false, "notation_fidelity": "text_layer_ok"}'::jsonb,
+      'semantics', '{"area": "Brojevni izrazi", "catalogue_level": "osnovni nivo"}'::jsonb,
+      'logic', logic))
+$$;
+create temp table t_job1 as select public.record_ingestion_job('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-777777777701',
+  pg_temp.job('succeeded', null), jsonb_build_array(
+    pg_temp.rec('MAT-5.1.1', 'mathematics', 'passed', '{"task_type": "multiple_choice_single_answer", "answer_key_raw": "c)", "answer_key_source": "catalogue §6"}'),
+    pg_temp.rec('MAT-5.1.2', 'mathematics', 'failed', '{"task_type": "multiple_choice_single_answer", "answer_key_raw": "d)"}'),
+    pg_temp.rec('MAT-5.1.3', 'mathematics', 'passed', '{"task_type": "multiple_choice_single_answer", "answer_key_raw": "a)"}'),
+    pg_temp.rec('DEU-4.2.1', 'german', 'passed', '{"task_type": "true_false", "answer_key_raw": "1 r\n2 f", "scored_items": [{"item_number": 1, "raw_text": "A", "answer_key_raw": "r"}, {"item_number": 2, "raw_text": "B", "answer_key_raw": "f"}]}'),
+    pg_temp.rec('BHS-FON.1', 'bhs_language_literature', 'passed', '{"task_type": "completion", "answer_key_raw": "fonetika"}')), null) as id;
+create function pg_temp.rid(key text) returns bigint language sql as $$
+  select id from public.ingested_records where job_id = (select id from t_job1) and record_key = key
+$$;
+
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000b', pg_temp.rid('MAT-5.1.1'), 'returned', null, '  ', null)$$,
+  'VALIDATION', 'returning a record needs a reason');
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000b', pg_temp.rid('MAT-5.1.1'), 'accepted', null, null, null)$$,
+  'VALIDATION', 'accepting a record needs a confirmed task type');
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000b', pg_temp.rid('DEU-4.2.1'), 'accepted', 'true_false', null, null)$$,
+  'FORBIDDEN', 'a teacher cannot review another subject');
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000c', pg_temp.rid('MAT-5.1.1'), 'accepted', 'multiple_choice_single_answer', null, null)$$,
+  'FORBIDDEN', 'a student cannot review');
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000a', pg_temp.rid('BHS-FON.1'), 'accepted', 'completion', null, null)$$,
+  'SUBJECT_MISSING', 'records of a subject without loaded facts are not reviewed');
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000b', pg_temp.rid('MAT-5.1.2'), 'accepted', 'multiple_choice_single_answer', null, null)$$,
+  'NOT_ACCEPTABLE', 'a structurally failed record cannot be accepted');
+select public.decide_record_review('00000000-0000-0000-0000-00000000000b', pg_temp.rid('MAT-5.1.1'), 'returned', null, 'Opcija d) nedostaje', null);
+select pg_temp.assert((select count(*) from public.question_versions) = 0, 'a returned record creates no trusted copy');
+select public.decide_record_review('00000000-0000-0000-0000-00000000000b', pg_temp.rid('MAT-5.1.1'), 'accepted', 'multiple_choice_single_answer', null, null);
+select pg_temp.assert((select count(*) from public.question_versions where record_id = pg_temp.rid('MAT-5.1.1')) = 1, 'acceptance creates exactly one trusted question version');
+select pg_temp.assert((select printed_answer from public.answer_keys k join public.question_versions v on v.id = k.question_version_id where v.record_id = pg_temp.rid('MAT-5.1.1')) = 'c)', 'the printed key is stored as printed');
+select pg_temp.assert((select a.label from public.subject_areas a join public.question_versions v on v.area_id = a.id where v.record_id = pg_temp.rid('MAT-5.1.1')) = 'Brojevni izrazi', 'the catalogue area becomes a subject area');
+select pg_temp.assert(exists (select 1 from public.canonical_dependencies where dependent_table = 'question_versions'), 'trusted copies are in the dependency map');
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'review.record_accepted') and exists (select 1 from public.audit_logs where action = 'review.record_returned'), 'review decisions audited');
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000b', pg_temp.rid('MAT-5.1.1'), 'returned', null, 'again', null)$$,
+  'ALREADY_ACCEPTED', 'an accepted record takes no further decision');
+select public.decide_record_review('00000000-0000-0000-0000-00000000000a', pg_temp.rid('DEU-4.2.1'), 'accepted', 'true_false', null, null);
+select pg_temp.assert((select count(*) from public.answer_keys k join public.question_versions v on v.id = k.question_version_id where v.record_id = pg_temp.rid('DEU-4.2.1')) = 2, 'German keys are stored per scored item');
+select pg_temp.assert((select bool_and(not (item ? 'answer_key_raw')) from public.question_versions v, jsonb_array_elements(v.scored_items) item), 'scored items carry no keys');
+
+-- A newer ingestion job makes the older job's records stale for review.
+create temp table t_job2 as select public.record_ingestion_job('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-777777777701',
+  pg_temp.job('succeeded', null), jsonb_build_array(pg_temp.rec('MAT-5.1.1', 'mathematics', 'passed', '{"task_type": "multiple_choice_single_answer", "answer_key_raw": "c)"}')), null) as id;
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000b', pg_temp.rid('MAT-5.1.3'), 'accepted', 'multiple_choice_single_answer', null, null)$$,
+  'STALE_RECORD', 'only records of the latest job are reviewed');
+select pg_temp.expect_error($$select public.decide_record_review('00000000-0000-0000-0000-00000000000b', (select id from public.ingested_records where job_id = (select id from t_job2)), 'accepted', 'multiple_choice_single_answer', null, null)$$,
+  'ALREADY_ACCEPTED', 'a question accepted from an earlier job is not accepted twice');
+
+-- Answer-key revisions never change the printed key.
+create temp table t_key as select k.id, k.subject_id from public.answer_keys k join public.question_versions v on v.id = k.question_version_id where v.record_id = pg_temp.rid('MAT-5.1.1');
+create temp table t_de_key as select k.id from public.answer_keys k join public.question_versions v on v.id = k.question_version_id where v.record_id = pg_temp.rid('DEU-4.2.1') and k.item_number = 1;
+select pg_temp.expect_error($$select public.propose_answer_key_revision('00000000-0000-0000-0000-00000000000b', (select id from t_de_key), 'f', 'Test', null, null)$$,
+  'FORBIDDEN', 'a teacher cannot revise keys of another subject');
+select pg_temp.expect_error($$select public.propose_answer_key_revision('00000000-0000-0000-0000-00000000000b', (select id from t_key), 'b)', ' ', null, null)$$,
+  'VALIDATION', 'a key revision needs a reason');
+select public.propose_answer_key_revision('00000000-0000-0000-0000-00000000000b', (select id from t_key), 'b)', 'Tačan rezultat je 891', 'Rješenje: 900 - 9 = 891', null);
+select pg_temp.assert((select printed_answer from public.answer_keys where id = (select id from t_key)) = 'c)', 'the printed key never changes');
+select pg_temp.assert((select corrected_answer from public.answer_key_revisions where answer_key_id = (select id from t_key)) = 'b)', 'the revision is stored beside it');
+do $$ begin
+  update public.answer_keys set printed_answer = 'x';
+  raise exception 'FAIL: printed key changed';
+exception when raise_exception then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - printed keys are append-only';
+end $$;
+do $$ begin
+  delete from public.record_reviews;
+  raise exception 'FAIL: review deleted';
+exception when raise_exception or foreign_key_violation then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - review decisions cannot be deleted';
+end $$;
+
+-- Rule review, scoped like record review.
+create temp table t_rule as select id from public.canonical_rules where subject_id = (select id from t_german) and rule_code = 'exam.duration_minutes';
+select pg_temp.expect_error($$select public.decide_rule_review('00000000-0000-0000-0000-00000000000b', (select id from t_rule), 'confirmed', null, null)$$,
+  'FORBIDDEN', 'a teacher cannot review rules of another subject');
+select pg_temp.expect_error($$select public.decide_rule_review('00000000-0000-0000-0000-00000000000a', (select id from t_rule), 'disputed', null, null)$$,
+  'VALIDATION', 'disputing a rule needs a note');
+select public.decide_rule_review('00000000-0000-0000-0000-00000000000a', (select id from t_rule), 'confirmed', null, null);
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'review.rule_confirmed'), 'rule review audited');
+reset role;
+
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.question_versions) = 1, 'a teacher reads trusted questions of own subject only');
+select pg_temp.assert((select count(*) from public.canonical_rules) = 0, 'a teacher reads no rules of another subject');
+select pg_temp.assert((select count(*) from public.record_reviews) = 2, 'a teacher reads review history of own subject');
+select pg_temp.assert((select count(*) from public.subjects) = 2, 'subjects are visible to active accounts');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a', false);
+select pg_temp.assert((select count(*) from public.question_versions) = 2 and (select count(*) from public.canonical_rules) = 2, 'the superadmin reads every subject');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.question_versions) + (select count(*) from public.answer_keys) + (select count(*) from public.record_reviews)
+  + (select count(*) from public.canonical_rules) + (select count(*) from public.answer_key_revisions) = 0, 'students read no review material yet');
+do $$ begin
+  perform public.decide_record_review('00000000-0000-0000-0000-00000000000b', 1, 'accepted', 'x', null, null);
+  raise exception 'FAIL: authenticated executed decide_record_review';
+exception when insufficient_privilege then raise notice 'ok - signed-in users cannot call review functions directly';
+end $$;
+reset role;
+set role anon;
+select pg_temp.assert((select count(*) from public.subjects) = 0, 'anon reads no subjects');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 008');

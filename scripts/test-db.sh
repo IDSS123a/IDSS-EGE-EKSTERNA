@@ -18,5 +18,5 @@ for migration in "$ROOT"/migrations/*.sql; do
   echo "applying $(basename "$migration")"
   "${PSQL[@]}" -f "$migration"
 done
-"${PSQL[@]}" -f "$ROOT/tests/db/rls.test.sql" 2>&1 | sed -n 's/.*NOTICE:  //p'
+"${PSQL[@]}" -f "$ROOT/tests/db/rls.test.sql" 2>&1 | sed -n -e "s/.*NOTICE:  //p" -e "/ERROR/p"
 echo "database tests passed"
