@@ -63,3 +63,11 @@ Each entry states the ACA's recommendation so the Director can answer "yes".
 | ID | Decision | Consequence |
 |---|---|---|
 | AMB-15 | Minimum student password length = **10** characters. | `STUDENT_PASSWORD_MIN_LENGTH = 10`; staff stays 12. Applies to account creation and password reset. |
+
+## New items (review of documents added 27.09.2026)
+
+| ID | Severity | Question | Evidence | Recommendation | Blocks |
+|---|---|---|---|---|---|
+| AMB-17 | 🟡 | Besides mock exams built only from official catalogue tasks, may the platform offer **practice variants** (e.g. the same Math task with other numbers, a new German sentence with the same grammar point)? | C21 III: the real test uses only catalogue tasks; P-4 forbids inventing canon; AMB-05 "simulated strictly from the catalogues" | **Mock exams: only official catalogue tasks, never variants** (mirrors the real exam). Practice mode: optional variants only if generated from a catalogue task, checked automatically (Math: recomputed answer) and **approved by the subject teacher** before any student sees them, always labelled "Vježba (nije službeno pitanje)". Default until decided: no variants. | practice variants (Sprint 05/06) |
+| AMB-18 | 🟢 | The calendar, timetable, enrolment criteria and matura decision in the repository are for 2024/25 and 2025/26; the 2026/27 editions (matura June 2027) are not yet published. | C20–C24 dates | Register them as dated canon (ministry instruction / rulebook types) for reference; show dates and enrolment points only from the edition valid for the student's school year; upload the 2026/27 editions through `/app/kanon` when the ministry publishes them. | calendar/countdown, enrolment-points explanation |
+

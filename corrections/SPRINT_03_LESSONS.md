@@ -10,5 +10,8 @@ Date: 2026-09-27 (open)
 - pdf.js 6: `PDFDocumentProxy` has no `destroy()`; destroy the loading task. Fonts (and their names, needed for emphasis) are only loaded after `getOperatorList()`.
 - JavaScript `\b` is ASCII-only; Python 3 `\b` is Unicode-aware. Ported regexes use a Unicode-letter lookbehind.
 
+- Node on Windows can abort with "Assertion failed: !(handle->flags & UV_HANDLE_CLOSING)" when a script calls `process.exit()` while handles are closing; set `process.exitCode` and return instead.
+- Scripts that read local files must check them before any network call, or a missing file is hidden behind a network error.
+
 ## Commander Improvement Candidates
 None yet.
