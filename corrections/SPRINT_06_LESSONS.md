@@ -11,6 +11,11 @@ Date: 2026-09-27 (open)
   returned zeros until they were taken from screenshots.
 - React writes `style={{...}}` into server-rendered HTML as a style attribute, which the nonce CSP blocks; dynamic
   sizes are set through the CSSOM after render, colours through classes.
+- AMB-19 listed DEU-4.2.5 among the footnote cases because its text contains a web address; the source page shows
+  `www.musikwettbewerb.de` at text size inside the reading text, while footnotes are 8 pt at the page bottom. A text
+  is classified as a footnote only after its font size and position were read from the page.
+- `pkill -f next` / `kill $(pgrep -f next-server)` in the same shell matched the shell's own command line and killed
+  it (exit 144); dev servers are stopped by the PID written when they start.
 
 ## Commander Improvement Candidates
 None yet.

@@ -493,7 +493,8 @@
       "RETURNED": "Zapis je vraćen s razlogom.",
       "KEY_REVISED": "Revizija rješenja je sačuvana.",
       "RULE_CONFIRMED": "Pravilo je potvrđeno.",
-      "RULE_DISPUTED": "Pravilo je osporeno."
+      "RULE_DISPUTED": "Pravilo je osporeno.",
+      "TEXT_REVISED": "Ispravka teksta je sačuvana."
     },
     "errors": {
       "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
@@ -505,6 +506,24 @@
       "ALREADY_ACCEPTED": "Zapis je već prihvaćen.",
       "NOT_ACCEPTABLE": "Strukturno neispravan zapis se ne može prihvatiti.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    },
+    "text": {
+      "title": "Tekst pitanja za učenike",
+      "hint": "Učenici vide najnoviju potvrđenu ispravku. Tekst iz kataloga ostaje sačuvan nepromijenjen; ispravka mijenja samo tekst, nikada oznake odgovora ni rješenje.",
+      "shown": "Tekst koji učenici vide",
+      "original": "Tekst iz kataloga",
+      "noRevision": "Nema ispravki: učenici vide tekst iz kataloga.",
+      "proposal": "Prijedlog ispravke je unesen u polja ispod: uklonjen je tekst fusnote s dna stranice (izvor zadatka, poveznica). Uporedite s izvornom stranicom lijevo, pa potvrdite ili prilagodite.",
+      "proposalEvidence": "Stranica {page}, fusnota {footnotes}",
+      "rawText": "Cijeli tekst pitanja",
+      "stemText": "Tekst zadatka (bez ponuđenih odgovora)",
+      "option": "Odgovor {label}",
+      "item": "Tvrdnja {n}",
+      "reason": "Razlog ispravke",
+      "evidence": "Dokaz (stranica, fusnota)",
+      "submit": "Sačuvaj ispravku teksta",
+      "confirm": "Sačuvati ispravku teksta? Učenici će vidjeti ovaj tekst.",
+      "history": "Ispravke teksta"
     }
   },
   "search": {

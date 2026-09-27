@@ -10,9 +10,9 @@ import { RegistryFunctionError } from "@/features/canon/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError, logInfo } from "@/lib/logger";
 import { canReviewSubject, canReviseAnswerKeys } from "@/lib/permissions";
-import { KeyRevisionSchema, RecordDecisionSchema } from "@/lib/validation/schemas";
+import { KeyRevisionSchema, QuestionTextRevisionSchema, RecordDecisionSchema } from "@/lib/validation/schemas";
 import { reviewErrorFromDatabase } from "./domain/errors";
-import { decideRecord, proposeKeyRevision } from "./repository";
+import { decideRecord, proposeKeyRevision, reviseQuestionText } from "./repository";
 import type { ReviewActionResult } from "./types";
 
 /**
@@ -112,4 +112,61 @@ async function revise(formData: FormData): Promise<ReviewActionResult> {
   }
   revalidatePath(REVIEW_PATH, "layout");
   return { success: true, data: { message: "KEY_REVISED" } };
+}
+
+/**
+ * POST (Server Action) reviseQuestionTextAction
+ * Role required: canon.review for the question's subject (or canon.publish).
+ * Body: FormData { questionVersionId, subjectId, rawText, stemText?, optionLabel[] + optionText[],
+ *   itemNumber[] + itemText[], reason, evidence? }.
+ * The trusted version never changes (AMB-19, PDL-021); the newest revision is the text students see.
+ * Labels and item numbers must equal the version's; the database refuses any other shape.
+ * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
+ */
+export async function reviseQuestionTextAction(_previous: ReviewActionResult | null, formData: FormData): Promise<ReviewActionResult> {
+  const result = await reviseText(formData);
+  return auditIfFailed(result, { action: "review.question_text_revision", entityType: "question_version", entityId: formId(formData, "questionVersionId") });
+}
+
+function strings(formData: FormData, name: string): string[] {
+  return formData.getAll(name).filter((value): value is string => typeof value === "string");
+}
+
+async function reviseText(formData: FormData): Promise<ReviewActionResult> {
+  const actor = await getCurrentAccount();
+  if (!actor) return { success: false, code: "UNAUTHENTICATED" };
+  const optionLabels = strings(formData, "optionLabel");
+  const optionTexts = strings(formData, "optionText");
+  const itemNumbers = strings(formData, "itemNumber");
+  const itemTexts = strings(formData, "itemText");
+  if (optionLabels.length !== optionTexts.length || itemNumbers.length !== itemTexts.length) return { success: false, code: "VALIDATION" };
+  const stemText = formData.get("stemText");
+  const parsed = QuestionTextRevisionSchema.safeParse({
+    questionVersionId: formData.get("questionVersionId"),
+    subjectId: formData.get("subjectId"),
+    rawText: formData.get("rawText"),
+    stemText: typeof stemText === "string" ? stemText : null,
+    options: optionLabels.map((label, index) => ({ label, text: optionTexts[index] })),
+    scoredItems: itemNumbers.map((itemNumber, index) => ({ itemNumber, rawText: itemTexts[index] })),
+    reason: formData.get("reason"),
+    evidence: formData.get("evidence") ?? undefined,
+  });
+  if (!parsed.success) return { success: false, code: "VALIDATION" };
+  if (!canReviewSubject(actor, parsed.data.subjectId)) return { success: false, code: "FORBIDDEN" };
+  const { questionVersionId, rawText, options, scoredItems, reason, evidence } = parsed.data;
+  try {
+    await reviseQuestionText(createSupabaseAdminClient(), {
+      actorUserId: actor.userId,
+      questionVersionId,
+      text: { rawText, stemText: parsed.data.stemText, options, scoredItems },
+      reason,
+      evidence: evidence ?? null,
+      ipAddress: await requestIp(),
+    });
+    logInfo("review/actions.reviseQuestionTextAction", "question text revised");
+  } catch (error) {
+    return failure(error, "review/actions.reviseQuestionTextAction");
+  }
+  revalidatePath(REVIEW_PATH, "layout");
+  return { success: true, data: { message: "TEXT_REVISED" } };
 }

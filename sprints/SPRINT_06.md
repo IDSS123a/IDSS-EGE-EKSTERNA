@@ -32,7 +32,9 @@ Mock exams and teacher grading (Sprint 07), XP and badges (Sprint 08), staff das
 - [x] 0c. Footer and legal documents (bs/de/en), AMB-20 resolved.
 - [x] 0d. Own password change `/app/nalog` (current password verified with a session-less client; failed attempts
       feed the login lockout; audited).
-- [ ] 1. AMB-19 text revisions
+- [x] 1. AMB-19 text revisions: migration 013 (applied live), review screen section "Tekst pitanja za učenike" with
+      prepared proposals for the five Math questions (PDL-021); DEU-4.2.5 is printed text, unchanged. Waiting for a
+      reviewer to confirm the five proposals in the app.
 - [ ] 2. Gemini semantic search
 - [ ] 3. Game Hub
 - [ ] 4. Practice loop, mastery, missions v1

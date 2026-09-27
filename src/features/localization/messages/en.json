@@ -493,7 +493,8 @@
       "RETURNED": "The record was returned with a reason.",
       "KEY_REVISED": "The answer revision was saved.",
       "RULE_CONFIRMED": "The rule was confirmed.",
-      "RULE_DISPUTED": "The rule was disputed."
+      "RULE_DISPUTED": "The rule was disputed.",
+      "TEXT_REVISED": "The text correction was saved."
     },
     "errors": {
       "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
@@ -505,6 +506,24 @@
       "ALREADY_ACCEPTED": "The record is already accepted.",
       "NOT_ACCEPTABLE": "A structurally invalid record cannot be accepted.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
+    },
+    "text": {
+      "title": "Question text for students",
+      "hint": "Students see the newest confirmed correction. The catalogue text stays stored unchanged; a correction changes text only, never answer labels or the answer key.",
+      "shown": "Text students see",
+      "original": "Catalogue text",
+      "noRevision": "No corrections: students see the catalogue text.",
+      "proposal": "A proposed correction is filled in below: the footnote text from the bottom of the page (source of the task, link) was removed. Compare with the source page on the left, then confirm or adjust.",
+      "proposalEvidence": "Page {page}, footnote {footnotes}",
+      "rawText": "Full question text",
+      "stemText": "Task text (without answer options)",
+      "option": "Answer {label}",
+      "item": "Statement {n}",
+      "reason": "Reason for the correction",
+      "evidence": "Evidence (page, footnote)",
+      "submit": "Save text correction",
+      "confirm": "Save the text correction? Students will see this text.",
+      "history": "Text corrections"
     }
   },
   "search": {

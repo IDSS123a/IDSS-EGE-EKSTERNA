@@ -60,3 +60,5 @@
 [2026-09-27] [FEATURE] Footer on every page (bottom left): Terms of Use, Privacy Policy, Subscription, Cookie notice, product line with ai@idss.ba; document pages wait for IDSS texts (AMB-20)
 [2026-09-27] [CONTENT] Legal documents written (Terms of Use, Privacy Policy, Subscription, Cookie notice) in bs/de/en, facts confirmed by the Director (AMB-20 resolved)
 [2026-09-27] [FEATURE] Moj nalog: every account changes its own password (current password verified, failed attempts count towards the lockout, audited)
+[2026-09-27] [DATABASE] Migration 013_question_text_revisions applied: reviewed text revisions of trusted questions, texts only, append-only, audited (AMB-19, PDL-021)
+[2026-09-27] [FEATURE] Review screen: "Tekst pitanja za učenike" with correction history and form; prepared footnote-removal proposals for MAT-5.3.5, 5.4.20, 5.9.13, 5.10.6, 5.10.20 (confirmed by a reviewer, never written automatically)
