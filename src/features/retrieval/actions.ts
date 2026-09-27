@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { EMBEDDING_BATCH_SIZE, EMBEDDING_BUILD_BUDGET_MS, EMBEDDING_MODEL, EMBEDDING_PENDING_WINDOW, RETRIEVAL_MIN_RANK, RETRIEVAL_MIN_SIMILARITY, RETRIEVAL_RESULT_COUNT, SEARCH_PATH } from "@/constants";
+import { EMBEDDING_BATCH_SIZE, EMBEDDING_BUILD_BUDGET_MS, EMBEDDING_MODEL, EMBEDDING_PENDING_WINDOW, RETRIEVAL_MIN_RANK, RETRIEVAL_MIN_SIMILARITY_Z, RETRIEVAL_RESULT_COUNT, SEARCH_PATH } from "@/constants";
 import { auditIfFailed, formId } from "@/features/audit/failures";
 import { clientIpFrom } from "@/features/authentication/domain";
 import { getCurrentAccount } from "@/features/authentication/session";
@@ -65,7 +65,7 @@ async function search(formData: FormData): Promise<SearchResult> {
       }
     }
     if (method === "full_text") retrieved = await fullTextRetriever(admin).retrieve(request);
-    const results = relevant(retrieved, RETRIEVAL_MIN_RANK, RETRIEVAL_MIN_SIMILARITY);
+    const results = relevant(retrieved, RETRIEVAL_MIN_RANK, RETRIEVAL_MIN_SIMILARITY_Z);
     return { success: true, data: { results, refused: results.length === 0, method, fallback } };
   } catch (error) {
     const code = databaseCode(error);

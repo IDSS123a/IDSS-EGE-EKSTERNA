@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { QUESTION_TEXT_MAX_LENGTH, RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
+import { PRACTICE_RESPONSE_MAX_LENGTH, QUESTION_TEXT_MAX_LENGTH, RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 
 /**
  * Shared Zod schemas (Commander E-2: every boundary validated, schemas in one place).
@@ -193,4 +193,14 @@ export const QuestionTextRevisionSchema = z.object({
   scoredItems: z.array(z.object({ itemNumber: z.coerce.number().int().positive(), rawText: reviewText })).max(20),
   reason: reviewText,
   evidence: optionalReviewText,
+});
+
+/** POST a practice answer (migration 017): one response per item of the question; the database checks the items. */
+export const PracticeAnswerSchema = z.object({
+  questionVersionId: z.uuid(),
+  subjectId: z.uuid(),
+  responses: z
+    .array(z.object({ item: z.number().int().positive().nullable(), response: z.string().max(PRACTICE_RESPONSE_MAX_LENGTH) }))
+    .min(1)
+    .max(20),
 });

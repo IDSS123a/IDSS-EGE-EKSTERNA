@@ -79,3 +79,10 @@ test("the own account page is not reachable without a session", async ({ page })
   await page.goto("/app/nalog");
   await expect(page).toHaveURL(/\/prijava$/);
 });
+
+test("practice and subject pages are not reachable without a session", async ({ page }) => {
+  for (const path of ["/app/vjezba?predmet=mathematics", "/app/predmet/mathematics"]) {
+    await page.goto(path);
+    await expect(page).toHaveURL(/\/prijava/);
+  }
+});

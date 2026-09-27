@@ -668,6 +668,9 @@ create temp table t_semantic as select * from public.retrieve_canon_semantic('00
 select pg_temp.assert((select count(*) from t_semantic) >= 1 and not exists (select 1 from t_semantic where similarity is null or similarity < 0.99),
   'semantic results carry their cosine similarity');
 select pg_temp.assert(exists (select 1 from t_semantic where keyword_rank >= 1), 'the keyword rank is fused in (reciprocal rank fusion)');
+select pg_temp.assert(not exists (select 1 from t_semantic where similarity_z is not null), 'without spread in the field no passage stands out (z is null, migration 016)');
+select pg_temp.assert((select top_similarity from public.retrieval_audit_logs where method = 'semantic' order by id desc limit 1) >= 0.99,
+  'the audit keeps the top similarity of a semantic search, not the query');
 select pg_temp.assert(not exists (select 1 from t_semantic s join public.canonical_document_versions v on v.id = s.document_version_id where v.status <> 'active'),
   'superseded content is never retrieved semantically');
 select pg_temp.assert(exists (select 1 from public.retrieval_audit_logs where method = 'semantic' and query_sha256 = encode(sha256(convert_to('koliko minuta traje ispit', 'UTF8')), 'hex')),
@@ -690,3 +693,66 @@ exception when insufficient_privilege then raise notice 'ok - signed-in users ca
 end $$;
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 015');
+
+
+-- 17. Practice (migration 017): questions without keys, solution only after the answer, auto-check by the effective key.
+set role service_role;
+select public.activate_canon_version('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-777777777701', 'Test: practice fixtures', null);
+select pg_temp.expect_error($$select public.practice_next('00000000-0000-0000-0000-00000000000b', '11111111-1111-1111-1111-111111111111', null)$$,
+  'FORBIDDEN', 'staff without practice.participate cannot practise');
+select pg_temp.expect_error($$select public.practice_next('00000000-0000-0000-0000-00000000000c', gen_random_uuid(), null)$$,
+  'VALIDATION', 'practice needs an existing subject');
+create temp table t_q_math as select public.practice_next('00000000-0000-0000-0000-00000000000c', '11111111-1111-1111-1111-111111111111', null) as q;
+select pg_temp.assert((select q ->> 'record_key' from t_q_math) = 'MAT-5.1.1', 'a trusted question of an active version is offered');
+select pg_temp.assert((select q -> 'items' -> 0 ->> 'mode' from t_q_math) = 'choice', 'a single-choice question with a letter key is answered by choice');
+select pg_temp.assert(position('c)' in (select q::text from t_q_math)) = 0 and position('b)' in (select q::text from t_q_math)) = 0
+  and position('solution' in (select q::text from t_q_math)) = 0, 'the offered question carries no key and no solution');
+create temp table t_q_german as select public.practice_next('00000000-0000-0000-0000-00000000000c', (select id from t_german), null) as q;
+select pg_temp.assert((select jsonb_agg(i ->> 'mode') from t_q_german, jsonb_array_elements(q -> 'items') i) = '["true_false", "true_false"]'::jsonb,
+  'true/false items are answered per item');
+select pg_temp.expect_error($$select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[]'::jsonb)$$,
+  'VALIDATION', 'an answer covers every item');
+select pg_temp.expect_error($$select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[{"item": null, "response": 5}]'::jsonb)$$,
+  'VALIDATION', 'responses are text');
+-- The printed key of MAT-5.1.1 is c); its reviewed revision (section 11) is b), which is the effective key (CF-03).
+create temp table t_sub1 as select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[{"item": null, "response": "c"}]'::jsonb) as r;
+select pg_temp.assert((select r ->> 'outcome' from t_sub1) = 'incorrect' and (select r -> 'results' -> 0 ->> 'solution' from t_sub1) = 'b)',
+  'the answer is checked against the effective key and the solution is returned after the answer');
+create temp table t_sub2 as select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[{"item": null, "response": " B "}]'::jsonb) as r;
+select pg_temp.assert((select r ->> 'outcome' from t_sub2) = 'correct', 'the revised key counts, case and spaces aside');
+create temp table t_sub3 as select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_german),
+  '[{"item": 1, "response": "r"}, {"item": 2, "response": "r"}]'::jsonb) as r;
+select pg_temp.assert((select r ->> 'outcome' from t_sub3) = 'partly_correct' and (select (r ->> 'items_correct')::int from t_sub3) = 1, 'items are checked one by one');
+select pg_temp.assert((select public.practice_next('00000000-0000-0000-0000-00000000000c', '11111111-1111-1111-1111-111111111111', null) ->> 'record_key') = 'MAT-5.1.1',
+  'the only question of the subject is offered again');
+create temp table t_overview as select public.practice_overview('00000000-0000-0000-0000-00000000000c') as o;
+select pg_temp.assert((select (o ->> 'today')::int from t_overview) = 3, 'answers of today are counted for the daily mission');
+select pg_temp.assert((select (a ->> 'correct')::int from t_overview, jsonb_array_elements(o -> 'areas') a where a ->> 'subject_code' = 'mathematics') = 1
+  and (select (a ->> 'answered')::int from t_overview, jsonb_array_elements(o -> 'areas') a where a ->> 'subject_code' = 'mathematics') = 1,
+  'mastery counts the latest answer per question');
+select pg_temp.assert(jsonb_array_length((select o -> 'days' from t_overview)) = 1, 'practice days are listed for the streak');
+select public.practice_overview('00000000-0000-0000-0000-00000000000d');
+select pg_temp.assert(exists (select 1 from public.persons where profile_user_id = '00000000-0000-0000-0000-00000000000d'), 'a student gets a person on first practice');
+reset role;
+do $$ begin
+  update public.practice_answers set outcome = 'correct';
+  raise exception 'FAIL: practice answer changed';
+exception when raise_exception then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - practice answers are append-only';
+end $$;
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.practice_answers) = 3, 'a student reads own practice answers');
+select pg_temp.assert((select count(*) from public.answer_keys) = 0 and (select count(*) from public.question_versions) = 0, 'a student still reads no keys and no questions directly');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000d', false);
+select pg_temp.assert((select count(*) from public.practice_answers) = 0, 'a student reads no answers of others');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.practice_answers) = 2, 'a subject teacher reads practice answers of own subject only');
+do $$ begin
+  perform public.practice_next('00000000-0000-0000-0000-00000000000c', '11111111-1111-1111-1111-111111111111', null);
+  raise exception 'FAIL: authenticated executed practice_next';
+exception when insufficient_privilege then raise notice 'ok - signed-in users cannot call practice functions directly';
+end $$;
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 017');

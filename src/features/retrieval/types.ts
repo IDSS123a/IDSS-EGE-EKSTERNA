@@ -14,6 +14,8 @@ export type RetrievedChunk = {
   similarity?: number | null;
   /** Semantic search only: the full-text rank that was fused in (null when no content word matched). */
   keywordRank?: number | null;
+  /** Semantic search only: standard deviations above the query's mean similarity over all passages in scope (migration 016). */
+  similarityZ?: number | null;
 };
 
 /** A retrieval request: the provider decides how to rank, never what the caller may see (the database does). */

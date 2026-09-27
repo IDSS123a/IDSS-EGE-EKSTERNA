@@ -42,5 +42,8 @@ Mock exams and teacher grading (Sprint 07), XP and badges (Sprint 08), staff das
       Live (27.09.2026): the Director built the index on his computer, 514 of 514 passages with vectors (first run
       stopped at 100, fixed by retry and isolation, PR #31). Check in the database: every vector has unit length; the
       nearest other passage is from the same subject for 99.6 % (B/H/S), 100 % (German) and 100 % (Math).
-- [ ] 3. Game Hub
-- [ ] 4. Practice loop, mastery, missions v1
+- [x] 3. Game Hub: `/app` for students (streak, daily mission, three subjects with mastery), `/app/predmet/[code]` (areas).
+- [x] 4. Practice loop, mastery, missions v1: migrations 017 and 018 (applied live), `/app/vjezba`; solution only after
+      the answer; auto-check where the key is an option letter or r/f (B/H/S 121/121, Math 49/50, German 156/156 items);
+      other tasks stored for the teacher with the printed solution (AMB-21); mastery = latest answer correct; daily
+      mission 5 answers and streak (PDL-024). No student accounts exist yet: the Director creates one to try it.

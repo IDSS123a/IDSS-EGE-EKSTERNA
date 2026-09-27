@@ -659,5 +659,60 @@
       "LOCKED": "Previše neuspjelih pokušaja. Pokušajte ponovo za nekoliko minuta.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
+  },
+  "hub": {
+    "eyebrow": "Tvoj put do eksterne mature",
+    "greeting": "Zdravo, {name}",
+    "streak": "Niz dana vježbanja",
+    "streakDays": "{n} dana zaredom",
+    "streakNone": "Počni danas i započni niz.",
+    "mission": "Dnevna misija",
+    "missionText": "Riješi {goal} zadataka danas",
+    "missionDone": "Misija ispunjena. Bravo!",
+    "mastered": "Savladano",
+    "masteredHint": "Pitanja na koja je tvoj posljednji odgovor tačan",
+    "awaiting": "Čeka nastavnika: {n}",
+    "practise": "Vježbaj",
+    "areas": "Oblasti",
+    "subjectsTitle": "Predmeti",
+    "noQuestions": "Za ovaj predmet još nema provjerenih pitanja.",
+    "gameNote": "Bodovi i nizovi su za motivaciju; ocjenu daje nastavnik."
+  },
+  "practice": {
+    "back": "Nazad na početnu",
+    "backToSubject": "Nazad na predmet",
+    "title": "Vježba",
+    "area": "Oblast",
+    "level": "Nivo",
+    "source": "Izvor: {title}, str. {page}",
+    "figure": "Zadatak ima sliku u katalogu (str. {page}). Slike se u aplikaciji još ne prikazuju.",
+    "transcript": "Transkript slušanja (službeni audio zapis nije dostupan)",
+    "choose": "Izaberi odgovor",
+    "item": "Stavka {n}",
+    "true": "Richtig (tačno)",
+    "false": "Falsch (netačno)",
+    "answer": "Tvoj odgovor",
+    "answerHint": "Napiši odgovor; rješenje vidiš nakon predaje, a odgovor pregleda nastavnik.",
+    "submit": "Predaj odgovor",
+    "submitting": "Predaja u toku",
+    "next": "Sljedeće pitanje",
+    "empty": "U ovoj oblasti trenutno nema pitanja.",
+    "outcome": {
+      "correct": "Tačno!",
+      "partly_correct": "Djelimično tačno: {c} od {n}.",
+      "incorrect": "Netačno. Pogledaj rješenje.",
+      "awaiting_teacher": "Odgovor je sačuvan za nastavnika. Uporedi ga s rješenjem iz kataloga."
+    },
+    "yourAnswer": "Tvoj odgovor",
+    "solution": "Rješenje iz kataloga",
+    "noSolution": "Katalog ne navodi rješenje za ovaj zadatak; odgovor pregleda nastavnik.",
+    "empty_answer": "(bez odgovora)",
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavi se ponovo.",
+      "FORBIDDEN": "Vježba je dostupna učenicima.",
+      "VALIDATION": "Odgovori na svaku stavku.",
+      "NOT_FOUND": "Pitanje više nije dostupno. Otvori sljedeće.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušaj ponovo."
+    }
   }
 }

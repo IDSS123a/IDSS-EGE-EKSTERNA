@@ -302,3 +302,33 @@ and network failures are retried on the next key (at most 3 attempts, short paus
 until the failing passage is found, which is skipped for this click while the others are stored; the screen shows
 Gemini's answer (for example "Gemini: 500") and the number of skipped passages. Quota on every key, missing keys, a
 wrong model (404) and a refusal before anything worked still stop the build.
+**Addendum 3 (27.09.2026, Director: "Ministar" returned unrelated passages):** the absolute floor of 0.6 was a guess
+and wrong. Measured on the live index: unrelated passages (different subjects) have cosine similarity 0.736 median and
+0.787 at the 99th percentile, so every passage passed. Migration 016 measures relevance per query: `similarity_z` is how
+many standard deviations a passage lies above the mean similarity of all passages in scope for that query. A semantic
+result counts as evidence only with z >= 4.0 (`RETRIEVAL_MIN_SIMILARITY_Z`) unless a content word matched. Basis: the
+nearest related passage stands out by 3.39 median (95th percentile 4.79), the best of about 500 unrelated passages by
+about 3 by chance. Live probe: a passage identical to the query z = 7.8, its closest neighbours z = 2.6 to 3.2 (refused).
+Each semantic search now records `top_similarity` and `top_similarity_z` (no query text) to retune the floor on real use.
+
+## PDL-024: Practice loop, auto-check scope, mastery and missions v1
+**Date:** 2026-09-27 (Sprint 06 items 3-4; Director: "KRENI s učeničkom početnom stranicom (Game Hub) i vježbanjem")
+**Decision:**
+1. **Answers after the attempt (PDL-018):** students never read questions or keys from tables. `practice_next` returns a
+   trusted question without any key; `practice_submit` stores the answer for the student's person and only then
+   returns the solution (effective key: newest reviewed revision, else printed, CF-03). Text shown is the newest
+   reviewed text revision (PDL-021).
+2. **Auto-check only where the catalogue key is unambiguous (P-4):** single-choice tasks whose key is an option letter
+   (question level or per scored item) and German true/false items (r/f). Live coverage: B/H/S 121 of 121 choice tasks,
+   Math 49 of 50 (MAT-5.10.2 has picture options), German 100 of 100 choice items and 56 of 56 true/false items.
+   Matching, completion, word bank, short and open answers and Math working are stored for the teacher
+   (`awaiting_teacher`) with the printed solution shown after the answer (AMB-21).
+3. **Mastery v1:** share of a scope's trusted questions whose latest answer was correct; answered and waiting counts
+   beside it. A learning signal, never a grade (P-7).
+4. **Missions v1:** daily mission of `DAILY_MISSION_GOAL` = 5 answers (Europe/Sarajevo day) and the practice streak
+   (consecutive days). XP and badges follow in Sprint 08.
+5. **German listening:** the official transcript is shown, labelled, until audio exists (AMB-04 option a).
+6. History is bound to `persons` (created on first practice), so it survives account archival (DATA_MODEL §6).
+**Implementation:** migrations 017 and 018, `src/features/practice`, `/app` (Game Hub for students), `/app/predmet/[code]`,
+`/app/vjezba`.
+
