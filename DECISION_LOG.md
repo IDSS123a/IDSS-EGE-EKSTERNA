@@ -124,3 +124,20 @@ The splash stays 4 seconds longer before entry.
 `viewport-fit=cover`; login page becomes a two-column full-width card from 960 px.
 `SPLASH_MIN_VISIBLE_MS` 1800 to 5800, fail-safe `SPLASH_MAX_VISIBLE_MS` 8000 to 12000; the
 splash can still be skipped.
+
+## PDL-013: Catalogue ingestion in TypeScript with pdf.js; parser profiles as data; no OCR
+**Date:** 2026-09-27 (Sprint 03)
+**Decision:** the application extracts catalogue records with `pdfjs-dist` (Mozilla pdf.js,
+Apache-2.0, new dependency) instead of PyMuPDF (AGPL, used only as the Sprint 00 evidence tool).
+Page ranges, header bands and declared totals per catalogue edition are data in
+`config/parser-profiles.json`, bound to the exact file by SHA-256; an edition without a reviewed
+profile is refused, never guessed (P-4). Every ingestion job stores the profile code and version.
+**Evidence:** the TypeScript extractor reproduces the Sprint 00 reference for all 500 records
+(Math 200, B/H/S 200 + 20, German 80 tasks / 200 scored items): identical IDs, structure, flags,
+answer keys, options, scored items and text; the only difference is whitespace (pdf.js collapses
+repeated spaces and spaces math operators). Guarded by `tests/unit/ingestion-regression.test.ts`.
+**OCR:** not needed; all three catalogues have a complete text layer. A file without a text layer
+fails ingestion with a clear report; OCR would be a new external dependency (Director decision, M-4).
+**Alternatives rejected:** `mupdf` (WASM, AGPL-3.0: network-use obligations for a school web app);
+running the Python tool on the server (second runtime on Vercel).
+
