@@ -65,3 +65,8 @@ test("the footer links the legal documents and the contact on public pages", asy
   await expect(page.locator("main")).toContainText("ai@idss.ba");
   await expect(page.locator("main h2").first()).toBeVisible();
 });
+
+test("the own account page is not reachable without a session", async ({ page }) => {
+  await page.goto("/app/nalog");
+  await expect(page).toHaveURL(/\/prijava$/);
+});

@@ -64,6 +64,14 @@ export const BundleChangeSchema = z
   // A subject-teacher grant always names its subject; other bundles never do.
   .refine((value) => (value.bundle === SUBJECT_BUNDLE) === (value.subjectId !== undefined));
 
+/** POST change own password: current password, new password (role minimum) typed twice, different from the current one. */
+export function changeOwnPasswordSchema(minPasswordLength: number) {
+  return z
+    .object({ currentPassword: z.string().min(1).max(200), newPassword: passwordSchema(minPasswordLength), confirmPassword: z.string() })
+    .refine((value) => value.newPassword === value.confirmPassword, { message: "MISMATCH" })
+    .refine((value) => value.newPassword !== value.currentPassword, { message: "UNCHANGED" });
+}
+
 /** POST reset password. */
 export function resetPasswordSchema(minPasswordLength: number) {
   return z.object({ userId: z.uuid(), password: passwordSchema(minPasswordLength) });
