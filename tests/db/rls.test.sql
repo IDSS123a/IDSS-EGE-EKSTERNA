@@ -45,15 +45,15 @@ reset role;
 set role authenticated;
 select set_config('request.jwt.claim.sub', '99999999-9999-9999-9999-999999999999', false);
 select pg_temp.assert((select count(*) from public.profiles) = 0, 'forged token for unknown user reads no profiles');
-select pg_temp.assert(public.has_capability('accounts.manage') = false, 'forged token has no capability');
+select pg_temp.assert(private.has_capability('accounts.manage') = false, 'forged token has no capability');
 
 -- 2. Student: own rows only, no escalation.
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
 select pg_temp.assert((select count(*) from public.profiles) = 1, 'student sees only own profile');
 select pg_temp.assert((select count(*) from public.enrolments) = 1, 'student sees only own enrolment');
 select pg_temp.assert((select count(*) from public.persons where profile_user_id <> auth.uid()) = 0, 'student cannot see other persons');
-select pg_temp.assert(public.has_capability('practice.participate'), 'student may practise');
-select pg_temp.assert(not public.has_capability('students.view_progress'), 'student cannot view others'' progress');
+select pg_temp.assert(private.has_capability('practice.participate'), 'student may practise');
+select pg_temp.assert(not private.has_capability('students.view_progress'), 'student cannot view others'' progress');
 update public.profiles set role = 'superadmin' where user_id = auth.uid();
 select pg_temp.assert((select role from public.profiles where user_id = auth.uid()) = 'student', 'self-escalation of role has no effect');
 update public.profiles set account_status = 'active' where user_id = '00000000-0000-0000-0000-00000000000e';
@@ -70,19 +70,19 @@ set role authenticated;
 
 -- 3. Subject teacher: scoped capabilities.
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
-select pg_temp.assert(public.has_capability('canon.review', '11111111-1111-1111-1111-111111111111'), 'teacher reviews own subject');
-select pg_temp.assert(not public.has_capability('canon.review', '55555555-5555-5555-5555-555555555555'), 'teacher cannot review another subject');
-select pg_temp.assert(not public.has_capability('support_notes.read_write'), 'subject teacher has no support-note access');
-select pg_temp.assert(not public.has_capability('canon.publish'), 'teacher cannot publish canon');
+select pg_temp.assert(private.has_capability('canon.review', '11111111-1111-1111-1111-111111111111'), 'teacher reviews own subject');
+select pg_temp.assert(not private.has_capability('canon.review', '55555555-5555-5555-5555-555555555555'), 'teacher cannot review another subject');
+select pg_temp.assert(not private.has_capability('support_notes.read_write'), 'subject teacher has no support-note access');
+select pg_temp.assert(not private.has_capability('canon.publish'), 'teacher cannot publish canon');
 select pg_temp.assert((select count(*) from public.enrolments) = 2, 'teacher with students.view_progress sees enrolments');
 
 -- 4. Superadmin, and a blocked superadmin.
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a', false);
-select pg_temp.assert(public.has_capability('canon.publish'), 'superadmin publishes canon');
-select pg_temp.assert(not public.has_capability('support_notes.read_write'), 'superadmin support-note access denied by default');
+select pg_temp.assert(private.has_capability('canon.publish'), 'superadmin publishes canon');
+select pg_temp.assert(not private.has_capability('support_notes.read_write'), 'superadmin support-note access denied by default');
 select pg_temp.assert((select count(*) from public.profiles) = 5, 'superadmin sees all profiles');
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000e', false);
-select pg_temp.assert(not public.has_capability('accounts.manage'), 'blocked account loses every capability');
+select pg_temp.assert(not private.has_capability('accounts.manage'), 'blocked account loses every capability');
 select pg_temp.assert((select count(*) from public.profiles) = 1, 'blocked account sees only itself');
 reset role;
 
@@ -137,6 +137,18 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a
 select pg_temp.assert((select count(*) from public.audit_logs) = 1, 'superadmin reads audit log');
 reset role;
 
--- 7. Every public table has RLS enabled.
+-- 7. Authorization helpers are not callable anonymously and not in the API-exposed schema.
+set role anon;
+do $$ begin
+  perform private.has_capability('accounts.manage');
+  raise exception 'FAIL: anon executed has_capability';
+exception when insufficient_privilege then raise notice 'ok - anon cannot execute authorization helpers';
+end $$;
+reset role;
+select pg_temp.assert(not exists (
+  select 1 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+  where n.nspname = 'public' and p.prosecdef), 'no SECURITY DEFINER function in public schema');
+
+-- 8. Every public table has RLS enabled.
 select pg_temp.assert(not exists (
   select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table');

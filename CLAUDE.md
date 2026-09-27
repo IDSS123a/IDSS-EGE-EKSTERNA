@@ -14,6 +14,10 @@ Governance: Commander v1.6.1 (https://github.com/IDSS123a/commander) · Mode: FU
 Read `AGENTS.md` (Next.js 16 differs from older versions; docs in `node_modules/next/dist/docs/`).
 Checks: `npm run typecheck`, `npm run lint`, `npm run build`, `PW_CHROMIUM_PATH=/opt/pw-browsers/chromium npm run test:e2e`.
 
+## Local machine
+Director's local folder: `C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027` (setup in `README.md`).
+Supabase project: `dezevstfmfliyasdeflj`. After every migration run the Supabase security advisor.
+
 ## Where things are
 - Product mandate: `docs/mandate/INSTRUCTION-WEB-APP-IDSS-EGE.html`
 - Evidence: `docs/discovery/` (source inventory, prototype audit, ambiguities)

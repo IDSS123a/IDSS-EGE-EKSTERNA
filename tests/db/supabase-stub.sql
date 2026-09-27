@@ -15,4 +15,6 @@ grant execute on function auth.uid() to anon, authenticated, service_role;
 -- Supabase grants table privileges on public to these roles by default; RLS then decides rows.
 alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
 alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;
+-- Like Supabase: new functions in public are executable by anon and authenticated by default.
+alter default privileges in schema public grant execute on functions to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;

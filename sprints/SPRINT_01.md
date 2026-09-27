@@ -33,7 +33,7 @@ Canon upload UI, ingestion, question bank, practice, gamification, AI (Sprints 0
 - [x] 3. Splash screen — final version in `public/splash/` with the official logo (`public/brand/`), 12 messages × bs/de/en, non-repeating rotation, reduced motion, WebGL/CSS/no-JS fallbacks; server-rendered first paint in the root layout
 - [x] (added by AMB-11) Live language switch bs/de/en without reload, persisted in a preference cookie
 - [x] Baseline security headers (`next.config.ts`); nonce CSP pending step 5
-- [~] 4. Supabase project `dezevstfmfliyasdeflj` provided by the Director. Migrations `001_identity`, `002_canon_registry`, `003_audit` written and verified locally (`npm run test:db`: 30 RLS/integrity assertions — anon, forged token, student, scoped teacher, superadmin, blocked account, one-active-version, append-only audit). **Not yet applied:** the Supabase connector in this session is signed in to a different Supabase account than mulalic.davor@outlook.com.
+- [x] 4. Supabase project `dezevstfmfliyasdeflj` (Director). Migrations 001–004 applied 2026-09-27; Supabase security advisor clean after 004 (moved SECURITY DEFINER helpers out of the exposed schema). Local `npm run test:db` 33/33; live SQL checks as `anon` return 0 rows everywhere.
 - [ ] 5. Username + password auth, rate limit, lockout, CSP
 - [ ] 6. Superadmin account lifecycle UI
 - [ ] 7. Seed named staff accounts
