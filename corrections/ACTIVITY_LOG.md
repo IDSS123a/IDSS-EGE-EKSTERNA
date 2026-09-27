@@ -55,3 +55,4 @@
 - [2026-09-27] Sprint 06 item 2: migration 015 applied, Gemini semantic search (PDL-023)
 - [2026-09-27] Gemini key rotation (GEMINI_API_KEY_1 to _10)
 - [2026-09-27] Semantic index build: retry, isolate failing passage, show Gemini detail (Director's first build stopped at 100/514)
+- [2026-09-27] Semantic index complete live: 514/514 vectors, nearest-neighbour subject check 99.6-100 %
