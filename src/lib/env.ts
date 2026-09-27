@@ -42,15 +42,26 @@ export function getServiceRoleKey(): string {
   return parsed.data.SUPABASE_SERVICE_ROLE_KEY;
 }
 
-const GeminiEnvSchema = z.object({ GEMINI_API_KEY: z.string().min(20).optional(), GOOGLE_API_KEY: z.string().min(20).optional() });
+const GEMINI_KEY_NAME = /^(GEMINI_API_KEY(?:_([0-9]{1,2}))?|GOOGLE_API_KEY)$/;
+const MIN_KEY_LENGTH = 20;
 
 /**
- * Gemini API key for embeddings (PDL-023) — server only, never NEXT_PUBLIC_ (A-8). GEMINI_API_KEY is
- * preferred; GOOGLE_API_KEY (the Google SDK's other name) is accepted. Null when not configured: the
- * search then stays on full-text ranking.
+ * Gemini API keys for embeddings (PDL-023) — server only, never NEXT_PUBLIC_ (A-8). Several keys rotate when one
+ * reaches its quota (Director, 27.09.2026): GEMINI_API_KEY, then GEMINI_API_KEY_1, GEMINI_API_KEY_2, ... in number
+ * order, then GOOGLE_API_KEY. Empty or too short values are ignored; duplicates count once. An empty list means
+ * search by meaning is not configured and search works by words.
  */
-export function getGeminiApiKey(): string | null {
-  const parsed = GeminiEnvSchema.safeParse(process.env);
-  if (!parsed.success) return null;
-  return parsed.data.GEMINI_API_KEY ?? parsed.data.GOOGLE_API_KEY ?? null;
+export function getGeminiApiKeys(env: Record<string, string | undefined> = process.env): string[] {
+  const order = (name: string): number => {
+    if (name === "GEMINI_API_KEY") return 0;
+    if (name === "GOOGLE_API_KEY") return 1000;
+    return Number(GEMINI_KEY_NAME.exec(name)?.[2] ?? 999);
+  };
+  const names = Object.keys(env).filter((name) => GEMINI_KEY_NAME.test(name)).sort((a, b) => order(a) - order(b));
+  const keys: string[] = [];
+  for (const name of names) {
+    const value = env[name]?.trim();
+    if (value && value.length >= MIN_KEY_LENGTH && !keys.includes(value)) keys.push(value);
+  }
+  return keys;
 }

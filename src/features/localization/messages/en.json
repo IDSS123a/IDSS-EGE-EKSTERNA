@@ -575,9 +575,9 @@
       "FORBIDDEN": "You may not search this subject.",
       "VALIDATION": "Enter a question or term of at least 2 characters.",
       "UNAVAILABLE": "The service is not available right now. Please try again.",
-      "NOT_CONFIGURED": "The GEMINI_API_KEY key is not set in .env.local. Search works by words.",
+      "NOT_CONFIGURED": "No GEMINI_API_KEY key (or GEMINI_API_KEY_1 to GEMINI_API_KEY_10) is set in .env.local. Search works by words.",
       "REJECTED": "Gemini refused the request (check the key and the model name).",
-      "RATE_LIMITED": "Gemini is limiting the number of requests right now. Try again in a minute."
+      "RATE_LIMITED": "All Gemini keys have used up their quota for now. Try again later."
     },
     "semantic": {
       "title": "Index for search by meaning",
@@ -587,7 +587,7 @@
       "building": "Building",
       "built": "Vectors added: {stored}. Total: {embedded}.",
       "continue": "Not everything finished in one step; click again to continue.",
-      "noKey": "The GEMINI_API_KEY key is not set in .env.local; search works by words.",
+      "noKey": "No GEMINI_API_KEY key (or GEMINI_API_KEY_1 to GEMINI_API_KEY_10) is set in .env.local; search works by words.",
       "privacy": "For search by meaning the query text is sent to Google (Gemini). Do not enter personal data."
     },
     "methods": {

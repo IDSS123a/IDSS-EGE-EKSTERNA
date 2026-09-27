@@ -73,3 +73,4 @@
 [2026-09-27] [DATABASE] Migration 015_semantic_retrieval applied: pgvector, chunk embeddings bound to their text, semantic retrieval fused with full-text, audited with method (PDL-023)
 [2026-09-27] [FEATURE] Search by meaning with Gemini (gemini-embedding-2, 768 dimensions): "Izgradi indeks po značenju" on /app/pretraga, search falls back to words without a key, index or on a Gemini failure; only catalogue and query text go to Google
 [2026-09-27] [ENV] Added GEMINI_API_KEY (server only; GOOGLE_API_KEY accepted) to .env.example
+[2026-09-27] [FEATURE] Gemini key rotation: GEMINI_API_KEY_1 to _10 (Director), round robin, next key on quota or refusal (PDL-023)

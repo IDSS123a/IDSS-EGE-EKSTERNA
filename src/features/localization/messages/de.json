@@ -575,9 +575,9 @@
       "FORBIDDEN": "Sie dürfen in diesem Fach nicht suchen.",
       "VALIDATION": "Geben Sie eine Frage oder einen Begriff mit mindestens 2 Zeichen ein.",
       "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut.",
-      "NOT_CONFIGURED": "Der Schlüssel GEMINI_API_KEY ist in .env.local nicht gesetzt. Die Suche arbeitet nach Wörtern.",
+      "NOT_CONFIGURED": "Kein Schlüssel GEMINI_API_KEY (oder GEMINI_API_KEY_1 bis GEMINI_API_KEY_10) ist in .env.local gesetzt. Die Suche arbeitet nach Wörtern.",
       "REJECTED": "Gemini hat die Anfrage abgelehnt (Schlüssel und Modellname prüfen).",
-      "RATE_LIMITED": "Gemini begrenzt gerade die Zahl der Anfragen. Bitte in einer Minute erneut versuchen."
+      "RATE_LIMITED": "Alle Gemini-Schlüssel haben ihr Kontingent gerade ausgeschöpft. Bitte später erneut versuchen."
     },
     "semantic": {
       "title": "Index für die Suche nach Bedeutung",
@@ -587,7 +587,7 @@
       "building": "Wird erstellt",
       "built": "Vektoren hinzugefügt: {stored}. Insgesamt: {embedded}.",
       "continue": "Nicht alles wurde in einem Schritt fertig; klicken Sie erneut, um fortzufahren.",
-      "noKey": "Der Schlüssel GEMINI_API_KEY ist in .env.local nicht gesetzt; die Suche arbeitet nach Wörtern.",
+      "noKey": "Kein Schlüssel GEMINI_API_KEY (oder GEMINI_API_KEY_1 bis GEMINI_API_KEY_10) ist in .env.local gesetzt; die Suche arbeitet nach Wörtern.",
       "privacy": "Der Suchtext wird für die Suche nach Bedeutung an Google (Gemini) gesendet. Geben Sie keine personenbezogenen Daten ein."
     },
     "methods": {
