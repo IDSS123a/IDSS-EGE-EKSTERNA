@@ -141,3 +141,12 @@ export const CANON_REASON_MAX_LENGTH = 500;
 export const CANON_STAGING_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 /** Upper bound of staging objects inspected per clean-up (A-3). */
 export const CANON_STAGING_LIST_LIMIT = 1000;
+
+/** Student practice (Sprint 06, migration 017). */
+export const PRACTICE_PATH = "/app/vjezba";
+/** Subject page of the Game Hub: areas with progress. */
+export const SUBJECT_PATH = "/app/predmet";
+/** Longest answer a student may type into an open task (matches migration 017). */
+export const PRACTICE_RESPONSE_MAX_LENGTH = 4000;
+/** Daily mission v1 (PDL-024): answers per day. A learning goal, never a grade (P-7). */
+export const DAILY_MISSION_GOAL = 5;

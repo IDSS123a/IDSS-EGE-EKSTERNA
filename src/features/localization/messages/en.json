@@ -659,5 +659,60 @@
       "LOCKED": "Too many failed attempts. Please try again in a few minutes.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
     }
+  },
+  "hub": {
+    "eyebrow": "Your way to the external examination",
+    "greeting": "Hello, {name}",
+    "streak": "Practice streak",
+    "streakDays": "{n} days in a row",
+    "streakNone": "Start today and begin a streak.",
+    "mission": "Daily mission",
+    "missionText": "Solve {goal} tasks today",
+    "missionDone": "Mission complete. Well done!",
+    "mastered": "Mastered",
+    "masteredHint": "Questions whose latest answer was correct",
+    "awaiting": "Waiting for the teacher: {n}",
+    "practise": "Practise",
+    "areas": "Areas",
+    "subjectsTitle": "Subjects",
+    "noQuestions": "There are no reviewed questions for this subject yet.",
+    "gameNote": "Points and streaks are for motivation; the teacher gives the grade."
+  },
+  "practice": {
+    "back": "Back to the start page",
+    "backToSubject": "Back to the subject",
+    "title": "Practice",
+    "area": "Area",
+    "level": "Level",
+    "source": "Source: {title}, p. {page}",
+    "figure": "This task has a picture in the catalogue (p. {page}). Pictures are not shown in the application yet.",
+    "transcript": "Listening transcript (the official audio recording is not available)",
+    "choose": "Choose an answer",
+    "item": "Item {n}",
+    "true": "Richtig (true)",
+    "false": "Falsch (false)",
+    "answer": "Your answer",
+    "answerHint": "Write your answer; you see the solution after submitting, and the teacher reviews the answer.",
+    "submit": "Submit answer",
+    "submitting": "Submitting",
+    "next": "Next question",
+    "empty": "There are no questions in this area right now.",
+    "outcome": {
+      "correct": "Correct!",
+      "partly_correct": "Partly correct: {c} of {n}.",
+      "incorrect": "Incorrect. Look at the solution.",
+      "awaiting_teacher": "Your answer is saved for the teacher. Compare it with the solution from the catalogue."
+    },
+    "yourAnswer": "Your answer",
+    "solution": "Solution from the catalogue",
+    "noSolution": "The catalogue gives no solution for this task; the teacher reviews the answer.",
+    "empty_answer": "(no answer)",
+    "errors": {
+      "UNAUTHENTICATED": "The session has expired. Sign in again.",
+      "FORBIDDEN": "Practice is available to students.",
+      "VALIDATION": "Answer every item.",
+      "NOT_FOUND": "The question is no longer available. Open the next one.",
+      "UNAVAILABLE": "The service is not available right now. Try again."
+    }
   }
 }

@@ -35,6 +35,11 @@ Date: 2026-09-27 (open)
    (found by the Director) → relevance is measured per query (z value against all passages, migration 016) and the
    floor is derived from measured data. A threshold is derived from the measured distribution before it ships, and
    the numbers needed to retune it are recorded from the start.
+10. The first practice payload let 40 German Wortschatz items fall back to free text: their options sit at question level
+    while the key is per scored item. Found by running the payload function over every live question before any student
+    used it; fixed by migration 018. New data-shaped logic is checked against every live record, not only fixtures.
+11. All radio groups of a multi-item question shared the name "response", so choosing in one item cleared the others;
+    caught while reading the form before the first render → one field name per item.
 
 ## Gotchas Discovered
 - Browser textareas submit line breaks as \r\n; the first live revisions stored \r\n while the catalogue text uses \n.

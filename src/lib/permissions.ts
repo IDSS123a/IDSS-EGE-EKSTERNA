@@ -83,3 +83,8 @@ export function canManageSettings(account: CurrentAccount): boolean {
 export function canViewCanon(account: CurrentAccount): boolean {
   return canPublishCanon(account) || hasCapability(account, "canon.review");
 }
+
+/** Practise trusted questions (students; migration 017 re-checks practice.participate). */
+export function canPractise(account: CurrentAccount): boolean {
+  return hasCapability(account, "practice.participate");
+}

@@ -659,5 +659,60 @@
       "LOCKED": "Zu viele Fehlversuche. Bitte versuchen Sie es in einigen Minuten erneut.",
       "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
     }
+  },
+  "hub": {
+    "eyebrow": "Dein Weg zur externen Abschlussprüfung",
+    "greeting": "Hallo, {name}",
+    "streak": "Übungsserie",
+    "streakDays": "{n} Tage in Folge",
+    "streakNone": "Fang heute an und starte eine Serie.",
+    "mission": "Tagesmission",
+    "missionText": "Löse heute {goal} Aufgaben",
+    "missionDone": "Mission erfüllt. Bravo!",
+    "mastered": "Beherrscht",
+    "masteredHint": "Fragen, deren letzte Antwort richtig war",
+    "awaiting": "Wartet auf die Lehrkraft: {n}",
+    "practise": "Üben",
+    "areas": "Bereiche",
+    "subjectsTitle": "Fächer",
+    "noQuestions": "Für dieses Fach gibt es noch keine geprüften Fragen.",
+    "gameNote": "Punkte und Serien dienen der Motivation; die Note gibt die Lehrkraft."
+  },
+  "practice": {
+    "back": "Zurück zur Startseite",
+    "backToSubject": "Zurück zum Fach",
+    "title": "Übung",
+    "area": "Bereich",
+    "level": "Niveau",
+    "source": "Quelle: {title}, S. {page}",
+    "figure": "Die Aufgabe enthält im Katalog ein Bild (S. {page}). Bilder werden in der Anwendung noch nicht angezeigt.",
+    "transcript": "Hörtext-Transkript (die offizielle Audioaufnahme ist nicht verfügbar)",
+    "choose": "Wähle eine Antwort",
+    "item": "Aufgabe {n}",
+    "true": "Richtig",
+    "false": "Falsch",
+    "answer": "Deine Antwort",
+    "answerHint": "Schreibe deine Antwort; die Lösung siehst du nach der Abgabe, die Lehrkraft prüft die Antwort.",
+    "submit": "Antwort abgeben",
+    "submitting": "Wird abgegeben",
+    "next": "Nächste Frage",
+    "empty": "In diesem Bereich gibt es gerade keine Fragen.",
+    "outcome": {
+      "correct": "Richtig!",
+      "partly_correct": "Teilweise richtig: {c} von {n}.",
+      "incorrect": "Falsch. Sieh dir die Lösung an.",
+      "awaiting_teacher": "Die Antwort ist für die Lehrkraft gespeichert. Vergleiche sie mit der Lösung aus dem Katalog."
+    },
+    "yourAnswer": "Deine Antwort",
+    "solution": "Lösung aus dem Katalog",
+    "noSolution": "Der Katalog nennt für diese Aufgabe keine Lösung; die Lehrkraft prüft die Antwort.",
+    "empty_answer": "(keine Antwort)",
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Melde dich erneut an.",
+      "FORBIDDEN": "Die Übung steht Schülerinnen und Schülern zur Verfügung.",
+      "VALIDATION": "Beantworte jede Aufgabe.",
+      "NOT_FOUND": "Die Frage ist nicht mehr verfügbar. Öffne die nächste.",
+      "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Versuche es erneut."
+    }
   }
 }

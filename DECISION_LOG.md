@@ -310,3 +310,25 @@ result counts as evidence only with z >= 4.0 (`RETRIEVAL_MIN_SIMILARITY_Z`) unle
 nearest related passage stands out by 3.39 median (95th percentile 4.79), the best of about 500 unrelated passages by
 about 3 by chance. Live probe: a passage identical to the query z = 7.8, its closest neighbours z = 2.6 to 3.2 (refused).
 Each semantic search now records `top_similarity` and `top_similarity_z` (no query text) to retune the floor on real use.
+
+## PDL-024: Practice loop, auto-check scope, mastery and missions v1
+**Date:** 2026-09-27 (Sprint 06 items 3-4; Director: "KRENI s učeničkom početnom stranicom (Game Hub) i vježbanjem")
+**Decision:**
+1. **Answers after the attempt (PDL-018):** students never read questions or keys from tables. `practice_next` returns a
+   trusted question without any key; `practice_submit` stores the answer for the student's person and only then
+   returns the solution (effective key: newest reviewed revision, else printed, CF-03). Text shown is the newest
+   reviewed text revision (PDL-021).
+2. **Auto-check only where the catalogue key is unambiguous (P-4):** single-choice tasks whose key is an option letter
+   (question level or per scored item) and German true/false items (r/f). Live coverage: B/H/S 121 of 121 choice tasks,
+   Math 49 of 50 (MAT-5.10.2 has picture options), German 100 of 100 choice items and 56 of 56 true/false items.
+   Matching, completion, word bank, short and open answers and Math working are stored for the teacher
+   (`awaiting_teacher`) with the printed solution shown after the answer (AMB-21).
+3. **Mastery v1:** share of a scope's trusted questions whose latest answer was correct; answered and waiting counts
+   beside it. A learning signal, never a grade (P-7).
+4. **Missions v1:** daily mission of `DAILY_MISSION_GOAL` = 5 answers (Europe/Sarajevo day) and the practice streak
+   (consecutive days). XP and badges follow in Sprint 08.
+5. **German listening:** the official transcript is shown, labelled, until audio exists (AMB-04 option a).
+6. History is bound to `persons` (created on first practice), so it survives account archival (DATA_MODEL §6).
+**Implementation:** migrations 017 and 018, `src/features/practice`, `/app` (Game Hub for students), `/app/predmet/[code]`,
+`/app/vjezba`.
+

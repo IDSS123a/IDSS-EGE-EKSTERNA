@@ -57,3 +57,6 @@
 - [2026-09-27] Semantic index build: retry, isolate failing passage, show Gemini detail (Director's first build stopped at 100/514)
 - [2026-09-27] Semantic index complete live: 514/514 vectors, nearest-neighbour subject check 99.6-100 %
 - [2026-09-27] Migration 016: semantic relevance by per-query z value (Director: Ministar)
+- [2026-09-27 21:53] Write: migrations/017_practice.sql
+- [2026-09-27 21:56] Write: src/features/practice/components/practice-screen.tsx
+- [2026-09-27] Sprint 06 items 3-4: migrations 017-018 applied, Game Hub and practice (PDL-024)
