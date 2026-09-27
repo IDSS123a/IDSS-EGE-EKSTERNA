@@ -12,10 +12,10 @@ export const DEFAULT_LOCALE = "bs";
 export const LOCALE_COOKIE_NAME = "ege_locale";
 export const LOCALE_COOKIE_MAX_AGE_SECONDS = 60 * 60 * 24 * 365;
 
-/** Splash timing (mandate §7A.8): long enough to read one message, never blocking longer than needed. */
-export const SPLASH_MIN_VISIBLE_MS = 1800;
+/** Splash timing (mandate §7A.8). Minimum raised by 4 s at the Director's request (2026-09-27); the splash can always be skipped. */
+export const SPLASH_MIN_VISIBLE_MS = 5800;
 /** Fail-safe: the splash leaves even if the app never signals readiness. */
-export const SPLASH_MAX_VISIBLE_MS = 8000;
+export const SPLASH_MAX_VISIBLE_MS = 12000;
 /** Interval between motivational messages while the splash is visible. */
 export const SPLASH_MESSAGE_ROTATE_MS = 3200;
 

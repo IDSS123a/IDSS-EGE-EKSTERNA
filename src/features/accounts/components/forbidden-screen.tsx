@@ -12,7 +12,7 @@ export function ForbiddenScreen(): ReactNode {
   return (
     <div className="page">
       <SiteHeader />
-      <main className="page__main page__main--narrow">
+      <main className="page__main">
         <section className="card">
           <h1 className="auth-card__title">{dictionary.accounts.forbidden}</h1>
           <Link href={APP_HOME_PATH} className="auth-card__back">{dictionary.accounts.back}</Link>

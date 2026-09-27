@@ -113,5 +113,14 @@ CONSTITUTION P-13.
 (`src/lib/text-style.ts`). Existing UI text cleaned (dashes, ellipses, middle dots, arrow).
 **Scope limit:** canonical source text keeps its original characters (P-4, AMB-13); code comments
 and internal docs are not app text.
-**Open:** the Director's message began with "am, an", read as "em dash, en dash"; the full
-character and phrase list awaits the Director's confirmation.
+**Confirmed (Director, 2026-09-27):** "am, an" meant em dash and en dash.
+
+## PDL-012: Full-width layout on every device; longer splash
+**Date:** 2026-09-27
+**Decision (Director):** all UI must fit every device type, operating system and operator; on
+desktop and laptop all content spans the whole screen, margin to margin (CONSTITUTION P-14).
+The splash stays 4 seconds longer before entry.
+**Implementation:** `--content-max-width` removed; fluid margins with safe-area insets; viewport
+`viewport-fit=cover`; login page becomes a two-column full-width card from 960 px.
+`SPLASH_MIN_VISIBLE_MS` 1800 to 5800, fail-safe `SPLASH_MAX_VISIBLE_MS` 8000 to 12000; the
+splash can still be skipped.
