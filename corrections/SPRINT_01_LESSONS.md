@@ -29,3 +29,4 @@ Date: 2026-09-27 (in progress)
 - `.card p` outranked `.form__error` (specificity), so the error was not red → scoped the form rules under `.card`; caught only by looking at a screenshot, not by tests.
 - Server Actions used by `useActionState` must take `(previousState, formData)`; a plain `(formData)` action type-checks as a form action but cannot report results → all account actions use the two-argument form.
 - `ilike` on usernames would treat `_`/`%` as wildcards (both allowed in e-mail local parts) → usernames are stored lower-case and compared with `eq`.
+- 2026-09-27 — No lessons: routine configuration change (AMB-15 student password length).
