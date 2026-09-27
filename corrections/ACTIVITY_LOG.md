@@ -29,3 +29,4 @@
 - [2026-09-27 14:28] Write: src/features/canon/repository.ts
 - [2026-09-27 14:29] Write: src/features/canon/actions.ts
 - [2026-09-27] Sprint 02 canon registry feature, seed script, tests (DB 63, unit 34, e2e 40)
+- [2026-09-27] Sprint 02 closed (DONE checklist, compliance, handoff)

@@ -221,5 +221,11 @@
       "REASON_REQUIRED": "Please enter a reason.",
       "UNAVAILABLE": "The service is currently unavailable. Please try again."
     }
+  },
+  "common": {
+    "errorTitle": "This page is currently unavailable.",
+    "errorBody": "The data could not be loaded. Please try again in a moment.",
+    "retry": "Try again",
+    "loading": "Loading"
   }
 }
