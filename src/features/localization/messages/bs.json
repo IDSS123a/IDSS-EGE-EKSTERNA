@@ -52,5 +52,70 @@
     "nextStepsTitle": "Šta slijedi",
     "nextStepsBody": "Vaš radni prostor se gradi u narednim sprintovima. Prijava, uloge i zaštita podataka su aktivni.",
     "logout": "Odjava"
+  },
+  "accounts": {
+    "navLink": "Upravljanje nalozima",
+    "title": "Upravljanje nalozima",
+    "subtitle": "Kreiranje naloga, status, prava i lozinke. Svaka promjena se bilježi u dnevnik.",
+    "forbidden": "Nemate pravo pristupa ovoj stranici.",
+    "back": "Nazad",
+    "createTitle": "Novi nalog",
+    "username": "Korisničko ime",
+    "usernameHintStaff": "Administrator: službena e-mail adresa.",
+    "usernameHintStudent": "Učenik: korisničko ime koje dodjeljuje škola (bez e-maila), npr. ime.prezime.",
+    "displayName": "Ime i prezime",
+    "role": "Uloga",
+    "password": "Početna lozinka",
+    "passwordHint": "Najmanje {min} znakova. Lozinku lično predajte korisniku.",
+    "create": "Kreiraj nalog",
+    "creating": "Kreiranje…",
+    "listTitle": "Nalozi",
+    "empty": "Još nema naloga osim Vašeg.",
+    "columns": {
+      "name": "Ime i prezime",
+      "username": "Korisničko ime",
+      "role": "Uloga",
+      "status": "Status",
+      "bundles": "Prava",
+      "actions": "Akcije"
+    },
+    "you": "Vi",
+    "protected": "Zaštićen nalog",
+    "statuses": {
+      "invited": "Pozvan",
+      "active": "Aktivan",
+      "suspended": "Suspendovan",
+      "blocked": "Blokiran",
+      "deactivated": "Deaktiviran",
+      "archived": "Arhiviran"
+    },
+    "setStatus": "Promijeni status",
+    "apply": "Primijeni",
+    "bundles": {
+      "pedagogue": "Pedagog",
+      "psychologist": "Psiholog",
+      "admin_operations": "Administrativne operacije"
+    },
+    "grant": "Dodijeli",
+    "revoke": "Ukloni",
+    "subjectTeacherNote": "Prava predmetnog nastavnika dodjeljuju se kada predmeti budu učitani iz kataloga (Sprint 04).",
+    "resetPassword": "Nova lozinka",
+    "resetSubmit": "Postavi lozinku",
+    "tokenNote": "Napomena: blokiranje odmah sprječava novu prijavu; već otvorena sesija ističe najkasnije za 1 sat.",
+    "messages": {
+      "CREATED": "Nalog je kreiran.",
+      "STATUS_CHANGED": "Status je promijenjen.",
+      "BUNDLE_CHANGED": "Prava su promijenjena.",
+      "PASSWORD_RESET": "Lozinka je postavljena."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Ova akcija nije dozvoljena.",
+      "VALIDATION": "Provjerite unesene podatke.",
+      "USERNAME_TAKEN": "To korisničko ime već postoji.",
+      "USERNAME_ROLE_MISMATCH": "Administrator mora imati e-mail kao korisničko ime, a učenik ne smije.",
+      "NOT_FOUND": "Nalog nije pronađen.",
+      "UNAVAILABLE": "Akcija trenutno nije uspjela. Pokušajte ponovo."
+    }
   }
 }

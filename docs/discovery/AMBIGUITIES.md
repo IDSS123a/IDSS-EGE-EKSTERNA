@@ -50,3 +50,10 @@ Each entry states the ACA's recommendation so the Director can answer "yes".
 | AMB-13 | **Everything is translated except the text of the official question and its answer.** Instructions, hints and explanations around the question are translated. | `question_versions.raw_text`, options and answer keys are always shown in the source language; every surrounding UI string, hint, feedback and explanation follows the chosen language. |
 | AMB-14 | Implicitly confirmed with AMB-13: bs (default), de, en. | — |
 | — | Supabase project provided by the Director: `dezevstfmfliyasdeflj` (https://dezevstfmfliyasdeflj.supabase.co). | Used for all environments until the Director says otherwise. |
+
+## New items (Sprint 01, account administration)
+
+| ID | Severity | Question | Evidence | Recommendation | Blocks |
+|---|---|---|---|---|---|
+| AMB-15 | 🟢 | Minimum password length for **student** accounts? | Mandate §7A.5 requires passwords but sets no length | 📌 ASSUMED 12 (same as staff); a shorter minimum (e.g. 10) is easier for Grade 9 students. Constant `STUDENT_PASSWORD_MIN_LENGTH`. | none |
+| AMB-16 | 🟢 | Subject-teacher rights need a subject scope, but exam subjects become database rows only in Sprint 04 (derived from the active rulebook). | DATA_MODEL §4; P-3 | Until then Haris Hamzić, Nikolina Todorović and Nizama Memija get `admin_operations`; `subject_teacher` is granted per subject in Sprint 04. | canon review by teachers |

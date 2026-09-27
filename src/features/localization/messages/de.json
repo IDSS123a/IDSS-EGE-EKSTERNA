@@ -52,5 +52,70 @@
     "nextStepsTitle": "Wie es weitergeht",
     "nextStepsBody": "Ihr Arbeitsbereich entsteht in den nächsten Sprints. Anmeldung, Rollen und Datenschutz sind aktiv.",
     "logout": "Abmelden"
+  },
+  "accounts": {
+    "navLink": "Kontenverwaltung",
+    "title": "Kontenverwaltung",
+    "subtitle": "Konten anlegen, Status, Rechte und Passwörter. Jede Änderung wird protokolliert.",
+    "forbidden": "Sie haben keinen Zugriff auf diese Seite.",
+    "back": "Zurück",
+    "createTitle": "Neues Konto",
+    "username": "Benutzername",
+    "usernameHintStaff": "Administrator: dienstliche E-Mail-Adresse.",
+    "usernameHintStudent": "Schüler/in: von der Schule vergebener Benutzername (ohne E-Mail), z. B. vorname.nachname.",
+    "displayName": "Vor- und Nachname",
+    "role": "Rolle",
+    "password": "Anfangspasswort",
+    "passwordHint": "Mindestens {min} Zeichen. Übergeben Sie das Passwort persönlich.",
+    "create": "Konto anlegen",
+    "creating": "Wird angelegt…",
+    "listTitle": "Konten",
+    "empty": "Außer Ihrem gibt es noch keine Konten.",
+    "columns": {
+      "name": "Vor- und Nachname",
+      "username": "Benutzername",
+      "role": "Rolle",
+      "status": "Status",
+      "bundles": "Rechte",
+      "actions": "Aktionen"
+    },
+    "you": "Sie",
+    "protected": "Geschütztes Konto",
+    "statuses": {
+      "invited": "Eingeladen",
+      "active": "Aktiv",
+      "suspended": "Suspendiert",
+      "blocked": "Gesperrt",
+      "deactivated": "Deaktiviert",
+      "archived": "Archiviert"
+    },
+    "setStatus": "Status ändern",
+    "apply": "Übernehmen",
+    "bundles": {
+      "pedagogue": "Pädagoge/Pädagogin",
+      "psychologist": "Psychologe/Psychologin",
+      "admin_operations": "Administrative Vorgänge"
+    },
+    "grant": "Erteilen",
+    "revoke": "Entziehen",
+    "subjectTeacherNote": "Fachlehrerrechte werden vergeben, sobald die Fächer aus den Katalogen geladen sind (Sprint 04).",
+    "resetPassword": "Neues Passwort",
+    "resetSubmit": "Passwort setzen",
+    "tokenNote": "Hinweis: Eine Sperre verhindert sofort neue Anmeldungen; eine bereits offene Sitzung endet spätestens nach 1 Stunde.",
+    "messages": {
+      "CREATED": "Das Konto wurde angelegt.",
+      "STATUS_CHANGED": "Der Status wurde geändert.",
+      "BUNDLE_CHANGED": "Die Rechte wurden geändert.",
+      "PASSWORD_RESET": "Das Passwort wurde gesetzt."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "FORBIDDEN": "Diese Aktion ist nicht erlaubt.",
+      "VALIDATION": "Bitte prüfen Sie die Eingaben.",
+      "USERNAME_TAKEN": "Dieser Benutzername existiert bereits.",
+      "USERNAME_ROLE_MISMATCH": "Administratoren verwenden eine E-Mail als Benutzernamen, Schüler/innen nicht.",
+      "NOT_FOUND": "Konto nicht gefunden.",
+      "UNAVAILABLE": "Die Aktion ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+    }
   }
 }

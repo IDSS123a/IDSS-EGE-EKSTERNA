@@ -21,7 +21,35 @@ export async function findProfileByUserId(client: SupabaseClient, userId: string
     .maybeSingle<ProfileRow>();
   if (error) throw new Error(`findProfileByUserId failed: ${error.message}`);
   if (!data) return null;
-  return { userId: data.user_id, username: data.username, displayName: data.display_name, role: data.role, status: data.account_status };
+  const capabilities = await findCapabilities(client, data.user_id, data.role);
+  return {
+    userId: data.user_id,
+    username: data.username,
+    displayName: data.display_name,
+    role: data.role,
+    status: data.account_status,
+    capabilities,
+  };
+}
+
+/**
+ * Capabilities of one account: role grants plus bundle grants. With a user-scoped client
+ * RLS lets a user read only their own bundles; capability tables are readable by all
+ * signed-in users. Subject scope is enforced by the database (has_capability) for data access.
+ */
+async function findCapabilities(client: SupabaseClient, userId: string, role: AccountRole): Promise<ReadonlySet<string>> {
+  const roleGrants = await client.from("role_capabilities").select("capability_code").eq("role", role);
+  if (roleGrants.error) throw new Error(`findCapabilities(role) failed: ${roleGrants.error.message}`);
+  const bundles = await client.from("profile_bundles").select("bundle_code").eq("profile_user_id", userId);
+  if (bundles.error) throw new Error(`findCapabilities(bundles) failed: ${bundles.error.message}`);
+  const codes = new Set<string>((roleGrants.data ?? []).map((row: { capability_code: string }) => row.capability_code));
+  const bundleCodes = (bundles.data ?? []).map((row: { bundle_code: string }) => row.bundle_code);
+  if (bundleCodes.length > 0) {
+    const bundleGrants = await client.from("bundle_capabilities").select("capability_code").in("bundle_code", bundleCodes);
+    if (bundleGrants.error) throw new Error(`findCapabilities(bundle grants) failed: ${bundleGrants.error.message}`);
+    for (const row of bundleGrants.data as { capability_code: string }[]) codes.add(row.capability_code);
+  }
+  return codes;
 }
 
 /**
