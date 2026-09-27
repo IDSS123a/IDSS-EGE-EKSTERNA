@@ -221,5 +221,11 @@
       "REASON_REQUIRED": "Bitte eine Begründung angeben.",
       "UNAVAILABLE": "Der Dienst ist derzeit nicht erreichbar. Bitte erneut versuchen."
     }
+  },
+  "common": {
+    "errorTitle": "Die Seite ist derzeit nicht verfügbar.",
+    "errorBody": "Die Daten konnten nicht geladen werden. Bitte gleich erneut versuchen.",
+    "retry": "Erneut versuchen",
+    "loading": "Wird geladen"
   }
 }

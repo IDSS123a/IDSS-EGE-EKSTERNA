@@ -61,3 +61,13 @@ test.describe("reduced motion", () => {
 function escape(text: string): string {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
+
+test("if no script runs at all, the splash still leaves and the app becomes visible (CSS fail-safe)", async ({ page }) => {
+  test.setTimeout(40_000);
+  await page.route(/\.js(\?|$)/, (route) => route.abort());
+  await page.goto("/prijava");
+  await expect(page.locator("#idss-splash")).toBeVisible();
+  await expect(page.locator("body > .page")).toBeHidden();
+  await expect(page.locator("#idss-splash")).toBeHidden({ timeout: 20_000 });
+  await expect(page.locator("body > .page")).toBeVisible();
+});

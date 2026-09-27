@@ -30,3 +30,5 @@
 [2026-09-27] [SECURITY] Failed write attempts audited for canon and account actions; CSP connect-src opened only for signed canon uploads
 [2026-09-27] [SEED] npm run canon:seed registers and activates the three current catalogues (AMB-02)
 [2026-09-27] [CONFIG] Next.js dev indicator hidden (devIndicators: false); dev-only, errors still shown
+[2026-09-27] [FIX] Server error no longer hides the app behind the splash: splash ends when its module never ran, CSS fail-safe, /app error boundary and loading state
+[2026-09-27] [SPRINT] Sprint 02 closed: DONE checklist, compliance score, handoff note

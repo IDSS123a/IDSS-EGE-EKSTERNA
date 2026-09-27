@@ -5,6 +5,7 @@ import { CanonScreen } from "@/features/canon/components/canon-screen";
 import { findDisplayNames, loadRegistry } from "@/features/canon/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { createSupabaseServerClient } from "@/lib/db/supabase-server";
+import { logError } from "@/lib/logger";
 import { canPublishCanon, canViewCanon } from "@/lib/permissions";
 
 /**
@@ -17,7 +18,14 @@ export default async function CanonPage(): Promise<ReactNode> {
   const account = await requireAccount();
   if (!canViewCanon(account)) return <ForbiddenScreen />;
 
-  const admin = createSupabaseAdminClient();
-  const registry = await loadRegistry(await createSupabaseServerClient(), (ids) => findDisplayNames(admin, ids));
+  let registry;
+  try {
+    const admin = createSupabaseAdminClient();
+    registry = await loadRegistry(await createSupabaseServerClient(), (ids) => findDisplayNames(admin, ids));
+  } catch (error) {
+    // Logged with location here; the /app error boundary shows the friendly message.
+    logError("app/kanon/page", error);
+    throw error;
+  }
   return <CanonScreen registry={registry} canPublish={canPublishCanon(account)} />;
 }

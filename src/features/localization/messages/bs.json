@@ -221,5 +221,11 @@
       "REASON_REQUIRED": "Unesite razlog.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
+  },
+  "common": {
+    "errorTitle": "Stranica trenutno nije dostupna.",
+    "errorBody": "Podaci se nisu mogli učitati. Pokušajte ponovo za trenutak.",
+    "retry": "Pokušaj ponovo",
+    "loading": "Učitavanje"
   }
 }

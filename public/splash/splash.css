@@ -58,6 +58,23 @@ html:not([data-splash="done"]) body > :not(#idss-splash):not(script) {
 html[data-splash="leaving"] body > :not(#idss-splash):not(script) {
   visibility: visible;
 }
+/*
+ * Last-resort fail-safe without any JavaScript (neither splash.js nor React ran): the splash
+ * leaves by itself after the JS fail-safe time (SPLASH_MAX_VISIBLE_MS, 12 s) plus a margin.
+ * Once splash.js runs it sets data-splash and these rules no longer apply.
+ */
+html:not([data-splash]) #idss-splash {
+  animation: idss-splash-failsafe-out 650ms ease var(--splash-failsafe-delay, 14s) forwards;
+}
+html:not([data-splash]) body > :not(#idss-splash):not(script) {
+  animation: idss-splash-failsafe-in 0s linear var(--splash-failsafe-delay, 14s) forwards;
+}
+@keyframes idss-splash-failsafe-out {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+@keyframes idss-splash-failsafe-in {
+  to { visibility: visible; }
+}
 
 .idss-splash__canvas,
 .idss-splash__grain,
