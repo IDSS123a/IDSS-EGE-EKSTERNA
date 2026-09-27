@@ -257,3 +257,18 @@ footnote (8 pt), so it stays.
 **Implementation:** migration 013, `src/features/review/domain/text-revision.ts`, `reviseQuestionTextAction`,
 `QuestionTextSection` in the record screen. The retrieval index keeps the catalogue text (staff search); practice screens
 (Sprint 06 item 4) show the newest revision.
+
+## PDL-022: The splash is the reference FLOW algorithm; shares become colour weights
+**Date:** 2026-09-27 (Director: "Veoma sam bio zadovoljan s ovim rješenjem samo što ja hoću da diktiram učešća boja",
+with the reference file `Untitled_blend.jsx`)
+**Decision:** the splash field is an exact port of the FLOW algorithm of the reference (four colour points on their
+reference paths, soft warp and swirl, weighted inverse-distance blend 1/d^4 in sRGB, the reference player's clock of
+speed / 100 * 1.2 per second; stops #E8262C #08ABE6 #035EA1 #FFCB29, scale 56, distortion 18, swirl 13, grain 9). In
+the reference tool the colour divisions are weights; the Director's shares (Postavke, PDL-020) become these weights.
+**Implementation:** `src/features/splash/flow.ts` holds the formula; `flowWeightsFor()` measures the field over the
+first six seconds (96 x 64 samples, 9 moments, nearest colour) and adjusts the weights until every colour covers its
+share within 0.2 points (unit test: within half a point); a colour at 0 % gets weight 0. `/splash/palette` returns
+the weights (memoised per palette); `public/splash/splash.js` runs the same formula as a WebGL shader and ships the
+weights of the default shares (checked by a unit test). Supersedes the threshold layers and calibration curves of
+PDL-019 and PDL-020 (`config/splash-calibration.json` removed).
+

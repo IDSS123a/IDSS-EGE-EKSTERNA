@@ -37,9 +37,29 @@ export function neighbours(items: readonly QueueItem[], recordId: number): { pre
   return { previous: items[index - 1]?.recordId ?? null, next: items[index + 1]?.recordId ?? null };
 }
 
-/** Parse the queue filter from a search parameter (unknown values mean "pending"). */
-export function parseFilter(value: string | undefined): QueueFilter {
-  return value === "returned" || value === "accepted" || value === "all" ? value : "pending";
+/** Parse the queue filter from a search parameter (unknown values mean the fallback, "pending" by default). */
+export function parseFilter(value: string | undefined, fallback: QueueFilter = "pending"): QueueFilter {
+  return value === "pending" || value === "returned" || value === "accepted" || value === "all" ? value : fallback;
+}
+
+/** Filter shown when the URL names none: waiting records first, everything once nothing waits. */
+export function defaultFilter(counts: Record<ReviewState, number>): QueueFilter {
+  return counts.pending > 0 ? "pending" : "all";
+}
+
+/** Longest record-key query accepted from the URL. */
+export const KEY_QUERY_MAX_LENGTH = 40;
+
+/**
+ * Records whose key matches a typed query, case-insensitive: "MAT-5.3.5" and "5.3.5" both find
+ * MAT-5.3.5. An exact match (with or without the subject prefix) wins over partial matches.
+ */
+export function findByKey(items: readonly QueueItem[], query: string): QueueItem[] {
+  const wanted = query.trim().toUpperCase().slice(0, KEY_QUERY_MAX_LENGTH);
+  if (wanted === "") return [];
+  const exact = items.filter((item) => item.recordKey.toUpperCase() === wanted || item.recordKey.toUpperCase().endsWith(`-${wanted}`));
+  if (exact.length > 0) return exact;
+  return items.filter((item) => item.recordKey.toUpperCase().includes(wanted)).sort((a, b) => a.ordinal - b.ordinal);
 }
 
 /**

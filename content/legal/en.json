@@ -1,101 +1,340 @@
 {
-  "_about": "Legal documents, English translation of bs.json (AMB-20). Version 1.0.",
-  "version": "Version 1.0, 27 September 2026.",
+  "_about": "Legal documents v2.0 (Director 27.09.2026: professional level, GDPR, school data protection officer gdpr@idss.ba, +387 33 267 965). Facts confirmed by the Director: free for IDSS students; consent through the enrolment documents; retention until the end of the school year of Grade 9 plus one year; Gemini receives catalogue and query text only. Open: IDSS street address and registration number; legal review by the school before production (AMB-20).",
+  "version": "Version 2.0, effective 27.09.2026.",
   "terms": {
     "title": "Terms of Use",
     "sections": [
-      { "heading": "1. About the application", "paragraphs": [
-        "IDSS - External Graduate Examination (the application) is a platform of Internationale Deutsche Schule Sarajevo (IDSS) that prepares Grade 9 students for the external matura in Sarajevo Canton in Bosnian, Croatian, Serbian Language and Literature, Mathematics and German.",
-        "The application is for learning and practice only. It is not part of the official external matura procedure and does not replace official information from the Ministry of Education of Sarajevo Canton."
-      ]},
-      { "heading": "2. Who may use the application", "paragraphs": [
-        "The application is used by IDSS students, their teachers, the school's support staff and the school management. Accounts are created by the school; self-registration is not possible.",
-        "Every user has a personal account. Do not share your username or password and do not use another person's account. If you suspect that someone knows your password, contact the school at once or write to ai@idss.ba."
-      ]},
-      { "heading": "3. Content and its sources", "paragraphs": [
-        "Questions, answer keys and exam rules come from the official exam catalogues of the Ministry of Education of Sarajevo Canton and are shown with their source and page. Copyright in these materials remains with their publishers; the application uses them for educational purposes only.",
-        "IDSS teachers review the content before students use it. Errors may still occur; please report them to the subject teacher or to ai@idss.ba."
-      ]},
-      { "heading": "4. Practice, mock exams and grades", "paragraphs": [
-        "Results of practice and mock exams in the application are not official external matura results and do not count towards secondary school admission.",
-        "Mock exams are graded by the subject teacher. The system may suggest points for closed tasks, but the teacher confirms the final grade. Points, levels and awards serve motivation and never change the teacher's grade."
-      ]},
-      { "heading": "5. Rules of conduct", "paragraphs": [
-        "It is forbidden to try to access other people's data or parts of the application without permission, to disrupt the application, to post offensive or unlawful content, or to download content automatically.",
-        "If these rules are broken, the school may suspend or close the account and apply the school's rules."
-      ]},
-      { "heading": "6. Availability and changes", "paragraphs": [
-        "IDSS aims to keep the application available but cannot guarantee uninterrupted operation. The application may be temporarily unavailable for maintenance or because of technical problems.",
-        "IDSS may change the application and these terms. Users are informed about important changes in the application. The date of the current version is shown at the end of this document."
-      ]},
-      { "heading": "7. Governing law and contact", "paragraphs": [
-        "These terms are governed by the law of Bosnia and Herzegovina. The courts of Sarajevo have jurisdiction.",
-        "Questions about the application and these terms: ai@idss.ba."
-      ]}
+      {
+        "heading": "1. Scope and acceptance",
+        "paragraphs": [
+          "These terms govern the use of the application IDSS - External Graduate Examination (the application), operated for its students and staff by Internationale Deutsche Schule Sarajevo (IDSS or the school).",
+          "By signing in, users confirm that they have read these terms, the Privacy Policy and the Cookie notice. For students, parents or guardians accept these terms as part of enrolment at IDSS."
+        ]
+      },
+      {
+        "heading": "2. Purpose of the application",
+        "paragraphs": [
+          "The application prepares Grade 9 students for the external graduate examination in Sarajevo Canton in three subjects: Bosnian, Croatian, Serbian Language and Literature, Mathematics, and German as the first foreign language.",
+          "The application is an educational tool of the school. It is not part of the official examination procedure, does not issue official results and does not replace official information from the Ministry of Education of Sarajevo Canton. The Ministry's regulations and announcements are authoritative for the official examination rules."
+        ]
+      },
+      {
+        "heading": "3. Users and accounts",
+        "paragraphs": [
+          "The application is used by IDSS students, their teachers, specialist staff and school management. Accounts are opened and closed by the school; self-registration is not possible. Rights in the application depend on the user's role and are assigned by the school."
+        ],
+        "items": [
+          "An account is personal and must not be passed on to anyone else.",
+          "Users must keep their password secret, use a password they do not use for other services, and change it under My account as soon as they suspect someone knows it.",
+          "Suspected misuse of an account must be reported immediately to the school or to ai@idss.ba.",
+          "After several failed sign-in attempts an account is temporarily locked to protect the user."
+        ]
+      },
+      {
+        "heading": "4. Content, sources and intellectual property",
+        "paragraphs": [
+          "Questions, answers and examination rules are taken from the official examination catalogues of the Ministry of Education of Sarajevo Canton and are shown with their source and page. Rights to these materials remain with their publishers; the application uses them solely for educational purposes and without changing their meaning.",
+          "IDSS teachers review the content before students use it, and every correction is recorded with its reason and the name of the person who confirmed it. Content may nevertheless contain errors. Users report an error to the subject teacher or to ai@idss.ba.",
+          "The software, design and IDSS marks belong to IDSS. Copying, downloading or distributing the content of the application beyond learning at IDSS is not permitted."
+        ]
+      },
+      {
+        "heading": "5. Practice, mock examinations and grading",
+        "paragraphs": [
+          "Students see the solution of a task only after submitting their own answer, and for a mock examination only after the teacher has graded it.",
+          "Mock examinations are graded by the subject teacher. The system may propose points for closed tasks, but the final grade is always confirmed by the teacher. Results in the application are not official examination results and do not affect secondary school admission.",
+          "Points, levels, missions and awards serve motivation. They reward regularity and effort, do not replace the teacher's grade and cannot be exchanged for money or other benefits."
+        ]
+      },
+      {
+        "heading": "6. Search of official materials",
+        "paragraphs": [
+          "Search and explanations in the application rely exclusively on reviewed official materials and always cite the source. When the source does not contain an answer, the application says so clearly instead of guessing.",
+          "Do not enter personal data (names, grades, health or family information) in the search field. The query text may be processed for the search by the service provider named in the Privacy Policy."
+        ]
+      },
+      {
+        "heading": "7. Rules of conduct",
+        "paragraphs": [
+          "Users must not:"
+        ],
+        "items": [
+          "access or attempt to access other people's data, accounts or parts of the application they have no right to;",
+          "circumvent security measures, probe for vulnerabilities or disrupt the application;",
+          "enter offensive, discriminatory or unlawful content;",
+          "download the content of the application automatically or publish it outside the school;",
+          "impersonate another person or use someone else's account."
+        ]
+      },
+      {
+        "heading": "8. Measures in case of breach",
+        "paragraphs": [
+          "If these terms are breached, the school may temporarily restrict or close the account and apply the IDSS rules of conduct and disciplinary measures. Actions in the application are recorded and may be used to establish the facts."
+        ]
+      },
+      {
+        "heading": "9. Availability and liability",
+        "paragraphs": [
+          "IDSS strives to keep the application reliable and available, but cannot guarantee uninterrupted availability. The application may be temporarily unavailable because of maintenance, upgrades or technical problems at service providers.",
+          "To the extent permitted by applicable law, IDSS is not liable for damage caused by temporary unavailability of the application or by relying on practice results as if they were official examination results."
+        ]
+      },
+      {
+        "heading": "10. Personal data protection",
+        "paragraphs": [
+          "The processing of personal data is governed by the Privacy Policy, which forms part of these terms. Questions about personal data are handled by the IDSS data protection officer: gdpr@idss.ba, telephone +387 33 267 965."
+        ]
+      },
+      {
+        "heading": "11. Changes to these terms",
+        "paragraphs": [
+          "IDSS may change these terms because of changes in regulations, the application or its organisation. Users are informed of material changes in the application before they take effect. The current version and its date are shown at the end of the document."
+        ]
+      },
+      {
+        "heading": "12. Governing law and contact",
+        "paragraphs": [
+          "These terms are governed by the law of Bosnia and Herzegovina. The court in Sarajevo has jurisdiction over disputes.",
+          "Questions about the application and these terms: ai@idss.ba."
+        ]
+      }
     ]
   },
   "privacy": {
     "title": "Privacy Policy",
     "sections": [
-      { "heading": "1. Who processes the data", "paragraphs": [
-        "The data controller is Internationale Deutsche Schule Sarajevo (IDSS). Contact for all questions about personal data: ai@idss.ba.",
-        "We process data in line with the Law on the Protection of Personal Data of Bosnia and Herzegovina."
-      ]},
-      { "heading": "2. What data we process", "paragraphs": [
-        "Account data: first and last name, username (for staff the official e-mail address), role, account status and granted rights.",
-        "Learning data: answers to tasks, results of practice and mock exams, teachers' grades and comments, progress by area, points and awards.",
-        "Security and technical data: sign-in and sign-out times, failed sign-in attempts (the username is stored only as an encrypted fingerprint), the IP address with important actions, and a log of important changes (who changed what and when).",
-        "Search queries: the search log keeps only an encrypted fingerprint of the query, never its text."
-      ]},
-      { "heading": "3. Why we process data", "paragraphs": [
-        "To let students prepare for the external matura, to let teachers follow progress and grade mock exams, and to protect the application and the data from misuse.",
-        "The basis for processing students' data is their enrolment at IDSS: parents or guardians gave their consent in the school's enrolment documents. We keep security logs to protect users and the application."
-      ]},
-      { "heading": "4. Who has access", "paragraphs": [
-        "Students see only their own data. Teachers see the data of students in their subject. The pedagogue, the psychologist and the school management have access only within their duties. Every access is limited by rights and logged.",
-        "Data is stored with the database provider Supabase on servers in the European Union (Frankfurt). The application's hosting provider processes the technical data needed to run the application.",
-        "Search and explanations with artificial intelligence use the Google Gemini service. Google then receives the text of the official exam catalogues and the text of the question a user types, but never a name, username, results or any other account data.",
-        "We do not sell data, do not use it for advertising and do not pass it to others unless the law requires it."
-      ]},
-      { "heading": "5. How long we keep data", "paragraphs": [
-        "We keep students' data until the end of the school year in which they completed Grade 9 and for one more year. The account is then archived and personal data is deleted or anonymised; only anonymous statistics remain.",
-        "We keep staff data while the person works at IDSS and uses the application."
-      ]},
-      { "heading": "6. Your rights", "paragraphs": [
-        "You have the right to access your data, to have incorrect data corrected, to erasure, to restriction of processing and to object. For students these rights are exercised by their parents or guardians. Please send requests to ai@idss.ba.",
-        "If you believe your data is not processed lawfully, you may contact the Personal Data Protection Agency of Bosnia and Herzegovina."
-      ]},
-      { "heading": "7. Automated decisions", "paragraphs": [
-        "The application makes no decisions about students without human involvement. A teacher always confirms the grade of a mock exam. The application draws no conclusions about a student's personality, health or abilities."
-      ]},
-      { "heading": "8. Security", "paragraphs": [
-        "We protect data with encrypted connections, passwords that are never stored in readable form, role-based access rights and a log of all important actions."
-      ]}
+      {
+        "heading": "1. Introduction",
+        "paragraphs": [
+          "This policy explains which personal data the application IDSS - External Graduate Examination processes, for which purposes, on which legal basis, with whom it is shared, how long it is kept and which rights the people concerned have. It applies to students, their parents or guardians, and school staff who use the application."
+        ]
+      },
+      {
+        "heading": "2. Controller and data protection officer",
+        "paragraphs": [
+          "The controller is Internationale Deutsche Schule Sarajevo (IDSS).",
+          "IDSS has appointed a data protection officer. For all questions and requests concerning personal data, contact the officer: gdpr@idss.ba, telephone +387 33 267 965.",
+          "For technical questions about the application: ai@idss.ba."
+        ]
+      },
+      {
+        "heading": "3. Legal framework",
+        "paragraphs": [
+          "We process personal data in accordance with the Law on Personal Data Protection of Bosnia and Herzegovina (Official Gazette of BiH, No. 12/25), which is aligned with the General Data Protection Regulation of the European Union (Regulation (EU) 2016/679, GDPR). We apply the GDPR principles throughout the application: lawfulness, fairness and transparency, purpose limitation, data minimisation, accuracy, storage limitation, integrity and confidentiality, and accountability."
+        ]
+      },
+      {
+        "heading": "4. Data we process",
+        "paragraphs": [],
+        "items": [
+          "Account data: first and last name, username (for staff the official e-mail address), role, account status, assigned rights and the teacher's subject.",
+          "Learning data: answers to tasks, results of practice and mock examinations, teachers' grades and comments, progress by area, points, missions and awards.",
+          "Security data: sign-in and sign-out times, failed sign-in attempts (the username is kept only as a one-way cryptographic fingerprint), the IP address with important actions and a record of important actions (who did what and when).",
+          "Search data: for each search we keep only a cryptographic fingerprint of the query, not the text itself.",
+          "We do not process special categories of personal data (such as health data, religious or ethnic origin) and we do not create personality profiles."
+        ]
+      },
+      {
+        "heading": "5. Purposes and legal bases",
+        "paragraphs": [],
+        "items": [
+          "Preparing students for the external examination (practice, mock examinations, progress tracking, grading and teacher feedback): the educational activity of IDSS based on the student's enrolment and the consent of parents or guardians given through the school's enrolment documents.",
+          "Managing accounts and access rights for students and staff: the same basis as above; for staff, the employment relationship with IDSS.",
+          "Security of the application and data (protection against unauthorised access, locking after failed sign-ins, record of actions): the legitimate interest of IDSS and the controller's legal obligation to ensure appropriate security of processing.",
+          "Remembering the chosen interface language: necessary to provide the service requested by the user."
+        ]
+      },
+      {
+        "heading": "6. Children's data",
+        "paragraphs": [
+          "Grade 9 students are minors. We process their data only to the extent necessary for the educational purpose of the application. Students' data protection rights are exercised by their parents or guardians, and students may exercise them themselves according to their maturity. The application shows no advertising to students and does not use their data for commercial purposes."
+        ]
+      },
+      {
+        "heading": "7. Who has access to data",
+        "paragraphs": [
+          "Access is strictly limited by role and is enforced on the server and in the database, not only in the display:"
+        ],
+        "items": [
+          "students see only their own data;",
+          "teachers see student data only for the subject they teach;",
+          "specialist staff and school management have access only within their duties;",
+          "every access and every important action is recorded."
+        ]
+      },
+      {
+        "heading": "8. Processors and recipients",
+        "paragraphs": [
+          "IDSS uses reliable service providers (processors) to run the application. They process data only on the instructions of IDSS and for the purposes stated in this policy:"
+        ],
+        "items": [
+          "Supabase: database, sign-in and document storage; data is stored on servers in the European Union (Frankfurt, Germany).",
+          "Vercel: hosting of the web application; processes technical data needed to deliver pages (such as the IP address and technical logs).",
+          "Google (Gemini API): semantic search and explanations based on official materials. Google receives only the text of the official examination catalogues and the text of search queries, never a name, username, results or other account data."
+        ]
+      },
+      {
+        "heading": "9. Transfers outside Bosnia and Herzegovina",
+        "paragraphs": [
+          "The application's database is located in the European Union, where the GDPR applies. Technical hosting data and search query text may also be processed outside the European Union by the providers named above; this data does not identify students. Any transfer of personal data takes place only with the safeguards required by law."
+        ]
+      },
+      {
+        "heading": "10. How long we keep data",
+        "paragraphs": [],
+        "items": [
+          "Student data is kept until the end of the school year in which the student completed Grade 9 and for one further year. The account is then closed and the personal data is deleted or permanently anonymised; only anonymous statistics without any link to a person remain.",
+          "Staff data is kept while the person works at IDSS and uses the application.",
+          "Security records and the record of actions are kept at most until the retention period of the data of the person concerned ends, unless they are needed to establish, exercise or defend legal claims."
+        ]
+      },
+      {
+        "heading": "11. Your rights",
+        "paragraphs": [
+          "Under the law you have the right:"
+        ],
+        "items": [
+          "to access your data and receive a copy;",
+          "to rectification of inaccurate and completion of incomplete data;",
+          "to erasure when there is no longer a basis for processing;",
+          "to restriction of processing;",
+          "to portability of the data you provided, in a structured, commonly used format;",
+          "to object to processing based on legitimate interest;",
+          "to withdraw consent at any time, without affecting the lawfulness of processing before withdrawal;",
+          "not to be subject to a decision based solely on automated processing."
+        ]
+      },
+      {
+        "heading": "12. How to exercise your rights",
+        "paragraphs": [
+          "Send your request to the data protection officer at gdpr@idss.ba. To protect your data we may ask you to confirm your identity. We respond without undue delay and within the time limits set by law, as a rule within one month at the latest. Exercising your rights is free of charge.",
+          "If you believe your data is processed unlawfully, you have the right to lodge a complaint with the Personal Data Protection Agency in Bosnia and Herzegovina, Dubrovačka 6, 71000 Sarajevo, azlpinfo@azlp.ba, www.azlp.ba. We recommend contacting our officer first so that we can resolve the issue as quickly as possible."
+        ]
+      },
+      {
+        "heading": "13. Automated decision-making",
+        "paragraphs": [
+          "The application makes no decisions about students without human involvement. For closed tasks the system may propose points, but the grade of a mock examination is always confirmed by the teacher. The application draws no conclusions about students' personality, health or abilities."
+        ]
+      },
+      {
+        "heading": "14. Data security",
+        "paragraphs": [
+          "We apply technical and organisational measures appropriate to the risk, including:"
+        ],
+        "items": [
+          "an encrypted connection (HTTPS) for all traffic between browser and server;",
+          "passwords are stored only as a one-way cryptographic fingerprint and never in readable form;",
+          "role-based and row level security rules in the database, denying any access that is not explicitly allowed;",
+          "locking after repeated failed sign-ins;",
+          "a record of all important actions that cannot be changed or deleted;",
+          "official documents are kept in private storage with integrity checks;",
+          "the minimum necessary amount of data and limited staff access."
+        ]
+      },
+      {
+        "heading": "15. Personal data breaches",
+        "paragraphs": [
+          "If a personal data breach occurs, IDSS will assess it without delay, take measures to mitigate its consequences and, where the law requires, notify the Personal Data Protection Agency within 72 hours of becoming aware of it. If the breach is likely to result in a high risk to the rights of the people concerned, we will also inform them, or the parents or guardians of students."
+        ]
+      },
+      {
+        "heading": "16. Changes to this policy",
+        "paragraphs": [
+          "We keep this policy in line with regulations and the development of the application. We inform users of material changes in the application before they take effect. The current version and its date are shown at the end of the document."
+        ]
+      }
     ]
   },
   "subscription": {
     "title": "Subscription",
     "sections": [
-      { "heading": "Use is free", "paragraphs": [
-        "The application is free for students of Internationale Deutsche Schule Sarajevo. Its use is part of schooling at IDSS; there are no payments, subscriptions or advertisements in the application.",
-        "The school creates the account. It can be used during Grade 9 and until the end of the retention period stated in the Privacy Policy.",
-        "Questions: ai@idss.ba."
-      ]}
+      {
+        "heading": "1. Usage model",
+        "paragraphs": [
+          "The application IDSS - External Graduate Examination is free of charge for students of Internationale Deutsche Schule Sarajevo. Its use is part of the IDSS educational programme and requires no separate subscription, contract or payment."
+        ]
+      },
+      {
+        "heading": "2. What is included",
+        "paragraphs": [],
+        "items": [
+          "access to reviewed tasks in all three examination subjects;",
+          "practice with solutions after the answer is submitted;",
+          "mock examinations graded by the subject teacher;",
+          "progress tracking by area, missions and awards;",
+          "search of official materials."
+        ]
+      },
+      {
+        "heading": "3. Payments",
+        "paragraphs": [
+          "The application has no payments, in-app purchases, automatic renewals or advertising. IDSS never asks users of the application for card or bank account details. If anyone asks you for a payment or payment details on behalf of the application, it is a fraud attempt; please report it to ai@idss.ba."
+        ]
+      },
+      {
+        "heading": "4. Duration of access",
+        "paragraphs": [
+          "The school opens the account at the start of preparation. Students use the application during Grade 9. After the end of the school year the account is closed, and data is kept and deleted within the periods set out in the Privacy Policy. Staff accounts last while the person works at IDSS and uses the application."
+        ]
+      },
+      {
+        "heading": "5. End of access",
+        "paragraphs": [
+          "Access ends when a student leaves IDSS, when the period of use ends, or when the account is closed because of a breach of the Terms of Use. The end of access creates no financial obligation."
+        ]
+      },
+      {
+        "heading": "6. Future changes",
+        "paragraphs": [
+          "Should IDSS ever offer the application to users outside the school for a fee, the terms of such a subscription will be published separately and in advance, and no fee will be charged without the user's explicit agreement. For current IDSS students use remains free of charge."
+        ]
+      },
+      {
+        "heading": "7. Contact",
+        "paragraphs": [
+          "Questions about use: ai@idss.ba."
+        ]
+      }
     ]
   },
   "cookies": {
     "title": "Cookie notice",
     "sections": [
-      { "heading": "Which cookies we use", "paragraphs": [
-        "The application uses only cookies and local browser storage that are necessary for it to work. We use no cookies for advertising, analytics or tracking, so no consent is needed.",
-        "Sign-in cookie (name starts with sb-): keeps you signed in; it ends when you sign out or after 12 hours at the latest.",
-        "Language cookie (ege_locale): remembers the interface language you chose (Bosnian, German or English) for up to one year.",
-        "Local browser storage (idss-ege:splash:last-message): remembers the last splash message shown so it does not repeat. It contains no personal data."
-      ]},
-      { "heading": "How to delete them", "paragraphs": [
-        "You can delete cookies and local storage in your browser settings. Afterwards you need to sign in again and choose your language.",
-        "Questions: ai@idss.ba."
-      ]}
+      {
+        "heading": "1. What cookies are",
+        "paragraphs": [
+          "Cookies are small text files that a website stores in the browser. The browser's local storage is a similar store on your device. The application uses both only as far as necessary for it to work."
+        ]
+      },
+      {
+        "heading": "2. Cookies and entries we use",
+        "paragraphs": [],
+        "items": [
+          "Sign-in cookie (name starts with sb-): strictly necessary; keeps you signed in and protects against session misuse. It expires when you sign out or after 12 hours at the latest.",
+          "Language cookie (ege_locale): functional; remembers the chosen interface language (Bosnian, German or English). It lasts up to one year.",
+          "Local storage (idss-ege:splash:last-message): functional; remembers the last message of the start screen so that the same message is not repeated. It contains no personal data and does not expire until you delete it."
+        ]
+      },
+      {
+        "heading": "3. What we do not use",
+        "paragraphs": [
+          "We use no cookies for advertising, analytics, profiling or tracking across websites, and we load no third-party content that sets such cookies. That is why the application does not ask for cookie consent."
+        ]
+      },
+      {
+        "heading": "4. Managing cookies",
+        "paragraphs": [
+          "You can delete or block cookies and local storage at any time in your browser settings. If you block the sign-in cookie, signing in to the application is not possible; after deleting the language cookie you choose the language again."
+        ]
+      },
+      {
+        "heading": "5. Changes and contact",
+        "paragraphs": [
+          "If we introduce new cookies, we update this notice before using them and ask for consent in advance for cookies that are not necessary.",
+          "Questions: ai@idss.ba. Questions about personal data: gdpr@idss.ba, telephone +387 33 267 965."
+        ]
+      }
     ]
   }
 }

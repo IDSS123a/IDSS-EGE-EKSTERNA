@@ -524,6 +524,21 @@
       "submit": "Sačuvaj ispravku teksta",
       "confirm": "Sačuvati ispravku teksta? Učenici će vidjeti ovaj tekst.",
       "history": "Ispravke teksta"
+    },
+    "keySearch": {
+      "label": "Pronađi pitanje po oznaci",
+      "placeholder": "npr. MAT-5.3.5 ili 5.3.5",
+      "submit": "Pronađi",
+      "clear": "Poništi pretragu",
+      "results": "Rezultati za oznaku {query}",
+      "none": "Nema pitanja s oznakom {query} u ovom predmetu."
+    },
+    "proposals": {
+      "title": "Prijedlozi ispravki teksta",
+      "hint": "U ovim pitanjima je tekst fusnote s dna stranice ušao u tekst pitanja. Otvorite pitanje, uporedite prijedlog s izvornom stranicom i kliknite \"Sačuvaj ispravku teksta\".",
+      "waiting": "Čeka potvrdu",
+      "confirmed": "Potvrđeno",
+      "done": "Sve ispravke su potvrđene."
     }
   },
   "search": {

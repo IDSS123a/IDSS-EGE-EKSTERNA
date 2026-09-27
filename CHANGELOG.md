@@ -62,3 +62,7 @@
 [2026-09-27] [FEATURE] Moj nalog: every account changes its own password (current password verified, failed attempts count towards the lockout, audited)
 [2026-09-27] [DATABASE] Migration 013_question_text_revisions applied: reviewed text revisions of trusted questions, texts only, append-only, audited (AMB-19, PDL-021)
 [2026-09-27] [FEATURE] Review screen: "Tekst pitanja za učenike" with correction history and form; prepared footnote-removal proposals for MAT-5.3.5, 5.4.20, 5.9.13, 5.10.6, 5.10.20 (confirmed by a reviewer, never written automatically)
+[2026-09-27] [FIX] Review queue: shows all records when none is waiting, finds a record by its code (e.g. 5.3.5), lists the open text-correction proposals with direct links (Director could not reach the AMB-19 questions)
+[2026-09-27] [FIX] Link buttons with the secondary style centre their label; "Moj nalog" on the home page styled like the other buttons
+[2026-09-27] [CONTENT] Legal documents v2.0 (bs/de/en): full Terms of Use, Privacy Policy (GDPR and BiH Law 12/25, data protection officer gdpr@idss.ba, rights, processors, transfers, retention, security, breaches), Subscription and Cookie notice
+[2026-09-27] [FEATURE] Splash returns to the FLOW algorithm of the approved "Untitled blend" reference (ported exactly: drifting colour points, weighted inverse-distance blend, warp and swirl); the Director's shares become colour weights fitted by measuring the field on the server, within half a point of each share (PDL-022); threshold calibration removed

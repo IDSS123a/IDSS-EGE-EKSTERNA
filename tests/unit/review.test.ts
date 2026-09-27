@@ -3,7 +3,7 @@ import type { CurrentAccount } from "@/features/authentication/types";
 import { formatRuleValue } from "@/features/knowledge/domain/format";
 import { knowledgeErrorFromDatabase } from "@/features/knowledge/domain/errors";
 import { reviewErrorFromDatabase } from "@/features/review/domain/errors";
-import { countStates, filterQueue, neighbours, pageOf, parseFilter, regionOnPage, reviewState } from "@/features/review/domain/queue";
+import { countStates, defaultFilter, filterQueue, findByKey, neighbours, pageOf, parseFilter, regionOnPage, reviewState } from "@/features/review/domain/queue";
 import type { QueueItem } from "@/features/review/types";
 import { buildContentSecurityPolicy } from "@/features/security/csp";
 import { canOpenReview, canReviewSubject, canReviseAnswerKeys, hasSubjectCapability } from "@/lib/permissions";
@@ -126,5 +126,26 @@ describe("rule values and database messages", () => {
 
   it("the CSP allows only same-origin workers (pdf.js)", () => {
     expect(buildContentSecurityPolicy("n", false)).toContain("worker-src 'self'");
+  });
+});
+
+describe("review queue navigation", () => {
+  const keyed = (recordId: number, recordKey: string): QueueItem => ({ ...item(recordId, "accepted"), recordKey });
+  const items = [keyed(1, "MAT-5.3.5"), keyed(2, "MAT-5.3.50"), keyed(3, "MAT-5.10.6"), keyed(4, "MAT-5.10.60")];
+
+  it("shows everything once nothing waits, and an explicit filter still wins", () => {
+    expect(defaultFilter({ pending: 0, returned: 0, accepted: 200 })).toBe("all");
+    expect(defaultFilter({ pending: 3, returned: 0, accepted: 197 })).toBe("pending");
+    expect(parseFilter(undefined, "all")).toBe("all");
+    expect(parseFilter("pending", "all")).toBe("pending");
+  });
+
+  it("finds a record by its full or short key, exact match first", () => {
+    expect(findByKey(items, "MAT-5.3.5").map((entry) => entry.recordId)).toEqual([1]);
+    expect(findByKey(items, " 5.3.5 ").map((entry) => entry.recordId)).toEqual([1]);
+    expect(findByKey(items, "mat-5.10.6").map((entry) => entry.recordId)).toEqual([3]);
+    expect(findByKey(items, "5.10").map((entry) => entry.recordId)).toEqual([3, 4]);
+    expect(findByKey(items, "   ")).toEqual([]);
+    expect(findByKey(items, "DEU-1")).toEqual([]);
   });
 });

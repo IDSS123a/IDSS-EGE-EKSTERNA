@@ -27,7 +27,7 @@ Mock exams and teacher grading (Sprint 07), XP and badges (Sprint 08), staff das
 - Every account can change its own password; a wrong current password counts towards the login lockout.
 
 ## Progress
-- [x] 0a. Splash shares in percent: `/app/postavke`, migration 012, calibration (PDL-020).
+- [x] 0a. Splash shares in percent: `/app/postavke`, migration 012 (PDL-020); reference FLOW algorithm with fitted colour weights (PDL-022).
 - [x] 0b. Product name in every app text.
 - [x] 0c. Footer and legal documents (bs/de/en), AMB-20 resolved.
 - [x] 0d. Own password change `/app/nalog` (current password verified with a session-less client; failed attempts

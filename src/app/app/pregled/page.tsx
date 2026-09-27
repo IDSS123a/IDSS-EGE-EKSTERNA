@@ -4,14 +4,15 @@ import { ForbiddenScreen } from "@/features/accounts/components/forbidden-screen
 import { requireAccount } from "@/features/authentication/session";
 import { listSubjects } from "@/features/knowledge/repository";
 import { ReviewQueueScreen } from "@/features/review/components/review-queue-screen";
-import { filterQueue, pageOf, parseFilter } from "@/features/review/domain/queue";
-import { findSubjectQueue } from "@/features/review/repository";
+import { defaultFilter, filterQueue, findByKey, KEY_QUERY_MAX_LENGTH, pageOf, parseFilter } from "@/features/review/domain/queue";
+import { findSubjectQueue, textProposalStatus } from "@/features/review/repository";
 import { createSupabaseServerClient } from "@/lib/db/supabase-server";
 import { logError } from "@/lib/logger";
 import { canOpenReview, canReviewSubject } from "@/lib/permissions";
 
 /**
- * GET /app/pregled?predmet=&prikaz=&stranica= — review queue (Sprint 04).
+ * GET /app/pregled?predmet=&prikaz=&stranica=&oznaka= — review queue (Sprint 04). Without prikaz the
+ * queue shows waiting records, or all records once nothing waits; oznaka finds records by key.
  * Role required: canon.review (own subjects only) or canon.publish (all subjects).
  * Reads use the user-scoped client; subjects outside the reviewer's scope are never listed.
  */
@@ -20,7 +21,7 @@ export default async function ReviewPage({ searchParams }: { searchParams: Promi
   if (!canOpenReview(account)) return <ForbiddenScreen />;
   const params = await searchParams;
   const single = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value);
-  const filter = parseFilter(single(params.prikaz));
+  const keyQuery = (single(params.oznaka) ?? "").slice(0, KEY_QUERY_MAX_LENGTH);
 
   let view;
   try {
@@ -29,8 +30,11 @@ export default async function ReviewPage({ searchParams }: { searchParams: Promi
     const subjects = all.filter((subject) => canReviewSubject(account, subject.id));
     const selected = subjects.find((subject) => subject.code === single(params.predmet)) ?? subjects[0] ?? null;
     const queue = selected ? await findSubjectQueue(client, selected) : null;
-    const paged = pageOf(queue ? filterQueue(queue.items, filter) : [], Number(single(params.stranica) ?? 1), REVIEW_PAGE_SIZE);
-    view = { all, subjects, selected, queue, paged };
+    const filter = parseFilter(single(params.prikaz), queue ? defaultFilter(queue.counts) : "pending");
+    const items = queue ? (keyQuery.trim() ? findByKey(queue.items, keyQuery) : filterQueue(queue.items, filter)) : [];
+    const paged = pageOf(items, Number(single(params.stranica) ?? 1), REVIEW_PAGE_SIZE);
+    const proposals = queue ? await textProposalStatus(client, queue.items) : [];
+    view = { all, subjects, selected, queue, paged, filter, proposals };
   } catch (error) {
     // Logged with location here; the /app error boundary shows the friendly message.
     logError("app/pregled/page", error);
@@ -40,7 +44,9 @@ export default async function ReviewPage({ searchParams }: { searchParams: Promi
     <ReviewQueueScreen
       subjects={view.subjects.map((subject) => ({ id: subject.id, code: subject.code }))}
       selected={view.selected?.code ?? null}
-      filter={filter}
+      filter={view.filter}
+      keyQuery={keyQuery}
+      proposals={view.proposals}
       hasQueue={Boolean(view.queue?.jobId)}
       counts={view.queue?.counts ?? { pending: 0, returned: 0, accepted: 0 }}
       items={view.paged.items}

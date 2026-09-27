@@ -50,7 +50,7 @@ test("the splash palette is public, cacheable and falls back to the default", as
   expect(response.headers()["cache-control"]).toContain("max-age=60");
   const body = await response.json();
   expect(Object.keys(body.shares).sort()).toEqual(["blue", "red", "sky", "yellow"]);
-  expect(body.thresholds.redThreshold).toBeGreaterThan(0);
+  expect(body.weights).toHaveLength(4);
 });
 
 test("the footer links the legal documents and the contact on public pages", async ({ page }) => {
@@ -64,6 +64,15 @@ test("the footer links the legal documents and the contact on public pages", asy
   await expect(page).toHaveURL(/\/uslovi-koristenja$/);
   await expect(page.locator("main")).toContainText("ai@idss.ba");
   await expect(page.locator("main h2").first()).toBeVisible();
+});
+
+test("the privacy policy names the data protection officer and the law", async ({ page }) => {
+  await page.goto("/politika-privatnosti");
+  const main = page.locator("main");
+  await expect(main).toBeVisible({ timeout: 20_000 });
+  await expect(main).toContainText("gdpr@idss.ba");
+  await expect(main).toContainText("12/25");
+  await expect(main.locator("li").first()).toBeVisible();
 });
 
 test("the own account page is not reachable without a session", async ({ page }) => {
