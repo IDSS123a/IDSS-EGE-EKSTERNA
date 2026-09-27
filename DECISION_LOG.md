@@ -141,3 +141,11 @@ fails ingestion with a clear report; OCR would be a new external dependency (Dir
 **Alternatives rejected:** `mupdf` (WASM, AGPL-3.0: network-use obligations for a school web app);
 running the Python tool on the server (second runtime on Vercel).
 
+## PDL-014: Mock exams only from official catalogue tasks; practice variants need teacher approval
+**Date:** 2026-09-27
+**Decision (Director, AMB-17):** mock exams are assembled only from official catalogue tasks, as the
+real matura is (ministry decision 2025/26, point III, SOURCE_INVENTORY C21). Practice variants are
+allowed only per item with the subject teacher's approval and the visible label
+"Vježba (nije službeno pitanje)"; until that workflow exists there are none.
+**Design:** `docs/architecture/EXAM_SIMULATION.md`.
+

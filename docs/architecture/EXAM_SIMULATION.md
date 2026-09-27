@@ -56,7 +56,7 @@ the same day), built by the same generator and approved before release.
 ## 5. What is deliberately not done
 
 - No invented questions or answers in mock exams (C21 III, P-4).
-- Practice **variants** (other numbers, new sentences) only if the Director decides so (AMB-17),
-  generated from a catalogue task, checked automatically, approved by the subject teacher and
-  labelled "Vježba (nije službeno pitanje)"; never inside a mock exam.
+- Practice **variants** (other numbers, new sentences): decided by the Director (AMB-17, 27.09.2026):
+  never inside a mock exam; in practice only when the subject teacher approves the individual
+  variant and it is labelled "Vježba (nije službeno pitanje)". Until that workflow exists, none.
 - Nothing reaches students before the semantic review (Sprint 04) marks the task trusted.
