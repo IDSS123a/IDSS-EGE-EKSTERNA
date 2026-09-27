@@ -41,3 +41,4 @@
 [2026-09-27] [FIX] canon:seed checks local files first with a restore hint and exits cleanly on Windows
 [2026-09-27] [DECISION] PDL-014 (AMB-17): mock exams only from official tasks; practice variants only with teacher approval
 [2026-09-27] [CONTENT] Catalogue PDFs renamed to one pattern (Ispitni katalog za ...); same SHA-256
+[2026-09-27] [SPRINT] Sprint 03 closed: live ingestion verified by database fingerprints; DONE checklist, compliance score, handoff note

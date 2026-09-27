@@ -37,3 +37,4 @@
 - [2026-09-27 15:53] Write: docs/architecture/EXAM_SIMULATION.md
 - [2026-09-27] New ministry documents reviewed; EXAM_SIMULATION design; seed script fix
 - [2026-09-27] AMB-17 decided (PDL-014); catalogue files renamed
+- [2026-09-27] Sprint 03 closed (DONE checklist, compliance, handoff)

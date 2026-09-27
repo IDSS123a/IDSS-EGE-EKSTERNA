@@ -10,7 +10,9 @@ import type { CanonicalDocumentInfo, CatalogueRecord, EmphasisSpan, McOption, Re
 
 /** Extractor identity recorded on every record and job. */
 export const EXTRACTOR = "src/features/ingestion";
+/** Version of the extraction rules; bump when any profile or rule changes its output. */
 export const EXTRACTOR_VERSION = "1.0.0";
+/** How records were produced (provenance shown to reviewers). */
 export const EXTRACTION_METHOD = "pdf.js text layer + deterministic segmentation (no AI, no OCR)";
 
 /** Height of the footer band (points) measured on the catalogues: running footer and page number. */
@@ -24,7 +26,9 @@ export const WORD_START = "(?<![\\p{L}\\p{N}_])";
 
 /** Notation the PDF text layer cannot represent faithfully (stacked fractions, exponents, radicals). */
 export const MATH_LAYOUT_MARKERS = /[√∙⋅∶±≠≤≥°²³∈∉⊂∪∩π]|[\u{1D400}-\u{1D7FF}]/u;
+/** Wording that points to a drawing or table the text layer cannot carry. */
 export const FIGURE_REFERENCE = new RegExp(`${WORD_START}(crtež|crtežu|slici|slika|sliku|grafik|grafiku|tabel|shem)`, "iu");
+/** A multiple-choice option line "a) …" to "d) …". */
 export const MC_OPTION = /^\s*([a-d])\)\s*(.*)$/u;
 
 /** Body lines of an inclusive 1-based page range, without running headers and footers. */
