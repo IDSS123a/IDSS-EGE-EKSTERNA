@@ -505,7 +505,8 @@
       "STALE_RECORD": "The record comes from an older extraction. Open the list again.",
       "ALREADY_ACCEPTED": "The record is already accepted.",
       "NOT_ACCEPTABLE": "A structurally invalid record cannot be accepted.",
-      "UNAVAILABLE": "The service is not available right now. Please try again."
+      "UNAVAILABLE": "The service is not available right now. Please try again.",
+      "UNCHANGED": "The text is the same as the text students already see. The correction was not saved."
     },
     "text": {
       "title": "Question text for students",
@@ -523,7 +524,8 @@
       "evidence": "Evidence (page, footnote)",
       "submit": "Save text correction",
       "confirm": "Save the text correction? Students will see this text.",
-      "history": "Text corrections"
+      "history": "Text corrections",
+      "open": "Correct the text"
     },
     "keySearch": {
       "label": "Find a question by its code",

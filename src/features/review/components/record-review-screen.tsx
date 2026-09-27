@@ -274,17 +274,24 @@ function QuestionTextSection({ question, recordKey, subjectId, language, canRevi
           </ul>
         </>
       )}
-      {canRevise && (
+      {canRevise && proposal !== null && (
         <TextRevisionForm
           key={question.revisions.length}
           versionId={question.versionId}
           subjectId={subjectId}
           language={language}
-          initial={proposal ?? shown}
-          reason={proposal ? PROPOSAL_REASON : ""}
+          initial={proposal}
+          reason={PROPOSAL_REASON}
           evidence={prepared ? labels.text.proposalEvidence.replace("{page}", String(prepared.page)).replace("{footnotes}", prepared.footnotes.join(", ")) : ""}
-          proposed={proposal !== null}
+          proposed
         />
+      )}
+      {/* Without a prepared proposal the form stays folded: a correction is an exception, not a step. */}
+      {canRevise && proposal === null && (
+        <details className="review-text-details">
+          <summary>{labels.text.open}</summary>
+          <TextRevisionForm key={question.revisions.length} versionId={question.versionId} subjectId={subjectId} language={language} initial={shown} reason="" evidence="" proposed={false} />
+        </details>
       )}
     </section>
   );

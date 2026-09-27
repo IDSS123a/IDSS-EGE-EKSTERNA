@@ -72,6 +72,11 @@ export function proposedText(recordKey: string, current: QuestionText): Question
   return proposal ? applyProposal(current, proposal) : null;
 }
 
+/** Browser forms submit \r\n; stored and compared texts use \n (migration 014). */
+export function normalizeLineBreaks(text: string): string {
+  return text.replace(/\r\n?/g, "\n");
+}
+
 /** True when two texts are the same (a revision that changes nothing is not offered). */
 export function sameText(a: QuestionText, b: QuestionText): boolean {
   return JSON.stringify(a) === JSON.stringify(b);

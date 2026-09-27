@@ -66,3 +66,7 @@
 [2026-09-27] [FIX] Link buttons with the secondary style centre their label; "Moj nalog" on the home page styled like the other buttons
 [2026-09-27] [CONTENT] Legal documents v2.0 (bs/de/en): full Terms of Use, Privacy Policy (GDPR and BiH Law 12/25, data protection officer gdpr@idss.ba, rights, processors, transfers, retention, security, breaches), Subscription and Cookie notice
 [2026-09-27] [FEATURE] Splash returns to the FLOW algorithm of the approved "Untitled blend" reference (ported exactly: drifting colour points, weighted inverse-distance blend, warp and swirl); the Director's shares become colour weights fitted by measuring the field on the server, within half a point of each share (PDL-022); threshold calibration removed
+[2026-09-27] [DATABASE] Migration 014: text revisions store \n line breaks and refuse a revision that changes nothing (UNCHANGED); applied live
+[2026-09-27] [FIX] Review screen: the correction form is folded behind "Ispravi tekst" unless a prepared proposal exists; stored \r\n line breaks are read as \n
+[2026-09-27] [CONTENT] Legal documents v2.1: IDSS identity (Buka 13, ID number, MBSU), court in Sarajevo confirmed, security records kept in accordance with the law
+[2026-09-27] [CANON] AMB-19 resolved: the Director confirmed the five footnote corrections (verified in the database)

@@ -596,8 +596,17 @@ select public.revise_question_text('00000000-0000-0000-0000-00000000000a', (sele
 select pg_temp.assert((select content from public.question_text_revisions where question_version_id = (select id from t_de_qv))
   = '{"raw_text": "4.2.1. Neu", "stem_text": "4.2.1. Neu", "options": [{"label": "a", "text": "0"}], "scored_items": [{"item_number": 1, "raw_text": "A neu"}, {"item_number": 2, "raw_text": "B"}]}'::jsonb,
   'only known fields are stored, trimmed');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"raw_text": " 5.1.1. Test? ", "stem_text": "5.1.1. Test?", "options": [{"label": "a", "text": "0"}], "scored_items": []}', 'Bez izmjene', null, null)$$,
+  'UNCHANGED', 'a revision that changes nothing is refused (migration 014)');
 select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
-  '{"raw_text": "5.1.1. Test?", "stem_text": "5.1.1. Test?", "options": [{"label": "a", "text": "0"}], "scored_items": []}', 'Tekst fusnote uklonjen', 'Stranica 23, fusnota 1', null);
+  jsonb_build_object('raw_text', E'5.1.1. Test?\r\nDrugi red', 'stem_text', '5.1.1. Test?', 'options', '[{"label": "a", "text": "0"}]'::jsonb, 'scored_items', '[]'::jsonb),
+  'Tekst fusnote uklonjen', 'Stranica 23, fusnota 1', null);
+select pg_temp.assert((select content ->> 'raw_text' from public.question_text_revisions where question_version_id = (select id from t_qv)) = E'5.1.1. Test?\nDrugi red',
+  'line breaks are stored as \n (migration 014)');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  jsonb_build_object('raw_text', E'5.1.1. Test?\nDrugi red', 'stem_text', '5.1.1. Test?', 'options', '[{"label": "a", "text": "0"}]'::jsonb, 'scored_items', '[]'::jsonb), 'Ponovo', null, null)$$,
+  'UNCHANGED', 'unchanged compares with the newest revision');
 select pg_temp.assert((select raw_text from public.question_versions where id = (select id from t_qv)) = '5.1.1. Test?', 'the trusted version never changes');
 select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'review.question_text_revised' and entity_id = (select id::text from t_qv)), 'text revision audited');
 reset role;

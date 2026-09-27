@@ -18,8 +18,14 @@ Date: 2026-09-27 (open)
    file again ("veoma sam bio zadovoljan s ovim rješenjem") → the reference FLOW algorithm is ported exactly, and the
    shares become its colour weights, fitted by measuring the same formula on the server (PDL-022). When a reference
    is approved, port its algorithm; do not approximate it.
+6. The text-correction form was shown open on every accepted question and accepted an unchanged text; the Director
+   saved four revisions identical to the catalogue text (MAT-5.3.7 to 5.3.10, append-only, harmless) → the database
+   refuses UNCHANGED (migration 014) and the form stays folded unless a proposal exists. A form that writes to an
+   append-only history refuses no-op writes on the server.
 
 ## Gotchas Discovered
+- Browser textareas submit line breaks as \r\n; the first live revisions stored \r\n while the catalogue text uses \n.
+  Text written from forms is normalised before it is stored or compared (migration 014, `normalizeLineBreaks`).
 - A WebGL canvas cannot be read back after drawing (no `preserveDrawingBuffer`): colour measurements of the splash
   returned zeros until they were taken from screenshots.
 - React writes `style={{...}}` into server-rendered HTML as a style attribute, which the nonce CSP blocks; dynamic

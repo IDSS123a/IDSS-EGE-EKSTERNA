@@ -257,6 +257,9 @@ footnote (8 pt), so it stays.
 **Implementation:** migration 013, `src/features/review/domain/text-revision.ts`, `reviseQuestionTextAction`,
 `QuestionTextSection` in the record screen. The retrieval index keeps the catalogue text (staff search); practice screens
 (Sprint 06 item 4) show the newest revision.
+**Addendum (27.09.2026, migration 014):** line breaks are stored as \n and a revision equal to the text students
+currently see is refused (UNCHANGED). The Director confirmed the five AMB-19 revisions; four earlier no-op revisions
+(MAT-5.3.7 to 5.3.10) stay in the append-only history and do not change any text.
 
 ## PDL-022: The splash is the reference FLOW algorithm; shares become colour weights
 **Date:** 2026-09-27 (Director: "Veoma sam bio zadovoljan s ovim rješenjem samo što ja hoću da diktiram učešća boja",

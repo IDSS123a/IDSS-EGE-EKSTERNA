@@ -505,7 +505,8 @@
       "STALE_RECORD": "Der Datensatz stammt aus einer älteren Extraktion. Öffnen Sie die Liste erneut.",
       "ALREADY_ACCEPTED": "Der Datensatz wurde bereits angenommen.",
       "NOT_ACCEPTABLE": "Ein strukturell fehlerhafter Datensatz kann nicht angenommen werden.",
-      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut.",
+      "UNCHANGED": "Der Text entspricht dem Text, den Schüler bereits sehen. Die Korrektur wurde nicht gespeichert."
     },
     "text": {
       "title": "Aufgabentext für Schüler",
@@ -523,7 +524,8 @@
       "evidence": "Nachweis (Seite, Fußnote)",
       "submit": "Textkorrektur speichern",
       "confirm": "Textkorrektur speichern? Schüler sehen diesen Text.",
-      "history": "Textkorrekturen"
+      "history": "Textkorrekturen",
+      "open": "Text korrigieren"
     },
     "keySearch": {
       "label": "Aufgabe nach Kennung finden",

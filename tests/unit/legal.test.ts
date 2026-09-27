@@ -28,6 +28,9 @@ describe("legal documents", () => {
       expect(privacy).toContain("12/25");
       expect(privacy).toContain("2016/679");
       expect(privacy).toContain("azlpinfo@azlp.ba");
+      expect(privacy).toContain("Buka 13, 71000 Sarajevo");
+      expect(privacy).toContain("4202220420007");
+      expect(JSON.stringify(texts.terms)).toContain("65-05-0013-16");
       expect(JSON.stringify(texts.cookies)).toContain("gdpr@idss.ba");
     });
   }

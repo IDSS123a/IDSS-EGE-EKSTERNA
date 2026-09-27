@@ -1,6 +1,6 @@
 {
-  "_about": "Legal documents v2.0 (Director 27.09.2026: professional level, GDPR, school data protection officer gdpr@idss.ba, +387 33 267 965). Facts confirmed by the Director: free for IDSS students; consent through the enrolment documents; retention until the end of the school year of Grade 9 plus one year; Gemini receives catalogue and query text only. Open: IDSS street address and registration number; legal review by the school before production (AMB-20).",
-  "version": "Version 2.0, effective 27.09.2026.",
+  "_about": "Legal documents v2.0 (Director 27.09.2026: professional level, GDPR, school data protection officer gdpr@idss.ba, +387 33 267 965). Facts confirmed by the Director: free for IDSS students; consent through the enrolment documents; retention until the end of the school year of Grade 9 plus one year; Gemini receives catalogue and query text only. IDSS identity (address, ID number, MBSU) and the governing court confirmed by the Director 27.09.2026; retention of security records \"u skladu sa zakonom\". Open: legal review by the school before production (AMB-20).",
+  "version": "Version 2.1, effective 27.09.2026.",
   "terms": {
     "title": "Terms of Use",
     "sections": [
@@ -8,6 +8,7 @@
         "heading": "1. Scope and acceptance",
         "paragraphs": [
           "These terms govern the use of the application IDSS - External Graduate Examination (the application), operated for its students and staff by Internationale Deutsche Schule Sarajevo (IDSS or the school).",
+          "Operator of the application: Private institution \"INTERNATIONALE DEUTSCHE SCHULE SARAJEVO\" - Međunarodna Njemačka Škola Sarajevo, Buka 13, 71000 Sarajevo, Bosnia and Herzegovina; ID number 4202220420007; registration number (MBSU) 65-05-0013-16; telephone +387 33 560 520; info@idss.ba; www.idss.edu.ba.",
           "By signing in, users confirm that they have read these terms, the Privacy Policy and the Cookie notice. For students, parents or guardians accept these terms as part of enrolment at IDSS."
         ]
       },
@@ -112,7 +113,7 @@
       {
         "heading": "2. Controller and data protection officer",
         "paragraphs": [
-          "The controller is Internationale Deutsche Schule Sarajevo (IDSS).",
+          "The controller is Internationale Deutsche Schule Sarajevo (IDSS): Private institution \"INTERNATIONALE DEUTSCHE SCHULE SARAJEVO\" - Međunarodna Njemačka Škola Sarajevo, Buka 13, 71000 Sarajevo, Bosnia and Herzegovina; ID number 4202220420007; registration number (MBSU) 65-05-0013-16; telephone +387 33 560 520; info@idss.ba; www.idss.edu.ba.",
           "IDSS has appointed a data protection officer. For all questions and requests concerning personal data, contact the officer: gdpr@idss.ba, telephone +387 33 267 965.",
           "For technical questions about the application: ai@idss.ba."
         ]
@@ -185,7 +186,7 @@
         "items": [
           "Student data is kept until the end of the school year in which the student completed Grade 9 and for one further year. The account is then closed and the personal data is deleted or permanently anonymised; only anonymous statistics without any link to a person remain.",
           "Staff data is kept while the person works at IDSS and uses the application.",
-          "Security records and the record of actions are kept at most until the retention period of the data of the person concerned ends, unless they are needed to establish, exercise or defend legal claims."
+          "Security records and the record of actions are kept for the periods required by law."
         ]
       },
       {
