@@ -2,8 +2,8 @@ import type { NextConfig } from "next";
 
 /**
  * Baseline security headers (mandate §7A.7, Commander DONE checklist).
- * A nonce-based Content-Security-Policy is added with authentication (Sprint 01 step 5),
- * because Next.js inline bootstrap scripts need per-request nonces set in proxy.ts.
+ * The nonce-based Content-Security-Policy is set per request in src/proxy.ts
+ * (src/features/security/csp.ts), because it needs a fresh nonce for every response.
  */
 const SECURITY_HEADERS = [
   { key: "X-Content-Type-Options", value: "nosniff" },

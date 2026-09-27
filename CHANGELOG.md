@@ -19,3 +19,6 @@
 [2026-09-27] [TEST] Vitest unit tests for authentication rules; e2e for redirects, forged cookie, validation and fail-closed login
 [2026-09-27] [FEATURE] Account administration /app/nalozi: create, status lifecycle with Auth ban, bundles, password reset, audit
 [2026-09-27] [CONFIG] Student minimum password length set to 10 (Director, AMB-15)
+[2026-09-27] [SECURITY] Nonce-based Content-Security-Policy per request (src/proxy.ts); e2e proves injected inline scripts are blocked
+[2026-09-27] [DATABASE] Migration 005: RLS performance (merged policies, auth.uid() init-plan, FK indexes)
+[2026-09-27] [SPRINT] Sprint 01 closed: DONE checklist, compliance score, handoff note

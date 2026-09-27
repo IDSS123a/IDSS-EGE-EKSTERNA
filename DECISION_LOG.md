@@ -94,3 +94,11 @@ instead of a new table or an external rate-limit service.
 **Known limitation (E-4):** blocking an account stops new sign-ins immediately; an already
 issued access token stays valid until it expires (≤ 1 h), although `getCurrentAccount()`
 refuses non-active accounts on every request.
+
+## PDL-010 — Shadcn/UI deferred (deviation from DL-011)
+**Date:** 2026-09-27
+**Decision:** Sprint 01 screens (login, account administration) use plain semantic HTML components
+styled with the project's CSS tokens instead of Shadcn/UI.
+**Rationale:** Few, simple forms; adding the Shadcn tool chain and Radix dependencies for them would
+add weight without benefit. Revisit at Sprint 06 (student Game Hub), where rich components (dialogs,
+tabs, toasts) start to pay off; from then on DL-011 applies.
