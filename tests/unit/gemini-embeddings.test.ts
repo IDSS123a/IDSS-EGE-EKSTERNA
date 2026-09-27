@@ -123,8 +123,8 @@ describe("key rotation (Director: GEMINI_API_KEY_1 to _10)", () => {
   });
 });
 
-describe("evidence rule with semantic results", () => {
-  const chunk = (fields: { rank: number; similarity?: number | null; keywordRank?: number | null }) => ({
+describe("evidence rule with semantic results (migration 016)", () => {
+  const chunk = (fields: { rank: number; similarity?: number | null; keywordRank?: number | null; similarityZ?: number | null }) => ({
     chunkId: "c", sourceKind: "question_version" as const, sourceId: "s", subjectId: "x", documentVersionId: "v", page: 1, citation: {}, content: "t", ...fields,
   });
 
@@ -133,11 +133,15 @@ describe("evidence rule with semantic results", () => {
     expect(isEvidence(chunk({ rank: 0.4 }), 1)).toBe(false);
   });
 
-  it("accepts a semantic result by a matched word or by close meaning, and refuses otherwise", () => {
-    expect(isEvidence(chunk({ rank: 0.03, similarity: 0.4, keywordRank: 1.5 }), 1, 0.6)).toBe(true);
-    expect(isEvidence(chunk({ rank: 0.02, similarity: 0.72, keywordRank: null }), 1, 0.6)).toBe(true);
-    expect(isEvidence(chunk({ rank: 0.02, similarity: 0.41, keywordRank: null }), 1, 0.6)).toBe(false);
-    expect(relevant([chunk({ rank: 0.02, similarity: 0.41, keywordRank: null })], 1, 0.6)).toEqual([]);
+  it("accepts a semantic result by a matched word or by standing out for the query", () => {
+    expect(isEvidence(chunk({ rank: 0.03, similarity: 0.74, keywordRank: 1.5, similarityZ: 1 }), 1, 4)).toBe(true);
+    expect(isEvidence(chunk({ rank: 0.02, similarity: 0.86, keywordRank: null, similarityZ: 4.6 }), 1, 4)).toBe(true);
+  });
+
+  it("refuses a high raw similarity that does not stand out (the case of the query Ministar)", () => {
+    expect(isEvidence(chunk({ rank: 0.02, similarity: 0.79, keywordRank: null, similarityZ: 2.9 }), 1, 4)).toBe(false);
+    expect(isEvidence(chunk({ rank: 0.02, similarity: 0.95, keywordRank: null, similarityZ: null }), 1, 4)).toBe(false);
+    expect(relevant([chunk({ rank: 0.02, similarity: 0.79, keywordRank: null, similarityZ: 2.9 })], 1, 4)).toEqual([]);
   });
 });
 

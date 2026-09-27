@@ -668,6 +668,9 @@ create temp table t_semantic as select * from public.retrieve_canon_semantic('00
 select pg_temp.assert((select count(*) from t_semantic) >= 1 and not exists (select 1 from t_semantic where similarity is null or similarity < 0.99),
   'semantic results carry their cosine similarity');
 select pg_temp.assert(exists (select 1 from t_semantic where keyword_rank >= 1), 'the keyword rank is fused in (reciprocal rank fusion)');
+select pg_temp.assert(not exists (select 1 from t_semantic where similarity_z is not null), 'without spread in the field no passage stands out (z is null, migration 016)');
+select pg_temp.assert((select top_similarity from public.retrieval_audit_logs where method = 'semantic' order by id desc limit 1) >= 0.99,
+  'the audit keeps the top similarity of a semantic search, not the query');
 select pg_temp.assert(not exists (select 1 from t_semantic s join public.canonical_document_versions v on v.id = s.document_version_id where v.status <> 'active'),
   'superseded content is never retrieved semantically');
 select pg_temp.assert(exists (select 1 from public.retrieval_audit_logs where method = 'semantic' and query_sha256 = encode(sha256(convert_to('koliko minuta traje ispit', 'UTF8')), 'hex')),
@@ -690,3 +693,4 @@ exception when insufficient_privilege then raise notice 'ok - signed-in users ca
 end $$;
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 015');
+

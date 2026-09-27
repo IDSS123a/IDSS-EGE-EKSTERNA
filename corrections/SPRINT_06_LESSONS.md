@@ -30,6 +30,11 @@ Date: 2026-09-27 (open)
    Director) → external calls report a short, key-free detail to the screen (e.g. "Gemini: 500"), transient server
    errors are retried, and a failing item is isolated and skipped instead of blocking the batch. Every loop over an
    external service is built to survive one bad item and to say which answer it got.
+9. The relevance floor for search by meaning (cosine 0.6) was set without looking at the similarity distribution;
+   Gemini vectors are all close (unrelated passages 0.74 median), so the query "Ministar" returned unrelated passages
+   (found by the Director) → relevance is measured per query (z value against all passages, migration 016) and the
+   floor is derived from measured data. A threshold is derived from the measured distribution before it ships, and
+   the numbers needed to retune it are recorded from the start.
 
 ## Gotchas Discovered
 - Browser textareas submit line breaks as \r\n; the first live revisions stored \r\n while the catalogue text uses \n.

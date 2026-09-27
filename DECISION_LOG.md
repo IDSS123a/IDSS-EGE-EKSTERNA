@@ -302,3 +302,11 @@ and network failures are retried on the next key (at most 3 attempts, short paus
 until the failing passage is found, which is skipped for this click while the others are stored; the screen shows
 Gemini's answer (for example "Gemini: 500") and the number of skipped passages. Quota on every key, missing keys, a
 wrong model (404) and a refusal before anything worked still stop the build.
+**Addendum 3 (27.09.2026, Director: "Ministar" returned unrelated passages):** the absolute floor of 0.6 was a guess
+and wrong. Measured on the live index: unrelated passages (different subjects) have cosine similarity 0.736 median and
+0.787 at the 99th percentile, so every passage passed. Migration 016 measures relevance per query: `similarity_z` is how
+many standard deviations a passage lies above the mean similarity of all passages in scope for that query. A semantic
+result counts as evidence only with z >= 4.0 (`RETRIEVAL_MIN_SIMILARITY_Z`) unless a content word matched. Basis: the
+nearest related passage stands out by 3.39 median (95th percentile 4.79), the best of about 500 unrelated passages by
+about 3 by chance. Live probe: a passage identical to the query z = 7.8, its closest neighbours z = 2.6 to 3.2 (refused).
+Each semantic search now records `top_similarity` and `top_similarity_z` (no query text) to retune the floor on real use.

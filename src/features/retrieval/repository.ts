@@ -22,6 +22,7 @@ type ChunkRow = {
   rank: number;
   similarity?: number | null;
   keyword_rank?: number | null;
+  similarity_z?: number | null;
 };
 
 function toChunk(row: ChunkRow): RetrievedChunk {
@@ -39,6 +40,7 @@ function toChunk(row: ChunkRow): RetrievedChunk {
   if (row.similarity !== undefined || row.keyword_rank !== undefined) {
     chunk.similarity = row.similarity ?? null;
     chunk.keywordRank = row.keyword_rank ?? null;
+    chunk.similarityZ = row.similarity_z ?? null;
   }
   return chunk;
 }

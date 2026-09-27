@@ -75,3 +75,4 @@
 [2026-09-27] [ENV] Added GEMINI_API_KEY (server only; GOOGLE_API_KEY accepted) to .env.example
 [2026-09-27] [FEATURE] Gemini key rotation: GEMINI_API_KEY_1 to _10 (Director), round robin, next key on quota or refusal (PDL-023)
 [2026-09-27] [FIX] Semantic index build: retries Gemini server errors on the next key, isolates and skips a failing passage instead of stopping, shows Gemini's answer and the skipped count (first live build stopped at 100 of 514)
+[2026-09-27] [FIX] Search by meaning: relevance measured per query (z value, migration 016) instead of the guessed 0.6 floor that let unrelated passages through ("Ministar"); top similarity recorded per search for tuning

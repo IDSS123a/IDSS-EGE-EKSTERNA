@@ -95,10 +95,14 @@ export const EMBEDDING_TIMEOUT_MS = 30000;
 /** Time budget of one "build semantic index" click; the rest continues with the next click. */
 export const EMBEDDING_BUILD_BUDGET_MS = 45000;
 /**
- * Cosine similarity at or above which a semantic result counts as evidence when no content word matched.
- * Provisional: tuned on the Director's first searches (SPRINT_06), recorded in PDL-023.
+ * A semantic result counts as evidence when no content word matched only if its similarity lies at least this many
+ * standard deviations above the similarity of all passages in scope for the same query (migration 016). Gemini vectors
+ * are all close (unrelated passages 0.74 median), so an absolute floor cannot work. Measured 27.09.2026 on the live
+ * index: the nearest related passage stands out by 3.39 (median; 5th percentile 2.61, 95th 4.79), while the best of
+ * about 500 unrelated passages lies near 3 by chance. 4.0 accepts only clearly outstanding passages and relies on
+ * word matches otherwise; retuned from the top values recorded per search (PDL-023).
  */
-export const RETRIEVAL_MIN_SIMILARITY = 0.6;
+export const RETRIEVAL_MIN_SIMILARITY_Z = 4;
 
 /** Footer: product owner contact and the legal documents (Director, 2026-09-27; texts pending, AMB-20). */
 export const CONTACT_EMAIL = "ai@idss.ba";

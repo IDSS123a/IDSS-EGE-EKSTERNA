@@ -56,3 +56,4 @@
 - [2026-09-27] Gemini key rotation (GEMINI_API_KEY_1 to _10)
 - [2026-09-27] Semantic index build: retry, isolate failing passage, show Gemini detail (Director's first build stopped at 100/514)
 - [2026-09-27] Semantic index complete live: 514/514 vectors, nearest-neighbour subject check 99.6-100 %
+- [2026-09-27] Migration 016: semantic relevance by per-query z value (Director: Ministar)
