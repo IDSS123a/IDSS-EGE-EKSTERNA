@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "IDSS EGE: Vorbereitung auf die externe Matura",
+    "title": "IDSS - External Graduate Examination: Vorbereitung auf die externe Matura",
     "description": "Plattform der Internationalen Deutschen Schule Sarajevo zur Vorbereitung der Schülerinnen und Schüler der 9. Klasse auf die externe Matura."
   },
   "splash": {
-    "label": "IDSS EGE wird geladen",
-    "product": "EGE: Vorbereitung auf die externe Matura",
+    "label": "IDSS - External Graduate Examination wird geladen",
+    "product": "IDSS - External Graduate Examination",
     "logoAlt": "Internationale Deutsche Schule Sarajevo"
   },
   "language": {
@@ -18,7 +18,7 @@
   },
   "home": {
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
-    "title": "IDSS EGE",
+    "title": "IDSS - External Graduate Examination",
     "subtitle": "Vorbereitung auf die externe Matura mit Herausforderungen, Missionen und Übungen, die ausschließlich auf den offiziellen Prüfungskatalogen beruhen.",
     "statusTitle": "Die Plattform ist im Aufbau",
     "statusBody": "Derzeit entsteht Sprint 02: das Register der kanonischen Dokumente mit dauerhaftem Versionsverlauf, Aktivierung und Wiederherstellung früherer Versionen.",
@@ -540,5 +540,45 @@
       "VALIDATION": "Geben Sie eine Frage oder einen Begriff mit mindestens 2 Zeichen ein.",
       "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
     }
+  },
+  "settings": {
+    "navLink": "Einstellungen",
+    "title": "Einstellungen",
+    "subtitle": "Anwendungseinstellungen, die der Superadministrator ändert. Jede Änderung wird protokolliert.",
+    "palette": {
+      "title": "Farben des Startbildschirms",
+      "intro": "Geben Sie an, welchen Anteil des Hintergrunds jede IDSS-Farbe einnimmt. Die Summe muss 100 % ergeben. Die Änderung ist beim nächsten Öffnen der Anwendung sichtbar (spätestens nach einer Minute).",
+      "colors": {
+        "red": "Rot",
+        "yellow": "Gelb",
+        "blue": "Blau",
+        "sky": "Hellblau"
+      },
+      "sum": "Summe: {sum} %",
+      "sumWrong": "Die Summe muss 100 % ergeben.",
+      "preview": "Farbverhältnis",
+      "save": "Speichern",
+      "saving": "Wird gespeichert",
+      "reset": "Standard wiederherstellen",
+      "note": "Die Anteile wurden am gerenderten Bildschirm gemessen; der tatsächliche Anteil weicht um bis zu etwa 1,5 Prozentpunkte ab."
+    },
+    "messages": {
+      "SAVED": "Die Farben wurden gespeichert."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "FORBIDDEN": "Sie dürfen die Einstellungen nicht ändern.",
+      "VALIDATION": "Jeder Anteil muss zwischen 0 und 100 liegen, die Summe 100 %.",
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+    }
+  },
+  "footer": {
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzerklärung",
+    "subscription": "Abonnement",
+    "cookies": "Cookie-Hinweis",
+    "product": "IDSS - External Graduate Examination ist ein Produkt der IDSS. Kontakt: {email}.",
+    "navLabel": "Rechtliche Dokumente",
+    "back": "Zurück zur Startseite"
   }
 }

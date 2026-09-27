@@ -1,5 +1,5 @@
 /**
- * IDSS EGE — first-paint splash screen (static module, no dependencies).
+ * IDSS - External Graduate Examination: first-paint splash screen (static module, no dependencies).
  *
  * Why a static file in /public: the splash must be the first UI the user sees,
  * before the React app hydrates (INSTRUCTION §7A.8). The markup is server-rendered
@@ -30,20 +30,24 @@
   var ROOT_ID = "idss-splash";
   var MESSAGES_ELEMENT_ID = "idss-splash-messages";
   var MESSAGES_URL = "/splash/messages.json";
+  var PALETTE_URL = "/splash/palette";
+  var THRESHOLD_LIMIT = 5;
   var LAST_MESSAGE_STORAGE_KEY = "idss-ege:splash:last-message";
 
   // Visual recipe (derived from the reference file's FLOW recipe; see DECISION_LOG PDL-007).
   var RECIPE = {
     // Reference stops #E8262C #08ABE6 #035EA1 #FFCB29, ordered for the cyclic palette.
     stops: ["#E8262C", "#035EA1", "#08ABE6", "#FFCB29"],
-    // Director 27.09.2026 (PDL-019): yellow, blue and sky prevail; red only in traces.
+    // Director 27.09.2026 (PDL-019, PDL-020): yellow, blue and sky prevail; red only in traces.
     // Blue and yellow alternate in the main field; sky and red are layers from their own
     // noise fields, drawn where that field exceeds its threshold (lower = more area).
-    // Thresholds measured on rendered frames: sky about a third, red about 2 %.
-    skyThreshold: 0.435,
+    // These are the thresholds of the default shares (red 2, yellow 36, blue 29, sky 33 %);
+    // the Director's shares arrive from PALETTE_URL as thresholds computed on the server
+    // from measured curves (src/features/splash/palette.ts).
+    skyThreshold: 0.4433,
     // Where yellow starts in the blue/yellow cycle (lower = more yellow).
-    yellowFrom: 0.12,
-    redThreshold: 0.7,
+    yellowFrom: 0.1833,
+    redThreshold: 0.6993,
     // Half-width of every colour edge (field units).
     blend: 0.03,
     scale: 56,
@@ -227,6 +231,28 @@
     "}"
   ].join("\n");
 
+  // Director's palette (PDL-020): thresholds from the server; the defaults stay on any failure.
+  function validThreshold(value) {
+    return typeof value === "number" && isFinite(value) && value >= 0 && value <= THRESHOLD_LIMIT;
+  }
+
+  function loadPalette() {
+    if (typeof fetch !== "function") return;
+    fetch(PALETTE_URL, { credentials: "omit" })
+      .then(function (response) { return response.ok ? response.json() : null; })
+      .then(function (palette) {
+        var thresholds = palette && palette.thresholds;
+        if (!thresholds || !validThreshold(thresholds.skyThreshold) || !validThreshold(thresholds.redThreshold) || !validThreshold(thresholds.yellowFrom)) return;
+        if (!state.gl) return;
+        var gl = state.gl.context;
+        gl.useProgram(state.gl.program);
+        gl.uniform1f(state.gl.uniforms.u_sky, thresholds.skyThreshold);
+        gl.uniform1f(state.gl.uniforms.u_red, thresholds.redThreshold);
+        gl.uniform1f(state.gl.uniforms.u_yellow, thresholds.yellowFrom);
+      })
+      .catch(function () { /* keep the default palette */ });
+  }
+
   function hexToRgb(hex) {
     var value = parseInt(hex.slice(1), 16);
     return [((value >> 16) & 255) / 255, ((value >> 8) & 255) / 255, (value & 255) / 255];
@@ -287,7 +313,8 @@
     gl.uniform1f(uniforms.u_red, RECIPE.redThreshold);
     gl.uniform1f(uniforms.u_yellow, RECIPE.yellowFrom);
 
-    state.gl = { context: gl, canvas: canvas, uniforms: uniforms };
+    state.gl = { context: gl, canvas: canvas, uniforms: uniforms, program: program };
+    loadPalette();
     resizeField();
     window.addEventListener("resize", resizeField);
     state.root.setAttribute("data-field", "webgl");

@@ -6,6 +6,7 @@ import { Inter, Sora } from "next/font/google";
 import { BRAND_LOGO_PATH, SPLASH_SCRIPT_PATH, SPLASH_STYLESHEET_PATH } from "@/constants";
 import { I18nProvider } from "@/features/localization/i18n-provider";
 import { getDictionary, getRequestLocale } from "@/features/localization/server";
+import { SiteFooter } from "@/features/shell/components/site-footer";
 import { SplashScreen } from "@/features/splash/components/splash-screen";
 import { SplashReadySignal } from "@/features/splash/components/splash-ready-signal";
 import { pickFirstSplashMessageIndex } from "@/features/splash/domain";
@@ -62,6 +63,7 @@ export default async function RootLayout({ children }: { children: ReactNode }):
         <SplashScreen locale={locale} dictionary={dictionary} firstIndex={firstSplashIndex} />
         <I18nProvider initialLocale={locale}>
           {children}
+          <SiteFooter />
           <SplashReadySignal />
         </I18nProvider>
         <Script src={SPLASH_SCRIPT_PATH} strategy="beforeInteractive" nonce={nonce} />

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "IDSS EGE: External matura preparation",
+    "title": "IDSS - External Graduate Examination: External matura preparation",
     "description": "Internationale Deutsche Schule Sarajevo platform preparing Grade 9 students for the external matura."
   },
   "splash": {
-    "label": "IDSS EGE is loading",
-    "product": "EGE: External matura preparation",
+    "label": "IDSS - External Graduate Examination is loading",
+    "product": "IDSS - External Graduate Examination",
     "logoAlt": "Internationale Deutsche Schule Sarajevo"
   },
   "language": {
@@ -18,7 +18,7 @@
   },
   "home": {
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
-    "title": "IDSS EGE",
+    "title": "IDSS - External Graduate Examination",
     "subtitle": "External matura preparation through challenges, missions and practice based exclusively on the official exam catalogues.",
     "statusTitle": "The platform is under construction",
     "statusBody": "Sprint 02 is in progress: the canonical document registry with a permanent version history, activation and restoring earlier versions.",
@@ -540,5 +540,45 @@
       "VALIDATION": "Enter a question or term of at least 2 characters.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
     }
+  },
+  "settings": {
+    "navLink": "Settings",
+    "title": "Settings",
+    "subtitle": "Application settings changed by the Superadministrator. Every change is logged.",
+    "palette": {
+      "title": "Splash screen colours",
+      "intro": "Enter how much of the splash background each IDSS colour covers. The total must be 100 %. The change shows the next time the app opens (within one minute).",
+      "colors": {
+        "red": "Red",
+        "yellow": "Yellow",
+        "blue": "Blue",
+        "sky": "Sky blue"
+      },
+      "sum": "Total: {sum} %",
+      "sumWrong": "The total must be 100 %.",
+      "preview": "Colour ratio",
+      "save": "Save",
+      "saving": "Saving",
+      "reset": "Restore default",
+      "note": "Shares were measured on the rendered screen; the actual share differs by up to about 1.5 percentage points."
+    },
+    "messages": {
+      "SAVED": "The colours were saved."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You may not change the settings.",
+      "VALIDATION": "Every share must be between 0 and 100 and the total 100 %.",
+      "UNAVAILABLE": "The service is not available right now. Please try again."
+    }
+  },
+  "footer": {
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "subscription": "Subscription",
+    "cookies": "Cookie notice",
+    "product": "IDSS - External Graduate Examination is a product of IDSS. Contact: {email}.",
+    "navLabel": "Legal documents",
+    "back": "Back to home"
   }
 }

@@ -531,3 +531,27 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b
 select pg_temp.assert((select count(*) from public.retrieval_audit_logs) = 0, 'the retrieval log needs audit.view');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 009');
+
+-- 13. System settings (migration 012): splash palette set only by settings.manage, validated, audited.
+set role service_role;
+select pg_temp.expect_error($$select public.set_splash_palette('00000000-0000-0000-0000-00000000000b', '{"red": 2, "yellow": 36, "blue": 29, "sky": 33}', null)$$,
+  'FORBIDDEN', 'a teacher cannot change settings');
+select pg_temp.expect_error($$select public.set_splash_palette('00000000-0000-0000-0000-00000000000a', '{"red": 2, "yellow": 36, "blue": 29, "sky": 30}', null)$$,
+  'VALIDATION', 'shares must add up to 100');
+select pg_temp.expect_error($$select public.set_splash_palette('00000000-0000-0000-0000-00000000000a', '{"red": -5, "yellow": 46, "blue": 29, "sky": 30}', null)$$,
+  'VALIDATION', 'shares are between 0 and 100');
+select pg_temp.expect_error($$select public.set_splash_palette('00000000-0000-0000-0000-00000000000a', '{"red": 2, "yellow": 36, "blue": 29, "sky": 33, "green": 0}', null)$$,
+  'VALIDATION', 'only the four IDSS colours');
+select pg_temp.expect_error($$select public.set_splash_palette('00000000-0000-0000-0000-00000000000a', '{"red": "2", "yellow": 36, "blue": 29, "sky": 33}', null)$$,
+  'VALIDATION', 'shares are numbers');
+select public.set_splash_palette('00000000-0000-0000-0000-00000000000a', '{"red": 1.5, "yellow": 40, "blue": 28.5, "sky": 30}', null);
+select pg_temp.assert((select value from public.system_settings where key = 'splash.palette') = '{"red": 1.5, "yellow": 40, "blue": 28.5, "sky": 30}'::jsonb, 'the palette is stored');
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'settings.splash_palette_changed' and details -> 'before' ->> 'red' = '2'), 'the change is audited with before and after');
+reset role;
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.system_settings) = 0, 'settings are hidden without settings.manage');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a', false);
+select pg_temp.assert((select count(*) from public.system_settings) = 1, 'the superadmin reads settings');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 012');

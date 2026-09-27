@@ -38,3 +38,30 @@ test("the canon search is not reachable without a session", async ({ page }) => 
   await page.goto("/app/pretraga");
   await expect(page).toHaveURL(/\/prijava$/);
 });
+
+test("the settings screen is not reachable without a session", async ({ page }) => {
+  await page.goto("/app/postavke");
+  await expect(page).toHaveURL(/\/prijava$/);
+});
+
+test("the splash palette is public, cacheable and falls back to the default", async ({ request }) => {
+  const response = await request.get("/splash/palette");
+  expect(response.status()).toBe(200);
+  expect(response.headers()["cache-control"]).toContain("max-age=60");
+  const body = await response.json();
+  expect(Object.keys(body.shares).sort()).toEqual(["blue", "red", "sky", "yellow"]);
+  expect(body.thresholds.redThreshold).toBeGreaterThan(0);
+});
+
+test("the footer links the legal documents and the contact on public pages", async ({ page }) => {
+  await page.goto("/prijava");
+  const footer = page.locator("footer.site-footer");
+  // The app, footer included, becomes visible when the splash leaves.
+  await expect(footer).toBeVisible({ timeout: 20_000 });
+  await expect(footer.getByRole("link")).toHaveCount(5);
+  await expect(footer.locator('a[href="mailto:ai@idss.ba"]')).toBeVisible();
+  await footer.getByRole("link").first().click();
+  await expect(page).toHaveURL(/\/uslovi-koristenja$/);
+  await expect(page.locator("main")).toContainText("ai@idss.ba");
+  await expect(page.locator("main h2").first()).toBeVisible();
+});

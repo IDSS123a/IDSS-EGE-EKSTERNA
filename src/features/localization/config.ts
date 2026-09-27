@@ -3,7 +3,7 @@ import bs from "./messages/bs.json";
 import de from "./messages/de.json";
 import en from "./messages/en.json";
 
-/** An interface language supported by IDSS EGE. */
+/** An interface language supported by IDSS - External Graduate Examination. */
 export type Locale = (typeof SUPPORTED_LOCALES)[number];
 
 /** Shape of every interface dictionary; Bosnian is the reference catalogue. */
