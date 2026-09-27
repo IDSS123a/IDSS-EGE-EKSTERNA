@@ -61,16 +61,19 @@ function checkVector(values: unknown): number[] {
   return normalise(values as number[]);
 }
 
+/** Round-robin start position shared by all embedders of this server process. */
+let nextKey = 0;
+
 /**
- * Gemini embedder. The key travels in the x-goog-api-key header, never in the URL (it would appear in logs).
- * @throws EmbeddingError on a missing key, a refused request, rate limiting or an unexpected answer
+ * Gemini embedder over one or more keys. Keys travel in the x-goog-api-key header, never in the URL (it would
+ * appear in logs).
+ * @throws EmbeddingError: NOT_CONFIGURED without keys; RATE_LIMITED when every key is over quota; REJECTED when
+ *   every key was refused; UNAVAILABLE on other failures or an unexpected answer
  */
-export function geminiEmbedder(apiKey: string | null, fetchImpl: FetchLike = fetch, model: string = EMBEDDING_MODEL): Embedder {
-  async function call(method: "embedContent" | "batchEmbedContents", body: unknown): Promise<unknown> {
-    if (!apiKey) throw new EmbeddingError("NOT_CONFIGURED", "GEMINI_API_KEY is not set");
-    let response: Response;
+export function geminiEmbedder(apiKeys: readonly string[], fetchImpl: FetchLike = fetch, model: string = EMBEDDING_MODEL): Embedder {
+  async function send(apiKey: string, method: string, body: unknown): Promise<Response> {
     try {
-      response = await fetchImpl(`${API_ROOT}/models/${model}:${method}`, {
+      return await fetchImpl(`${API_ROOT}/models/${model}:${method}`, {
         method: "POST",
         headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
         body: JSON.stringify(body),
@@ -79,8 +82,23 @@ export function geminiEmbedder(apiKey: string | null, fetchImpl: FetchLike = fet
     } catch (error) {
       throw new EmbeddingError("UNAVAILABLE", `Gemini request failed: ${error instanceof Error ? error.name : "unknown"}`);
     }
-    if (!response.ok) throw new EmbeddingError(codeForStatus(response.status), `Gemini answered ${response.status}`);
-    return response.json();
+  }
+
+  async function call(method: "embedContent" | "batchEmbedContents", body: unknown): Promise<unknown> {
+    if (apiKeys.length === 0) throw new EmbeddingError("NOT_CONFIGURED", "no Gemini API key is set");
+    const start = nextKey % apiKeys.length;
+    nextKey = (start + 1) % apiKeys.length;
+    let rateLimited = false;
+    for (let attempt = 0; attempt < apiKeys.length; attempt += 1) {
+      const response = await send(apiKeys[(start + attempt) % apiKeys.length], method, body);
+      if (response.ok) return response.json();
+      const code = codeForStatus(response.status);
+      if (code === "UNAVAILABLE") throw new EmbeddingError(code, `Gemini answered ${response.status}`);
+      if (code === "RATE_LIMITED") rateLimited = true;
+      // 404 means the model or method is wrong, which no other key fixes.
+      if (response.status === 404) throw new EmbeddingError("REJECTED", "Gemini answered 404");
+    }
+    throw new EmbeddingError(rateLimited ? "RATE_LIMITED" : "REJECTED", `every Gemini key was refused (${apiKeys.length})`);
   }
 
   const request = (text: string) => ({ model: `models/${model}`, content: { parts: [{ text }] }, outputDimensionality: EMBEDDING_DIMENSIONS });

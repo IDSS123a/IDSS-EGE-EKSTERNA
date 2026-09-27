@@ -6,7 +6,7 @@ import { SearchScreen } from "@/features/retrieval/components/search-screen";
 import { EMBEDDING_MODEL } from "@/constants";
 import { chunkCounts, embeddingCount } from "@/features/retrieval/repository";
 import { createSupabaseServerClient } from "@/lib/db/supabase-server";
-import { getGeminiApiKey } from "@/lib/env";
+import { getGeminiApiKeys } from "@/lib/env";
 import { logError } from "@/lib/logger";
 import { canBuildIndex, canReviewSubject, canSearchCanon } from "@/lib/permissions";
 
@@ -28,5 +28,5 @@ export default async function SearchPage(): Promise<ReactNode> {
     logError("app/pretraga/page", error);
     throw error;
   }
-  return <SearchScreen subjects={view.own.map((subject) => ({ id: subject.id, code: subject.code }))} chunkTotal={view.total} canBuild={canBuildIndex(account)} embeddedTotal={view.embedded} semanticConfigured={getGeminiApiKey() !== null} />;
+  return <SearchScreen subjects={view.own.map((subject) => ({ id: subject.id, code: subject.code }))} chunkTotal={view.total} canBuild={canBuildIndex(account)} embeddedTotal={view.embedded} semanticConfigured={getGeminiApiKeys().length > 0} />;
 }

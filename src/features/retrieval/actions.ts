@@ -9,7 +9,7 @@ import { getCurrentAccount } from "@/features/authentication/session";
 import { RegistryFunctionError } from "@/features/canon/repository";
 import { EmbeddingError, geminiEmbedder } from "@/lib/ai/gemini-embeddings";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
-import { getGeminiApiKey } from "@/lib/env";
+import { getGeminiApiKeys } from "@/lib/env";
 import { logError, logInfo } from "@/lib/logger";
 import { canBuildIndex, canReviewSubject, canSearchCanon } from "@/lib/permissions";
 import { CanonSearchSchema } from "@/lib/validation/schemas";
@@ -49,13 +49,13 @@ async function search(formData: FormData): Promise<SearchResult> {
   try {
     const admin = createSupabaseAdminClient();
     const request = { actorUserId: actor.userId, query: parsed.data.query, subjectId, k: RETRIEVAL_RESULT_COUNT };
-    const apiKey = getGeminiApiKey();
+    const apiKeys = getGeminiApiKeys();
     let method: RetrievalMethod = "full_text";
     let fallback: RetrievalErrorCode | null = null;
     let retrieved: RetrievedChunk[] = [];
-    if (apiKey && (await embeddingCount(admin, EMBEDDING_MODEL)) > 0) {
+    if (apiKeys.length > 0 && (await embeddingCount(admin, EMBEDDING_MODEL)) > 0) {
       try {
-        retrieved = await semanticRetriever(admin, geminiEmbedder(apiKey)).retrieve(request);
+        retrieved = await semanticRetriever(admin, geminiEmbedder(apiKeys)).retrieve(request);
         method = "semantic";
       } catch (error) {
         if (!(error instanceof EmbeddingError)) throw error;
@@ -117,10 +117,10 @@ async function buildSemanticIndex(): Promise<SemanticIndexResult> {
   const actor = await getCurrentAccount();
   if (!actor) return { success: false, code: "UNAUTHENTICATED" };
   if (!canBuildIndex(actor)) return { success: false, code: "FORBIDDEN" };
-  const apiKey = getGeminiApiKey();
-  if (!apiKey) return { success: false, code: "NOT_CONFIGURED" };
+  const apiKeys = getGeminiApiKeys();
+  if (apiKeys.length === 0) return { success: false, code: "NOT_CONFIGURED" };
   const admin = createSupabaseAdminClient();
-  const embedder = geminiEmbedder(apiKey);
+  const embedder = geminiEmbedder(apiKeys);
   const ipAddress = clientIpFrom((await headers()).get("x-forwarded-for"));
   const started = Date.now();
   let stored = 0;

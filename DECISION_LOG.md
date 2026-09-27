@@ -293,4 +293,6 @@ real searches.
 click; each vector is stored only if the passage text still has the hash it was computed from (migration 015). The
 build runs where the server reaches Google: the Director's computer now, the hosting later.
 **Fallback:** no key, no vectors, or a Gemini error: word search, with a visible notice on error.
-
+**Addendum (27.09.2026, Director):** ten keys `GEMINI_API_KEY_1` to `GEMINI_API_KEY_10` rotate because of quota limits.
+Requests start at the next key in turn (round robin); a key answering 429 (quota) or 401/403 (refused) hands the request
+to the following key; 404 and other failures are not retried. RATE_LIMITED only when every key is over quota.

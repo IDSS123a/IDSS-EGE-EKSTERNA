@@ -575,9 +575,9 @@
       "FORBIDDEN": "Nemate pravo pretrage za ovaj predmet.",
       "VALIDATION": "Upišite pitanje ili pojam od najmanje 2 znaka.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo.",
-      "NOT_CONFIGURED": "Ključ GEMINI_API_KEY nije postavljen u .env.local. Pretraga radi po riječima.",
+      "NOT_CONFIGURED": "Nijedan ključ GEMINI_API_KEY (ili GEMINI_API_KEY_1 do GEMINI_API_KEY_10) nije postavljen u .env.local. Pretraga radi po riječima.",
       "REJECTED": "Gemini je odbio zahtjev (provjerite ključ i naziv modela).",
-      "RATE_LIMITED": "Gemini trenutno ograničava broj zahtjeva. Pokušajte za minutu."
+      "RATE_LIMITED": "Svi Gemini ključevi su trenutno iskoristili kvotu. Pokušajte kasnije."
     },
     "semantic": {
       "title": "Indeks za pretragu po značenju",
@@ -587,7 +587,7 @@
       "building": "Izgradnja u toku",
       "built": "Dodano vektora: {stored}. Ukupno: {embedded}.",
       "continue": "Nije sve završeno u jednom koraku; kliknite ponovo da nastavite.",
-      "noKey": "Ključ GEMINI_API_KEY nije postavljen u .env.local; pretraga radi po riječima.",
+      "noKey": "Nijedan ključ GEMINI_API_KEY (ili GEMINI_API_KEY_1 do GEMINI_API_KEY_10) nije postavljen u .env.local; pretraga radi po riječima.",
       "privacy": "Tekst upita se radi pretrage po značenju šalje Googleu (Gemini). Ne upisujte lične podatke."
     },
     "methods": {
