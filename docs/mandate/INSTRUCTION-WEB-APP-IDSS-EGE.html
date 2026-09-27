@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSTRUCTION-WEB-APP-IDSS-EGE</title>
+<meta name="description" content="Master implementation mandate for Claude Code / AI Coding Assistant to plan, build, test and deploy IDSS EGE.">
+<link rel="icon" href="https://idss.edu.ba/wp-content/uploads/2024/03/logo_white.png" type="image/png">
+<meta name="idss-school-logo" content="https://idss.edu.ba/wp-content/uploads/2024/03/logo_white.png">
+<style>
+  :root{
+    --blue:#035EA1;--cyan:#08ABE6;--yellow:#FFCB29;--red:#E8262C;
+    --ink:#17202a;--muted:#5d6873;--line:#dfe5ea;--paper:#fff;--bg:#f4f7f9;
+    --code:#111820;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.62}
+  .wrap{max-width:1180px;margin:auto;padding:32px 24px 80px}
+  header{background:linear-gradient(135deg,var(--blue),#063d69);color:#fff;border-radius:22px;padding:42px;margin-bottom:26px;box-shadow:0 18px 50px rgba(3,94,161,.18)}
+  header .eyebrow{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+  h1{font-size:42px;line-height:1.08;margin:10px 0 14px}
+  h2{font-size:27px;margin:42px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  h3{font-size:20px;margin-top:28px}
+  p{margin:10px 0}
+  .lead{font-size:19px;max-width:920px}
+  .badge{display:inline-block;background:var(--yellow);color:#111;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:800;margin:4px 5px 0 0}
+  .critical{border-left:6px solid var(--red);background:#fff3f3;padding:18px 20px;border-radius:12px;margin:18px 0}
+  .rule{border-left:6px solid var(--cyan);background:#eefaff;padding:18px 20px;border-radius:12px;margin:18px 0}
+  .ok{border-left:6px solid #2c9b5f;background:#f0fff6;padding:18px 20px;border-radius:12px;margin:18px 0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:20px}
+  code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+  code{background:#edf1f4;padding:2px 5px;border-radius:5px}
+  pre{background:var(--code);color:#e9f0f5;padding:18px;border-radius:12px;overflow:auto;line-height:1.5}
+  table{width:100%;border-collapse:collapse;background:#fff;margin:15px 0}
+  th,td{border:1px solid var(--line);padding:11px 12px;text-align:left;vertical-align:top}
+  th{background:#edf3f7}
+  ul,ol{padding-left:26px}
+  .toc a{color:var(--blue);text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  .mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+  .footer{margin-top:45px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:20px}
+  .stop{font-weight:900;color:var(--red)}
+  @media print{
+    body{background:#fff}.wrap{max-width:none;padding:0}
+    header{box-shadow:none}.card{break-inside:avoid}
+    a{color:inherit;text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">IDSS • AI CODING ASSISTANT • MASTER IMPLEMENTATION MANDATE</div>
+  <h1>IDSS EGE</h1>
+  <p class="lead"><strong>External Matriculation Exam Preparation Platform for Grade 9</strong></p>
+  <p>This document is the project-specific implementation mandate for Claude Code / ACA. It governs planning, architecture, UX/UI, data modelling, implementation, testing, security, documentation and deployment of the IDSS EGE web application.</p>
+  <span class="badge">FROM SCRATCH</span>
+  <span class="badge">CANONICAL-SOURCE-DRIVEN</span>
+  <span class="badge">GAME-FIRST STUDENT UX</span>
+  <span class="badge">SECURITY-FIRST</span>
+  <span class="badge">AUDIT BEFORE CHANGE</span>
+</header>
+
+<section class="critical">
+  <strong>EXECUTION PRECEDENCE — NON-NEGOTIABLE</strong>
+  <p>Commander governance has higher authority than this document. Do not reinterpret, weaken, bypass or duplicate Commander rules when they already define the required behaviour. This document supplies the project-specific business, educational, product and UX mandate for IDSS EGE.</p>
+  <p>At project bootstrap, first obey the Commander bootstrap process and load its required governance documents. Only after that, read and execute this document.</p>
+</section>
+
+<h2 id="non-negotiable-flexibility">0. NON-NEGOTIABLE ARCHITECTURAL DIRECTIVE — FLEXIBLE CANON + AUTOMATIC VERSION REPLACEMENT</h2>
+<div class="critical">
+  <strong>STOP. THIS IS A CORE ARCHITECTURAL REQUIREMENT, NOT AN OPTIONAL FEATURE.</strong>
+  <p><strong>IDSS EGE MUST BE DESIGNED FROM DAY ONE AS A FLEXIBLE, VERSIONED, CANONICAL-SOURCE-DRIVEN SYSTEM.</strong> The application must never depend on developers manually changing code whenever the competent ministry publishes a new catalogue, law, regulation, rulebook, official form, decision, instruction, examination document or other authoritative material.</p>
+  <p>The Director / Superadmin account <strong class="mono">direktor@idss.ba</strong> must be able, through the secure Superadmin Control Panel, to upload a new official document and make it the <strong>active canonical version</strong> for its document type and subject. The application must then automatically stop using the previous version for current operation and use the newly published/approved version as the active source.</p>
+  <p><strong>CODE MUST NOT HAVE TO CHANGE FOR NORMAL CANON UPDATES.</strong> A future ministry update must be handled through data/content administration, not through a developer deployment, provided the underlying document type and application capabilities remain compatible.</p>
+</div>
+
+<div class="rule">
+  <strong>CANON UPDATE LIFECYCLE — MANDATORY</strong>
+  <ol>
+    <li>The Director receives an official ministry publication/document: catalogue, law, regulation, rulebook, decree/decision, official form, instruction, examination specification or other authoritative source.</li>
+    <li>The Director opens the relevant Superadmin area and uploads the new document.</li>
+    <li>The Director records or confirms its metadata: document type, subject/scope, issuing authority, official title, publication/effective date, source/reference, version or revision identifier where available, and status.</li>
+    <li>The system validates the file, stores the original immutable source, creates a new canonical version and preserves complete provenance.</li>
+    <li>The system processes the new source into the appropriate structured knowledge representation without silently changing its meaning.</li>
+    <li>After successful validation/publish, the new version becomes <strong>ACTIVE</strong> for the relevant scope.</li>
+    <li>The previous active version becomes <strong>SUPERSEDED / INACTIVE</strong> automatically. It must no longer drive current student practice, current exam rules or current official document generation.</li>
+    <li>The previous version must <strong>not be hard-deleted</strong>. Historical versions, provenance, audit records and previously generated artefacts must remain traceable for accountability, debugging and historical reporting.</li>
+    <li>The system must invalidate/rebuild affected caches, indexes, derived learning objects and current-content references so that users do not continue receiving stale canonical content.</li>
+    <li>The system must record who published the new version, when, what it replaced, what processing occurred and whether validation succeeded.</li>
+  </ol>
+</div>
+
+<div class="critical">
+  <strong>NO HARD-CODED CANONICAL CONTENT</strong>
+  <p>Do not hard-code examination rules, catalogue questions, official forms, legal wording, scoring structures, subject requirements or document-specific business rules into React/Vue components, static JSON files, constants or other code when those facts can change through an official publication.</p>
+  <p>Build the application so that <strong>code defines the engine; canonical documents define the current authoritative content and rules</strong>. The system must therefore separate <strong>application logic</strong> from <strong>canonical content</strong> and from <strong>derived learning representations</strong>.</p>
+</div>
+
+<div class="card">
+  <h3>Required Canonical Version Model</h3>
+  <p>At minimum, the architecture must distinguish:</p>
+  <ul>
+    <li><strong>Document Type</strong> — e.g. German exam catalogue, Mathematics exam catalogue, Bosnian exam catalogue, law, regulation, rulebook, official form, decision, instruction.</li>
+    <li><strong>Document Version</strong> — immutable uploaded source plus metadata and checksum/hash.</li>
+    <li><strong>Scope</strong> — subject, grade, exam, document category or other applicable scope.</li>
+    <li><strong>Status</strong> — draft, processing, validation-required, active, superseded, archived, rejected.</li>
+    <li><strong>Effective Date / Publication Date</strong> — where supplied by the authority.</li>
+    <li><strong>Provenance</strong> — issuing authority, official title, source location, uploader, timestamp, verification status.</li>
+    <li><strong>Derived Content</strong> — structured questions, competencies, topics, rules, forms, mappings and other machine-readable representations derived from the source.</li>
+    <li><strong>Dependency Map</strong> — which application features and generated artefacts depend on which canonical version.</li>
+  </ul>
+  <p><strong>Active content must always resolve through the current active canonical version, never through a stale hard-coded reference.</strong></p>
+</div>
+
+<div class="rule">
+  <strong>SEMANTIC INTEGRITY IS MORE IMPORTANT THAN SIMPLE FILE UPLOAD.</strong>
+  <p>An uploaded PDF is not considered successfully integrated merely because it is stored in the database/storage bucket. The system must extract, structure, validate, index and connect its meaningful content to the appropriate application model. If a new catalogue replaces an old catalogue, the relevant questions, topics, competencies, rules and exam structures must be regenerated or revalidated from the new source.</p>
+</div>
+
+<div class="critical">
+  <strong>CATALOGUE QUESTION INGESTION — MINIMUM 200 QUESTIONS PER SUBJECT</strong>
+  <p>During the initial build, ACA must fully process <strong>all catalogue questions contained in the canonical examination documents</strong> for each of the three subjects — <strong>Bosnian language, Mathematics and German language</strong> — with a validation target of <strong>at least 200 catalogue questions per subject where the authoritative source provides them</strong>.</p>
+  <p><strong>Do not treat this as bulk PDF text extraction.</strong> Every question must be understood and represented at the levels of <strong>syntax, logic and semantics</strong> before it becomes trusted application content.</p>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>Syntax</h3>
+    <p>Preserve the exact wording, punctuation, numbering, answer-option structure, mathematical notation, language-specific characters, units, symbols and relevant formatting. Do not paraphrase the canonical question in place of the original.</p>
+  </div>
+  <div class="card">
+    <h3>Logic</h3>
+    <p>Determine what the task actually asks the student to do: required operations, constraints, relationships, dependencies, expected reasoning path, answer conditions and—only when supported by the source—correct answer or scoring logic.</p>
+  </div>
+  <div class="card">
+    <h3>Semantics</h3>
+    <p>Identify the educational meaning: subject, domain, topic, competency, concept, skill, knowledge type, task intent and relevant canonical requirement. Semantic interpretation must remain traceable to the source and must never invent unsupported meaning.</p>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Mandatory Structured Representation of Every Catalogue Question</h3>
+  <p>Each imported question should have, as applicable:</p>
+  <ul>
+    <li>stable question ID;</li>
+    <li>subject;</li>
+    <li>canonical document ID and exact document version;</li>
+    <li>page / section / source location;</li>
+    <li>original question number;</li>
+    <li>exact canonical text;</li>
+    <li>normalized machine-readable text where necessary, while preserving the original;</li>
+    <li>answer options and exact option structure, when present;</li>
+    <li>syntax representation;</li>
+    <li>logic/task representation;</li>
+    <li>semantic representation;</li>
+    <li>topic/domain/competency mappings;</li>
+    <li>task type;</li>
+    <li>difficulty or cognitive-demand classification only when defensibly derived and clearly marked as derived;</li>
+    <li>answer/scoring information only when actually supported by the authoritative source;</li>
+    <li>validation status;</li>
+    <li>parser/extraction provenance;</li>
+    <li>last verified timestamp and verifier/process information.</li>
+  </ul>
+</div>
+
+<div class="critical">
+  <strong>QUALITY GATE FOR CATALOGUE INGESTION</strong>
+  <p>ACA must produce an auditable ingestion report showing, per subject: number of source pages processed, number of questions detected, number successfully structured, number requiring manual review, duplicate/near-duplicate findings, missing or ambiguous elements, and final validation status. <strong>If the source contains fewer than 200 questions, do not invent questions to reach 200.</strong> Report the actual authoritative count and the discrepancy.</p>
+  <p>No catalogue question may enter the trusted question bank merely because OCR/parser extraction succeeded. Structural validation and semantic/source validation are separate gates.</p>
+</div>
+
+<h2 id="toc">1. Required Reading Order</h2>
+<div class="card toc">
+<ol>
+  <li><strong>Commander initial instructions:</strong><br>
+    <span class="mono">https://github.com/IDSS123a/commander/blob/main/initial_instructions.md</span>
+  </li>
+  <li><strong>Commander bootstrap governance, exactly as required by initial_instructions.md:</strong>
+    <ul>
+      <li><span class="mono">https://raw.githubusercontent.com/IDSS123a/commander/main/CONSTITUTION.md</span></li>
+      <li><span class="mono">https://raw.githubusercontent.com/IDSS123a/commander/main/ENGINEERING_RULES.md</span></li>
+      <li><span class="mono">https://raw.githubusercontent.com/IDSS123a/commander/main/ARCHITECTURE_PATTERNS.md</span></li>
+      <li><span class="mono">https://raw.githubusercontent.com/IDSS123a/commander/main/ACA_COMMUNICATION_PROTOCOL.md</span></li>
+      <li><span class="mono">https://raw.githubusercontent.com/IDSS123a/commander/main/FEATURE_LIFECYCLE.md</span></li>
+      <li><span class="mono">https://raw.githubusercontent.com/IDSS123a/commander/main/DONE_CHECKLIST.md</span></li>
+      <li><span class="mono">https://raw.githubusercontent.com/IDSS123a/commander/main/DECISION_LOG.md</span></li>
+    </ul>
+  </li>
+  <li><strong>This document:</strong><br>
+    <span class="mono">INSTRUCTION-WEB-APP-IDSS-EGE.html</span>
+  </li>
+  <li><strong>IDSS EGE canonical repository:</strong><br>
+    <span class="mono">https://github.com/IDSS123a/IDSS-EGE-EKSTERNA</span>
+  </li>
+  <li><strong>Existing prototype/reference code:</strong><br>
+    <span class="mono">https://github.com/IDSS123a/IDSS-EGE-EKSTERNA/tree/main/CODE-PROTOTYPE</span>
+  </li>
+  <li><strong>All remaining repository materials:</strong> inspect the complete tree, including <span class="mono">OSTALI-DOKUMENTI</span>, PDFs, source files, configuration, README files and any later additions.</li>
+</ol>
+</div>
+
+<div class="critical">
+  <strong>DO NOT START IMPLEMENTATION AFTER READING ONLY THE URLS.</strong>
+  <p>First build an evidence-based project understanding. You must inspect the actual repository contents and prototype before deciding architecture or deleting/replacing anything.</p>
+</div>
+
+<h2 id="mission">2. Mission</h2>
+<p>Build <strong>IDSS EGE</strong>, a secure, maintainable, source-traceable educational web application for Grade 9 students and IDSS staff preparing for the Sarajevo Canton external matriculation examination.</p>
+
+<div class="critical">
+  <strong>THREE-SUBJECT RULE — ABSOLUTE</strong>
+  <p><strong>IDSS EGE prepares Grade 9 students for the three teaching subjects prescribed for the external matriculation examination: Bosnian language, Mathematics and German language.</strong></p>
+  <p>These three subjects are the core academic scope of the student experience. Do not add, remove, substitute or invent an examination subject. Do not create a fourth exam subject, an alternative subject track or a generic multi-subject LMS model unless the CANON itself is officially updated and the change is explicitly reflected in the repository.</p>
+  <p>The exact official names, scope, structure, competencies, requirements, scoring, tasks, formats and other examination rules must always be taken from the current canonical documents in the EGE repository. The application must never rely on memory, generic knowledge or assumptions where the CANON provides the answer.</p>
+</div>
+
+<p>The product has two simultaneous identities:</p>
+<ul>
+  <li><strong>For students:</strong> a game-first learning environment that exists first and foremost for the students and their successful, structured preparation in <strong>Bosnian language, Mathematics and German language</strong>.</li>
+  <li><strong>For teachers and school support staff:</strong> a serious academic support and monitoring platform that enables teachers, pedagogues and psychologists to follow each student's progress in detail and use practical intervention/support tools.</li>
+  <li><strong>For school leadership:</strong> a secure institutional oversight platform providing useful aggregate information, configuration, audit and reporting without unnecessary exposure of sensitive student data.</li>
+</ul>
+
+<p>The application is not a generic LMS, document library, quiz app, school portal or dashboard. It is a <strong>canonical-source-driven exam preparation platform with a game-first student experience</strong>.</p>
+
+<h2 id="principles">3. Product Constitution</h2>
+<div class="grid">
+  <div class="card"><h3>3.1 Canonical Truth</h3><p>Official and project-approved source material controls academic facts. Never invent exam rules, competencies, scoring, structure or requirements.</p></div>
+  <div class="card"><h3>3.2 Audit Before Change</h3><p>Inspect existing code, assets, routes, dependencies, data structures and prototype behaviour before modifying anything.</p></div>
+  <div class="card"><h3>3.3 Preserve Value</h3><p>Never remove working functionality, content or useful prototype behaviour merely to simplify implementation. Replace only when there is a documented reason and a verified equivalent or better result.</p></div>
+  <div class="card"><h3>3.4 Evidence Over Assumption</h3><p>If the repository does not establish a fact, mark it unresolved. Do not fill gaps with generic assumptions.</p></div>
+  <div class="card"><h3>3.5 Student First</h3><p>The student experience is the primary product surface. Administrative complexity must not leak into it.</p></div>
+  <div class="card"><h3>3.6 Security First</h3><p>Authorization, privacy, validation and safe data handling are architectural requirements, not later polish.</p></div>
+  <div class="card"><h3>3.7 Traceability</h3><p>Academic content should be traceable to its source document, version and location whenever practical.</p></div>
+  <div class="card"><h3>3.8 Accessibility & Clarity</h3><p>Students must be able to understand what to do next without reading technical instructions.</p></div>
+</div>
+
+<h2 id="source">4. Canonical Source & Authority Model</h2>
+<p>The repository <span class="mono">IDSS123a/IDSS-EGE-EKSTERNA</span> is the project's canonical evidence base. However, do not treat every file as having identical authority.</p>
+<p><strong>For the student preparation product, the academic scope is explicitly limited to the three prescribed subjects: Bosnian language, Mathematics and German language.</strong> The exact terminology and official requirements must be verified from the CANON during implementation.</p>
+
+<p>During discovery, classify sources into an explicit authority hierarchy such as:</p>
+<table>
+<tr><th>Level</th><th>Source class</th><th>Use</th></tr>
+<tr><td>1</td><td>Law / official regulation / official decision</td><td>Controls legal requirements.</td></tr>
+<tr><td>2</td><td>Official external-matriculation documentation</td><td>Controls exam structure and official requirements.</td></tr>
+<tr><td>3</td><td>Official subject catalogues / syllabi</td><td>Controls subject content, domains and competencies.</td></tr>
+<tr><td>4</td><td>Official exam examples / approved materials</td><td>Controls documented examples and patterns.</td></tr>
+<tr><td>5</td><td>IDSS-approved pedagogical material</td><td>Supports teaching and practice but cannot silently override official requirements.</td></tr>
+<tr><td>6</td><td>Prototype / existing application code</td><td>Provides reusable implementation ideas and functionality; it is not a legal authority.</td></tr>
+</table>
+
+<div class="rule">
+<strong>Critical rule:</strong> If two sources appear to conflict, do not silently choose one. Preserve both references, identify the conflict, determine authority from the documents themselves where possible, and flag unresolved conflicts for human verification.
+</div>
+
+<h2 id="discovery">5. Mandatory Discovery Phase — BEFORE Coding</h2>
+<p>Perform a full repository audit before creating the final architecture.</p>
+
+<h3>5.1 Repository inventory</h3>
+<ul>
+  <li>List all files and folders.</li>
+  <li>Identify file types and likely authority.</li>
+  <li>Read all relevant Markdown, text, JSON, TypeScript/JavaScript, configuration and documentation files.</li>
+  <li>Inspect all PDFs and extract their meaningful text/content.</li>
+  <li>Inspect important PDF pages visually when extraction is incomplete or when diagrams/tables/figures matter.</li>
+  <li>Inspect <span class="mono">CODE-PROTOTYPE</span> completely enough to understand its architecture, UX, routes, components, data and reusable logic.</li>
+  <li>Inspect <span class="mono">OSTALI-DOKUMENTI</span> and determine what role each item plays.</li>
+  <li>Do not assume the repository is complete merely because it is named as a canonical repository.</li>
+</ul>
+
+<h3>5.2 Produce an internal evidence map</h3>
+<p>Create project documentation that records:</p>
+<ul>
+  <li>source file;</li>
+  <li>source type;</li>
+  <li>authority level;</li>
+  <li>subjects/domains covered;</li>
+  <li>relevant requirements;</li>
+  <li>version/date if present;</li>
+  <li>conflicts or ambiguities;</li>
+  <li>application features affected by the source.</li>
+</ul>
+
+<h3>5.3 Prototype audit</h3>
+<p>The prototype is a <strong>reference implementation, not automatically the target architecture</strong>. Extract and classify:</p>
+<ul>
+  <li>working functionality worth preserving;</li>
+  <li>visual language and useful interaction patterns;</li>
+  <li>data structures;</li>
+  <li>components;</li>
+  <li>assets;</li>
+  <li>bugs;</li>
+  <li>technical debt;</li>
+  <li>features that conflict with the new product constitution.</li>
+</ul>
+
+<div class="critical">
+<strong>Never delete the prototype simply because a new architecture is cleaner.</strong> First document what it contains, then decide what to reuse, adapt or replace.
+</div>
+
+<h2 id="architecture">6. Target System Architecture</h2>
+<div class="critical">
+  <strong>ARCHITECTURE MUST SUPPORT FUTURE OFFICIAL UPDATES WITHOUT CODE CHANGES.</strong>
+  <p>The system architecture must include a dedicated <strong>Canonical Content Administration + Versioning + Ingestion Pipeline</strong>. Superadmin uploads are data operations that activate a new canonical version and trigger controlled downstream reprocessing. Do not implement a model where changing a ministry document requires editing source code, redeploying the frontend or manually replacing hard-coded JSON.</p>
+</div>
+
+<p>The architecture should conceptually separate the following engines:</p>
+
+<pre>
+IDSS EGE
+│
+├── CANONICAL ADMIN & VERSIONING ENGINE
+│   ├── document registry
+│   ├── immutable source storage
+│   ├── version lifecycle
+│   ├── activation / supersession
+│   ├── provenance & audit
+│   └── dependency invalidation
+├── CANONICAL INGESTION & SEMANTIC PROCESSING ENGINE
+│   ├── document extraction
+│   ├── question detection
+│   ├── syntax / logic / semantic analysis
+│   ├── validation & review queue
+│   ├── structured knowledge generation
+│   └── re-indexing / cache refresh
+├── CANONICAL KNOWLEDGE ENGINE
+│   ├── Documents
+│   ├── Versions
+│   ├── Sources
+│   ├── Subjects
+│   ├── Topics
+│   ├── Competencies
+│   └── Requirements
+│
+├── LEARNING ENGINE
+│   ├── Lessons
+│   ├── Learning paths
+│   ├── Missions
+│   ├── Practice
+│   ├── Mastery
+│   └── Recommendations
+│
+├── EXAM ENGINE
+│   ├── Question bank
+│   ├── Practice tests
+│   ├── Mock exams
+│   ├── Timing
+│   ├── Scoring
+│   └── Attempts
+│
+├── GAMIFICATION ENGINE
+│   ├── XP
+│   ├── Levels
+│   ├── Streaks
+│   ├── Badges
+│   ├── Achievements
+│   ├── Challenges
+│   └── Rewards
+│
+├── COMMUNICATION / ADMIN ENGINE
+│   ├── Users
+│   ├── Classes
+│   ├── Assignments
+│   ├── Announcements
+│   └── Monitoring
+│
+└── ANALYTICS ENGINE
+    ├── Student analytics
+    ├── Class analytics
+    ├── Subject analytics
+    ├── Teacher activity
+    └── System health
+</pre>
+
+<p>Use the Commander default stack unless the audited codebase or a documented project decision establishes a justified deviation. Commander currently specifies Next.js + Supabase + Vercel as its default for a new project; follow its governance rather than independently inventing a stack.</p>
+
+
+<h2 id="platform-foundation">7A. PLATFORM FOUNDATION — AUTHENTICATION, SECURITY, GDPR, USER IDENTITY &amp; FIRST-PAINT SPLASH</h2>
+<div class="critical">
+<strong>THIS IS A PLATFORM FOUNDATION REQUIREMENT — NOT AN OPTIONAL FEATURE.</strong>
+<p>Every user must authenticate with a <strong>username + password</strong>. Authentication, authorization, privacy, auditability and the first visual experience must be designed as part of the platform foundation, not added later.</p>
+<p><strong>Do not promise or claim absolute/100% protection from hackers, fraud or every possible attack.</strong> The implementation must instead follow modern security engineering, GDPR/privacy-by-design principles, least privilege, secure defaults, continuous testing and auditable controls, and must document residual risk honestly.</p>
+</div>
+
+<h3>7A.1 Official User Model</h3>
+<table>
+<tr><th>Role</th><th>Initial identity</th><th>Primary responsibility</th></tr>
+<tr><td><strong>SUPERADMINISTRATOR</strong></td><td>Davor Mulalić — <span class="mono">direktor@idss.ba</span></td><td>Complete system, institutional, user, CANON, analytics, audit and configuration control.</td></tr>
+<tr><td><strong>ADMINISTRATOR</strong></td><td>Haris Hamzić — <span class="mono">haris.hamzic@idss.ba</span></td><td>Mathematics teaching/support plus authorized administrative operations.</td></tr>
+<tr><td><strong>ADMINISTRATOR</strong></td><td>Nikolina Todorović — <span class="mono">nikolina.todorovic@idss.ba</span></td><td>German teaching/support plus authorized administrative operations.</td></tr>
+<tr><td><strong>ADMINISTRATOR</strong></td><td>Nizama Memija — <span class="mono">nizama.memija@idss.ba</span></td><td>B/H/S teaching/support plus authorized administrative operations.</td></tr>
+<tr><td><strong>ADMINISTRATOR</strong></td><td>Adnana Agić — <span class="mono">pedagog@idss.ba</span></td><td>Pedagogical monitoring, student support and authorized administrative operations.</td></tr>
+<tr><td><strong>ADMINISTRATOR</strong></td><td>Medina Karaga — <span class="mono">psiholog@idss.ba</span></td><td>Student-support/psychological role within the permitted privacy boundary plus authorized administrative operations.</td></tr>
+<tr><td><strong>STUDENT</strong></td><td>Current Grade 9 students</td><td>Learning, practice, missions, mock exams, progress and achievements.</td></tr>
+</table>
+
+<p>These are the initial named accounts/roles. The Superadministrator must be able to create, activate, deactivate, block, unblock and manage future accounts without source-code changes.</p>
+
+<h3>7A.2 Superadministrator — Absolute Operational Access</h3>
+<p><strong>Davor Mulalić / direktor@idss.ba</strong> is the initial and designated SUPERADMINISTRATOR. The Superadministrator has access to all application functions, subject to security controls, audit logging and applicable privacy/data-protection rules.</p>
+<ul>
+<li>manage all users and administrators;</li><li>create, block, unblock, deactivate and controlled-delete accounts;</li><li>manage roles and permissions;</li><li>view institutional statistics and analytics;</li><li>manage school years and cohorts;</li><li>upload, validate, publish and supersede CANON documents;</li><li>trigger/review Knowledge Base, ingestion, chunk, embedding and RAG refresh workflows;</li><li>inspect provenance, audit logs and security events;</li><li>manage supported official templates and system configuration.</li>
+</ul>
+
+<h3>7A.3 Administrators — Operational Support</h3>
+<p>The five named administrators require exceptionally useful tools for <strong>following every student's progress and supporting students</strong>. Their access must be granular rather than a single unrestricted ADMIN role. Subject teachers should receive the academic scope required for their subject; pedagogue and psychologist access must be purpose-limited to the information necessary for their institutional role.</p>
+<p>Administrators may, within their permissions, <strong>print, track, create and export</strong> permitted learning/support/administrative outputs. Sensitive student information and support notes must never be exposed merely because a user is an administrator.</p>
+
+<h3>7A.4 Student Identity Is Longitudinal</h3>
+<p>Students change from year to year, but their legitimate educational history must not disappear at the end of a school year. Model a persistent internal student identity with separate school-year/cohort memberships:</p>
+<pre>STUDENT IDENTITY
+  ↓
+SCHOOL-YEAR ENROLLMENT
+  ↓
+COHORT / GENERATION
+  ↓
+SUBJECT PARTICIPATION
+  ↓
+LEARNING + EXAM-PRACTICE HISTORY
+  ↓
+SUPPORT / INTERVENTION HISTORY (permission controlled)
+  ↓
+HISTORICAL RECORD</pre>
+<p>Do not delete or reset historical attempts, progress, mistakes, achievements or other retained educational records merely because a cohort becomes historical. Use explicit lifecycle states such as <strong>INVITED, ACTIVE, SUSPENDED, BLOCKED, DEACTIVATED, ARCHIVED</strong>. Destructive deletion must be controlled, auditable and compatible with applicable retention/privacy requirements.</p>
+
+<h3>7A.5 Authentication &amp; Authorization</h3>
+<ul>
+<li>Username + password for every user.</li><li>Never store plaintext passwords.</li><li>Use a modern password-hashing algorithm and secure credential handling.</li><li>Protect against brute force, credential stuffing, session fixation, session theft and account enumeration.</li><li>Use secure sessions/tokens, appropriate expiry and secure cookies where applicable.</li><li>Enforce RBAC/ABAC server-side and, where supported, at database/data-access level.</li><li>Frontend visibility is never a substitute for authorization.</li><li>All sensitive administrative actions must be auditable.</li>
+</ul>
+
+<h3>7A.6 GDPR / Privacy-by-Design</h3>
+<p>Design the platform around data minimization, purpose limitation, least privilege, access control, retention rules, auditability and secure processing. Do not collect or infer personal/sensitive information merely because it might be technically possible.</p>
+<ul>
+<li>Separate academic progress from sensitive support/psychological records.</li><li>Limit access by role, scope and legitimate institutional purpose.</li><li>Do not infer diagnoses, mental states, intelligence, personality or motivation from usage telemetry.</li><li>Provide controlled correction/deletion/export mechanisms where required by applicable law and institutional policy.</li><li>Document what data is stored, why it is stored, who may access it and how long it is retained.</li>
+</ul>
+
+<h3>7A.7 Security Engineering — Design Against Real Threats</h3>
+<p>The system must be designed and tested against common web/application threats, including injection, XSS, CSRF where applicable, insecure direct object references, privilege escalation, broken access control, malicious uploads, secret leakage, unsafe dependencies, API abuse, rate-limit bypass and prompt injection against AI features.</p>
+<ul>
+<li>Secure HTTP headers and transport.</li><li>Strict input validation and output encoding.</li><li>Parameterized database access/ORM protections.</li><li>File type, size and content validation; safe storage and processing.</li><li>Rate limiting and abuse controls.</li><li>Dependency and vulnerability auditing.</li><li>No hard-coded secrets.</li><li>Security logging and alertable events.</li><li>Regular automated security tests plus targeted manual verification.</li>
+</ul>
+
+<h3>7A.8 FIRST-PAINT SPLASH SCREEN — BEFORE ANY APP CONTENT</h3>
+<div class="critical">
+<strong>THE SPLASH SCREEN IS THE FIRST UI THE USER SEES.</strong>
+<p>Before login, dashboard, navigation or any other application content is rendered, IDSS EGE must present a deliberately designed, premium-quality splash experience.</p>
+</div>
+<p>The splash screen must:</p>
+<ul>
+<li>use the official IDSS logo;</li><li>feel polished, modern and game-quality without becoming childish;</li><li>use smooth, purposeful animation;</li><li>display a rotating pool of <strong>at least 10 strong motivational messages for students</strong>;</li><li>select/rotate messages without repetitive immediate duplication;</li><li>remain fast and responsive;</li><li>respect <span class="mono">prefers-reduced-motion</span>;</li><li>avoid blocking the application unnecessarily after initialization is ready;</li><li>provide an accessible reduced-motion/fallback experience.</li>
+</ul>
+
+<p><strong>SPLASH MESSAGE POOL — INITIAL CONTENT:</strong></p>
+<pre>1. Tvoj cilj. Tvoj izazov. Tvoj rezultat.
+2. Svaki dan jedan korak bliže cilju.
+3. Ne uči za igru. Igraj da naučiš.
+4. Danas vježbaš. Sutra pokazuješ šta znaš.
+5. Greška nije kraj. Greška je sljedeći trag.
+6. Tvoj napredak počinje prvim pitanjem.
+7. Fokusiraj se. Izazov počinje sada.
+8. Osvoji znanje, ne samo bodove.
+9. Još jedan izazov. Još jedan nivo znanja.
+10. Spreman? Tvoj EGE put upravo počinje.
+11. Svaki tačan odgovor gradi tvoju sigurnost.
+12. Uči pametno. Vježbaj uporno. Napreduj svaki dan.</pre>
+
+<h3>7A.9 Splash Reference — Attached Visual Study</h3>
+<p>The attached reference file <strong>Untitled blend.jsx</strong> is a <strong>visual/motion reference only</strong>. Study its principles—depth, animation, procedural visual movement, polish, transitions, performance/fallback thinking and visual hierarchy—before designing the IDSS EGE splash screen.</p>
+<div class="critical"><strong>DO NOT COPY THE ATTACHED CODE BLINDLY.</strong> Extract visual and interaction principles, then implement an IDSS-native splash component that fits the actual EGE architecture, brand and performance requirements. The reference is not a canonical source and does not override Commander, CANON or this mandate.</div>
+
+<h3>7A.10 Student History Must Improve Future Experience</h3>
+<p>Legitimate historical learning data should help IDSS EGE progressively improve the student's experience: targeted practice, revision recommendations, missions, teacher support and useful progress views. Historical data is evidence about observed learning activity, not a licence to make unsupported claims about the student.</p>
+
+<h2 id="roles">7. Roles & Authorization</h2>
+<table>
+<tr><th>Role</th><th>Primary purpose</th><th>Core access</th></tr>
+<tr><td>Student</td><td>Prepare for the exam.</td><td>Own profile, learning, practice, missions, progress, achievements, assigned content.</td></tr>
+<tr><td>Teacher</td><td>Teach, assign, monitor and intervene.</td><td>Assigned students/classes, content tools, assignments, progress and analytics within scope.</td></tr>
+<tr><td>Pedagogue / Psychologist</td><td>Student support and school-level monitoring.</td><td>Only the data required by their institutional role; sensitive notes must be separately protected.</td></tr>
+<tr><td>Director / Super Administrator</td><td>System and institutional oversight.</td><td>Global configuration, permissions, school-level analytics, audit and administration.</td></tr>
+</table>
+
+<p>Authorization must be enforced server-side and at the database/data-access layer where supported. Hiding a button in the UI is never sufficient authorization.</p>
+
+<h2 id="student">8. Student Product — GAME-FIRST UX</h2>
+<p>The student must feel that they are entering a purposeful learning game, not an administrative school system.</p>
+
+<h3>8.1 Student Game Hub</h3>
+<p>The primary student home should answer, immediately:</p>
+<ul>
+  <li>Where am I?</li>
+  <li>What have I achieved?</li>
+  <li>What should I do now?</li>
+  <li>How am I progressing?</li>
+  <li>What challenge comes next?</li>
+</ul>
+
+<p>Conceptual information architecture:</p>
+<pre>
+GAME HUB
+├── Today's Mission
+├── Continue Learning
+├── My Subjects
+├── My Mastery
+├── Practice
+├── Mock Exam / Boss Challenge
+├── Achievements
+├── Streak
+└── Profile
+</pre>
+
+<h3>8.2 Learning loop</h3>
+<pre>
+ENTER
+  ↓
+SEE MISSION
+  ↓
+LEARN
+  ↓
+PRACTICE
+  ↓
+GET FEEDBACK
+  ↓
+IMPROVE
+  ↓
+MASTER
+  ↓
+REWARD
+  ↓
+NEXT MISSION
+</pre>
+
+<h3>8.3 Gamification rules</h3>
+<p>Gamification must motivate practice without falsifying academic meaning.</p>
+<ul>
+  <li>XP is not a grade.</li>
+  <li>A badge is not proof of academic mastery.</li>
+  <li>A streak is not academic performance.</li>
+  <li>Levels must not be presented as official exam levels.</li>
+  <li>Academic mastery and game progression are separate data concepts.</li>
+  <li>Rewards must never change official exam scoring.</li>
+</ul>
+
+<h3>8.4 Event-driven gamification</h3>
+<p>Design the gamification layer around explicit events such as:</p>
+<pre>
+LESSON_STARTED
+LESSON_COMPLETED
+QUESTION_ANSWERED
+PRACTICE_COMPLETED
+MISSION_COMPLETED
+TOPIC_MASTERED
+MOCK_EXAM_COMPLETED
+ACHIEVEMENT_UNLOCKED
+STREAK_EXTENDED
+</pre>
+
+<h2 id="mastery">9. Learning, Progress & Mastery Model</h2>
+<p>Do not reduce progress to a single percentage.</p>
+
+<table>
+<tr><th>Dimension</th><th>Meaning</th></tr>
+<tr><td>Completion</td><td>What content has been completed.</td></tr>
+<tr><td>Accuracy</td><td>How often answers are correct.</td></tr>
+<tr><td>Mastery</td><td>Evidence of sustained understanding of a topic/competency.</td></tr>
+<tr><td>Consistency</td><td>Regularity of preparation.</td></tr>
+<tr><td>Exam performance</td><td>Performance under test/mock-exam conditions.</td></tr>
+<tr><td>Readiness</td><td>A derived learning indicator; never invent a legal or official “readiness score” unless supported by an authoritative source.</td></tr>
+</table>
+
+<p>Any readiness indicator must be clearly labelled as an <strong>internal educational analytics indicator</strong>, not an official prediction or certification.</p>
+
+<h2 id="exam">10. Exam Engine</h2>
+<p>The exam system must be data-driven and source-traceable.</p>
+
+<p>Each question should support, where applicable:</p>
+<ul>
+  <li>subject;</li>
+  <li>topic;</li>
+  <li>competency;</li>
+  <li>question type;</li>
+  <li>difficulty;</li>
+  <li>points;</li>
+  <li>answer options / expected answer;</li>
+  <li>explanation;</li>
+  <li>canonical source;</li>
+  <li>source version;</li>
+  <li>source page/section;</li>
+  <li>publication/approval metadata;</li>
+  <li>active/inactive status;</li>
+  <li>review status.</li>
+</ul>
+
+<h3>10.1 Question provenance</h3>
+<p>Wherever a question or academic statement is derived from a canonical document, preserve provenance:</p>
+<pre>
+Question
+  ↓
+Competency / Topic
+  ↓
+Subject
+  ↓
+Canonical document
+  ↓
+Document version
+  ↓
+Page / section / anchor
+</pre>
+
+<h3>10.2 Mock exam</h3>
+<p>Mock exams must reproduce only structures that are supported by canonical documentation. Never invent official timing, weighting, number of questions, scoring or subject composition.</p>
+
+<h2 id="support">11. Student Support Mission — Teachers, Pedagogue &amp; Psychologist</h2>
+<div class="rule">
+  <strong>The application exists because of the students.</strong>
+  <p>Every staff-facing function must ultimately answer one question: <strong>How does this help us give this student better support?</strong></p>
+</div>
+
+<p>Teachers, the pedagogue and the psychologist must have carefully designed, genuinely useful tools for following the progress of <strong>each individual student</strong> across the three exam subjects and for understanding where support may be needed.</p>
+
+<p>Staff tools should support, where justified by role and data:</p>
+<ul>
+  <li>individual student progress;</li>
+  <li>subject-by-subject progress;</li>
+  <li>topic and competency performance;</li>
+  <li>practice history;</li>
+  <li>persistent error patterns;</li>
+  <li>completed and missed missions/assignments;</li>
+  <li>engagement and consistency signals;</li>
+  <li>teacher-assigned learning activities;</li>
+  <li>intervention/support notes with appropriate access control;</li>
+  <li>comparison of a student's current performance with their own previous performance;</li>
+  <li>class-level and group-level patterns where appropriate;</li>
+  <li>actionable next steps for educational support.</li>
+</ul>
+
+<p><strong>Important:</strong> analytics must show evidence and actionable educational information. Do not convert learning data into unsupported psychological, medical, intelligence or personality judgements.</p>
+
+<h2 id="teacher">12. Teacher Command Center</h2>
+<p>Teachers should not have to manually inspect every student record.</p>
+
+<p>The system should surface useful signals:</p>
+<ul>
+  <li>students who have not practiced recently;</li>
+  <li>weak topics;</li>
+  <li>persistent error patterns;</li>
+  <li>assigned work;</li>
+  <li>class progress;</li>
+  <li>practice performance;</li>
+  <li>mastery development;</li>
+  <li>students requiring pedagogical attention.</li>
+</ul>
+
+<p>Do not turn analytics into unsupported psychological conclusions. Show observable data and clearly labelled derived indicators.</p>
+
+<h2 id="director">13. Director / School Command Center</h2>
+<p>The director view is an institutional intelligence layer, not a surveillance dashboard.</p>
+
+<p>Provide appropriately authorized views for:</p>
+<ul>
+  <li>student participation;</li>
+  <li>subject and class progress;</li>
+  <li>aggregate mastery;</li>
+  <li>teacher activity;</li>
+  <li>content health;</li>
+  <li>system health;</li>
+  <li>audit activity;</li>
+  <li>configuration and permissions.</li>
+</ul>
+
+<p>Minimize exposure of sensitive student information. Use aggregation wherever individual-level detail is not necessary.</p>
+
+<h2 id="rag">13A. NON-NEGOTIABLE — IDSS EGE IS A CANONICAL RAG SYSTEM</h2>
+<div class="critical">
+  <strong>THE IDSS EGE WEB APP MUST BE ARCHITECTED AS A CANONICAL KNOWLEDGE BASE + RETRIEVAL-AUGMENTED GENERATION (RAG) SYSTEM.</strong>
+  <p>The application is not a generic AI tutor that happens to contain exam material. Its academic intelligence must be grounded exclusively in the current authoritative CANON contained in the repository <span class="mono">https://github.com/IDSS123a/IDSS-EGE-EKSTERNA</span>.</p>
+  <p><strong>CANONICAL CONTENT IS THE KNOWLEDGE BOUNDARY.</strong> For current exam preparation, the system may retrieve, explain, transform, combine or generate learning experiences only from information that is traceable to the currently active canonical sources. Generic model knowledge, internet knowledge, assumptions, hallucinated content and uncited AI knowledge must never silently enter the academic knowledge base.</p>
+</div>
+
+<div class="rule">
+  <strong>CATALOGUE QUESTION UNIVERSE — MANDATORY</strong>
+  <p>For each of the three prescribed subjects — <strong>Bosnian language, Mathematics and German language</strong> — the canonical catalogue is the authoritative question universe for the exam-preparation engine. The system must therefore ingest and structurally understand the complete catalogue question set supplied by the current CANON.</p>
+  <p>The initial implementation must process <strong>at least 200 catalogue questions per subject where the current official catalogue contains at least that many questions</strong>. If the authoritative catalogue contains a different number, the system must ingest the complete authoritative set rather than inventing or padding questions to reach an arbitrary number.</p>
+  <p><strong>NO EXAM QUESTION MAY BE INVENTED.</strong> A question presented as an official/canonical exam question must resolve to an exact canonical source record. If the application generates a practice variant, it must be explicitly labelled as a <em>derived practice item</em>, linked to the source catalogue question(s), and must never be represented as an official catalogue question.</p>
+</div>
+
+<div class="card">
+  <h3>Required RAG flow</h3>
+  <pre>
+ACTIVE CANON DOCUMENTS
+        ↓
+IMMUTABLE SOURCE STORAGE
+        ↓
+DOCUMENT PARSING / OCR / STRUCTURE EXTRACTION
+        ↓
+SYNTAX ANALYSIS
+        ↓
+LOGICAL STRUCTURE ANALYSIS
+        ↓
+SEMANTIC ANALYSIS
+        ↓
+CANONICAL KNOWLEDGE BASE
+        ↓
+CHUNKING + METADATA + EMBEDDINGS / VECTOR INDEX
+        ↓
+RETRIEVAL WITH STRICT CANON FILTERS
+        ↓
+GROUNDED GENERATION / EXPLANATION / PRACTICE
+        ↓
+SOURCE + VERSION + PAGE/SECTION PROVENANCE
+  </pre>
+  <p>Every retrieval operation must be constrained by the active canonical version and applicable subject/scope. Retrieval must never search across superseded versions unless a historical/audit operation explicitly requests them.</p>
+</div>
+
+<div class="card">
+  <h3>Syntax → Logic → Semantics: mandatory question understanding</h3>
+  <p>ACA must not treat catalogue ingestion as simple PDF-to-text extraction. Every catalogue question must be converted into a structured knowledge object that preserves its meaning.</p>
+  <ul>
+    <li><strong>Syntax:</strong> exact original wording, sentence structure, operators, numbers, symbols, punctuation, answer choices, tables, diagrams, blanks and other structural elements.</li>
+    <li><strong>Logic:</strong> what the question asks the learner to do; constraints; relationships; operations; conditions; expected response type; scoring-relevant structure where CANON provides it.</li>
+    <li><strong>Semantics:</strong> subject meaning, topic, competency, concept, skill, prerequisite knowledge and intended learning/exam construct, strictly grounded in the source.</li>
+    <li><strong>Provenance:</strong> source document, document version, page/section, question identifier, extraction status, validation status and reviewer/audit trail.</li>
+  </ul>
+  <p>The system must retain the original source representation alongside the normalized representation so that an administrator or teacher can always inspect what was actually published.</p>
+</div>
+
+<div class="critical">
+  <strong>RAG SAFETY RULES — ZERO TOLERANCE</strong>
+  <ul>
+    <li>Never answer an academic question as CANONICAL unless the answer can be traced to an active canonical source.</li>
+    <li>Never use a superseded catalogue or regulation as current content.</li>
+    <li>Never mix versions of a catalogue inside one current learning experience.</li>
+    <li>Never allow an LLM to overwrite canonical source text with its own paraphrase.</li>
+    <li>Never store an AI-generated explanation as if it were an official ministry statement.</li>
+    <li>Never generate an “official catalogue question” from model knowledge.</li>
+    <li>Never silently fill a missing or ambiguous source with general knowledge.</li>
+    <li>If evidence is insufficient, the system must say that the canonical source does not provide enough information and route the item for review.</li>
+  </ul>
+</div>
+
+<h2 id="knowledge">14. Canonical Knowledge Engine</h2>
+<p><strong>The Knowledge Base is the academic core of IDSS EGE.</strong> Do not treat PDFs as the application database, but do preserve every original authoritative source immutably. The normalized Knowledge Base must be derived from those sources and must remain traceable back to them.</p>
+
+<p>The RAG layer must retrieve only canonical evidence appropriate to the current active document version and scope. Vector similarity is a retrieval mechanism, not an authority mechanism: <strong>metadata/provenance/version filters always outrank semantic similarity.</strong></p>
+
+<p>Build a normalized knowledge layer capable of representing:</p>
+<pre>
+Document
+DocumentVersion
+Source
+Subject
+Topic
+Competency
+Requirement
+LearningContent
+Question
+QuestionVersion
+Answer
+Explanation
+DerivedPracticeItem
+KnowledgeChunk
+EmbeddingRecord
+RetrievalRecord
+Provenance
+ReviewStatus
+CanonicalVersionScope
+</pre>
+
+<p>The system should be able to answer: <strong>“Where did this academic fact come from?”</strong></p>
+
+<h3>13.1 AI-generated educational content</h3>
+<p>AI may transform canonical material into student-friendly learning assets only when the transformation preserves meaning and provenance.</p>
+
+<p>Allowed transformations may include:</p>
+<ul>
+  <li>plain-language explanations;</li>
+  <li>summaries;</li>
+  <li>flashcards;</li>
+  <li>practice questions;</li>
+  <li>hints;</li>
+  <li>feedback;</li>
+  <li>revision prompts.</li>
+</ul>
+
+<p>AI must not silently create or modify official exam requirements.</p>
+
+<h2 id="database">15. Data Model — Minimum Conceptual Schema</h2>
+<p>Design the actual schema after repository discovery and Commander architecture review. At minimum, evaluate the need for:</p>
+
+<pre>
+users
+profiles
+roles
+permissions
+classes
+class_members
+subjects
+topics
+competencies
+canonical_documents
+document_versions
+canonical_sources
+canonical_chunks
+canonical_embeddings
+canonical_question_versions
+canonical_ingestion_jobs
+canonical_validation_results
+canonical_dependencies
+retrieval_audit_logs
+learning_modules
+learning_content
+questions
+question_options
+question_sources
+practice_sessions
+practice_answers
+mock_exams
+mock_exam_attempts
+progress
+mastery
+missions
+mission_progress
+xp_events
+levels
+achievements
+student_achievements
+streaks
+assignments
+announcements
+notifications
+teacher_notes
+audit_logs
+system_settings
+canonical_document_types
+canonical_document_versions
+canonical_document_publications
+canonical_content_entities
+canonical_question_versions
+canonical_ingestion_jobs
+canonical_validation_results
+canonical_dependencies
+</pre>
+
+<p>Do not create tables simply because they appear in this list. Validate each entity against the actual product model and repository evidence.</p>
+
+<h2 id="security">15. Security, GDPR &amp; Production Safety</h2>
+<ul>
+  <li>Never hardcode secrets, tokens, service keys or credentials.</li>
+  <li>Use environment variables and platform secret management.</li>
+  <li>Use secure authentication and session handling.</li>
+  <li>Implement least-privilege authorization.</li>
+  <li>Protect server-side routes and data access.</li>
+  <li>Use database-level policies where appropriate.</li>
+  <li>Validate all user input.</li>
+  <li>Prevent injection, XSS, CSRF and insecure direct object references as applicable to the chosen stack.</li>
+  <li>Do not expose private student data through client-side bundles or public endpoints.</li>
+  <li>Do not expose teacher/pedagogue/psychologist notes to unauthorized roles.</li>
+  <li>Keep audit logs for security-sensitive administrative actions.</li>
+  <li>Use safe file upload rules and validate file type/size/content.</li>
+  <li>Do not store more personal data than the application actually needs.</li>
+  <li>Do not use analytics to infer health, mental state, intelligence, personality or similar sensitive characteristics.</li>
+</ul>
+
+<h2 id="localization">16. Localization & Language</h2>
+<p>Follow Commander communication rules: communicate with the Director in Bosnian. Code, technical documentation and commits remain in English unless Commander or a project requirement explicitly says otherwise.</p>
+
+<p>For the application:</p>
+<ul>
+  <li>Student-facing UI should primarily support Bosnian.</li>
+  <li>Academic material should preserve the language of its authoritative source where relevant.</li>
+  <li>Use a localization system rather than hardcoding interface strings throughout components.</li>
+  <li>Maintain a controlled vocabulary for concepts such as progress, mastery, mission, achievement and readiness.</li>
+</ul>
+
+<h2 id="brand">17. IDSS School Identity, Logo &amp; Favicon</h2>
+<p>The official IDSS school logo is a controlled brand asset and must be used wherever a school mark, identity symbol or favicon is required.</p>
+
+<div class="card">
+  <p><strong>Official IDSS logo / favicon asset:</strong></p>
+  <p class="mono">https://idss.edu.ba/wp-content/uploads/2024/03/logo_white.png</p>
+  <img src="https://idss.edu.ba/wp-content/uploads/2024/03/logo_white.png" alt="International Deutsche Schule Sarajevo logo" style="max-width:360px;max-height:120px;background:#035EA1;padding:18px;border-radius:10px;">
+</div>
+
+<ul>
+  <li>Use the official asset rather than recreating, tracing or approximating the school mark.</li>
+  <li>Use it in the application shell where the school identity is appropriate.</li>
+  <li>Use it in the student experience where a school symbol/mark is required.</li>
+  <li>Use it in the IDSS EGE chatbot wherever a school identity marker is needed.</li>
+  <li>Use it for favicon/app-icon purposes where technically appropriate.</li>
+  <li>Respect the original proportions and do not distort the logo.</li>
+  <li>Do not place the logo on backgrounds where it becomes unreadable.</li>
+  <li>Do not generate alternative logos or AI reinterpretations of the IDSS mark.</li>
+  <li>Do not substitute a generic education icon when the IDSS mark is required.</li>
+</ul>
+
+<h3>18.0 First-Paint Experience Priority</h3>
+<p>The splash screen defined in Section 7A is part of the product identity. It must load before the main application shell and must use the official IDSS logo. The student should perceive the platform as a purposeful learning game from the first second, while administrators should experience the same level of product quality without unnecessary game effects in operational screens.</p>
+
+<h2 id="ui">18. UI/UX Design Direction</h2>
+<p>The application must be modern, polished, responsive and emotionally appropriate for Grade 9 students while remaining credible to educators.</p>
+
+<h3>17.1 Student visual language</h3>
+<ul>
+  <li>Game-inspired but not childish.</li>
+  <li>Clear hierarchy and strong visual feedback.</li>
+  <li>Motion used to communicate progress, completion and state—not decoration for its own sake.</li>
+  <li>Immediate feedback after actions.</li>
+  <li>Strong sense of journey, progression and achievement.</li>
+  <li>Responsive desktop/tablet/mobile layouts.</li>
+  <li>Keyboard accessibility and readable contrast.</li>
+</ul>
+
+<h3>17.2 School identity</h3>
+<p>Use the established IDSS visual identity where appropriate, including the known IDSS palette:</p>
+<pre>
+#035EA1
+#08ABE6
+#FFCB29
+#E8262C
+#000000
+</pre>
+<p>Do not blindly copy colours into every component. Establish a coherent design system with semantic tokens.</p>
+
+<h3>17.3 Teacher/admin UI</h3>
+<p>Teacher and director interfaces may be more information-dense, but must remain clean, structured and operationally efficient.</p>
+
+<h2 id="architecture-decisions">19. Architecture Decision Rules</h2>
+<ul>
+  <li>Prefer simple, maintainable solutions over unnecessary complexity.</li>
+  <li>Use the existing Commander default architecture unless evidence justifies deviation.</li>
+  <li>Do not introduce a separate backend service merely because it is fashionable.</li>
+  <li>Do not introduce paid external APIs without an explicit reason and documented dependency.</li>
+  <li>Prefer free/low-cost infrastructure where it satisfies requirements, without compromising security or maintainability.</li>
+  <li>Keep business rules in testable application/domain logic rather than scattering them through UI components.</li>
+  <li>Keep canonical source metadata separate from generated learning content.</li>
+</ul>
+
+<h2 id="workflow">20. Implementation Workflow</h2>
+<p>Follow Commander lifecycle rules. Within that governance, execute the EGE project in this logical order:</p>
+
+<ol>
+  <li><strong>Bootstrap:</strong> Commander governance and project initialization.</li>
+  <li><strong>Repository audit:</strong> canonical documents + prototype + existing assets.</li>
+  <li><strong>Evidence model:</strong> source inventory, authority map, unresolved questions.</li>
+  <li><strong>Product model:</strong> users, learning model, exam model, gamification model.</li>
+  <li><strong>Architecture:</strong> stack, modules, data model, authorization model.</li>
+  <li><strong>UX system:</strong> design tokens, navigation, student Game Hub, teacher/admin shells.</li>
+  <li><strong>Foundation:</strong> app shell, authentication, database, security.</li>
+  <li><strong>Canonical administration & versioning layer:</strong> Superadmin upload, immutable storage, activation, supersession, rollback/history and audit.</li>
+  <li><strong>Canonical ingestion pipeline:</strong> extraction, syntax/logic/semantic processing, question validation, provenance and indexing.</li>
+  <li><strong>Canonical knowledge layer.</strong></li>
+  <li><strong>Student learning flow.</strong></li>
+  <li><strong>Practice / Exam Engine.</strong></li>
+  <li><strong>Gamification Engine.</strong></li>
+  <li><strong>Teacher Command Center.</strong></li>
+  <li><strong>Director Command Center.</strong></li>
+  <li><strong>Analytics, audit and reporting.</strong></li>
+  <li><strong>QA, accessibility, security and performance testing.</strong></li>
+  <li><strong>Deployment and production verification.</strong></li>
+</ol>
+
+<div class="rule">
+<strong>Do not build every feature in one giant uncontrolled pass.</strong> Work in coherent Commander-governed sprints. Each sprint must leave the application in a testable state.
+</div>
+
+<h2 id="qa">21. Definition of Done for EGE Features</h2>
+<p>A feature is not done merely because the code compiles.</p>
+<p>For each feature verify:</p>
+<ul>
+  <li>functional behaviour;</li>
+  <li>happy path;</li>
+  <li>error states;</li>
+  <li>empty states;</li>
+  <li>loading states;</li>
+  <li>permission boundaries;</li>
+  <li>responsive behaviour;</li>
+  <li>accessibility basics;</li>
+  <li>data integrity;</li>
+  <li>security implications;</li>
+  <li>source/provenance where academic content is involved;</li>
+  <li>canonical-version resolution and supersession behaviour;</li>
+  <li>new-document ingestion, reprocessing and stale-cache invalidation;</li>
+  <li>historical-version traceability and audit logs;</li>
+  <li>catalogue question counts and syntax/logic/semantic validation;</li>
+  <li>regression against existing functionality;</li>
+  <li>automated tests where appropriate;</li>
+  <li>manual browser verification where appropriate.</li>
+</ul>
+
+<h2 id="testing">22. Mandatory Test Categories</h2>
+<div class="grid">
+  <div class="card"><strong>Unit tests</strong><p>Business rules, scoring, mastery, XP and deterministic utilities.</p></div>
+  <div class="card"><strong>Integration tests</strong><p>Database interactions, authentication, authorization and core flows.</p></div>
+  <div class="card"><strong>End-to-end tests</strong><p>Student learning, practice, teacher monitoring and admin workflows.</p></div>
+  <div class="card"><strong>Security tests</strong><p>Unauthorized access, role escalation, data leakage and validation.</p></div>
+  <div class="card"><strong>Accessibility</strong><p>Keyboard navigation, focus, semantics, contrast and readable feedback.</p></div>
+  <div class="card"><strong>Regression</strong><p>Prototype-derived functionality that was intentionally preserved.</p></div>
+</div>
+
+<h2 id="failure">22. Failure & Ambiguity Protocol</h2>
+<p>When the evidence is insufficient:</p>
+<ol>
+  <li>Do not invent a rule.</li>
+  <li>Do not silently guess.</li>
+  <li>Record the ambiguity.</li>
+  <li>Continue with unaffected work where possible.</li>
+  <li>Ask the Director only when the codebase, canonical sources, Commander rules and reasonable engineering judgment cannot resolve it.</li>
+</ol>
+
+<p>If an external URL cannot be fetched, follow Commander failure rules: retry once, report the failed source precisely, and continue with everything else that can be completed without fabricating its content.</p>
+
+<h2 id="never">24. Explicit NEVER Rules</h2>
+<div class="critical">
+<ul>
+  <li><span class="stop">NEVER</span> invent legal or exam rules.</li>
+  <li><span class="stop">NEVER</span> require a code deployment merely because the competent ministry published a new canonical document that fits an existing document type.</li>
+  <li><span class="stop">NEVER</span> keep a superseded canonical document active for current learning, current exam rules or current official output.</li>
+  <li><span class="stop">NEVER</span> hard-delete historical canonical versions; preserve them for audit and traceability.</li>
+  <li><span class="stop">NEVER</span> treat successful PDF upload/OCR as proof that the source has been semantically understood.</li>
+  <li><span class="stop">NEVER</span> invent catalogue questions, answer keys, competencies or scoring logic to fill missing source content.</li>
+  <li><span class="stop">NEVER</span> change the three-subject scope: Bosnian language, Mathematics and German language, unless the current CANON itself establishes an official change.</li>
+  <li><span class="stop">NEVER</span> use generic knowledge when the CANON provides the authoritative answer.</li>
+  <li><span class="stop">NEVER</span> claim that a form/export is legally compliant until it has been verified against the applicable CANON requirement.</li>
+  <li><span class="stop">NEVER</span> alter an official document format for visual convenience.</li>
+  <li><span class="stop">NEVER</span> omit the official IDSS logo where the school mark is required, or recreate/alter the official logo.</li>
+  <li><span class="stop">NEVER</span> treat a prototype as automatically authoritative.</li>
+  <li><span class="stop">NEVER</span> delete existing functionality without audit and justification.</li>
+  <li><span class="stop">NEVER</span> hide authorization problems behind frontend UI logic.</li>
+  <li><span class="stop">NEVER</span> expose student private data unnecessarily.</li>
+  <li><span class="stop">NEVER</span> represent XP, badges or levels as official academic results.</li>
+  <li><span class="stop">NEVER</span> fabricate exam scoring or readiness metrics.</li>
+  <li><span class="stop">NEVER</span> silently override canonical content with AI-generated content.</li>
+  <li><span class="stop">NEVER</span> hardcode secrets.</li>
+  <li><span class="stop">NEVER</span> perform a visual redesign that destroys useful existing functionality without evidence.</li>
+  <li><span class="stop">NEVER</span> create a generic LMS when a source-driven EGE platform is required.</li>
+  <li><span class="stop">NEVER</span> stop at a static mockup when the requested feature requires working application behaviour.</li>
+  <li><span class="stop">NEVER</span> claim that the system is absolutely or 100% secure against all hackers, fraud or attacks.</li>
+  <li><span class="stop">NEVER</span> store passwords in plaintext.</li>
+  <li><span class="stop">NEVER</span> authorize a sensitive action solely because its UI control is hidden.</li>
+  <li><span class="stop">NEVER</span> delete a student's historical learning record merely because the school year ended.</li>
+  <li><span class="stop">NEVER</span> mix active cohorts or expose one student's history to another student.</li>
+  <li><span class="stop">NEVER</span> expose pedagogical or psychological/support notes to unauthorized users.</li>
+  <li><span class="stop">NEVER</span> skip the first-paint splash requirement.</li>
+  <li><span class="stop">NEVER</span> copy the attached splash-reference code as if it were project architecture.</li>
+  <li><span class="stop">NEVER</span> infer sensitive psychological, medical, personality or intelligence attributes from student activity.</li>
+  <li><span class="stop">NEVER</span> use historical/superseded CANON content for current learning merely because it has high vector similarity.</li>
+</ul>
+</div>
+
+<h2 id="deliverables">25. Required Project Artifacts</h2>
+<p>As the project evolves, maintain appropriate project documentation under Commander governance. At minimum, ensure the project contains clear evidence for:</p>
+<ul>
+  <li>project constitution/business rules;</li>
+  <li>architecture decisions;</li>
+  <li>canonical source inventory;</li>
+  <li>data model;</li>
+  <li>role/permission model;</li>
+  <li>design system;</li>
+  <li>learning model;</li>
+  <li>exam model;</li>
+  <li>gamification model;</li>
+  <li>test strategy;</li>
+  <li>deployment configuration;</li>
+  <li>known ambiguities / decisions requiring human verification.</li>
+</ul>
+
+<h2 id="success">26. Success Criteria</h2>
+<p>IDSS EGE is successful when all of the following are true:</p>
+<ol>
+  <li>The application is demonstrably grounded in the actual repository sources.</li>
+  <li>The student preparation scope is exactly the three prescribed subjects: <strong>Bosnian language, Mathematics and German language</strong>, subject to the current CANON.</li>
+  <li>Academic requirements can be traced to their source.</li>
+  <li>The Director / Superadmin can replace an active canonical catalogue, law, regulation, rulebook, official form or other supported authoritative document through the control panel without changing application code.</li>
+  <li>A newly published canonical version automatically supersedes the previous active version while preserving historical provenance and auditability.</li>
+  <li>Canonical-dependent content, indexes and caches are refreshed so the current active source actually drives the application.</li>
+  <li>All catalogue questions from the current canonical subject documents are ingested and structurally/semantically validated, with at least 200 per subject where the source provides that quantity.</li>
+  <li>Official-format documents and exports have a documented canonical source and verification status.</li>
+  <li>Students can enter the system and immediately understand what to do next.</li>
+  <li>Daily preparation is engaging enough to encourage repeated voluntary use.</li>
+  <li>Practice and mock exams are based on validated exam information.</li>
+  <li>Teachers can identify useful learning signals without manually processing raw data.</li>
+  <li>School leadership has appropriate aggregate visibility and control.</li>
+  <li>Authorization prevents users from accessing data outside their role.</li>
+  <li>Every user authenticates through the defined username/password flow and sensitive authorization is enforced server-side.</li>
+  <li>The platform preserves longitudinal student history across school years while respecting privacy and cohort boundaries.</li>
+  <li>The first-paint splash appears before the main application experience, uses the official IDSS logo and rotates at least 10 student motivational messages.</li>
+  <li>Security testing demonstrates meaningful protection against common application threats; the product makes no false claim of absolute security.</li>
+  <li>Gamification motivates learning without corrupting academic meaning.</li>
+  <li>The application remains maintainable and testable.</li>
+  <li>Existing valuable prototype functionality is preserved or deliberately improved.</li>
+  <li>The product is deployable and operational—not merely a visual prototype.</li>
+</ol>
+
+<h2 id="first-run">27. FIRST-RUN DIRECTIVE TO ACA</h2>
+<div class="ok">
+<p><strong>When you receive this document, do not immediately start coding.</strong></p>
+<ol>
+  <li>Confirm Commander governance has been loaded according to the required bootstrap sequence.</li>
+  <li>Read this document completely.</li>
+  <li>Audit the entire IDSS EGE repository.</li>
+  <li>Explicitly verify that the student academic scope is the three prescribed subjects: <strong>Bosnian language, Mathematics and German language</strong>, using the CANON.</li>
+  <li>Audit <span class="mono">CODE-PROTOTYPE</span> and identify reusable functionality.</li>
+  <li>Identify every official document/form/export requirement and map it to its canonical source before implementing generators.</li>
+  <li>Register the official IDSS logo asset and verify where it must appear in the application, chatbot and generated outputs.</li>
+  <li>Implement and test username/password authentication, explicit role/permission boundaries and secure account lifecycle handling.</li>
+  <li>Implement the longitudinal student identity + school-year/cohort model so historical learning records survive cohort changes without unauthorized exposure.</li>
+  <li>Design and test the GDPR/privacy-by-design controls and security threat model before exposing production data.</li>
+  <li>Study the attached <strong>Untitled blend.jsx</strong> splash reference as visual/motion inspiration only, then implement the IDSS EGE first-paint splash with the official logo and at least 10 rotating motivational student messages.</li>
+  <li>Build the canonical source/evidence map.</li>
+  <li>Design and document the canonical document/version model so that future ministry updates can be uploaded by <strong class="mono">direktor@idss.ba</strong> without source-code changes.</li>
+  <li>Establish the <strong>Canonical Knowledge Base + RAG architecture</strong> before building student AI features. Treat the active CANON as the exclusive academic knowledge boundary.</li>
+  <li>Process every catalogue question in the three subject catalogues and produce the syntax/logic/semantic ingestion and validation report.</li>
+  <li>Verify that every ingested catalogue question has immutable source provenance and that every AI-generated educational object can be traced back to canonical evidence.</li>
+  <li>Design retrieval so active-version filters and provenance constraints are enforced before semantic/vector retrieval results are passed to any generation model.</li>
+  <li>Identify contradictions, missing information and unresolved business rules.</li>
+  <li>Derive the product model, architecture and data model from evidence.</li>
+  <li>Record justified technology and architecture decisions under Commander governance.</li>
+  <li>Prepare a phased implementation plan.</li>
+  <li>Only then begin implementation in Commander-governed sprints.</li>
+</ol>
+</div>
+
+<h2 id="final">28. Final Operating Principle</h2>
+<pre>
+COMMANDER GOVERNANCE
+        ↓
+ACTUAL REPOSITORY EVIDENCE
+        ↓
+CANONICAL KNOWLEDGE
+        ↓
+PRODUCT / LEARNING MODEL
+        ↓
+ARCHITECTURE
+        ↓
+UX / UI
+        ↓
+IMPLEMENTATION
+        ↓
+TESTING
+        ↓
+SECURITY / QA
+        ↓
+DEPLOYMENT
+        ↓
+CONTINUOUS IMPROVEMENT
+</pre>
+
+<p><strong>Acta non verba.</strong></p>
+<p>Do the investigation. Make the evidence visible in project artifacts. Build the smallest correct foundation first. Test it. Then expand.</p>
+
+<div class="footer">
+  <p><strong>Document:</strong> INSTRUCTION-WEB-APP-IDSS-EGE.html</p>
+  <p><strong>Project:</strong> IDSS EGE — External Matriculation Exam Preparation Platform</p>
+  <p><strong>Organization:</strong> Internationale Deutsche Schule Sarajevo (IDSS)</p>
+  <p><strong>Primary canonical repository:</strong> https://github.com/IDSS123a/IDSS-EGE-EKSTERNA</p>
+  <p><strong>Governance:</strong> IDSS123a/commander</p>
+  <p><strong>Audience:</strong> Claude Code / AI Coding Assistant</p>
+</div>
+
+</div>
+</body>
+</html>
