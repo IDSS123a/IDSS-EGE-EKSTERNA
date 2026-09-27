@@ -15,6 +15,10 @@ Date: 2026-09-27 (open)
 - `ts_rank_cd` with length normalisation ranked short unrelated texts above the rule a question was about; counting
   matched content words first gives stable, explainable ranking for full-text search.
 
+- Bulk acceptance (PDL-016) let extraction defects through that per-item review would have caught: footnote text
+  inside six trusted questions surfaced only in the first live search (AMB-19). Search results are a cheap second
+  review channel; bulk-accepted content needs a correction path before students see it.
+
 ## Commander Improvement Candidates
 - ENGINEERING_RULES (search/RAG): every retrieval change is evaluated on a fixed list of real questions against the
   real index (expected top source per question), kept in the sprint document as evidence.
