@@ -19,6 +19,8 @@ const nextConfig: NextConfig = {
   // The dev-only route indicator (bottom-left in `npm run dev`) confused local reviews of the UI;
   // compile and runtime errors are still shown. Production builds never render it.
   devIndicators: false,
+  // pdf.js loads its worker module at run time; bundling it breaks that lookup (Sprint 03 ingestion).
+  serverExternalPackages: ["pdfjs-dist"],
   async headers() {
     return [{ source: "/:path*", headers: SECURITY_HEADERS }];
   },

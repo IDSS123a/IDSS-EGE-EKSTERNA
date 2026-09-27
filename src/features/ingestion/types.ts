@@ -78,3 +78,25 @@ export type ExtractionStats = {
 };
 
 export type ExtractionResult = { records: CatalogueRecord[]; stats: ExtractionStats };
+
+/** Machine codes of the ingestion action; the UI localises them (AMB-11). */
+export type IngestionErrorCode =
+  | "UNAUTHENTICATED"
+  | "FORBIDDEN"
+  | "VALIDATION"
+  | "NOT_FOUND"
+  | "INVALID_TRANSITION"
+  | "NO_PROFILE"
+  | "INTEGRITY"
+  | "SOURCE_MISSING"
+  | "UNREADABLE_PDF"
+  | "NO_TEXT_LAYER"
+  | "UNAVAILABLE";
+
+/** Failure codes that are stored as a failed job (the history shows why a run produced nothing). */
+export const RECORDED_FAILURES = ["NO_PROFILE", "INTEGRITY", "SOURCE_MISSING", "UNREADABLE_PDF", "NO_TEXT_LAYER"] as const;
+
+/** Standard action result (E-5). */
+export type IngestionActionResult =
+  | { success: true; data: { message: "INGESTED"; units: number; scoredUnits: number } }
+  | { success: false; code: IngestionErrorCode };

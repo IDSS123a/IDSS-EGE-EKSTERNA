@@ -1,4 +1,4 @@
--- RLS and integrity tests for migrations 001–006. Any failed assertion raises and stops psql
+-- RLS and integrity tests for migrations 001–007. Any failed assertion raises and stops psql
 -- (ON_ERROR_STOP), so the runner's exit code is the test result.
 \set ON_ERROR_STOP on
 set client_min_messages = warning;
@@ -261,3 +261,64 @@ exception when insufficient_privilege then raise notice 'ok - anon cannot call l
 end $$;
 reset role;
 select pg_temp.assert((select count(*) from storage.buckets where id = 'canon-documents' and not public) = 1, 'canon bucket exists and is private');
+
+-- 10. Ingestion jobs (migration 007): one transaction, untrusted records, dependency map, append-only.
+set role service_role;
+create function pg_temp.job(state text, failure text) returns jsonb language sql as $$
+  select jsonb_build_object('state', state, 'profile_code', 'subject_catalogue.test', 'profile_version', 1,
+    'extractor_version', '1.0.0', 'page_count', 3, 'counts', '{"units": 2}'::jsonb, 'report', '{}'::jsonb,
+    'failure_code', failure, 'started_at', now())
+$$;
+create temp table t_records as select jsonb_build_array(
+  jsonb_build_object('record_key', 'MAT-5.1.1', 'record_kind', 'official_catalogue_question', 'structural_status', 'passed', 'record', '{"id": "MAT-5.1.1"}'::jsonb),
+  jsonb_build_object('record_key', 'MAT-5.1.2', 'record_kind', 'official_catalogue_question', 'structural_status', 'passed_with_flags', 'record', '{"id": "MAT-5.1.2"}'::jsonb)) as value;
+
+select pg_temp.expect_error($$select public.record_ingestion_job('00000000-0000-0000-0000-00000000000b', '77777777-7777-7777-7777-77777777777d', pg_temp.job('succeeded', null), (select value from t_records), null)$$,
+  'FORBIDDEN', 'canon.review alone cannot record an ingestion job');
+select pg_temp.expect_error($$select public.record_ingestion_job('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-77777777777f', pg_temp.job('succeeded', null), (select value from t_records), null)$$,
+  'INVALID_TRANSITION', 'a rejected version is never ingested');
+select pg_temp.expect_error($$select public.record_ingestion_job('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-77777777777d', pg_temp.job('failed', 'NO_PROFILE'), (select value from t_records), null)$$,
+  'VALIDATION', 'a failed job carries no records');
+
+create temp table t_job as select public.record_ingestion_job('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-77777777777d',
+  pg_temp.job('succeeded', null), (select value from t_records), null) as id;
+select pg_temp.assert((select count(*) from public.ingested_records where job_id = (select id from t_job)) = 2, 'job stores its records');
+select pg_temp.assert((select array_agg(record_key order by ordinal) from public.ingested_records where job_id = (select id from t_job)) = array['MAT-5.1.1', 'MAT-5.1.2'], 'records keep source order');
+select pg_temp.assert((select bool_and(trust_status = 'untrusted_pending_review') from public.ingested_records), 'ingested records are untrusted');
+select pg_temp.assert((select count(*) from public.canonical_dependencies where dependent_table = 'ingested_records' and state = 'current') = 2, 'records are registered in the dependency map');
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'canon.ingestion_succeeded'), 'ingestion audited');
+select public.record_ingestion_job('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-77777777777d', pg_temp.job('failed', 'NO_PROFILE'), '[]'::jsonb, null);
+select pg_temp.assert((select count(*) from public.canonical_ingestion_jobs where state = 'failed' and failure_code = 'NO_PROFILE') = 1, 'failed job recorded with its reason');
+do $$ begin
+  update public.ingested_records set structural_status = 'passed';
+  raise exception 'FAIL: ingested record changed';
+exception when raise_exception then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - ingested records are append-only';
+end $$;
+do $$ begin
+  delete from public.canonical_ingestion_jobs;
+  raise exception 'FAIL: ingestion job deleted';
+exception when raise_exception or foreign_key_violation then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - ingestion jobs cannot be deleted';
+end $$;
+
+-- Superseding the source version makes the derived records stale.
+select pg_temp.reg('00000000-0000-0000-0000-00000000000a', (select id from t_doc), '77777777-7777-7777-7777-777777777770', repeat('0', 64));
+select public.activate_canon_version('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-777777777770', null, null);
+select pg_temp.assert((select count(*) from public.canonical_dependencies where dependent_table = 'ingested_records' and state = 'stale') = 2, 'superseding the version marks its records stale');
+reset role;
+
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.ingested_records) = 2, 'canon.review reads ingested records');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.ingested_records) = 0 and (select count(*) from public.canonical_ingestion_jobs) = 0, 'students never see ingestion data');
+do $$ begin
+  perform public.record_ingestion_job('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-77777777777d', '{}'::jsonb, '[]'::jsonb, null);
+  raise exception 'FAIL: authenticated executed record_ingestion_job';
+exception when insufficient_privilege then raise notice 'ok - signed-in users cannot record ingestion jobs directly';
+end $$;
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS still enabled on every public table');

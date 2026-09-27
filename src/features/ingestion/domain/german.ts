@@ -46,7 +46,8 @@ function parseItems(lines: readonly PdfLine[]): ScoredItem[] {
 function parseWordBankItems(lines: readonly PdfLine[]): ScoredItem[] {
   const items: ScoredItem[] = [];
   for (const line of lines) {
-    for (const _blank of line.text.matchAll(/_{5,}/gu)) items.push({ item_number: items.length + 1, raw_text: line.text.trim() });
+    const blanks = line.text.match(/_{5,}/gu)?.length ?? 0;
+    for (let blank = 0; blank < blanks; blank += 1) items.push({ item_number: items.length + 1, raw_text: line.text.trim() });
   }
   return items;
 }

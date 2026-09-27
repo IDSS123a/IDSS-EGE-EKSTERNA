@@ -32,3 +32,5 @@
 - [2026-09-27] Sprint 02 closed (DONE checklist, compliance, handoff)
 - [2026-09-27 15:25] Write: src/features/ingestion/domain/common.ts
 - [2026-09-27] Sprint 03 started; TS extractor reproduces Sprint 00 reference (500/500)
+- [2026-09-27 15:31] Write: migrations/007_ingestion.sql
+- [2026-09-27] Sprint 03: migration 007 applied, ingestion action + panel, staging clean-up

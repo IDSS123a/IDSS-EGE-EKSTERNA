@@ -107,3 +107,6 @@ export const CanonTransitionSchema = z.object({
   action: z.enum(["activate", "rollback", "reject", "archive"]),
   reason: z.string().trim().max(500).optional().transform((value) => (value ? value : null)),
 });
+
+/** POST run the catalogue extraction for one document version (Sprint 03). */
+export const IngestionRunSchema = z.object({ versionId: z.uuid() });

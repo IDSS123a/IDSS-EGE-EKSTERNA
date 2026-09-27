@@ -47,6 +47,12 @@ Skripta provjerava da su PDF fajlovi netaknuti (SHA-256), učitava ih u privatnu
 aktivira kao važeće verzije. Može se pokrenuti više puta; ništa se ne duplira i ništa se ne briše.
 Registar je zatim na http://localhost:3000/app/kanon.
 
+### Izdvajanje pitanja iz kataloga (Sprint 03)
+
+Na http://localhost:3000/app/kanon, kod svake važeće verzije kataloga, dugme **Izdvoji pitanja**
+izdvaja sva pitanja, ponuđene odgovore i ključeve. Ništa od izdvojenog nije provjereno: pitanja
+idu učenicima tek nakon pregleda nastavnika (Sprint 04).
+
 Preporučene postavke u Supabase → Authentication:
 - **Sign In / Providers → Allow new users to sign up: OFF** (naloge pravi samo Superadministrator).
 - **Email → Confirm email:** može ostati uključeno; skripta i admin potvrđuju e-mail pri kreiranju.

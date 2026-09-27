@@ -34,6 +34,15 @@ Nothing extracted here is shown to students.
       `config/parser-profiles.json`, extractors `domain/{mathematics,bhs,german}.ts`.
 - [x] 2. Regression test: all 500 records identical (whitespace-insensitive text); negative check
       (a broken German key split) fails the test.
-- [ ] 3. Migration 007
-- [ ] 4. Ingestion from `/app/kanon`
-- [ ] 5. Staging clean-up
+- [x] 3. Migration 007 (`canonical_ingestion_jobs`, `ingested_records`, `record_ingestion_job`), local DB
+      tests (20 new), applied to Supabase; advisor clean; live rollback check with real records.
+- [x] 4. `runIngestionAction` (canon.publish): SHA-256 re-check of the stored file, profile by exact edition,
+      extraction, report, one-transaction write; failed runs stored with NO_PROFILE / INTEGRITY /
+      SOURCE_MISSING / UNREADABLE_PDF / NO_TEXT_LAYER. Panel per version on `/app/kanon` with counts,
+      declared-total check and review notes translated into bs/de/en. Verified inside a production
+      Next.js server: 1.2 to 2.5 s per catalogue, counts identical to the reference.
+- [x] 5. Stale staging uploads (older than 24 h) removed when the next upload is prepared.
+
+Open for the Director: on `/app/kanon`, click "Izdvoji pitanja" on each of the three catalogues and
+check the counts (Matematika 200/200, B/H/S 200 + 20 dodatnih, Njemački 80 zadataka / 200 bodovnih
+jedinica); the sandbox cannot reach Supabase Storage, so the first real run is the Director's.

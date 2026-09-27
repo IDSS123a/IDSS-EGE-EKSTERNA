@@ -227,5 +227,56 @@
     "errorBody": "Die Daten konnten nicht geladen werden. Bitte gleich erneut versuchen.",
     "retry": "Erneut versuchen",
     "loading": "Wird geladen"
+  },
+  "ingestion": {
+    "title": "Aufgaben extrahieren",
+    "none": "Aus dieser Version wurden noch keine Aufgaben extrahiert.",
+    "run": "Aufgaben extrahieren",
+    "rerun": "Erneut extrahieren",
+    "running": "Extraktion läuft",
+    "confirm": "Aufgaben aus dieser Version extrahieren? Das Ergebnis wird als neuer Lauf gespeichert; frühere Läufe bleiben im Verlauf.",
+    "lastRun": "Letzte Extraktion",
+    "succeeded": "Erfolgreich",
+    "failed": "Fehlgeschlagen",
+    "units": "Fragen oder Aufgaben",
+    "scoredUnits": "Bewertete Einheiten",
+    "passed": "Ohne Hinweise",
+    "flagged": "Mit Hinweisen zur Prüfung",
+    "structuralFailed": "Strukturell fehlerhaft",
+    "withKey": "Mit Lösungsschlüssel",
+    "supplementary": "Zusätzliche Aufgaben",
+    "declaredMatch": "Anzahl stimmt mit dem Katalog überein",
+    "declaredMismatch": "Anzahl stimmt NICHT mit dem Katalog überein",
+    "flags": "Hinweise zur Prüfung",
+    "untrusted": "Nichts Extrahiertes ist geprüft: Aufgaben gehen erst nach der Prüfung durch Lehrkräfte an Schüler (Sprint 04).",
+    "profile": "Profil",
+    "messages": {
+      "INGESTED": "Extrahiert: {units} Fragen oder Aufgaben, {scored} bewertete Einheiten."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte erneut anmelden.",
+      "FORBIDDEN": "Sie haben keine Berechtigung für diese Aktion.",
+      "VALIDATION": "Ungültige Anfrage.",
+      "NOT_FOUND": "Die Version existiert nicht.",
+      "INVALID_TRANSITION": "Extrahiert werden nur gültige Versionen und Versionen, die auf Prüfung warten.",
+      "NO_PROFILE": "Für diese Katalogausgabe gibt es kein geprüftes Extraktionsprofil. Eine neue Ausgabe braucht ein neues Profil.",
+      "INTEGRITY": "Die gespeicherte Datei stimmt nicht mit der registrierten überein (SHA-256). Nichts wurde extrahiert.",
+      "SOURCE_MISSING": "Die gespeicherte Datei wurde nicht gefunden.",
+      "UNREADABLE_PDF": "Das PDF kann nicht gelesen werden.",
+      "NO_TEXT_LAYER": "Das PDF hat keine Textebene (gescanntes Dokument). Eine Entscheidung über OCR ist nötig.",
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht erreichbar. Bitte erneut versuchen."
+    },
+    "flagTexts": {
+      "notation": "Mathematische Schreibweise (Brüche, Potenzen, Wurzeln) muss auf der Originalseite geprüft werden",
+      "figure": "Die Aufgabe stützt sich auf eine Zeichnung oder Tabelle der Originalseite",
+      "graphicOptions": "Die Antwortmöglichkeiten sind Bilder auf der Originalseite",
+      "noAnswer": "Keine Lösung im Lösungsteil gefunden",
+      "noAudio": "Hörverstehen: keine offizielle Audiodatei, nur das Transkript",
+      "supplementary": "Zusätzliche Aufgabe außerhalb der 200, ohne Lösung im Katalog",
+      "unclassified": "Aufgabentyp aus dem Text nicht erkennbar",
+      "keyCount": "Anzahl der Lösungen passt nicht zur Anzahl der Einheiten",
+      "structure": "Aufbau der Aufgabe entspricht nicht dem Katalog",
+      "other": "Weitere Hinweise"
+    }
   }
 }

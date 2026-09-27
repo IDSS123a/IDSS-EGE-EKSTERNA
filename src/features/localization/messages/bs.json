@@ -227,5 +227,56 @@
     "errorBody": "Podaci se nisu mogli učitati. Pokušajte ponovo za trenutak.",
     "retry": "Pokušaj ponovo",
     "loading": "Učitavanje"
+  },
+  "ingestion": {
+    "title": "Izdvajanje pitanja",
+    "none": "Pitanja iz ove verzije još nisu izdvojena.",
+    "run": "Izdvoji pitanja",
+    "rerun": "Izdvoji ponovo",
+    "running": "Izdvajanje u toku",
+    "confirm": "Izdvojiti pitanja iz ove verzije? Rezultat se čuva kao novi posao; ranija izdvajanja ostaju u historiji.",
+    "lastRun": "Posljednje izdvajanje",
+    "succeeded": "Uspješno",
+    "failed": "Neuspješno",
+    "units": "Pitanja ili zadataka",
+    "scoredUnits": "Bodovnih jedinica",
+    "passed": "Bez napomena",
+    "flagged": "S napomenama za pregled",
+    "structuralFailed": "Strukturno neispravno",
+    "withKey": "S ključem odgovora",
+    "supplementary": "Dodatnih zadataka",
+    "declaredMatch": "Broj se slaže s katalogom",
+    "declaredMismatch": "Broj se NE slaže s katalogom",
+    "flags": "Napomene za pregled",
+    "untrusted": "Ništa od izdvojenog nije provjereno: pitanja idu učenicima tek nakon pregleda nastavnika (Sprint 04).",
+    "profile": "Profil",
+    "messages": {
+      "INGESTED": "Izdvojeno: {units} pitanja ili zadataka, {scored} bodovnih jedinica."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Nemate pravo za ovu radnju.",
+      "VALIDATION": "Neispravan zahtjev.",
+      "NOT_FOUND": "Verzija ne postoji.",
+      "INVALID_TRANSITION": "Izdvajaju se samo važeće verzije i verzije koje čekaju provjeru.",
+      "NO_PROFILE": "Za ovo izdanje kataloga ne postoji provjeren profil za izdvajanje. Novo izdanje traži novi profil.",
+      "INTEGRITY": "Sačuvani fajl se ne slaže s registrovanim (SHA-256). Ništa nije izdvojeno.",
+      "SOURCE_MISSING": "Sačuvani fajl nije pronađen.",
+      "UNREADABLE_PDF": "PDF se ne može pročitati.",
+      "NO_TEXT_LAYER": "PDF nema tekstualni sloj (skeniran dokument). Potrebna je odluka o OCR-u.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    },
+    "flagTexts": {
+      "notation": "Matematički zapis (razlomci, eksponenti, korijeni) treba provjeriti na originalnoj stranici",
+      "figure": "Pitanje se oslanja na crtež ili tabelu s originalne stranice",
+      "graphicOptions": "Ponuđeni odgovori su slike na originalnoj stranici",
+      "noAnswer": "Rješenje nije pronađeno u poglavlju s rješenjima",
+      "noAudio": "Zadatak slušanja: službeni audio zapis ne postoji, samo transkript",
+      "supplementary": "Dodatni zadatak izvan 200 pitanja, bez rješenja u katalogu",
+      "unclassified": "Vrsta zadatka nije prepoznata iz teksta",
+      "keyCount": "Broj rješenja se ne slaže s brojem stavki",
+      "structure": "Struktura zadatka ne odgovara katalogu",
+      "other": "Ostale napomene"
+    }
   }
 }

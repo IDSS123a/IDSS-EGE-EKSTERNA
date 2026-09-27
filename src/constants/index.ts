@@ -65,3 +65,7 @@ export const CANON_DOWNLOAD_URL_TTL_SECONDS = 60;
 export const CANON_DOCUMENT_LIST_LIMIT = 200;
 /** Maximum length of a lifecycle reason (matches the database check). */
 export const CANON_REASON_MAX_LENGTH = 500;
+/** Staging uploads older than this were abandoned (never registered) and are removed. */
+export const CANON_STAGING_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+/** Upper bound of staging objects inspected per clean-up (A-3). */
+export const CANON_STAGING_LIST_LIMIT = 1000;
