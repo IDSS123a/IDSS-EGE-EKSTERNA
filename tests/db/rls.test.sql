@@ -629,3 +629,64 @@ exception when insufficient_privilege then raise notice 'ok - signed-in users ca
 end $$;
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 013');
+
+-- 15. Semantic retrieval (migration 015): vectors bound to chunk text, scope before rank, audited, service role only.
+set role service_role;
+select pg_temp.expect_error($$select * from public.pending_chunk_embeddings('00000000-0000-0000-0000-00000000000b', 'gemini-embedding-2', 10)$$,
+  'FORBIDDEN', 'a subject teacher cannot build embeddings');
+select pg_temp.expect_error($$select * from public.pending_chunk_embeddings('00000000-0000-0000-0000-00000000000a', 'Gemini Embedding', 10)$$,
+  'VALIDATION', 'the model name is a plain identifier');
+create temp table t_pending as select * from public.pending_chunk_embeddings('00000000-0000-0000-0000-00000000000a', 'gemini-embedding-2', 200);
+select pg_temp.assert((select count(*) from t_pending) >= 1
+  and not exists (select 1 from t_pending p join public.canonical_chunks c on c.id = p.chunk_id join public.canonical_document_versions v on v.id = c.document_version_id where v.status <> 'active'),
+  'pending chunks come from active versions only');
+select pg_temp.assert(not exists (select 1 from t_pending p join public.canonical_chunks c on c.id = p.chunk_id where p.content_sha256 <> encode(sha256(convert_to(c.content, 'UTF8')), 'hex')),
+  'pending chunks carry the hash of their text');
+select pg_temp.expect_error($$select public.store_chunk_embeddings('00000000-0000-0000-0000-00000000000a', 'gemini-embedding-2',
+  jsonb_build_array(jsonb_build_object('chunk_id', (select chunk_id from t_pending limit 1), 'content_sha256', repeat('0', 64), 'embedding', to_jsonb(array_fill(0.01::real, array[768])))), null)$$,
+  'VALIDATION', 'a vector is stored only for the text it was computed from');
+select pg_temp.expect_error($$select public.store_chunk_embeddings('00000000-0000-0000-0000-00000000000a', 'gemini-embedding-2',
+  jsonb_build_array(jsonb_build_object('chunk_id', (select chunk_id from t_pending limit 1), 'content_sha256', (select content_sha256 from t_pending limit 1), 'embedding', to_jsonb(array_fill(0.01::real, array[767])))), null)$$,
+  'VALIDATION', 'vectors have 768 dimensions');
+select pg_temp.expect_error($$select public.store_chunk_embeddings('00000000-0000-0000-0000-00000000000b', 'gemini-embedding-2',
+  jsonb_build_array(jsonb_build_object('chunk_id', (select chunk_id from t_pending limit 1), 'content_sha256', (select content_sha256 from t_pending limit 1), 'embedding', to_jsonb(array_fill(0.01::real, array[768])))), null)$$,
+  'FORBIDDEN', 'a subject teacher cannot store embeddings');
+create temp table t_rows as select jsonb_agg(jsonb_build_object('chunk_id', chunk_id, 'content_sha256', content_sha256, 'embedding', to_jsonb(array_fill(0.01::real, array[768])))) as rows from t_pending;
+select pg_temp.assert(public.store_chunk_embeddings('00000000-0000-0000-0000-00000000000a', 'gemini-embedding-2', (select rows from t_rows), null) = (select count(*) from t_pending),
+  'every pending chunk gets its vector');
+select pg_temp.assert(public.store_chunk_embeddings('00000000-0000-0000-0000-00000000000a', 'gemini-embedding-2', (select rows from t_rows), null) = 0, 'storing twice adds nothing');
+select pg_temp.assert((select count(*) from public.pending_chunk_embeddings('00000000-0000-0000-0000-00000000000a', 'gemini-embedding-2', 200)) = 0, 'nothing is pending afterwards');
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'retrieval.embeddings_stored'), 'storing embeddings is audited');
+
+select pg_temp.expect_error($$select * from public.retrieve_canon_semantic('00000000-0000-0000-0000-00000000000b', 'koliko traje', array_fill(0.01::real, array[768]), 'gemini-embedding-2', (select id from t_german), 5)$$,
+  'FORBIDDEN', 'a teacher cannot search another subject semantically');
+select pg_temp.expect_error($$select * from public.retrieve_canon_semantic('00000000-0000-0000-0000-00000000000a', 'koliko traje', array_fill(0.01::real, array[10]), 'gemini-embedding-2', null, 5)$$,
+  'VALIDATION', 'the query vector has 768 dimensions');
+select pg_temp.expect_error($$select * from public.retrieve_canon_semantic('00000000-0000-0000-0000-00000000000c', 'koliko traje', array_fill(0.01::real, array[768]), 'gemini-embedding-2', null, 5)$$,
+  'FORBIDDEN', 'a student cannot search staff canon');
+create temp table t_semantic as select * from public.retrieve_canon_semantic('00000000-0000-0000-0000-00000000000a', 'koliko minuta traje ispit', array_fill(0.01::real, array[768]), 'gemini-embedding-2', null, 5);
+select pg_temp.assert((select count(*) from t_semantic) >= 1 and not exists (select 1 from t_semantic where similarity is null or similarity < 0.99),
+  'semantic results carry their cosine similarity');
+select pg_temp.assert(exists (select 1 from t_semantic where keyword_rank >= 1), 'the keyword rank is fused in (reciprocal rank fusion)');
+select pg_temp.assert(not exists (select 1 from t_semantic s join public.canonical_document_versions v on v.id = s.document_version_id where v.status <> 'active'),
+  'superseded content is never retrieved semantically');
+select pg_temp.assert(exists (select 1 from public.retrieval_audit_logs where method = 'semantic' and query_sha256 = encode(sha256(convert_to('koliko minuta traje ispit', 'UTF8')), 'hex')),
+  'semantic retrieval is audited with the query hash and method');
+reset role;
+do $$ begin
+  update public.canonical_chunk_embeddings set model = 'x';
+  raise exception 'FAIL: embedding changed';
+exception when raise_exception then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - embeddings are append-only';
+end $$;
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.canonical_chunk_embeddings) = 0, 'students read no embeddings');
+do $$ begin
+  perform public.retrieve_canon_semantic('00000000-0000-0000-0000-00000000000a', 'test', array_fill(0.01::real, array[768]), 'gemini-embedding-2', null, 5);
+  raise exception 'FAIL: authenticated executed retrieve_canon_semantic';
+exception when insufficient_privilege then raise notice 'ok - signed-in users cannot call semantic retrieval directly';
+end $$;
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 015');

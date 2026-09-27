@@ -79,6 +79,24 @@ export const RETRIEVAL_QUERY_MAX_LENGTH = 500;
  * (rank = matched words + full-text rank, migration 011). Below it the answer is the fixed refusal.
  */
 export const RETRIEVAL_MIN_RANK = 1;
+/**
+ * Semantic search (PDL-023): Gemini embedding model, verified 27.09.2026 (gemini-embedding-2, generally available;
+ * task instructions go into the text, taskType is ignored by this model). Changing the model re-embeds the index.
+ */
+export const EMBEDDING_MODEL = "gemini-embedding-2";
+/** Vector size (matches migration 015; 768 is one of the sizes the model recommends). */
+export const EMBEDDING_DIMENSIONS = 768;
+/** Texts per batchEmbedContents request and per stored batch. */
+export const EMBEDDING_BATCH_SIZE = 50;
+/** Longest wait for one Gemini request. */
+export const EMBEDDING_TIMEOUT_MS = 30000;
+/** Time budget of one "build semantic index" click; the rest continues with the next click. */
+export const EMBEDDING_BUILD_BUDGET_MS = 45000;
+/**
+ * Cosine similarity at or above which a semantic result counts as evidence when no content word matched.
+ * Provisional: tuned on the Director's first searches (SPRINT_06), recorded in PDL-023.
+ */
+export const RETRIEVAL_MIN_SIMILARITY = 0.6;
 
 /** Footer: product owner contact and the legal documents (Director, 2026-09-27; texts pending, AMB-20). */
 export const CONTACT_EMAIL = "ai@idss.ba";

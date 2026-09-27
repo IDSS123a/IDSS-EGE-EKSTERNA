@@ -22,3 +22,7 @@ grant usage on schema public to anon, authenticated, service_role;
 create schema storage;
 create table storage.buckets (id text primary key, name text not null, public boolean default false,
   file_size_limit bigint, allowed_mime_types text[]);
+
+-- Supabase keeps extensions (pgvector) in schema "extensions", usable by the API roles.
+create schema if not exists extensions;
+grant usage on schema extensions to anon, authenticated, service_role;

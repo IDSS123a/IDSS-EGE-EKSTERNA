@@ -275,3 +275,22 @@ the weights (memoised per palette); `public/splash/splash.js` runs the same form
 weights of the default shares (checked by a unit test). Supersedes the threshold layers and calibration curves of
 PDL-019 and PDL-020 (`config/splash-calibration.json` removed).
 
+## PDL-023: Search by meaning with Gemini embeddings, fused with word search
+**Date:** 2026-09-27 (Sprint 06 item 2; DL-005, PDL-017; Director: key in `.env.local`)
+**Decision:** model `gemini-embedding-2` (verified 27.09.2026: generally available since 22.04.2026; `text-embedding-004`
+is retired; vectors are not compatible with `gemini-embedding-001`), 768 dimensions (a recommended size), vectors
+L2-normalised by the application. The model ignores `taskType`; the task goes into the text in Google's retrieval
+formats (`title: ... | text: ...` for passages, `task: search result | query: ...` for queries). REST without an SDK;
+the key travels in the `x-goog-api-key` header.
+**Data sent to Google:** catalogue passages of the index and the text a staff member types into the search. Never names,
+accounts or results (Privacy Policy section 8). The UI tells the user not to type personal data.
+**Ranking:** the database scopes first (active versions, current rule edition, the actor's subjects), then fuses the
+vector ranking and the full-text ranking of migration 011 by reciprocal rank fusion (k = 60, 40 candidates each). A
+result counts as evidence when a content word matched (full-text floor) or the cosine similarity reaches
+`RETRIEVAL_MIN_SIMILARITY` = 0.6; otherwise the fixed refusal. The 0.6 floor is provisional and is tuned on the first
+real searches.
+**Build:** `buildSemanticIndexAction` (canon.publish) embeds pending passages in batches of 50 within a 45 s budget per
+click; each vector is stored only if the passage text still has the hash it was computed from (migration 015). The
+build runs where the server reaches Google: the Director's computer now, the hosting later.
+**Fallback:** no key, no vectors, or a Gemini error: word search, with a visible notice on error.
+

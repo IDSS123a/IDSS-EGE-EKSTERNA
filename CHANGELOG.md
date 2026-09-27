@@ -70,3 +70,6 @@
 [2026-09-27] [FIX] Review screen: the correction form is folded behind "Ispravi tekst" unless a prepared proposal exists; stored \r\n line breaks are read as \n
 [2026-09-27] [CONTENT] Legal documents v2.1: IDSS identity (Buka 13, ID number, MBSU), court in Sarajevo confirmed, security records kept in accordance with the law
 [2026-09-27] [CANON] AMB-19 resolved: the Director confirmed the five footnote corrections (verified in the database)
+[2026-09-27] [DATABASE] Migration 015_semantic_retrieval applied: pgvector, chunk embeddings bound to their text, semantic retrieval fused with full-text, audited with method (PDL-023)
+[2026-09-27] [FEATURE] Search by meaning with Gemini (gemini-embedding-2, 768 dimensions): "Izgradi indeks po značenju" on /app/pretraga, search falls back to words without a key, index or on a Gemini failure; only catalogue and query text go to Google
+[2026-09-27] [ENV] Added GEMINI_API_KEY (server only; GOOGLE_API_KEY accepted) to .env.example

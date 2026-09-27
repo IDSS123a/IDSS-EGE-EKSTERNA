@@ -5,22 +5,29 @@ import { APP_HOME_PATH, RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH }
 import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { ReviewShell } from "@/features/review/components/review-shell";
-import { buildIndexAction, searchCanonAction } from "../actions";
+import { buildIndexAction, buildSemanticIndexAction, searchCanonAction } from "../actions";
 import { citationOf } from "../domain/context";
-import type { IndexResult, SearchResult } from "../types";
+import type { IndexResult, SearchResult, SemanticIndexResult } from "../types";
 
 type Props = {
   subjects: { id: string; code: SubjectCode }[];
   chunkTotal: number;
   canBuild: boolean;
+  /** Chunks with a vector for the current embedding model (PDL-023). */
+  embeddedTotal: number;
+  /** True when the server has a Gemini key (search by meaning possible). */
+  semanticConfigured: boolean;
 };
 
 /** Staff search over trusted canon with cited results and the fixed refusal (Sprint 05). */
-export function SearchScreen({ subjects, chunkTotal, canBuild }: Props): ReactNode {
+export function SearchScreen({ subjects, chunkTotal, canBuild, embeddedTotal, semanticConfigured }: Props): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.search;
   const [result, searchAction, searching] = useActionState<SearchResult | null, FormData>(searchCanonAction, null);
   const [indexResult, indexAction, building] = useActionState<IndexResult | null, FormData>(buildIndexAction, null);
+  const [semanticResult, semanticAction, embedding] = useActionState<SemanticIndexResult | null, FormData>(buildSemanticIndexAction, null);
+  const embedded = semanticResult?.success ? semanticResult.data.embedded : embeddedTotal;
+  const semanticReady = semanticConfigured && embedded > 0;
   const subjectCode = (id: string) => subjects.find((subject) => subject.id === id)?.code;
 
   return (
@@ -46,6 +53,27 @@ export function SearchScreen({ subjects, chunkTotal, canBuild }: Props): ReactNo
         </section>
       )}
 
+      {canBuild && (
+        <section className="card" aria-labelledby="semantic-title">
+          <h2 id="semantic-title">{labels.semantic.title}</h2>
+          <p>{labels.semantic.intro}</p>
+          {!semanticConfigured && <p className="notice">{labels.semantic.noKey}</p>}
+          <p>{labels.semantic.counts.replace("{embedded}", String(embedded)).replace("{total}", String(indexResult?.success ? indexResult.data.total : chunkTotal))}</p>
+          <form action={semanticAction} className="inline-form">
+            <button type="submit" className="button-secondary" disabled={embedding || !semanticConfigured} aria-busy={embedding}>{embedding ? labels.semantic.building : labels.semantic.build}</button>
+            <span className="action-feedback" aria-live="polite">
+              {semanticResult?.success && (
+                <span className="action-feedback--ok">
+                  {labels.semantic.built.replace("{stored}", String(semanticResult.data.stored)).replace("{embedded}", String(semanticResult.data.embedded))}
+                  {!semanticResult.data.complete && ` ${labels.semantic.continue}`}
+                </span>
+              )}
+              {semanticResult && !semanticResult.success && <span className="action-feedback--error">{labels.errors[semanticResult.code]}</span>}
+            </span>
+          </form>
+        </section>
+      )}
+
       <section className="card" aria-labelledby="search-title">
         <h2 id="search-title" className="sr-only">{labels.title}</h2>
         {chunkTotal === 0 && !indexResult?.success && <p>{labels.empty}</p>}
@@ -53,7 +81,7 @@ export function SearchScreen({ subjects, chunkTotal, canBuild }: Props): ReactNo
           <div className="form__field search-form__query">
             <label htmlFor="query">{labels.query}</label>
             <input id="query" name="query" type="search" required minLength={RETRIEVAL_QUERY_MIN_LENGTH} maxLength={RETRIEVAL_QUERY_MAX_LENGTH} aria-describedby="query-hint" />
-            <p id="query-hint" className="form__hint">{labels.queryHint}</p>
+            <p id="query-hint" className="form__hint">{labels.queryHint}{semanticReady ? ` ${labels.semantic.privacy}` : ""}</p>
           </div>
           <div className="form__field">
             <label htmlFor="subjectId">{labels.subject}</label>
@@ -69,6 +97,8 @@ export function SearchScreen({ subjects, chunkTotal, canBuild }: Props): ReactNo
 
         <div aria-live="polite">
           {result && !result.success && <p className="action-feedback--error" role="alert">{labels.errors[result.code]}</p>}
+          {result?.success && result.data.fallback && <p className="notice">{labels.fallback}</p>}
+          {result?.success && <p className="form__hint">{labels.methods[result.data.method]}</p>}
           {result?.success && result.data.refused && <p className="notice">{labels.refusal}</p>}
           {result?.success && !result.data.refused && (
             <>

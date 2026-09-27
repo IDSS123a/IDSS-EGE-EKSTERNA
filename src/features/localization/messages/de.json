@@ -547,7 +547,7 @@
     "navLink": "Suche in den offiziellen Materialien",
     "title": "Suche in den offiziellen Materialien",
     "subtitle": "Durchsucht nur geprüfte Aufgaben und bestätigte Regeln der gültigen Kataloge. Jedes Ergebnis nennt Quelle und Seite.",
-    "method": "Die Suche arbeitet vorerst mit Wörtern (unabhängig von Sonderzeichen und Endungen). Die semantische Suche folgt, sobald ein KI-Dienst aktiviert ist.",
+    "method": "Die Suche nach Bedeutung nutzt Gemini und die offiziellen Materialien; ohne Schlüssel oder semantischen Index sucht sie nach Wörtern (unabhängig von diakritischen Zeichen und Fällen).",
     "query": "Frage oder Begriff",
     "queryHint": "Zum Beispiel: wie lange dauert die Prüfung, Taschenrechner, Perfekt, Hasanaginica.",
     "subject": "Fach",
@@ -574,8 +574,27 @@
       "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
       "FORBIDDEN": "Sie dürfen in diesem Fach nicht suchen.",
       "VALIDATION": "Geben Sie eine Frage oder einen Begriff mit mindestens 2 Zeichen ein.",
-      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
-    }
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut.",
+      "NOT_CONFIGURED": "Der Schlüssel GEMINI_API_KEY ist in .env.local nicht gesetzt. Die Suche arbeitet nach Wörtern.",
+      "REJECTED": "Gemini hat die Anfrage abgelehnt (Schlüssel und Modellname prüfen).",
+      "RATE_LIMITED": "Gemini begrenzt gerade die Zahl der Anfragen. Bitte in einer Minute erneut versuchen."
+    },
+    "semantic": {
+      "title": "Index für die Suche nach Bedeutung",
+      "intro": "Für jeden Textabschnitt im Index berechnet Gemini einen Bedeutungsvektor. An Google geht nur der Text der offiziellen Kataloge, niemals Nutzerdaten.",
+      "counts": "Mit Vektor: {embedded} von {total} Textabschnitten.",
+      "build": "Index nach Bedeutung erstellen",
+      "building": "Wird erstellt",
+      "built": "Vektoren hinzugefügt: {stored}. Insgesamt: {embedded}.",
+      "continue": "Nicht alles wurde in einem Schritt fertig; klicken Sie erneut, um fortzufahren.",
+      "noKey": "Der Schlüssel GEMINI_API_KEY ist in .env.local nicht gesetzt; die Suche arbeitet nach Wörtern.",
+      "privacy": "Der Suchtext wird für die Suche nach Bedeutung an Google (Gemini) gesendet. Geben Sie keine personenbezogenen Daten ein."
+    },
+    "methods": {
+      "semantic": "Suche nach Bedeutung",
+      "full_text": "Suche nach Wörtern"
+    },
+    "fallback": "Die Suche nach Bedeutung ist gerade fehlgeschlagen; angezeigt werden die Ergebnisse der Suche nach Wörtern."
   },
   "settings": {
     "navLink": "Einstellungen",

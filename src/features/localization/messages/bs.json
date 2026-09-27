@@ -547,7 +547,7 @@
     "navLink": "Pretraga službenih materijala",
     "title": "Pretraga službenih materijala",
     "subtitle": "Pretražuje samo provjerena pitanja i potvrđena pravila iz važećih kataloga. Svaki rezultat navodi izvor i stranicu.",
-    "method": "Pretraga je zasad po riječima (bez obzira na kvačice i padeže). Semantička pretraga dolazi kada se uključi AI servis.",
+    "method": "Pretraga po značenju koristi Gemini i službene materijale; bez ključa ili semantičkog indeksa pretraga radi po riječima (bez obzira na kvačice i padeže).",
     "query": "Pitanje ili pojam",
     "queryHint": "Na primjer: koliko traje ispit, kalkulator, Perfekt, Hasanaginica.",
     "subject": "Predmet",
@@ -574,8 +574,27 @@
       "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
       "FORBIDDEN": "Nemate pravo pretrage za ovaj predmet.",
       "VALIDATION": "Upišite pitanje ili pojam od najmanje 2 znaka.",
-      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
-    }
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo.",
+      "NOT_CONFIGURED": "Ključ GEMINI_API_KEY nije postavljen u .env.local. Pretraga radi po riječima.",
+      "REJECTED": "Gemini je odbio zahtjev (provjerite ključ i naziv modela).",
+      "RATE_LIMITED": "Gemini trenutno ograničava broj zahtjeva. Pokušajte za minutu."
+    },
+    "semantic": {
+      "title": "Indeks za pretragu po značenju",
+      "intro": "Za svaki dio teksta u indeksu Gemini izračuna vektor značenja. Googleu se šalje samo tekst službenih kataloga, nikada podaci o korisnicima.",
+      "counts": "S vektorom: {embedded} od {total} dijelova teksta.",
+      "build": "Izgradi indeks po značenju",
+      "building": "Izgradnja u toku",
+      "built": "Dodano vektora: {stored}. Ukupno: {embedded}.",
+      "continue": "Nije sve završeno u jednom koraku; kliknite ponovo da nastavite.",
+      "noKey": "Ključ GEMINI_API_KEY nije postavljen u .env.local; pretraga radi po riječima.",
+      "privacy": "Tekst upita se radi pretrage po značenju šalje Googleu (Gemini). Ne upisujte lične podatke."
+    },
+    "methods": {
+      "semantic": "Pretraga po značenju",
+      "full_text": "Pretraga po riječima"
+    },
+    "fallback": "Pretraga po značenju trenutno nije uspjela; prikazani su rezultati pretrage po riječima."
   },
   "settings": {
     "navLink": "Postavke",
