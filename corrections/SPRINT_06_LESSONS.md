@@ -22,6 +22,9 @@ Date: 2026-09-27 (open)
    saved four revisions identical to the catalogue text (MAT-5.3.7 to 5.3.10, append-only, harmless) → the database
    refuses UNCHANGED (migration 014) and the form stays folded unless a proposal exists. A form that writes to an
    append-only history refuses no-op writes on the server.
+7. Two lint warnings (unused parameters in a test helper) reached `main` with PR #29: lint had run before the last
+   test file was written, and the later check filtered only for errors → the final lint runs after the last edit,
+   and warnings count as findings. Found by ACA while adding key rotation, fixed in PR #30.
 
 ## Gotchas Discovered
 - Browser textareas submit line breaks as \r\n; the first live revisions stored \r\n while the catalogue text uses \n.
@@ -40,6 +43,8 @@ Date: 2026-09-27 (open)
   otherwise retrieval quality silently drops.
 - pgvector is not in the sandbox PostgreSQL by default (`apt-get install postgresql-16-pgvector`), and the Supabase
   stub needs schema `extensions` with usage for the API roles; `scripts/test-db.sh` now says so when it is missing.
+- Gemini keys are read from the environment at server start: after adding GEMINI_API_KEY_1 to _10 to `.env.local`, the
+  dev server must be restarted before the keys are seen.
 
 ## Commander Improvement Candidates
 None yet.
