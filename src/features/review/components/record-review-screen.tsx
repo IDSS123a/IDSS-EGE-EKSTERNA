@@ -2,15 +2,16 @@
 
 import Link from "next/link";
 import { useActionState, type FormEvent, type ReactNode } from "react";
-import { REVIEW_PATH, REVIEW_REGION_MARGIN_POINTS, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
+import { QUESTION_TEXT_MAX_LENGTH, REVIEW_PATH, REVIEW_REGION_MARGIN_POINTS, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
 import { flagKey } from "@/features/ingestion/domain/report";
 import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { REVIEW_TASK_TYPES } from "@/lib/validation/schemas";
-import { decideRecordAction, proposeKeyRevisionAction } from "../actions";
+import { decideRecordAction, proposeKeyRevisionAction, reviseQuestionTextAction } from "../actions";
 import { regionOnPage } from "../domain/queue";
-import type { AnswerKeyView, QueueFilter, RecordForReview, ReviewActionResult } from "../types";
+import { allTextProposals, PROPOSAL_REASON, proposedText, sameText, type QuestionText } from "../domain/text-revision";
+import type { AnswerKeyView, QueueFilter, RecordForReview, ReviewActionResult, TrustedQuestionView } from "../types";
 import { queueHref } from "./review-queue-screen";
 import { ReviewShell } from "./review-shell";
 import { SourceRegion } from "./source-region";
@@ -102,6 +103,9 @@ export function RecordReviewScreen({ review, subjectCode, sourceUrl, canDecide, 
       </div>
 
       {canDecide && review.state !== "accepted" && <DecisionForm review={review} />}
+      {review.state === "accepted" && review.question && (
+        <QuestionTextSection question={review.question} recordKey={review.recordKey} subjectId={review.subjectId} language={subjectCode === "german" ? "de" : "bs"} canRevise={canDecide && review.current} />
+      )}
       {review.state === "accepted" && (
         <section className="card" aria-labelledby="keys-title">
           <h2 id="keys-title">{labels.keys.title}</h2>
@@ -231,5 +235,117 @@ function KeyRevisions({ answerKey, subjectId, canRevise }: { answerKey: AnswerKe
         </form>
       )}
     </div>
+  );
+}
+
+/** The text students see, its correction history and, for reviewers, the correction form (AMB-19, PDL-021). */
+function QuestionTextSection({ question, recordKey, subjectId, language, canRevise }: { question: TrustedQuestionView; recordKey: string; subjectId: string; language: string; canRevise: boolean }): ReactNode {
+  const { dictionary, locale } = useI18n();
+  const labels = dictionary.review;
+  const shown = question.revisions[0]?.content ?? question.text;
+  const candidate = proposedText(recordKey, shown);
+  const proposal = candidate && !sameText(candidate, shown) ? candidate : null;
+  const prepared = proposal ? allTextProposals().find((entry) => entry.record_key === recordKey) : undefined;
+
+  return (
+    <section className="card" aria-labelledby="text-title">
+      <h2 id="text-title">{labels.text.title}</h2>
+      <p>{labels.text.hint}</p>
+      <h3>{labels.text.shown}</h3>
+      {/* Canonical text stays in its source language (AMB-13, P-13 exempt). */}
+      <pre className="review-record__text" lang={language}>{shown.rawText}</pre>
+      {question.revisions.length === 0 ? (
+        <p>{labels.text.noRevision}</p>
+      ) : (
+        <>
+          <details>
+            <summary>{labels.text.original}</summary>
+            <pre className="review-record__text" lang={language}>{question.text.rawText}</pre>
+          </details>
+          <h3>{labels.text.history}</h3>
+          <ul className="canon-history__list">
+            {question.revisions.map((revision) => (
+              <li key={revision.createdAt}>
+                <span lang="bs">{revision.reason}</span>
+                {revision.evidence && <span lang="bs">{revision.evidence}</span>}
+                <span>{labels.decision.by.replace("{name}", revision.revisedByName ?? "").replace("{date}", formatDateTime(revision.createdAt, locale))}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {canRevise && (
+        <TextRevisionForm
+          key={question.revisions.length}
+          versionId={question.versionId}
+          subjectId={subjectId}
+          language={language}
+          initial={proposal ?? shown}
+          reason={proposal ? PROPOSAL_REASON : ""}
+          evidence={prepared ? labels.text.proposalEvidence.replace("{page}", String(prepared.page)).replace("{footnotes}", prepared.footnotes.join(", ")) : ""}
+          proposed={proposal !== null}
+        />
+      )}
+    </section>
+  );
+}
+
+type FormProps = { versionId: string; subjectId: string; language: string; initial: QuestionText; reason: string; evidence: string; proposed: boolean };
+
+function TextRevisionForm({ versionId, subjectId, language, initial, reason, evidence, proposed }: FormProps): ReactNode {
+  const { dictionary } = useI18n();
+  const labels = dictionary.review.text;
+  const messages = dictionary.review;
+  const [result, formAction, pending] = useActionState<ReviewActionResult | null, FormData>(reviseQuestionTextAction, null);
+  const confirmSave = (event: FormEvent<HTMLFormElement>): void => {
+    if (!window.confirm(labels.confirm)) event.preventDefault();
+  };
+  const rows = (text: string) => Math.min(16, text.split("\n").length + 1);
+
+  return (
+    <form action={formAction} onSubmit={confirmSave} className="form review-text-form">
+      {proposed && <p className="notice">{labels.proposal}</p>}
+      <input type="hidden" name="questionVersionId" value={versionId} />
+      <input type="hidden" name="subjectId" value={subjectId} />
+      <div className="form__field">
+        <label htmlFor="text-raw">{labels.rawText}</label>
+        <textarea id="text-raw" name="rawText" lang={language} required maxLength={QUESTION_TEXT_MAX_LENGTH} rows={rows(initial.rawText)} defaultValue={initial.rawText} />
+      </div>
+      {initial.stemText !== null && (
+        <div className="form__field">
+          <label htmlFor="text-stem">{labels.stemText}</label>
+          <textarea id="text-stem" name="stemText" lang={language} required maxLength={QUESTION_TEXT_MAX_LENGTH} rows={rows(initial.stemText)} defaultValue={initial.stemText} />
+        </div>
+      )}
+      {initial.options.map((option) => (
+        <div className="form__field" key={option.label}>
+          <input type="hidden" name="optionLabel" value={option.label} />
+          <label htmlFor={`text-option-${option.label}`}>{labels.option.replace("{label}", option.label)}</label>
+          <textarea id={`text-option-${option.label}`} name="optionText" lang={language} required maxLength={REVIEW_TEXT_MAX_LENGTH} rows={rows(option.text)} defaultValue={option.text} />
+        </div>
+      ))}
+      {initial.scoredItems.map((item) => (
+        <div className="form__field" key={item.itemNumber}>
+          <input type="hidden" name="itemNumber" value={item.itemNumber} />
+          <label htmlFor={`text-item-${item.itemNumber}`}>{labels.item.replace("{n}", String(item.itemNumber))}</label>
+          <textarea id={`text-item-${item.itemNumber}`} name="itemText" lang={language} required maxLength={REVIEW_TEXT_MAX_LENGTH} rows={rows(item.rawText)} defaultValue={item.rawText} />
+        </div>
+      ))}
+      <div className="form__field">
+        <label htmlFor="text-reason">{labels.reason}</label>
+        <input id="text-reason" name="reason" required maxLength={REVIEW_TEXT_MAX_LENGTH} defaultValue={reason} />
+      </div>
+      <div className="form__field">
+        <label htmlFor="text-evidence">{labels.evidence}</label>
+        <input id="text-evidence" name="evidence" maxLength={REVIEW_TEXT_MAX_LENGTH} defaultValue={evidence} />
+      </div>
+      <div className="form__actions">
+        <button type="submit" className={proposed ? "button-primary" : "button-secondary"} disabled={pending}>{labels.submit}</button>
+        <p className="action-feedback" aria-live="polite">
+          {result?.success && <span className="action-feedback--ok">{messages.messages[result.data.message]}</span>}
+          {result && !result.success && <span className="action-feedback--error">{messages.errors[result.code]}</span>}
+        </p>
+      </div>
+    </form>
   );
 }

@@ -46,3 +46,5 @@
 - [2026-09-27 17:42] Write: migrations/009_retrieval.sql
 - [2026-09-27] Sprint 05 started: migrations 009 to 011 applied, retrieval feature, /app/pretraga
 - [2026-09-27] Sprint 05 closed (DONE checklist, compliance, handoff)
+- [2026-09-27 19:34] Write: migrations/013_question_text_revisions.sql
+- [2026-09-27] Sprint 06 item 1: migration 013 applied, text revisions in the review screen, AMB-19 proposals (PDL-021)

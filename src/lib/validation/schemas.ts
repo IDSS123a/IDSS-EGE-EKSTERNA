@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
+import { QUESTION_TEXT_MAX_LENGTH, RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 
 /**
  * Shared Zod schemas (Commander E-2: every boundary validated, schemas in one place).
@@ -176,6 +176,21 @@ export const KeyRevisionSchema = z.object({
   answerKeyId: z.uuid(),
   subjectId: z.uuid(),
   correctedAnswer: reviewText,
+  reason: reviewText,
+  evidence: optionalReviewText,
+});
+
+/**
+ * POST reviewed text revision of a trusted question (AMB-19, PDL-021): texts only. Labels and item
+ * numbers are echoed from the version; the database refuses any change of them.
+ */
+export const QuestionTextRevisionSchema = z.object({
+  questionVersionId: z.uuid(),
+  subjectId: z.uuid(),
+  rawText: z.string().trim().min(1).max(QUESTION_TEXT_MAX_LENGTH),
+  stemText: z.string().trim().min(1).max(QUESTION_TEXT_MAX_LENGTH).nullable(),
+  options: z.array(z.object({ label: z.string().min(1).max(8), text: reviewText })).max(20),
+  scoredItems: z.array(z.object({ itemNumber: z.coerce.number().int().positive(), rawText: reviewText })).max(20),
   reason: reviewText,
   evidence: optionalReviewText,
 });

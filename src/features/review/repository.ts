@@ -4,6 +4,7 @@ import { RegistryFunctionError } from "@/features/canon/repository";
 import type { CatalogueRecord } from "@/features/ingestion/types";
 import type { Subject } from "@/features/knowledge/types";
 import { countStates, reviewState } from "./domain/queue";
+import type { QuestionText } from "./domain/text-revision";
 import type { AnswerKeyView, QueueItem, RecordForReview, ReviewDecision, SubjectQueue } from "./types";
 
 /**
@@ -86,7 +87,19 @@ export async function findSubjectQueue(client: SupabaseClient, subject: Subject)
 
 type RecordRow = { id: number; job_id: string; version_id: string; record_key: string; structural_status: QueueItem["structuralStatus"]; record: CatalogueRecord };
 type KeyRow = { id: string; item_number: number | null; printed_answer: string };
+type VersionRow = { id: string; raw_text: string; stem_text: string | null; options: { label: string; text: string }[]; scored_items: { item_number: number; raw_text: string }[] };
+type TextRevisionRow = { content: { raw_text: string; stem_text: string | null; options: { label: string; text: string }[]; scored_items: { item_number: number; raw_text: string }[] }; reason: string; evidence: string | null; revised_by: string; created_at: string };
 type RevisionRow = { answer_key_id: string; corrected_answer: string; reason: string; evidence: string | null; proposed_by: string; created_at: string };
+
+/** Database text fields (version row or revision content) as the app's QuestionText. */
+function questionText(row: Omit<VersionRow, "id">): QuestionText {
+  return {
+    rawText: row.raw_text,
+    stemText: row.stem_text,
+    options: row.options.map((option) => ({ label: option.label, text: option.text })),
+    scoredItems: row.scored_items.map((item) => ({ itemNumber: item.item_number, rawText: item.raw_text })),
+  };
+}
 
 /**
  * One record with its history and, once accepted, its keys and revisions. The caller checks the
@@ -110,10 +123,21 @@ export async function findRecordForReview(client: SupabaseClient, recordId: numb
   const accepted = decisions.find((row) => row.decision === "accepted");
   let keys: KeyRow[] = [];
   let revisions: RevisionRow[] = [];
+  let versionRow: VersionRow | null = null;
+  let textRevisions: TextRevisionRow[] = [];
   if (accepted) {
-    const version = await client.from("question_versions").select("id").eq("record_id", accepted.record_id).maybeSingle<{ id: string }>();
+    const version = await client.from("question_versions").select("id, raw_text, stem_text, options, scored_items").eq("record_id", accepted.record_id).maybeSingle<VersionRow>();
     if (version.error) throw new Error(`findRecordForReview(version) failed: ${version.error.message}`);
+    versionRow = version.data;
     if (version.data) {
+      const textResult = await client
+        .from("question_text_revisions")
+        .select("content, reason, evidence, revised_by, created_at")
+        .eq("question_version_id", version.data.id)
+        .order("created_at", { ascending: false })
+        .returns<TextRevisionRow[]>();
+      if (textResult.error) throw new Error(`findRecordForReview(text revisions) failed: ${textResult.error.message}`);
+      textRevisions = textResult.data ?? [];
       const keyResult = await client.from("answer_keys").select("id, item_number, printed_answer").eq("question_version_id", version.data.id).order("item_number", { ascending: true, nullsFirst: true }).returns<KeyRow[]>();
       if (keyResult.error) throw new Error(`findRecordForReview(keys) failed: ${keyResult.error.message}`);
       keys = keyResult.data ?? [];
@@ -130,7 +154,7 @@ export async function findRecordForReview(client: SupabaseClient, recordId: numb
     }
   }
 
-  const nameMap = await names([...new Set([...decisions.map((row) => row.reviewer), ...revisions.map((row) => row.proposed_by)])]);
+  const nameMap = await names([...new Set([...decisions.map((row) => row.reviewer), ...revisions.map((row) => row.proposed_by), ...textRevisions.map((row) => row.revised_by)])]);
   const history: ReviewDecision[] = decisions.map((row) => ({ decision: row.decision, taskType: row.task_type, reason: row.reason, reviewerName: nameMap.get(row.reviewer) ?? null, decidedAt: row.decided_at }));
   const answerKeys: AnswerKeyView[] = keys.map((key) => ({
     id: key.id,
@@ -150,6 +174,13 @@ export async function findRecordForReview(client: SupabaseClient, recordId: numb
     state: reviewState(decisions.map((row) => ({ decision: row.decision, decidedAt: row.decided_at }))),
     history,
     answerKeys,
+    question: versionRow
+      ? {
+          versionId: versionRow.id,
+          text: questionText(versionRow),
+          revisions: textRevisions.map((row) => ({ content: questionText(row.content), reason: row.reason, evidence: row.evidence, revisedByName: nameMap.get(row.revised_by) ?? null, createdAt: row.created_at })),
+        }
+      : null,
     current,
   };
 }
@@ -190,6 +221,27 @@ export async function proposeKeyRevision(admin: SupabaseClient, input: { actorUs
     p_actor: input.actorUserId,
     p_answer_key_id: input.answerKeyId,
     p_corrected: input.correctedAnswer,
+    p_reason: input.reason,
+    p_evidence: input.evidence,
+    p_ip: input.ipAddress,
+  });
+  if (error) throw new RegistryFunctionError(error.message);
+}
+
+/**
+ * revise_question_text (migration 013): the trusted version never changes; the revision is a new row.
+ * @throws RegistryFunctionError with the database's machine message
+ */
+export async function reviseQuestionText(admin: SupabaseClient, input: { actorUserId: string; questionVersionId: string; text: QuestionText; reason: string; evidence: string | null; ipAddress: string | null }): Promise<void> {
+  const { error } = await admin.rpc("revise_question_text", {
+    p_actor: input.actorUserId,
+    p_question_version_id: input.questionVersionId,
+    p_content: {
+      raw_text: input.text.rawText,
+      stem_text: input.text.stemText,
+      options: input.text.options.map((option) => ({ label: option.label, text: option.text })),
+      scored_items: input.text.scoredItems.map((item) => ({ item_number: item.itemNumber, raw_text: item.rawText })),
+    },
     p_reason: input.reason,
     p_evidence: input.evidence,
     p_ip: input.ipAddress,

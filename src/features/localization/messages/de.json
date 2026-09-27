@@ -493,7 +493,8 @@
       "RETURNED": "Der Datensatz wurde mit Grund zurückgegeben.",
       "KEY_REVISED": "Die Revision der Lösung wurde gespeichert.",
       "RULE_CONFIRMED": "Die Regel wurde bestätigt.",
-      "RULE_DISPUTED": "Der Regel wurde widersprochen."
+      "RULE_DISPUTED": "Der Regel wurde widersprochen.",
+      "TEXT_REVISED": "Die Textkorrektur wurde gespeichert."
     },
     "errors": {
       "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
@@ -505,6 +506,24 @@
       "ALREADY_ACCEPTED": "Der Datensatz wurde bereits angenommen.",
       "NOT_ACCEPTABLE": "Ein strukturell fehlerhafter Datensatz kann nicht angenommen werden.",
       "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+    },
+    "text": {
+      "title": "Aufgabentext für Schüler",
+      "hint": "Schüler sehen die neueste bestätigte Korrektur. Der Katalogtext bleibt unverändert gespeichert; eine Korrektur ändert nur Text, niemals Antwortbezeichnungen oder die Lösung.",
+      "shown": "Text, den Schüler sehen",
+      "original": "Text aus dem Katalog",
+      "noRevision": "Keine Korrekturen: Schüler sehen den Katalogtext.",
+      "proposal": "Ein Korrekturvorschlag ist unten eingetragen: der Fußnotentext vom Seitenende (Quelle der Aufgabe, Link) wurde entfernt. Vergleichen Sie mit der Originalseite links und bestätigen oder passen Sie an.",
+      "proposalEvidence": "Seite {page}, Fußnote {footnotes}",
+      "rawText": "Vollständiger Aufgabentext",
+      "stemText": "Aufgabenstellung (ohne Antwortmöglichkeiten)",
+      "option": "Antwort {label}",
+      "item": "Aussage {n}",
+      "reason": "Grund der Korrektur",
+      "evidence": "Nachweis (Seite, Fußnote)",
+      "submit": "Textkorrektur speichern",
+      "confirm": "Textkorrektur speichern? Schüler sehen diesen Text.",
+      "history": "Textkorrekturen"
     }
   },
   "search": {

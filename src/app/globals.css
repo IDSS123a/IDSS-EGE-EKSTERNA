@@ -235,6 +235,23 @@ body {
 .form__field input:focus-visible {
   border-color: var(--color-brand);
 }
+.form__field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+  font: 0.95rem/1.55 var(--font-body), system-ui, sans-serif;
+  resize: vertical;
+}
+.form__field textarea:focus-visible {
+  border-color: var(--color-brand);
+}
+.review-text-form {
+  margin-top: 16px;
+}
 .form__field input[aria-invalid="true"] {
   border-color: var(--color-danger);
 }

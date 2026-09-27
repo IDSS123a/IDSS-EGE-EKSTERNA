@@ -1,0 +1,82 @@
+{
+  "$comment": "AMB-19 / PDL-021: proposed text revisions of trusted questions whose extracted text carries page footnotes (source references). A reviewer confirms each one in the review screen; nothing is written without that confirmation. Each replacement applies to every text field (question text, stem, option texts, scored item texts); a run of spaces in 'find' matches any run of spaces. The printed source stays untouched.",
+  "ambiguity": "AMB-19",
+  "reason": "Uklonjen tekst fusnote s dna stranice (izvor zadatka i poveznica) i oznaka fusnote; tekst zadatka nepromijenjen.",
+  "proposals": [
+    {
+      "record_key": "MAT-5.3.5",
+      "page": 31,
+      "footnotes": [
+        1
+      ],
+      "replacements": [
+        {
+          "find": "\n1 https://www.ncvvo.hr/drzavna-matura-2019-2019-ljetni-rok/, pristupljeno, 1.8.2022. g.",
+          "replace": ""
+        }
+      ]
+    },
+    {
+      "record_key": "MAT-5.4.20",
+      "page": 36,
+      "footnotes": [
+        2
+      ],
+      "replacements": [
+        {
+          "find": "0,25 𝐾𝑀.2\n",
+          "replace": "0,25 𝐾𝑀.\n"
+        },
+        {
+          "find": "\n2 https://www.youtube.com/watch?v=8nynl44T9Os, pristupljeno, 23.7.2022. g.",
+          "replace": ""
+        }
+      ]
+    },
+    {
+      "record_key": "MAT-5.9.13",
+      "page": 49,
+      "footnotes": [
+        3,
+        4
+      ],
+      "replacements": [
+        {
+          "find": "Posmatraj crtež.4\n",
+          "replace": "Posmatraj crtež.\n"
+        },
+        {
+          "find": "\n3 Ispitni centar EKSTERNA PROVJENA ZNANJA UČENIKA NA KRAJU TREĆEG CIKLUSA OSNOVNE ŠKOLE, Ispitni katalog-matematika\n2012/2013, preuzeto sa https://iccg.co.me/provjere-znanja/https://iccg.co.me/wp-content/uploads/2020/12/ISPITNI-KATALOG-IX-\nMATEMATIKA.pdf; pristupljeno 26.7.2022. g.\n4 NCVVO. (2022). Državna matura. https://www.ncvvo.hr/drzavna-matura-2017-2018-ljetni-rok/ - Matematika osnovna razina),\npristupljeno 26.7.2022. g.",
+          "replace": ""
+        }
+      ]
+    },
+    {
+      "record_key": "MAT-5.10.6",
+      "page": 53,
+      "footnotes": [
+        5
+      ],
+      "replacements": [
+        {
+          "find": "\n5 Preuzeto sa sajta NCVVO. (2022). Državna matura. https://www.ncvvo.hr/drzavna-matura-2017-2018-ljetni-rok/ ; Matematika\nosnovna razina; pristupljeno 25.7.2022. g.",
+          "replace": ""
+        }
+      ]
+    },
+    {
+      "record_key": "MAT-5.10.20",
+      "page": 55,
+      "footnotes": [
+        6,
+        7
+      ],
+      "replacements": [
+        {
+          "find": "\n6 Preuzeto djelimično sa http://www.antonija-horvatek.from.hr/8-razred/05-Geometrijska-tijela/Volumen-i-dijagonale-kvadra-i-kocke-\nZadaci-za-DZ.pdf; pristupljeno 25.7.2022. g.\n7 Preuzteo djelimično sa https://uciteljica.net/wp-content/uploads/2017/04/povrsina-kvadra-i-kocke-5.pdf; pristupljeno 25.7.2022. g.",
+          "replace": ""
+        }
+      ]
+    }
+  ]
+}

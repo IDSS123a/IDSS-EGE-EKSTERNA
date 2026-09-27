@@ -555,3 +555,68 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a
 select pg_temp.assert((select count(*) from public.system_settings) = 1, 'the superadmin reads settings');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 012');
+
+-- 14. Question text revisions (migration 013): texts only, structure fixed, scoped, append-only, audited.
+create temp table t_qv as select v.id from public.question_versions v where v.record_id = pg_temp.rid('MAT-5.1.1');
+create temp table t_de_qv as select v.id from public.question_versions v where v.record_id = pg_temp.rid('DEU-4.2.1');
+grant select on t_qv, t_de_qv to service_role, authenticated;
+set role service_role;
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_de_qv),
+  '{"raw_text": "x", "stem_text": "x", "options": [{"label": "a", "text": "0"}], "scored_items": [{"item_number": 1, "raw_text": "A"}, {"item_number": 2, "raw_text": "B"}]}', 'Fusnota', null, null)$$,
+  'FORBIDDEN', 'a teacher cannot revise question text of another subject');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"raw_text": "5.1.1. Test?", "stem_text": "5.1.1. Test?", "options": [{"label": "b", "text": "0"}], "scored_items": []}', 'Fusnota', null, null)$$,
+  'VALIDATION', 'option labels cannot change');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"raw_text": "5.1.1. Test?", "stem_text": "5.1.1. Test?", "options": [], "scored_items": []}', 'Fusnota', null, null)$$,
+  'VALIDATION', 'options cannot be removed');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"raw_text": "5.1.1. Test?", "stem_text": "5.1.1. Test?", "options": [{"label": "a", "text": " "}], "scored_items": []}', 'Fusnota', null, null)$$,
+  'VALIDATION', 'option text cannot be empty');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"raw_text": "5.1.1. Test?", "options": [{"label": "a", "text": "0"}], "scored_items": []}', 'Fusnota', null, null)$$,
+  'VALIDATION', 'the stem stays when the version has one');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"stem_text": "5.1.1. Test?", "options": [{"label": "a", "text": "0"}], "scored_items": []}', 'Fusnota', null, null)$$,
+  'VALIDATION', 'the question text is required');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"raw_text": "5.1.1. Test?", "stem_text": "5.1.1. Test?", "options": "a", "scored_items": []}', 'Fusnota', null, null)$$,
+  'VALIDATION', 'options must be a list');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"raw_text": "5.1.1. Test?", "stem_text": "5.1.1. Test?", "options": [{"label": "a", "text": "0"}], "scored_items": []}', ' ', null, null)$$,
+  'VALIDATION', 'a text revision needs a reason');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_de_qv),
+  '{"raw_text": "x", "stem_text": "x", "options": [{"label": "a", "text": "0"}], "scored_items": [{"item_number": 2, "raw_text": "B"}, {"item_number": 1, "raw_text": "A"}]}', 'Fusnota', null, null)$$,
+  'FORBIDDEN', 'scope is checked before shape');
+select pg_temp.expect_error($$select public.revise_question_text('00000000-0000-0000-0000-00000000000a', (select id from t_de_qv),
+  '{"raw_text": "x", "stem_text": "x", "options": [{"label": "a", "text": "0"}], "scored_items": [{"item_number": 2, "raw_text": "B"}, {"item_number": 1, "raw_text": "A"}]}', 'Fusnota', null, null)$$,
+  'VALIDATION', 'scored items keep their numbers and order');
+select public.revise_question_text('00000000-0000-0000-0000-00000000000a', (select id from t_de_qv),
+  '{"raw_text": "4.2.1. Neu", "stem_text": "4.2.1. Neu", "options": [{"label": "a", "text": "0"}], "scored_items": [{"item_number": 1, "raw_text": " A neu "}, {"item_number": 2, "raw_text": "B"}], "extra": 1}', 'Fusnota', null, null);
+select pg_temp.assert((select content from public.question_text_revisions where question_version_id = (select id from t_de_qv))
+  = '{"raw_text": "4.2.1. Neu", "stem_text": "4.2.1. Neu", "options": [{"label": "a", "text": "0"}], "scored_items": [{"item_number": 1, "raw_text": "A neu"}, {"item_number": 2, "raw_text": "B"}]}'::jsonb,
+  'only known fields are stored, trimmed');
+select public.revise_question_text('00000000-0000-0000-0000-00000000000b', (select id from t_qv),
+  '{"raw_text": "5.1.1. Test?", "stem_text": "5.1.1. Test?", "options": [{"label": "a", "text": "0"}], "scored_items": []}', 'Tekst fusnote uklonjen', 'Stranica 23, fusnota 1', null);
+select pg_temp.assert((select raw_text from public.question_versions where id = (select id from t_qv)) = '5.1.1. Test?', 'the trusted version never changes');
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'review.question_text_revised' and entity_id = (select id::text from t_qv)), 'text revision audited');
+reset role;
+do $$ begin
+  update public.question_text_revisions set reason = 'x';
+  raise exception 'FAIL: text revision changed';
+exception when raise_exception then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - text revisions are append-only';
+end $$;
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.question_text_revisions) = 1, 'a teacher reads text revisions of own subject only');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.question_text_revisions) = 0, 'students read no text revisions');
+do $$ begin
+  perform public.revise_question_text('00000000-0000-0000-0000-00000000000b', gen_random_uuid(), '{}', 'x', null, null);
+  raise exception 'FAIL: authenticated executed revise_question_text';
+exception when insufficient_privilege then raise notice 'ok - signed-in users cannot call revise_question_text directly';
+end $$;
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 013');

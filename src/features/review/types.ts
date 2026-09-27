@@ -1,4 +1,5 @@
 import type { CatalogueRecord } from "@/features/ingestion/types";
+import type { QuestionText } from "./domain/text-revision";
 
 /** Review state of one catalogue record, derived from its append-only decisions. */
 export type ReviewState = "pending" | "returned" | "accepted";
@@ -42,6 +43,12 @@ export type AnswerKeyView = {
   revisions: { correctedAnswer: string; reason: string; evidence: string | null; proposedByName: string | null; createdAt: string }[];
 };
 
+/** A reviewed text revision of a trusted question, newest first (AMB-19, PDL-021). */
+export type TextRevisionView = { content: QuestionText; reason: string; evidence: string | null; revisedByName: string | null; createdAt: string };
+
+/** The trusted copy of an accepted record: its text as extracted and its reviewed text revisions. */
+export type TrustedQuestionView = { versionId: string; text: QuestionText; revisions: TextRevisionView[] };
+
 /** Everything the record screen shows. */
 export type RecordForReview = {
   recordId: number;
@@ -54,6 +61,8 @@ export type RecordForReview = {
   history: ReviewDecision[];
   /** Keys of the trusted copy, once accepted. */
   answerKeys: AnswerKeyView[];
+  /** The trusted copy with its text revisions, once accepted. */
+  question: TrustedQuestionView | null;
   /** False when the record belongs to an older job or version (read only). */
   current: boolean;
 };
@@ -72,5 +81,5 @@ export type ReviewErrorCode =
 
 /** Standard action result (E-5). */
 export type ReviewActionResult =
-  | { success: true; data: { message: "ACCEPTED" | "RETURNED" | "KEY_REVISED" } }
+  | { success: true; data: { message: "ACCEPTED" | "RETURNED" | "KEY_REVISED" | "TEXT_REVISED" } }
   | { success: false; code: ReviewErrorCode };

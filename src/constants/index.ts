@@ -64,6 +64,8 @@ export const REVIEW_REGION_MARGIN_POINTS = 12;
 export const REVIEW_RENDER_SCALE = 1.5;
 /** Outline of the record's region on a whole-page source view (drawn on canvas, where CSS tokens do not apply). */
 export const REVIEW_REGION_STROKE = "rgba(200, 30, 30, 0.9)";
+/** Longest question text or stem a reviewed text revision may carry (matches the migration 013 checks). */
+export const QUESTION_TEXT_MAX_LENGTH = 20000;
 
 /** Staff search over trusted canon (Sprint 05, retrieval foundation). */
 export const SEARCH_PATH = "/app/pretraga";

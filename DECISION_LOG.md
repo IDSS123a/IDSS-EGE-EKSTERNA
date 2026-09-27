@@ -241,3 +241,19 @@ the default thresholds and applies the Director's when they arrive. Percentages 
 on rendered frames (`config/splash-calibration.json`, `src/features/splash/palette.ts`); verified by rendering four
 palettes: every colour within about 1.5 percentage points of its target. The CSS fallback (no WebGL) keeps the default
 proportions. Re-measure the curves whenever the shader changes.
+
+## PDL-021: Question text for students comes from reviewed text revisions
+**Date:** 2026-09-27 (ACA, Sprint 06 item 1, AMB-19)
+**Decision:** the trusted question version keeps the text exactly as extracted from the printed catalogue. A reviewer
+(canon.review of the subject, or canon.publish) records a text revision; the newest revision is the text students see.
+A revision changes texts only (question text, stem, option texts, scored item texts); option labels, sub-part labels and
+item numbers must stay as in the version, so a revision can never change what an answer key refers to.
+**AMB-19:** five Math questions (MAT-5.3.5, 5.4.20, 5.9.13, 5.10.6, 5.10.20) carry page footnotes (source references,
+links) and, in two cases, the footnote marker after the task sentence. Proposals are data in
+`config/text-revision-proposals.json`; a unit test proves every removed footnote is printed on the stated page and that
+the task line stays. The review screen fills a proposal into the form; nothing is stored until a reviewer confirms it.
+DEU-4.2.5 is not affected: `www.musikwettbewerb.de` is printed in the reading text at text size (12 pt), not as a
+footnote (8 pt), so it stays.
+**Implementation:** migration 013, `src/features/review/domain/text-revision.ts`, `reviseQuestionTextAction`,
+`QuestionTextSection` in the record screen. The retrieval index keeps the catalogue text (staff search); practice screens
+(Sprint 06 item 4) show the newest revision.
