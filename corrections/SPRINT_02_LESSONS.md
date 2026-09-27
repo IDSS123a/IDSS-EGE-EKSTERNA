@@ -11,5 +11,7 @@ Date: 2026-09-27 (open)
 - Next.js Server Actions accept 1 MB bodies by default and Vercel functions about 4.5 MB: large files must go browser → storage via a single-use signed upload URL, with verification on the server afterwards.
 - Deleting a temporary page leaves stale `.next/types` references; `tsc` fails until the next build.
 
+- The Next.js dev indicator ("Route Static, Bundler Turbopack, Route Info, Preferences", bottom-left) appears only in `npm run dev` and looked like an app defect to the Director → `devIndicators: false`.
+
 ## Commander Improvement Candidates
 - ARCHITECTURE_PATTERNS: "verified direct upload": signed single-use upload to a staging path, server re-reads and verifies (magic bytes, size, hash), content-addressed final path, staging always removed, CSP connect-src limited to the signed-upload path prefix.

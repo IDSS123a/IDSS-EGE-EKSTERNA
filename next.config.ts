@@ -16,6 +16,9 @@ const SECURITY_HEADERS = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // The dev-only route indicator (bottom-left in `npm run dev`) confused local reviews of the UI;
+  // compile and runtime errors are still shown. Production builds never render it.
+  devIndicators: false,
   async headers() {
     return [{ source: "/:path*", headers: SECURITY_HEADERS }];
   },
