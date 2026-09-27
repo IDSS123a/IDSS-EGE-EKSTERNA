@@ -23,3 +23,6 @@
 - [2026-09-27 12:04] Write: migrations/002_canon_registry.sql
 - [2026-09-27 12:04] Write: migrations/003_audit.sql
 - [2026-09-27] P-13 (no AI characters/phrasing) introduced by the Director; UI text cleaned; check:text added to CI
+- [2026-09-27 14:15] Write: migrations/006_canon_lifecycle.sql
+- [2026-09-27 14:25] Write: sprints/SPRINT_02.md
+- [2026-09-27] Sprint 02 started; migration 006 applied to Supabase; advisors clean
