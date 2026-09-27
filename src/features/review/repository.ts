@@ -4,8 +4,8 @@ import { RegistryFunctionError } from "@/features/canon/repository";
 import type { CatalogueRecord } from "@/features/ingestion/types";
 import type { Subject } from "@/features/knowledge/types";
 import { countStates, reviewState } from "./domain/queue";
-import type { QuestionText } from "./domain/text-revision";
-import type { AnswerKeyView, QueueItem, RecordForReview, ReviewDecision, SubjectQueue } from "./types";
+import { allTextProposals, type QuestionText } from "./domain/text-revision";
+import type { AnswerKeyView, QueueItem, RecordForReview, ReviewDecision, SubjectQueue, TextProposalStatus } from "./types";
 
 /**
  * Database access for the review queue (A-3). Reads use the caller's client (RLS); names of
@@ -247,4 +247,37 @@ export async function reviseQuestionText(admin: SupabaseClient, input: { actorUs
     p_ip: input.ipAddress,
   });
   if (error) throw new RegistryFunctionError(error.message);
+}
+
+/**
+ * Prepared text-revision proposals (AMB-19) among the accepted records of a queue, with whether a
+ * reviewer already saved a text revision for the question (caller's client, RLS).
+ */
+export async function textProposalStatus(client: SupabaseClient, items: readonly QueueItem[]): Promise<TextProposalStatus[]> {
+  const keys = new Set(allTextProposals().map((proposal) => proposal.record_key));
+  const candidates = items.filter((item) => keys.has(item.recordKey) && item.state === "accepted");
+  if (candidates.length === 0) return [];
+  const versions = await client
+    .from("question_versions")
+    .select("id, record_id")
+    .in("record_id", candidates.map((item) => item.recordId))
+    .returns<{ id: string; record_id: number }[]>();
+  if (versions.error) throw new Error(`textProposalStatus(versions) failed: ${versions.error.message}`);
+  const versionOf = new Map((versions.data ?? []).map((row) => [row.record_id, row.id]));
+  const revised = new Set<string>();
+  if (versionOf.size > 0) {
+    const revisions = await client
+      .from("question_text_revisions")
+      .select("question_version_id")
+      .in("question_version_id", [...versionOf.values()])
+      .returns<{ question_version_id: string }[]>();
+    if (revisions.error) throw new Error(`textProposalStatus(revisions) failed: ${revisions.error.message}`);
+    for (const row of revisions.data ?? []) revised.add(row.question_version_id);
+  }
+  return candidates
+    .sort((a, b) => a.ordinal - b.ordinal)
+    .map((item) => {
+      const versionId = versionOf.get(item.recordId);
+      return { recordId: item.recordId, recordKey: item.recordKey, confirmed: versionId !== undefined && revised.has(versionId) };
+    });
 }

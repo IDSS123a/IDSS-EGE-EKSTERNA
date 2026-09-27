@@ -5,6 +5,19 @@ Date: 2026-09-27 (open)
 1. Account administration forbade changing one's own account (no self-lockout) and there was no self-service password
    change, so administrators could not change their own password; found by the Director → `/app/nalog` for every account.
    Every role's own-account basics (password, name) are checked against the role list when a sprint adds accounts.
+2. The hand-off "Pregled, Matematika, open MAT-5.3.5" could not be followed: the queue opens on "waiting" records,
+   all 200 Math records were accepted, so the list was empty and a record could only be found by paging (found by
+   the Director) → the queue shows everything when nothing waits, finds records by code, and lists open text
+   proposals with direct links. A hand-off that names records is checked by following it on the real screen.
+3. Links styled as `.button-secondary` had no centring (the class was written for `<button>`), so "Moj nalog" on the
+   home page showed its text at the top edge (found by the Director) → the class centres its label for links too.
+4. Splash calibration measured the card as "yellow": the measuring script lived in the scratchpad and its step that
+   hides card, grain and veil was not carried over. Tools that produce committed data live in the repository.
+5. The first splash was an "IDSS-native re-implementation of the principles" of the reference, and every later
+   palette request moved it further from the look the Director had approved; the Director then sent the reference
+   file again ("veoma sam bio zadovoljan s ovim rješenjem") → the reference FLOW algorithm is ported exactly, and the
+   shares become its colour weights, fitted by measuring the same formula on the server (PDL-022). When a reference
+   is approved, port its algorithm; do not approximate it.
 
 ## Gotchas Discovered
 - A WebGL canvas cannot be read back after drawing (no `preserveDrawingBuffer`): colour measurements of the splash

@@ -524,6 +524,21 @@
       "submit": "Textkorrektur speichern",
       "confirm": "Textkorrektur speichern? Schüler sehen diesen Text.",
       "history": "Textkorrekturen"
+    },
+    "keySearch": {
+      "label": "Aufgabe nach Kennung finden",
+      "placeholder": "z. B. MAT-5.3.5 oder 5.3.5",
+      "submit": "Finden",
+      "clear": "Suche zurücksetzen",
+      "results": "Ergebnisse für die Kennung {query}",
+      "none": "Keine Aufgabe mit der Kennung {query} in diesem Fach."
+    },
+    "proposals": {
+      "title": "Vorschläge für Textkorrekturen",
+      "hint": "In diesen Aufgaben ist Fußnotentext vom Seitenende in den Aufgabentext geraten. Öffnen Sie die Aufgabe, vergleichen Sie den Vorschlag mit der Originalseite und klicken Sie auf \"Textkorrektur speichern\".",
+      "waiting": "Wartet auf Bestätigung",
+      "confirmed": "Bestätigt",
+      "done": "Alle Korrekturen sind bestätigt."
     }
   },
   "search": {

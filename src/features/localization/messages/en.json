@@ -524,6 +524,21 @@
       "submit": "Save text correction",
       "confirm": "Save the text correction? Students will see this text.",
       "history": "Text corrections"
+    },
+    "keySearch": {
+      "label": "Find a question by its code",
+      "placeholder": "e.g. MAT-5.3.5 or 5.3.5",
+      "submit": "Find",
+      "clear": "Clear search",
+      "results": "Results for the code {query}",
+      "none": "No question with the code {query} in this subject."
+    },
+    "proposals": {
+      "title": "Proposed text corrections",
+      "hint": "In these questions footnote text from the bottom of the page ended up in the question text. Open the question, compare the proposal with the source page and click \"Save text correction\".",
+      "waiting": "Waiting for confirmation",
+      "confirmed": "Confirmed",
+      "done": "All corrections are confirmed."
     }
   },
   "search": {

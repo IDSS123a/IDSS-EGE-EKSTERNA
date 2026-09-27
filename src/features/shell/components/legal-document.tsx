@@ -10,7 +10,7 @@ import { ReviewShell } from "@/features/review/components/review-shell";
 
 type DocumentKey = (typeof LEGAL_DOCUMENTS)[number]["key"];
 
-/** Legal texts per interface language (content/legal, written for IDSS and confirmed by the Director, AMB-20). */
+/** Legal texts per interface language (content/legal v2.0, written for IDSS; facts confirmed by the Director, AMB-20). */
 const TEXTS = { bs, de, en } satisfies Record<string, typeof bs>;
 
 /** A legal document in the interface language, with its version line. */
@@ -25,6 +25,11 @@ export function LegalDocument({ documentKey }: { documentKey: DocumentKey }): Re
           <section key={section.heading}>
             <h2>{section.heading}</h2>
             {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+            {"items" in section && section.items && (
+              <ul>
+                {section.items.map((item) => <li key={item}>{item}</li>)}
+              </ul>
+            )}
           </section>
         ))}
         <p className="form__hint">{texts.version}</p>

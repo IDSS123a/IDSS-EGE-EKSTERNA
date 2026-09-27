@@ -1,101 +1,340 @@
 {
-  "_about": "Legal documents, German translation of bs.json (AMB-20). Version 1.0.",
-  "version": "Version 1.0, 27.09.2026.",
+  "_about": "Legal documents v2.0 (Director 27.09.2026: professional level, GDPR, school data protection officer gdpr@idss.ba, +387 33 267 965). Facts confirmed by the Director: free for IDSS students; consent through the enrolment documents; retention until the end of the school year of Grade 9 plus one year; Gemini receives catalogue and query text only. Open: IDSS street address and registration number; legal review by the school before production (AMB-20).",
+  "version": "Version 2.0, gültig ab 27.09.2026.",
   "terms": {
     "title": "Nutzungsbedingungen",
     "sections": [
-      { "heading": "1. Über die Anwendung", "paragraphs": [
-        "IDSS - External Graduate Examination (im Folgenden: Anwendung) ist eine Plattform der Internationalen Deutschen Schule Sarajevo (im Folgenden: IDSS) zur Vorbereitung der Schülerinnen und Schüler der 9. Klasse auf die externe Matura im Kanton Sarajevo in den Fächern Bosnisch, Kroatisch, Serbisch (Sprache und Literatur), Mathematik und Deutsch.",
-        "Die Anwendung dient ausschließlich dem Lernen und Üben. Sie ist nicht Teil des offiziellen Verfahrens der externen Matura und ersetzt nicht die offiziellen Informationen des Ministeriums für Bildung und Erziehung des Kantons Sarajevo."
-      ]},
-      { "heading": "2. Wer die Anwendung nutzen kann", "paragraphs": [
-        "Die Anwendung wird von Schülerinnen und Schülern der IDSS, ihren Lehrkräften, dem pädagogisch-psychologischen Dienst und der Schulleitung genutzt. Konten werden von der Schule angelegt; eine Selbstregistrierung ist nicht möglich.",
-        "Jede Person hat ein persönliches Konto. Benutzername und Passwort dürfen nicht weitergegeben und fremde Konten nicht genutzt werden. Bei Verdacht, dass jemand Ihr Passwort kennt, wenden Sie sich sofort an die Schule oder schreiben Sie an ai@idss.ba."
-      ]},
-      { "heading": "3. Inhalte und ihre Quellen", "paragraphs": [
-        "Aufgaben, Lösungen und Prüfungsregeln stammen aus den offiziellen Prüfungskatalogen des Ministeriums für Bildung und Erziehung des Kantons Sarajevo und werden mit Quelle und Seite angezeigt. Die Urheberrechte an diesen Materialien verbleiben bei ihren Herausgebern; die Anwendung nutzt sie ausschließlich zu Bildungszwecken.",
-        "Lehrkräfte der IDSS prüfen die Inhalte, bevor Schülerinnen und Schüler sie nutzen. Dennoch können Fehler enthalten sein; melden Sie Fehler bitte der Fachlehrkraft oder an ai@idss.ba."
-      ]},
-      { "heading": "4. Übungen, Probeprüfungen und Bewertungen", "paragraphs": [
-        "Ergebnisse von Übungen und Probeprüfungen in der Anwendung sind keine offiziellen Ergebnisse der externen Matura und fließen nicht in die Aufnahme in die Sekundarschule ein.",
-        "Probeprüfungen bewertet die Fachlehrkraft. Das System kann Punkte für geschlossene Aufgaben vorschlagen, die endgültige Bewertung bestätigt jedoch die Lehrkraft. Punkte, Stufen und Auszeichnungen dienen der Motivation und verändern die Bewertung der Lehrkraft nie."
-      ]},
-      { "heading": "5. Verhaltensregeln", "paragraphs": [
-        "Untersagt ist: der Versuch, auf fremde Daten oder Bereiche ohne Berechtigung zuzugreifen, die Störung des Betriebs, das Einstellen beleidigender oder rechtswidriger Inhalte sowie das automatisierte Herunterladen von Inhalten.",
-        "Bei Verstößen kann die Schule das Konto vorübergehend oder dauerhaft sperren und die Schulordnung anwenden."
-      ]},
-      { "heading": "6. Verfügbarkeit und Änderungen", "paragraphs": [
-        "Die IDSS bemüht sich um eine unterbrechungsfreie Verfügbarkeit, kann diese aber nicht garantieren. Wegen Wartung oder technischer Probleme kann die Anwendung vorübergehend nicht erreichbar sein.",
-        "Die IDSS kann die Anwendung und diese Bedingungen ändern. Über wesentliche Änderungen werden die Nutzerinnen und Nutzer in der Anwendung informiert. Das Datum der gültigen Fassung steht am Ende dieses Dokuments."
-      ]},
-      { "heading": "7. Anwendbares Recht und Kontakt", "paragraphs": [
-        "Es gilt das Recht von Bosnien und Herzegowina. Gerichtsstand ist Sarajevo.",
-        "Fragen zur Anwendung und zu diesen Bedingungen: ai@idss.ba."
-      ]}
+      {
+        "heading": "1. Gegenstand und Annahme",
+        "paragraphs": [
+          "Diese Bedingungen regeln die Nutzung der Anwendung IDSS - External Graduate Examination (die Anwendung), die die Internationale Deutsche Schule Sarajevo (IDSS oder die Schule) für ihre Schülerinnen, Schüler und Mitarbeitenden betreibt.",
+          "Mit der Anmeldung bestätigen Nutzende, dass sie diese Bedingungen, die Datenschutzerklärung und den Cookie-Hinweis zur Kenntnis genommen haben. Für Schülerinnen und Schüler nehmen Eltern bzw. Erziehungsberechtigte diese Bedingungen im Rahmen der Aufnahme an der IDSS an."
+        ]
+      },
+      {
+        "heading": "2. Zweck der Anwendung",
+        "paragraphs": [
+          "Die Anwendung bereitet Schülerinnen und Schüler der 9. Klasse auf die externe Abschlussprüfung im Kanton Sarajevo in drei Fächern vor: Bosnische, kroatische, serbische Sprache und Literatur, Mathematik und Deutsch als erste Fremdsprache.",
+          "Die Anwendung ist ein Lernmittel der Schule. Sie ist nicht Teil des offiziellen Prüfungsverfahrens, stellt keine offiziellen Ergebnisse aus und ersetzt keine offiziellen Informationen des Ministeriums für Bildung des Kantons Sarajevo. Für die offiziellen Prüfungsregeln sind die Vorschriften und Bekanntmachungen des Ministeriums maßgeblich."
+        ]
+      },
+      {
+        "heading": "3. Nutzende und Konten",
+        "paragraphs": [
+          "Die Anwendung wird von Schülerinnen und Schülern der IDSS, ihren Lehrkräften, Fachpersonal und der Schulleitung genutzt. Konten werden von der Schule eröffnet und geschlossen; eine Selbstregistrierung ist nicht möglich. Die Rechte in der Anwendung hängen von der Rolle ab und werden von der Schule vergeben."
+        ],
+        "items": [
+          "Ein Konto ist persönlich und darf nicht an andere weitergegeben werden.",
+          "Nutzende halten ihr Passwort geheim, verwenden ein Passwort, das sie für keinen anderen Dienst nutzen, und ändern es unter Mein Konto, sobald sie vermuten, dass jemand es kennt.",
+          "Ein Verdacht auf Missbrauch eines Kontos ist sofort der Schule oder an ai@idss.ba zu melden.",
+          "Nach mehreren fehlgeschlagenen Anmeldeversuchen wird ein Konto zum Schutz der Nutzenden vorübergehend gesperrt."
+        ]
+      },
+      {
+        "heading": "4. Inhalte, Quellen und geistiges Eigentum",
+        "paragraphs": [
+          "Aufgaben, Lösungen und Prüfungsregeln stammen aus den offiziellen Prüfungskatalogen des Ministeriums für Bildung des Kantons Sarajevo und werden mit Quelle und Seite angezeigt. Die Rechte an diesen Materialien verbleiben bei ihren Herausgebern; die Anwendung nutzt sie ausschließlich zu Bildungszwecken und ohne ihren Sinn zu verändern.",
+          "Lehrkräfte der IDSS prüfen die Inhalte, bevor Schülerinnen und Schüler sie nutzen, und jede Korrektur wird mit Grund und Namen der bestätigenden Person festgehalten. Dennoch können Inhalte Fehler enthalten. Nutzende melden einen Fehler der Fachlehrkraft oder an ai@idss.ba.",
+          "Software, Gestaltung und Kennzeichen der IDSS gehören der IDSS. Das Kopieren, Herunterladen oder Weitergeben von Inhalten der Anwendung über das Lernen an der IDSS hinaus ist nicht gestattet."
+        ]
+      },
+      {
+        "heading": "5. Übung, Probeprüfungen und Bewertung",
+        "paragraphs": [
+          "Die Lösung einer Aufgabe sehen Schülerinnen und Schüler erst nach Abgabe ihrer eigenen Antwort, bei einer Probeprüfung erst nach der Bewertung durch die Lehrkraft.",
+          "Probeprüfungen bewertet die Fachlehrkraft. Das System kann für geschlossene Aufgaben Punkte vorschlagen, die endgültige Note bestätigt jedoch immer die Lehrkraft. Ergebnisse in der Anwendung sind keine offiziellen Prüfungsergebnisse und haben keinen Einfluss auf die Aufnahme an eine weiterführende Schule.",
+          "Punkte, Stufen, Missionen und Auszeichnungen dienen der Motivation. Sie belohnen Regelmäßigkeit und Einsatz, ersetzen nicht die Note der Lehrkraft und können nicht gegen Geld oder andere Vorteile eingetauscht werden."
+        ]
+      },
+      {
+        "heading": "6. Suche in offiziellen Materialien",
+        "paragraphs": [
+          "Suche und Erklärungen in der Anwendung stützen sich ausschließlich auf geprüfte offizielle Materialien und nennen stets die Quelle. Enthält die Quelle keine Antwort, sagt die Anwendung dies deutlich, statt zu raten.",
+          "Geben Sie in das Suchfeld keine personenbezogenen Daten ein (Namen, Noten, Gesundheits- oder Familienangaben). Der Suchtext kann für die Suche bei dem in der Datenschutzerklärung genannten Dienstleister verarbeitet werden."
+        ]
+      },
+      {
+        "heading": "7. Verhaltensregeln",
+        "paragraphs": [
+          "Nutzenden ist es nicht gestattet:"
+        ],
+        "items": [
+          "auf fremde Daten, Konten oder Bereiche der Anwendung zuzugreifen oder dies zu versuchen, für die sie keine Berechtigung haben;",
+          "Schutzmaßnahmen zu umgehen, nach Schwachstellen zu suchen oder den Betrieb der Anwendung zu stören;",
+          "beleidigende, diskriminierende oder rechtswidrige Inhalte einzugeben;",
+          "Inhalte der Anwendung automatisiert herunterzuladen oder außerhalb der Schule zu veröffentlichen;",
+          "sich als eine andere Person auszugeben oder ein fremdes Konto zu nutzen."
+        ]
+      },
+      {
+        "heading": "8. Maßnahmen bei Verstößen",
+        "paragraphs": [
+          "Bei Verstößen gegen diese Bedingungen kann die Schule das Konto vorübergehend einschränken oder schließen und die Verhaltensregeln und Ordnungsmaßnahmen der IDSS anwenden. Handlungen in der Anwendung werden protokolliert und können zur Klärung des Sachverhalts herangezogen werden."
+        ]
+      },
+      {
+        "heading": "9. Verfügbarkeit und Haftung",
+        "paragraphs": [
+          "Die IDSS ist bemüht, die Anwendung zuverlässig und verfügbar zu halten, kann aber keine ununterbrochene Verfügbarkeit garantieren. Wegen Wartung, Aktualisierungen oder technischer Störungen bei Dienstleistern kann die Anwendung vorübergehend nicht erreichbar sein.",
+          "Soweit das anwendbare Recht es zulässt, haftet die IDSS nicht für Schäden durch vorübergehende Nichtverfügbarkeit der Anwendung oder dadurch, dass Übungsergebnisse wie offizielle Prüfungsergebnisse behandelt werden."
+        ]
+      },
+      {
+        "heading": "10. Schutz personenbezogener Daten",
+        "paragraphs": [
+          "Die Verarbeitung personenbezogener Daten regelt die Datenschutzerklärung, die Bestandteil dieser Bedingungen ist. Fragen zu personenbezogenen Daten beantwortet die bzw. der Datenschutzbeauftragte der IDSS: gdpr@idss.ba, Telefon +387 33 267 965."
+        ]
+      },
+      {
+        "heading": "11. Änderungen der Bedingungen",
+        "paragraphs": [
+          "Die IDSS kann diese Bedingungen wegen geänderter Vorschriften, Änderungen der Anwendung oder der Organisation anpassen. Über wesentliche Änderungen werden Nutzende in der Anwendung informiert, bevor sie wirksam werden. Die gültige Version und ihr Datum stehen am Ende des Dokuments."
+        ]
+      },
+      {
+        "heading": "12. Anwendbares Recht und Kontakt",
+        "paragraphs": [
+          "Für diese Bedingungen gilt das Recht von Bosnien und Herzegowina. Für Streitigkeiten ist das Gericht in Sarajevo zuständig.",
+          "Fragen zur Anwendung und zu diesen Bedingungen: ai@idss.ba."
+        ]
+      }
     ]
   },
   "privacy": {
     "title": "Datenschutzerklärung",
     "sections": [
-      { "heading": "1. Verantwortliche Stelle", "paragraphs": [
-        "Verantwortlich für die Datenverarbeitung ist die Internationale Deutsche Schule Sarajevo (IDSS). Kontakt für alle Fragen zu personenbezogenen Daten: ai@idss.ba.",
-        "Wir verarbeiten Daten nach dem Gesetz über den Schutz personenbezogener Daten von Bosnien und Herzegowina."
-      ]},
-      { "heading": "2. Welche Daten wir verarbeiten", "paragraphs": [
-        "Kontodaten: Vor- und Nachname, Benutzername (beim Personal die dienstliche E-Mail-Adresse), Rolle, Kontostatus und erteilte Rechte.",
-        "Lerndaten: Antworten auf Aufgaben, Ergebnisse von Übungen und Probeprüfungen, Bewertungen und Kommentare der Lehrkräfte, Fortschritt je Bereich, Punkte und Auszeichnungen.",
-        "Sicherheits- und technische Daten: Zeitpunkt von An- und Abmeldung, fehlgeschlagene Anmeldeversuche (der Benutzername wird nur als verschlüsselter Fingerabdruck gespeichert), IP-Adresse bei wichtigen Aktionen sowie ein Protokoll wichtiger Änderungen (wer hat was wann geändert).",
-        "Suchanfragen: Im Suchprotokoll speichern wir nur einen verschlüsselten Fingerabdruck der Anfrage, nicht ihren Text."
-      ]},
-      { "heading": "3. Wozu wir Daten verarbeiten", "paragraphs": [
-        "Um Schülerinnen und Schülern die Vorbereitung auf die externe Matura zu ermöglichen, Lehrkräften die Begleitung des Fortschritts und die Bewertung von Probeprüfungen zu erlauben und die Anwendung und die Daten vor Missbrauch zu schützen.",
-        "Grundlage für die Verarbeitung der Daten von Schülerinnen und Schülern ist die Aufnahme an der IDSS: Eltern bzw. Erziehungsberechtigte haben ihre Einwilligung mit den Aufnahmeunterlagen der Schule erteilt. Sicherheitsprotokolle führen wir zum Schutz der Nutzerinnen und Nutzer und der Anwendung."
-      ]},
-      { "heading": "4. Wer Zugriff hat", "paragraphs": [
-        "Schülerinnen und Schüler sehen nur ihre eigenen Daten. Lehrkräfte sehen die Daten der Schülerinnen und Schüler ihres Fachs. Pädagogin, Psychologin und Schulleitung haben nur im Rahmen ihrer Aufgaben Zugriff. Jeder Zugriff ist durch Rechte begrenzt und wird protokolliert.",
-        "Die Daten werden beim Datenbankanbieter Supabase auf Servern in der Europäischen Union (Frankfurt) gespeichert. Der Hosting-Anbieter der Anwendung verarbeitet die für den Betrieb nötigen technischen Daten.",
-        "Für die Suche und Erklärungen mit künstlicher Intelligenz wird der Dienst Google Gemini genutzt. Google erhält dabei den Text der offiziellen Prüfungskataloge und den Text der eingegebenen Frage, jedoch nie Namen, Benutzernamen, Ergebnisse oder andere Kontodaten.",
-        "Wir verkaufen keine Daten, nutzen sie nicht für Werbung und geben sie nicht an Dritte weiter, außer wenn das Gesetz es verlangt."
-      ]},
-      { "heading": "5. Wie lange wir Daten speichern", "paragraphs": [
-        "Daten von Schülerinnen und Schülern speichern wir bis zum Ende des Schuljahres, in dem die 9. Klasse abgeschlossen wurde, und ein weiteres Jahr. Danach wird das Konto archiviert, personenbezogene Daten werden gelöscht oder anonymisiert; es bleiben nur anonyme Statistiken.",
-        "Daten des Personals speichern wir, solange die Person an der IDSS tätig ist und die Anwendung nutzt."
-      ]},
-      { "heading": "6. Ihre Rechte", "paragraphs": [
-        "Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung und Widerspruch. Für Schülerinnen und Schüler üben Eltern bzw. Erziehungsberechtigte diese Rechte aus. Anträge senden Sie bitte an ai@idss.ba.",
-        "Wenn Sie der Ansicht sind, dass Ihre Daten nicht rechtmäßig verarbeitet werden, können Sie sich an die Agentur für den Schutz personenbezogener Daten in Bosnien und Herzegowina wenden."
-      ]},
-      { "heading": "7. Automatisierte Entscheidungen", "paragraphs": [
-        "Die Anwendung trifft keine Entscheidungen über Schülerinnen und Schüler ohne menschliche Beteiligung. Die Bewertung einer Probeprüfung bestätigt immer die Lehrkraft. Die Anwendung zieht keine Schlüsse über Persönlichkeit, Gesundheit oder Fähigkeiten."
-      ]},
-      { "heading": "8. Sicherheit", "paragraphs": [
-        "Wir schützen die Daten durch verschlüsselte Verbindungen, Passwörter, die nie im Klartext gespeichert werden, rollenbasierte Zugriffsrechte und ein Protokoll aller wichtigen Aktionen."
-      ]}
+      {
+        "heading": "1. Einleitung",
+        "paragraphs": [
+          "Diese Erklärung beschreibt, welche personenbezogenen Daten die Anwendung IDSS - External Graduate Examination verarbeitet, zu welchen Zwecken, auf welcher Rechtsgrundlage, an wen sie weitergegeben werden, wie lange sie gespeichert werden und welche Rechte die betroffenen Personen haben. Sie gilt für Schülerinnen und Schüler, ihre Eltern bzw. Erziehungsberechtigten sowie Mitarbeitende der Schule, die die Anwendung nutzen."
+        ]
+      },
+      {
+        "heading": "2. Verantwortlicher und Datenschutzbeauftragte bzw. Datenschutzbeauftragter",
+        "paragraphs": [
+          "Verantwortlicher ist die Internationale Deutsche Schule Sarajevo (IDSS).",
+          "Die IDSS hat eine Datenschutzbeauftragte bzw. einen Datenschutzbeauftragten benannt. Für alle Fragen und Anträge zu personenbezogenen Daten wenden Sie sich bitte an: gdpr@idss.ba, Telefon +387 33 267 965.",
+          "Für technische Fragen zur Anwendung: ai@idss.ba."
+        ]
+      },
+      {
+        "heading": "3. Rechtsrahmen",
+        "paragraphs": [
+          "Wir verarbeiten personenbezogene Daten nach dem Gesetz über den Schutz personenbezogener Daten von Bosnien und Herzegowina (Amtsblatt von BiH Nr. 12/25), das an die Datenschutz-Grundverordnung der Europäischen Union (Verordnung (EU) 2016/679, DSGVO) angeglichen ist. Die Grundsätze der DSGVO wenden wir in der gesamten Anwendung an: Rechtmäßigkeit, Verarbeitung nach Treu und Glauben und Transparenz, Zweckbindung, Datenminimierung, Richtigkeit, Speicherbegrenzung, Integrität und Vertraulichkeit sowie Rechenschaftspflicht."
+        ]
+      },
+      {
+        "heading": "4. Welche Daten wir verarbeiten",
+        "paragraphs": [],
+        "items": [
+          "Kontodaten: Vor- und Nachname, Benutzername (bei Mitarbeitenden die dienstliche E-Mail-Adresse), Rolle, Kontostatus, vergebene Rechte und das Fach der Lehrkraft.",
+          "Lerndaten: Antworten auf Aufgaben, Ergebnisse von Übungen und Probeprüfungen, Noten und Kommentare der Lehrkräfte, Fortschritt nach Bereichen, Punkte, Missionen und Auszeichnungen.",
+          "Sicherheitsdaten: Zeitpunkte von An- und Abmeldung, fehlgeschlagene Anmeldeversuche (der Benutzername wird dabei nur als kryptografischer Einweg-Fingerabdruck gespeichert), die IP-Adresse bei wichtigen Aktionen und ein Protokoll wichtiger Aktionen (wer hat was wann getan).",
+          "Suchdaten: Zu jeder Suche speichern wir nur einen kryptografischen Fingerabdruck der Anfrage, nicht den Text selbst.",
+          "Wir verarbeiten keine besonderen Kategorien personenbezogener Daten (z. B. Gesundheitsdaten, religiöse oder ethnische Herkunft) und erstellen keine Persönlichkeitsprofile."
+        ]
+      },
+      {
+        "heading": "5. Zwecke und Rechtsgrundlagen",
+        "paragraphs": [],
+        "items": [
+          "Vorbereitung auf die externe Prüfung (Übung, Probeprüfungen, Fortschrittsverfolgung, Bewertung und Rückmeldung der Lehrkräfte): der Bildungsauftrag der IDSS auf Grundlage der Aufnahme der Schülerin bzw. des Schülers und der Einwilligung der Eltern bzw. Erziehungsberechtigten, die mit den Aufnahmeunterlagen der Schule erteilt wurde.",
+          "Verwaltung von Konten und Zugriffsrechten für Schülerinnen, Schüler und Mitarbeitende: dieselbe Grundlage wie oben; bei Mitarbeitenden das Arbeitsverhältnis mit der IDSS.",
+          "Sicherheit der Anwendung und der Daten (Schutz vor unbefugtem Zugriff, Sperre nach fehlgeschlagenen Anmeldungen, Protokoll der Aktionen): das berechtigte Interesse der IDSS und die gesetzliche Pflicht des Verantwortlichen, eine angemessene Sicherheit der Verarbeitung zu gewährleisten.",
+          "Speichern der gewählten Sprache der Oberfläche: erforderlich, um den von den Nutzenden gewünschten Dienst zu erbringen."
+        ]
+      },
+      {
+        "heading": "6. Daten von Kindern",
+        "paragraphs": [
+          "Schülerinnen und Schüler der 9. Klasse sind minderjährig. Wir verarbeiten ihre Daten nur, soweit es für den Bildungszweck der Anwendung erforderlich ist. Ihre Datenschutzrechte üben die Eltern bzw. Erziehungsberechtigten aus; Schülerinnen und Schüler können sie entsprechend ihrer Reife auch selbst ausüben. Die Anwendung zeigt Schülerinnen und Schülern keine Werbung und nutzt ihre Daten nicht für kommerzielle Zwecke."
+        ]
+      },
+      {
+        "heading": "7. Wer Zugriff auf Daten hat",
+        "paragraphs": [
+          "Der Zugriff ist streng nach Rollen begrenzt und wird auf dem Server und in der Datenbank durchgesetzt, nicht nur in der Anzeige:"
+        ],
+        "items": [
+          "Schülerinnen und Schüler sehen nur ihre eigenen Daten;",
+          "Lehrkräfte sehen Daten von Schülerinnen und Schülern nur für das Fach, das sie unterrichten;",
+          "Fachpersonal und Schulleitung haben Zugriff nur im Rahmen ihrer Aufgaben;",
+          "jeder Zugriff und jede wichtige Aktion wird protokolliert."
+        ]
+      },
+      {
+        "heading": "8. Auftragsverarbeiter und Empfänger",
+        "paragraphs": [
+          "Für den Betrieb der Anwendung setzt die IDSS zuverlässige Dienstleister (Auftragsverarbeiter) ein. Sie verarbeiten Daten nur nach Weisung der IDSS und zu den in dieser Erklärung genannten Zwecken:"
+        ],
+        "items": [
+          "Supabase: Datenbank, Anmeldung und Dokumentenspeicher; die Daten liegen auf Servern in der Europäischen Union (Frankfurt, Deutschland).",
+          "Vercel: Hosting der Webanwendung; verarbeitet technische Daten, die für die Auslieferung der Seiten nötig sind (z. B. IP-Adresse und technische Protokolle).",
+          "Google (Gemini API): Suche nach Bedeutung und Erklärungen auf Grundlage offizieller Materialien. Google erhält nur den Text der offiziellen Prüfungskataloge und den Text von Suchanfragen, niemals Namen, Benutzernamen, Ergebnisse oder andere Kontodaten."
+        ]
+      },
+      {
+        "heading": "9. Übermittlung außerhalb von Bosnien und Herzegowina",
+        "paragraphs": [
+          "Die Datenbank der Anwendung befindet sich in der Europäischen Union, in der die DSGVO gilt. Technische Hosting-Daten und Suchtexte können bei den genannten Dienstleistern auch außerhalb der Europäischen Union verarbeitet werden; diese Daten identifizieren keine Schülerinnen und Schüler. Jede Übermittlung personenbezogener Daten erfolgt nur mit den gesetzlich vorgeschriebenen Garantien."
+        ]
+      },
+      {
+        "heading": "10. Speicherdauer",
+        "paragraphs": [],
+        "items": [
+          "Daten von Schülerinnen und Schülern speichern wir bis zum Ende des Schuljahres, in dem die 9. Klasse abgeschlossen wurde, und ein weiteres Jahr. Danach wird das Konto geschlossen und die personenbezogenen Daten werden gelöscht oder dauerhaft anonymisiert; es bleiben nur anonyme Statistiken ohne Personenbezug.",
+          "Daten von Mitarbeitenden speichern wir, solange die Person an der IDSS tätig ist und die Anwendung nutzt.",
+          "Sicherheitsprotokolle und das Protokoll der Aktionen werden höchstens bis zum Ende der Speicherdauer der Daten der betroffenen Person aufbewahrt, sofern sie nicht zur Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen benötigt werden."
+        ]
+      },
+      {
+        "heading": "11. Ihre Rechte",
+        "paragraphs": [
+          "Nach dem Gesetz haben Sie das Recht:"
+        ],
+        "items": [
+          "auf Auskunft über Ihre Daten und eine Kopie;",
+          "auf Berichtigung unrichtiger und Vervollständigung unvollständiger Daten;",
+          "auf Löschung, wenn keine Grundlage für die Verarbeitung mehr besteht;",
+          "auf Einschränkung der Verarbeitung;",
+          "auf Übertragbarkeit der von Ihnen bereitgestellten Daten in einem strukturierten, gängigen Format;",
+          "auf Widerspruch gegen eine Verarbeitung, die auf berechtigtem Interesse beruht;",
+          "eine Einwilligung jederzeit zu widerrufen, ohne dass die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung berührt wird;",
+          "keiner ausschließlich auf automatisierter Verarbeitung beruhenden Entscheidung unterworfen zu werden."
+        ]
+      },
+      {
+        "heading": "12. Wie Sie Ihre Rechte ausüben",
+        "paragraphs": [
+          "Senden Sie Ihren Antrag an die bzw. den Datenschutzbeauftragten unter gdpr@idss.ba. Zum Schutz Ihrer Daten können wir eine Bestätigung Ihrer Identität verlangen. Wir antworten ohne unangemessene Verzögerung innerhalb der gesetzlichen Fristen, in der Regel spätestens innerhalb eines Monats. Die Ausübung Ihrer Rechte ist kostenlos.",
+          "Wenn Sie der Ansicht sind, dass Ihre Daten rechtswidrig verarbeitet werden, können Sie Beschwerde bei der Agentur für den Schutz personenbezogener Daten in Bosnien und Herzegowina einlegen: Dubrovačka 6, 71000 Sarajevo, azlpinfo@azlp.ba, www.azlp.ba. Wir empfehlen, sich zuvor an unsere Datenschutzbeauftragte bzw. unseren Datenschutzbeauftragten zu wenden, damit wir das Anliegen möglichst schnell klären können."
+        ]
+      },
+      {
+        "heading": "13. Automatisierte Entscheidungen",
+        "paragraphs": [
+          "Die Anwendung trifft keine Entscheidungen über Schülerinnen und Schüler ohne menschliche Beteiligung. Für geschlossene Aufgaben kann das System Punkte vorschlagen, die Note einer Probeprüfung bestätigt jedoch immer die Lehrkraft. Die Anwendung zieht keine Schlüsse über Persönlichkeit, Gesundheit oder Fähigkeiten von Schülerinnen und Schülern."
+        ]
+      },
+      {
+        "heading": "14. Datensicherheit",
+        "paragraphs": [
+          "Wir setzen dem Risiko angemessene technische und organisatorische Maßnahmen ein, darunter:"
+        ],
+        "items": [
+          "eine verschlüsselte Verbindung (HTTPS) für den gesamten Datenverkehr zwischen Browser und Server;",
+          "Passwörter werden nur als kryptografischer Einweg-Fingerabdruck und nie im Klartext gespeichert;",
+          "rollenbasierte Zugriffsregeln und Zeilensicherheit (row level security) in der Datenbank, die jeden nicht ausdrücklich erlaubten Zugriff verweigern;",
+          "Sperre nach wiederholten fehlgeschlagenen Anmeldungen;",
+          "ein Protokoll aller wichtigen Aktionen, das weder geändert noch gelöscht werden kann;",
+          "offizielle Dokumente werden in einem privaten Speicher mit Integritätsprüfung aufbewahrt;",
+          "die geringstmögliche Datenmenge und begrenzter Zugriff der Mitarbeitenden."
+        ]
+      },
+      {
+        "heading": "15. Verletzungen des Schutzes personenbezogener Daten",
+        "paragraphs": [
+          "Kommt es zu einer Verletzung des Schutzes personenbezogener Daten, bewertet die IDSS sie unverzüglich, ergreift Maßnahmen zur Eindämmung der Folgen und meldet sie, wenn das Gesetz es verlangt, innerhalb von 72 Stunden nach Bekanntwerden der Agentur für den Schutz personenbezogener Daten. Besteht voraussichtlich ein hohes Risiko für die Rechte der Betroffenen, informieren wir auch sie bzw. die Eltern oder Erziehungsberechtigten der Schülerinnen und Schüler."
+        ]
+      },
+      {
+        "heading": "16. Änderungen dieser Erklärung",
+        "paragraphs": [
+          "Wir halten diese Erklärung im Einklang mit den Vorschriften und der Entwicklung der Anwendung. Über wesentliche Änderungen informieren wir in der Anwendung, bevor sie wirksam werden. Die gültige Version und ihr Datum stehen am Ende des Dokuments."
+        ]
+      }
     ]
   },
   "subscription": {
     "title": "Abonnement",
     "sections": [
-      { "heading": "Die Nutzung ist kostenlos", "paragraphs": [
-        "Die Anwendung ist für Schülerinnen und Schüler der Internationalen Deutschen Schule Sarajevo kostenlos. Die Nutzung ist Teil des Schulbesuchs an der IDSS; in der Anwendung gibt es keine Zahlungen, kein Abonnement und keine Werbung.",
-        "Das Konto legt die Schule an. Es kann während der 9. Klasse und bis zum Ende der in der Datenschutzerklärung genannten Speicherfrist genutzt werden.",
-        "Fragen: ai@idss.ba."
-      ]}
+      {
+        "heading": "1. Nutzungsmodell",
+        "paragraphs": [
+          "Die Anwendung IDSS - External Graduate Examination ist für Schülerinnen und Schüler der Internationalen Deutschen Schule Sarajevo kostenlos. Ihre Nutzung ist Teil des Bildungsprogramms der IDSS und erfordert kein gesondertes Abonnement, keinen Vertrag und keine Zahlung."
+        ]
+      },
+      {
+        "heading": "2. Was enthalten ist",
+        "paragraphs": [],
+        "items": [
+          "Zugang zu geprüften Aufgaben in allen drei Prüfungsfächern;",
+          "Übung mit Lösungen nach Abgabe der Antwort;",
+          "Probeprüfungen, die die Fachlehrkraft bewertet;",
+          "Fortschrittsverfolgung nach Bereichen, Missionen und Auszeichnungen;",
+          "Suche in offiziellen Materialien."
+        ]
+      },
+      {
+        "heading": "3. Zahlungen",
+        "paragraphs": [
+          "Die Anwendung enthält keine Zahlungen, In-App-Käufe, automatischen Verlängerungen oder Werbung. Die IDSS fragt Nutzende der Anwendung niemals nach Karten- oder Kontodaten. Fordert Sie jemand im Namen der Anwendung zu einer Zahlung oder zur Angabe von Zahlungsdaten auf, handelt es sich um einen Betrugsversuch; bitte melden Sie ihn an ai@idss.ba."
+        ]
+      },
+      {
+        "heading": "4. Dauer des Zugangs",
+        "paragraphs": [
+          "Die Schule eröffnet das Konto zu Beginn der Vorbereitung. Schülerinnen und Schüler nutzen die Anwendung während der 9. Klasse. Nach dem Ende des Schuljahres wird das Konto geschlossen; die Daten werden innerhalb der in der Datenschutzerklärung genannten Fristen aufbewahrt und gelöscht. Konten von Mitarbeitenden bestehen, solange die Person an der IDSS tätig ist und die Anwendung nutzt."
+        ]
+      },
+      {
+        "heading": "5. Ende des Zugangs",
+        "paragraphs": [
+          "Der Zugang endet, wenn eine Schülerin oder ein Schüler die IDSS verlässt, der Nutzungszeitraum endet oder das Konto wegen eines Verstoßes gegen die Nutzungsbedingungen geschlossen wird. Das Ende des Zugangs begründet keine finanziellen Verpflichtungen."
+        ]
+      },
+      {
+        "heading": "6. Künftige Änderungen",
+        "paragraphs": [
+          "Sollte die IDSS die Anwendung jemals Nutzenden außerhalb der Schule gegen Entgelt anbieten, werden die Bedingungen eines solchen Abonnements gesondert und im Voraus veröffentlicht, und ohne ausdrückliche Zustimmung wird kein Entgelt erhoben. Für die derzeitigen Schülerinnen und Schüler der IDSS bleibt die Nutzung kostenlos."
+        ]
+      },
+      {
+        "heading": "7. Kontakt",
+        "paragraphs": [
+          "Fragen zur Nutzung: ai@idss.ba."
+        ]
+      }
     ]
   },
   "cookies": {
     "title": "Cookie-Hinweis",
     "sections": [
-      { "heading": "Welche Cookies wir verwenden", "paragraphs": [
-        "Die Anwendung verwendet nur Cookies und lokalen Browserspeicher, die für ihren Betrieb notwendig sind. Wir verwenden keine Cookies für Werbung, Analyse oder Tracking; eine Einwilligung ist daher nicht erforderlich.",
-        "Anmelde-Cookie (Name beginnt mit sb-): hält Ihre Anmeldung aufrecht; es endet mit der Abmeldung oder spätestens nach 12 Stunden.",
-        "Sprach-Cookie (ege_locale): speichert die gewählte Sprache der Oberfläche (Bosnisch, Deutsch oder Englisch) für bis zu ein Jahr.",
-        "Lokaler Browserspeicher (idss-ege:splash:last-message): merkt sich die zuletzt angezeigte Nachricht des Startbildschirms, damit sie sich nicht wiederholt. Er enthält keine personenbezogenen Daten."
-      ]},
-      { "heading": "Wie Sie sie löschen", "paragraphs": [
-        "Cookies und lokalen Speicher können Sie in den Einstellungen Ihres Browsers löschen. Danach müssen Sie sich erneut anmelden und die Sprache wählen.",
-        "Fragen: ai@idss.ba."
-      ]}
+      {
+        "heading": "1. Was Cookies sind",
+        "paragraphs": [
+          "Cookies sind kleine Textdateien, die eine Website im Browser speichert. Der lokale Speicher des Browsers ist ein ähnlicher Speicher auf Ihrem Gerät. Die Anwendung nutzt beides nur, soweit es für ihren Betrieb erforderlich ist."
+        ]
+      },
+      {
+        "heading": "2. Welche Cookies und Einträge wir verwenden",
+        "paragraphs": [],
+        "items": [
+          "Anmelde-Cookie (Name beginnt mit sb-): unbedingt erforderlich; hält Sie angemeldet und schützt vor Missbrauch der Sitzung. Es läuft bei der Abmeldung oder spätestens nach 12 Stunden ab.",
+          "Sprach-Cookie (ege_locale): funktional; speichert die gewählte Sprache der Oberfläche (Bosnisch, Deutsch oder Englisch). Es gilt bis zu einem Jahr.",
+          "Lokaler Speicher (idss-ege:splash:last-message): funktional; speichert die letzte Nachricht des Startbildschirms, damit sich dieselbe Nachricht nicht wiederholt. Er enthält keine personenbezogenen Daten und bleibt bestehen, bis Sie ihn löschen."
+        ]
+      },
+      {
+        "heading": "3. Was wir nicht verwenden",
+        "paragraphs": [
+          "Wir verwenden keine Cookies für Werbung, Analyse, Profilbildung oder seitenübergreifendes Tracking und laden keine Inhalte Dritter, die solche Cookies setzen. Deshalb fragt die Anwendung nicht nach einer Cookie-Einwilligung."
+        ]
+      },
+      {
+        "heading": "4. Cookies verwalten",
+        "paragraphs": [
+          "Sie können Cookies und den lokalen Speicher jederzeit in den Einstellungen Ihres Browsers löschen oder blockieren. Wenn Sie das Anmelde-Cookie blockieren, ist eine Anmeldung in der Anwendung nicht möglich; nach dem Löschen des Sprach-Cookies wählen Sie die Sprache erneut."
+        ]
+      },
+      {
+        "heading": "5. Änderungen und Kontakt",
+        "paragraphs": [
+          "Führen wir neue Cookies ein, aktualisieren wir diesen Hinweis vor ihrer Verwendung und holen für nicht erforderliche Cookies vorher eine Einwilligung ein.",
+          "Fragen: ai@idss.ba. Fragen zu personenbezogenen Daten: gdpr@idss.ba, Telefon +387 33 267 965."
+        ]
+      }
     ]
   }
 }

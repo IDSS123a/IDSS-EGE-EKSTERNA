@@ -48,3 +48,5 @@
 - [2026-09-27] Sprint 05 closed (DONE checklist, compliance, handoff)
 - [2026-09-27 19:34] Write: migrations/013_question_text_revisions.sql
 - [2026-09-27] Sprint 06 item 1: migration 013 applied, text revisions in the review screen, AMB-19 proposals (PDL-021)
+- [2026-09-27] Director feedback: review navigation, Moj nalog button, splash interweaving, legal documents v2.0
+- [2026-09-27 20:10] Write: src/features/splash/flow.ts

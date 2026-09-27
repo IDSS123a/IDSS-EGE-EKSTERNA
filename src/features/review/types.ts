@@ -49,6 +49,9 @@ export type TextRevisionView = { content: QuestionText; reason: string; evidence
 /** The trusted copy of an accepted record: its text as extracted and its reviewed text revisions. */
 export type TrustedQuestionView = { versionId: string; text: QuestionText; revisions: TextRevisionView[] };
 
+/** A prepared text-revision proposal on the queue screen (AMB-19). */
+export type TextProposalStatus = { recordId: number; recordKey: string; confirmed: boolean };
+
 /** Everything the record screen shows. */
 export type RecordForReview = {
   recordId: number;

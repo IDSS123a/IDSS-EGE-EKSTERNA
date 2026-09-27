@@ -53,7 +53,7 @@ export function AccountHome({
             {canOpenReview && <Link href={REVIEW_PATH} className="button-primary">{dictionary.review.navLink}</Link>}
             {canOpenReview && <Link href={SEARCH_PATH} className="button-primary">{dictionary.search.navLink}</Link>}
             {canManageSettings && <Link href={SETTINGS_PATH} className="button-primary">{dictionary.settings.navLink}</Link>}
-            <Link href={OWN_ACCOUNT_PATH} className="button-secondary">{dictionary.ownAccount.navLink}</Link>
+            <Link href={OWN_ACCOUNT_PATH} className="button-primary">{dictionary.ownAccount.navLink}</Link>
           </div>
         </section>
       </main>

@@ -311,6 +311,8 @@ body {
   color: var(--color-ink-muted);
 }
 .button-secondary {
+  display: inline-grid;
+  place-items: center;
   min-height: 44px;
   padding: 0 20px;
   border: 1px solid var(--color-brand);
@@ -318,6 +320,8 @@ body {
   background: transparent;
   color: var(--color-brand);
   font: 600 0.95rem/1 var(--font-display), system-ui, sans-serif;
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
 }
 .button-secondary:hover {
@@ -642,6 +646,20 @@ body {
   text-decoration: none;
   overflow-wrap: anywhere;
 }
+.review-list__item--compact {
+  grid-template-columns: minmax(110px, 1fr) auto;
+}
+.review-key-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 16px 0;
+}
+.review-key-search .form__field {
+  flex: 1 1 260px;
+  margin: 0;
+}
 .review-list__item:hover,
 .review-list__item:focus-visible {
   border-color: var(--color-brand);
@@ -848,4 +866,11 @@ body {
 }
 .legal-document section:first-child h2 {
   margin-top: 0;
+}
+.legal-document ul {
+  margin: 8px 0 0;
+  padding-left: 1.4em;
+}
+.legal-document li + li {
+  margin-top: 6px;
 }

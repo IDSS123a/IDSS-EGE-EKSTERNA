@@ -1,40 +1,39 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import calibration from "../../config/splash-calibration.json";
-import { DEFAULT_SPLASH_SHARES, thresholdFor, thresholdsFor, validShares } from "@/features/splash/palette";
+import { FLOW_STOPS, flowColour, measureFlowShares } from "@/features/splash/flow";
+import { DEFAULT_SPLASH_SHARES, splashWeightsFor, validShares } from "@/features/splash/palette";
 import { SplashPaletteSchema } from "@/lib/validation/schemas";
 
-describe("splash palette (PDL-020)", () => {
-  it("default shares are valid and map to the thresholds splash.js ships with", () => {
+const SPLASH_JS = readFileSync(join(__dirname, "../../public/splash/splash.js"), "utf8");
+const percent = (values: number[]) => values.map((value) => value * 100);
+
+describe("splash palette (PDL-020, PDL-022)", () => {
+  it("default shares are valid and give the weights splash.js ships with", () => {
     expect(validShares(DEFAULT_SPLASH_SHARES)).toBe(true);
-    expect(thresholdsFor(DEFAULT_SPLASH_SHARES)).toEqual({ redThreshold: 0.6993, skyThreshold: 0.4433, yellowFrom: 0.1833 });
+    const weights = splashWeightsFor(DEFAULT_SPLASH_SHARES);
+    expect(SPLASH_JS).toContain(`weights: [${weights.join(", ")}]`);
+    expect(SPLASH_JS).toContain(`stops: [${FLOW_STOPS.map((stop) => `"${stop}"`).join(", ")}]`);
   });
 
-  it("inverts a measured curve by linear interpolation and clamps outside it", () => {
-    const curve = [[0.5, 0.6], [0.6, 0.2], [0.7, 0]];
-    expect(thresholdFor(curve, 0.4)).toBeCloseTo(0.55, 6);
-    expect(thresholdFor(curve, 0.9)).toBe(0.5);
-    expect(thresholdFor(curve, 0)).toBe(0.6 + 0.1);
+  it("the fitted weights give each colour its share (within half a point)", () => {
+    for (const shares of [DEFAULT_SPLASH_SHARES, { red: 25, yellow: 25, blue: 25, sky: 25 }, { red: 5, yellow: 35, blue: 40, sky: 20 }]) {
+      const measured = percent(measureFlowShares(splashWeightsFor(shares)));
+      const wanted = [shares.red, shares.sky, shares.blue, shares.yellow];
+      measured.forEach((value, index) => expect(Math.abs(value - wanted[index])).toBeLessThan(0.5));
+    }
   });
 
-  it("skips flat stretches of the yellow curve", () => {
-    const yellow = calibration.yellowFrom;
-    const t = thresholdFor(yellow, 0.3);
-    expect(t).toBeGreaterThan(0.7);
-    expect(t).toBeLessThan(0.85);
+  it("a colour at 0 % does not appear", () => {
+    const weights = splashWeightsFor({ red: 0, yellow: 50, blue: 50, sky: 0 });
+    expect(weights[0]).toBe(0);
+    expect(weights[1]).toBe(0);
+    expect(percent(measureFlowShares(weights)).slice(0, 2)).toEqual([0, 0]);
   });
 
-  it("more of a colour means a lower threshold (monotonic)", () => {
-    const less = thresholdsFor({ red: 1, yellow: 30, blue: 39, sky: 30 });
-    const more = thresholdsFor({ red: 5, yellow: 40, blue: 20, sky: 35 });
-    expect(more.redThreshold).toBeLessThan(less.redThreshold);
-    expect(more.skyThreshold).toBeLessThan(less.skyThreshold);
-    expect(more.yellowFrom).toBeLessThan(less.yellowFrom);
-  });
-
-  it("a colour at 0 % is switched off", () => {
-    const none = thresholdsFor({ red: 0, yellow: 50, blue: 50, sky: 0 });
-    expect(none.redThreshold).toBe(5);
-    expect(none.skyThreshold).toBe(5);
+  it("mixes neighbouring colours smoothly (the field is a blend, not hard patches)", () => {
+    const colour = flowColour(0.5, 0.5, 116.03, [1, 1, 1, 1]);
+    expect(colour.every((channel) => channel >= 0 && channel <= 255)).toBe(true);
   });
 
   it("the form accepts four shares that add up to 100 and nothing else", () => {

@@ -5,10 +5,10 @@
  * before the React app hydrates (INSTRUCTION §7A.8). The markup is server-rendered
  * by the root layout (or by public/splash/index.html for the standalone preview);
  * this script only enhances it:
- *   1. an animated WebGL "flow" field in the IDSS palette — an IDSS-native
- *      re-implementation of the principles of the Director's "Untitled blend"
- *      reference (FLOW recipe: stops #E8262C #08ABE6 #035EA1 #FFCB29, scale 56,
- *      distortion 18, swirl 13, speed 30, grain 9);
+ *   1. an animated WebGL "flow" field: a port of the FLOW algorithm of the Director's
+ *      "Untitled blend" reference (stops #E8262C #08ABE6 #035EA1 #FFCB29, scale 56,
+ *      distortion 18, swirl 13, speed 30, grain 9); the colour weights come from the
+ *      Director's shares (PDL-022, src/features/splash/flow.ts runs the same formula);
  *   2. a rotating, non-repeating pool of motivational messages in the user's language;
  *   3. dismissal once the app signals readiness (never blocks longer than needed).
  *
@@ -31,25 +31,14 @@
   var MESSAGES_ELEMENT_ID = "idss-splash-messages";
   var MESSAGES_URL = "/splash/messages.json";
   var PALETTE_URL = "/splash/palette";
-  var THRESHOLD_LIMIT = 5;
   var LAST_MESSAGE_STORAGE_KEY = "idss-ege:splash:last-message";
 
-  // Visual recipe (derived from the reference file's FLOW recipe; see DECISION_LOG PDL-007).
+  // Reference FLOW recipe ("Untitled blend", PDL-007). The weight of each stop widens its region;
+  // these are the weights of the default shares (red 2, sky 33, blue 29, yellow 36 %), fitted by
+  // src/features/splash/flow.ts. The Director's shares arrive from PALETTE_URL as weights.
   var RECIPE = {
-    // Reference stops #E8262C #08ABE6 #035EA1 #FFCB29, ordered for the cyclic palette.
-    stops: ["#E8262C", "#035EA1", "#08ABE6", "#FFCB29"],
-    // Director 27.09.2026 (PDL-019, PDL-020): yellow, blue and sky prevail; red only in traces.
-    // Blue and yellow alternate in the main field; sky and red are layers from their own
-    // noise fields, drawn where that field exceeds its threshold (lower = more area).
-    // These are the thresholds of the default shares (red 2, yellow 36, blue 29, sky 33 %);
-    // the Director's shares arrive from PALETTE_URL as thresholds computed on the server
-    // from measured curves (src/features/splash/palette.ts).
-    skyThreshold: 0.4433,
-    // Where yellow starts in the blue/yellow cycle (lower = more yellow).
-    yellowFrom: 0.1833,
-    redThreshold: 0.6993,
-    // Half-width of every colour edge (field units).
-    blend: 0.03,
+    stops: ["#E8262C", "#08ABE6", "#035EA1", "#FFCB29"],
+    weights: [0.0059, 1.302, 0.6523, 2.0398],
     scale: 56,
     distortion: 18,
     swirl: 13,
@@ -57,6 +46,8 @@
     startTime: 116.03,
     grain: 9
   };
+  // The reference player advances its clock by speed / 100 * 1.2 per second.
+  var TIME_PER_SECOND = (RECIPE.speed / 100) * 1.2;
   var MAX_DEVICE_PIXEL_RATIO = 1.5;
   var RENDER_RESOLUTION_FACTOR = 0.5;
   var GRAIN_TILE_PX = 128;
@@ -194,46 +185,49 @@
 
   // ---------------------------------------------------------------- flow field (WebGL)
   var VERTEX_SHADER = "attribute vec2 a_position;void main(){gl_Position=vec4(a_position,0.0,1.0);}";
+  // FLOW: four colour points drift on their own paths; every pixel mixes the colours by weighted
+  // inverse distance (1 / d^4) after a soft warp and a swirl. Same formula as flowColour() in
+  // src/features/splash/flow.ts (the reference player's animated path, colours in sRGB).
   var FRAGMENT_SHADER = [
     "precision highp float;",
     "uniform vec2 u_res;uniform float u_time;",
     "uniform vec3 u_c0;uniform vec3 u_c1;uniform vec3 u_c2;uniform vec3 u_c3;",
-    "uniform float u_scale;uniform float u_distortion;uniform float u_swirl;",
-    "uniform float u_blend;uniform float u_sky;uniform float u_red;uniform float u_yellow;",
-    "float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}",
-    "float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);vec2 u=f*f*(3.0-2.0*f);",
-    " return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y);}",
-    "float fbm(vec2 p){float v=0.0;float a=0.5;mat2 r=mat2(0.8,0.6,-0.6,0.8);",
-    " for(int i=0;i<4;i++){v+=a*noise(p);p=r*p*2.02+17.0;a*=0.5;}return v;}",
-    // Main field alternates blue (u_c1) and yellow (u_c3) with short edges; sky (u_c2) and
-    // red (u_c0) are laid on top in main() from their own noise fields, so red never forms
-    // a band between the other colours.
-    "vec3 palette(float t){float x=fract(t);",
-    " vec3 c=mix(u_c1,u_c3,smoothstep(u_yellow-u_blend,u_yellow+u_blend,x));",
-    " return mix(c,u_c1,smoothstep(1.0-u_blend,1.0,x));}",
+    "uniform vec4 u_w;uniform float u_m;uniform float u_u;uniform float u_p;",
+    "float sm(float v){float t=clamp(v,0.0,1.0);return t*t*(3.0-2.0*t);}",
+    "vec2 pt(float i,float t){float o=i*0.37;float a=0.6+fract(i/3.0)*0.9;float b=0.8+fract((i+1.0)/4.0);",
+    " return vec2(0.5+0.5*sin(t*a+o),0.5+0.5*cos(t*b+o*1.5));}",
+    "float infl(vec2 q,float i,float w,float t){vec2 d=q-pt(i,t);float d2=dot(d,d);return w/(d2*d2+0.0001);}",
     "void main(){",
-    " vec2 uv=gl_FragCoord.xy/u_res;",
-    " vec2 p=(uv-0.5)*vec2(u_res.x/u_res.y,1.0)*u_scale;",
     " float t=u_time;",
-    " float r=length(p);float ang=u_swirl*0.12*sin(r*1.3-t*0.35);",
-    " p=mat2(cos(ang),-sin(ang),sin(ang),cos(ang))*p;",
-    " vec2 q=vec2(fbm(p+vec2(0.0,t*0.12)),fbm(p+vec2(5.2,1.3)-t*0.10));",
-    " vec2 w=vec2(fbm(p+u_distortion*q+vec2(1.7,9.2)+t*0.08),fbm(p+u_distortion*q+vec2(8.3,2.8)-t*0.07));",
-    " float f=fbm(p+u_distortion*w);",
-    " float v=f*2.4+0.9*w.y+t*0.015;",
-    " vec3 col=palette(v);",
-    " float sky=fbm(p*0.7+q*1.1+vec2(11.3,4.1)+t*0.05);",
-    " col=mix(col,u_c2,smoothstep(u_sky-0.3*u_blend,u_sky+0.3*u_blend,sky));",
-    " float traces=fbm(p*0.9+w*1.3+vec2(3.1,7.7)-t*0.04);",
-    " col=mix(col,u_c0,smoothstep(u_red,u_red+u_blend,traces));",
-    " col+=0.07*smoothstep(0.55,1.0,fbm(p*1.7+w*2.0-t*0.05));",
+    " float x=gl_FragCoord.x/u_res.x;float y=1.0-gl_FragCoord.y/u_res.y;",
+    " float px=(x-0.5)/u_m+0.5;float py=(y-0.5)/u_m+0.5;",
+    " float n=sm(length(vec2(px-0.5,py-0.5)));float f=1.0-n;",
+    " px+=u_u*f*sin(t+0.4*sm(py))*cos(0.2*t+2.4*sm(py));py+=u_u*f*cos(t+2.0*sm(px));",
+    " px+=u_u*f*0.5*sin(t+0.8*sm(py))*cos(0.2*t+4.8*sm(py));py+=u_u*f*0.5*cos(t+4.0*sm(px));",
+    " float a=-3.0*u_p*n;float cx=px-0.5;float cy=py-0.5;",
+    " vec2 q=vec2(cos(a)*cx-sin(a)*cy+0.5,sin(a)*cx+cos(a)*cy+0.5);",
+    " float z0=infl(q,0.0,u_w.x,t);float z1=infl(q,1.0,u_w.y,t);float z2=infl(q,2.0,u_w.z,t);float z3=infl(q,3.0,u_w.w,t);",
+    " vec3 col=(u_c0*z0+u_c1*z1+u_c2*z2+u_c3*z3)/max(0.0001,z0+z1+z2+z3);",
     " gl_FragColor=vec4(col,1.0);",
     "}"
   ].join("\n");
 
-  // Director's palette (PDL-020): thresholds from the server; the defaults stay on any failure.
-  function validThreshold(value) {
-    return typeof value === "number" && isFinite(value) && value >= 0 && value <= THRESHOLD_LIMIT;
+  // Director's shares (PDL-020, PDL-022): weights from the server; the defaults stay on any failure.
+  function validWeights(weights) {
+    if (!weights || weights.length !== 4) return false;
+    var sum = 0;
+    for (var i = 0; i < 4; i += 1) {
+      if (typeof weights[i] !== "number" || !isFinite(weights[i]) || weights[i] < 0 || weights[i] > 100) return false;
+      sum += weights[i];
+    }
+    return sum > 0;
+  }
+
+  function applyWeights(weights) {
+    var gl = state.gl.context;
+    gl.useProgram(state.gl.program);
+    gl.uniform4f(state.gl.uniforms.u_w, weights[0], weights[1], weights[2], weights[3]);
+    if (!state.running) drawFrame(fieldTime());
   }
 
   function loadPalette() {
@@ -241,14 +235,8 @@
     fetch(PALETTE_URL, { credentials: "omit" })
       .then(function (response) { return response.ok ? response.json() : null; })
       .then(function (palette) {
-        var thresholds = palette && palette.thresholds;
-        if (!thresholds || !validThreshold(thresholds.skyThreshold) || !validThreshold(thresholds.redThreshold) || !validThreshold(thresholds.yellowFrom)) return;
-        if (!state.gl) return;
-        var gl = state.gl.context;
-        gl.useProgram(state.gl.program);
-        gl.uniform1f(state.gl.uniforms.u_sky, thresholds.skyThreshold);
-        gl.uniform1f(state.gl.uniforms.u_red, thresholds.redThreshold);
-        gl.uniform1f(state.gl.uniforms.u_yellow, thresholds.yellowFrom);
+        if (!palette || !validWeights(palette.weights) || !state.gl) return;
+        applyWeights(palette.weights);
       })
       .catch(function () { /* keep the default palette */ });
   }
@@ -297,21 +285,18 @@
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
 
     var uniforms = {};
-    ["u_res", "u_time", "u_c0", "u_c1", "u_c2", "u_c3", "u_scale", "u_distortion", "u_swirl", "u_blend", "u_sky", "u_red", "u_yellow"].forEach(function (name) {
+    ["u_res", "u_time", "u_c0", "u_c1", "u_c2", "u_c3", "u_w", "u_m", "u_u", "u_p"].forEach(function (name) {
       uniforms[name] = gl.getUniformLocation(program, name);
     });
     RECIPE.stops.forEach(function (hex, index) {
       var rgb = hexToRgb(hex);
       gl.uniform3f(uniforms["u_c" + index], rgb[0], rgb[1], rgb[2]);
     });
-    // Map the reference's 0–100 dials onto shader space.
-    gl.uniform1f(uniforms.u_scale, 0.6 + (RECIPE.scale / 100) * 1.2);
-    gl.uniform1f(uniforms.u_distortion, 1.0 + (RECIPE.distortion / 100) * 3.0);
-    gl.uniform1f(uniforms.u_swirl, RECIPE.swirl / 10);
-    gl.uniform1f(uniforms.u_blend, RECIPE.blend);
-    gl.uniform1f(uniforms.u_sky, RECIPE.skyThreshold);
-    gl.uniform1f(uniforms.u_red, RECIPE.redThreshold);
-    gl.uniform1f(uniforms.u_yellow, RECIPE.yellowFrom);
+    // The reference's 0 to 100 dials, as the reference player maps them.
+    gl.uniform1f(uniforms.u_m, 0.4 + (RECIPE.scale / 100) * 1.2);
+    gl.uniform1f(uniforms.u_u, RECIPE.distortion / 100);
+    gl.uniform1f(uniforms.u_p, RECIPE.swirl / 100);
+    gl.uniform4f(uniforms.u_w, RECIPE.weights[0], RECIPE.weights[1], RECIPE.weights[2], RECIPE.weights[3]);
 
     state.gl = { context: gl, canvas: canvas, uniforms: uniforms, program: program };
     loadPalette();
@@ -337,7 +322,7 @@
 
   function fieldTime() {
     var elapsedSeconds = state.reducedMotion ? 0 : (now() - state.startedAt) / 1000;
-    return RECIPE.startTime + elapsedSeconds * (RECIPE.speed / 100);
+    return RECIPE.startTime + elapsedSeconds * TIME_PER_SECOND;
   }
 
   function drawFrame(time) {
