@@ -59,5 +59,9 @@ RAG, OCR of scanned ministry documents (PDL-013).
 
 Verified in the sandbox: typecheck, lint, `check:text`, Vitest 62/62, `npm run test:db`, build, Playwright 54/54
 (new `tests/e2e/review.spec.ts`), fixture renders of Math, German and rules screens at 1440 px and 390 px (no
-horizontal page scroll). Live steps need the Director: load facts for the three catalogues, grant the three
-subject teachers.
+horizontal page scroll).
+
+Live verification (2026-09-27, evidence from the database): subjects `bhs_language_literature` (7 rules),
+`mathematics` (7), `german` (6) loaded by the Director with "Učitaj predmet i pravila"; subject-teacher grants
+haris.hamzic (mathematics), nizama.memija (bhs_language_literature), nikolina.todorovic (german). Still open:
+first review decisions by the three teachers (needs the app reachable outside the Director's computer).
