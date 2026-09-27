@@ -1,0 +1,38 @@
+{
+  "_source": "Director decision AMB-02 (2026-09-27): the three repository catalogues are the current canonical versions until the ministry (MOOKS) issues new ones. Metadata below is read from each PDF itself (document properties and cover page, checked 2026-09-27); fields the PDFs do not state (publication date, act number) are left empty on purpose (P-4).",
+  "catalogues": [
+    {
+      "file": "matematika_-_katalog.pdf",
+      "sha256": "450a10071ffceecaa989b824077ab36d6688d8cafcd036a783e1b34867855149",
+      "typeCode": "subject_catalogue",
+      "documentTitle": "Ispitni katalog: Matematika",
+      "subjectLabel": "Matematika",
+      "issuingAuthority": "Ministarstvo za odgoj i obrazovanje Kantona Sarajevo",
+      "officialTitle": "Ispitni katalog za polaganje Eksterne mature iz Matematike",
+      "revisionLabel": null,
+      "_source": "PDF properties: Title and Author; cover page p.1 names the ministry. 75 pages, created 2022-08-19."
+    },
+    {
+      "file": "bjk_hjk_sjk_katalog_eksterna_matura_2022_2023.pdf",
+      "sha256": "ba11dfbb0bcafcf09117b673348f370fc88bcfa333e1e13d5ef50586ac3ad3e8",
+      "typeCode": "subject_catalogue",
+      "documentTitle": "Ispitni katalog: Bosanski, hrvatski, srpski jezik i književnost",
+      "subjectLabel": "B/H/S",
+      "issuingAuthority": "Ministarstvo za odgoj i obrazovanje Kantona Sarajevo",
+      "officialTitle": "EKSTERNA MATURA: Bosanski jezik i književnost, Hrvatski jezik i književnost, Srpski jezik i književnost",
+      "revisionLabel": "2022/2023",
+      "_source": "Cover p.2 (title) and PDF Author; edition 2022/2023 from the official file name. 89 pages, created 2022-08-21."
+    },
+    {
+      "file": "Ispitni katalog za Njemački jezik.pdf",
+      "sha256": "51a8d531227e2eb7a443bd218e4095aaaa100db6cae662f8f99d441cfab89c05",
+      "typeCode": "subject_catalogue",
+      "documentTitle": "Ispitni katalog: Njemački jezik",
+      "subjectLabel": "Njemački jezik",
+      "issuingAuthority": "Ministarstvo za odgoj i obrazovanje Kantona Sarajevo",
+      "officialTitle": "EKSTERNA MATURA: Njemački jezik",
+      "revisionLabel": null,
+      "_source": "Cover p.1 (title) and PDF Author. 76 pages, created 2024-07-26."
+    }
+  ]
+}

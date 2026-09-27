@@ -418,3 +418,120 @@ body {
 .status-pill[data-status="active"] { color: var(--color-brand); }
 .status-pill[data-status="blocked"],
 .status-pill[data-status="suspended"] { color: var(--color-danger); }
+
+/* ---------------------------------------------------------------- canon registry (Sprint 02) */
+.form__optional {
+  font-weight: 400;
+  color: var(--color-ink-muted);
+}
+.form__field input[type="file"] {
+  padding: 10px 14px;
+}
+.canon-document h3 {
+  margin: 20px 0 10px;
+  font: 700 1rem/1.3 var(--font-display), system-ui, sans-serif;
+}
+.card .canon-document__type,
+.card .canon-document__derives {
+  margin: 0 0 6px;
+}
+.canon-version-list,
+.canon-history__list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.canon-version {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.canon-version[data-status="active"] {
+  border-color: var(--color-brand);
+  box-shadow: inset 4px 0 0 var(--color-brand);
+}
+.canon-version__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.canon-version__meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px 16px;
+  margin: 0;
+}
+.canon-version__meta dt {
+  font-size: 0.8rem;
+  color: var(--color-ink-muted);
+}
+.canon-version__meta dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.card .canon-version__dependents {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.canon-version__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.canon-version__controls > .button-secondary {
+  display: inline-grid;
+  place-items: center;
+  text-decoration: none;
+}
+.canon-version__form input[name="reason"] {
+  flex: 1 1 220px;
+}
+.status-pill[data-status="validation_required"] { color: var(--color-ink); }
+.status-pill[data-status="rejected"] { color: var(--color-danger); }
+.status-pill[data-status="superseded"],
+.status-pill[data-status="archived"] { color: var(--color-ink-muted); }
+.canon-history {
+  margin-top: 20px;
+}
+.canon-history summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+.canon-history__list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding: 10px 0;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  color: var(--color-ink-muted);
+}
+.canon-history__event {
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+/* Grid form fields never grow past their column (inputs have an intrinsic width). */
+.form__field input,
+.form__field select {
+  width: 100%;
+  min-width: 0;
+}
+.form--grid .form__field {
+  min-width: 0;
+  align-content: start;
+}

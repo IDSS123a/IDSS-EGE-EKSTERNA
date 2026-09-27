@@ -1,3 +1,5 @@
+import { CANON_BUCKET } from "@/constants";
+
 /**
  * Content-Security-Policy (mandate §7A.7, Commander E-4). A fresh nonce per request allows
  * only Next.js' own scripts and the first-paint splash module; `strict-dynamic` lets those
@@ -9,8 +11,11 @@
  * Build the CSP header value.
  * @param nonce per-request random nonce (base64)
  * @param isDevelopment React needs `unsafe-eval` for dev-only error overlays
+ * @param supabaseUrl project URL; when given, the browser may PUT to signed canon upload URLs
+ *   of the private canon bucket only (Sprint 02). Every other Supabase endpoint stays blocked.
  */
-export function buildContentSecurityPolicy(nonce: string, isDevelopment: boolean): string {
+export function buildContentSecurityPolicy(nonce: string, isDevelopment: boolean, supabaseUrl?: string): string {
+  const canonUpload = supabaseUrl ? ` ${canonUploadPrefix(supabaseUrl)}` : "";
   const directives = [
     "default-src 'self'",
     `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDevelopment ? " 'unsafe-eval'" : ""}`,
@@ -19,8 +24,9 @@ export function buildContentSecurityPolicy(nonce: string, isDevelopment: boolean
     `style-src 'self' 'nonce-${nonce}'`,
     "img-src 'self' data: blob:",
     "font-src 'self'",
-    // The browser never talks to Supabase directly: all data access runs on the server.
-    "connect-src 'self'",
+    // All data access runs on the server. The single exception is the direct upload of a
+    // canonical PDF to a server-issued, single-use signed URL (files larger than a request body).
+    `connect-src 'self'${canonUpload}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
@@ -28,6 +34,14 @@ export function buildContentSecurityPolicy(nonce: string, isDevelopment: boolean
     ...(isDevelopment ? [] : ["upgrade-insecure-requests"]),
   ];
   return directives.join("; ");
+}
+
+/**
+ * CSP source expression for signed uploads into the canon bucket (path prefix match).
+ * @param supabaseUrl project URL, e.g. https://abc.supabase.co
+ */
+export function canonUploadPrefix(supabaseUrl: string): string {
+  return `${new URL(supabaseUrl).origin}/storage/v1/object/upload/sign/${CANON_BUCKET}/`;
 }
 
 /** Cryptographically random nonce, base64 (Web Crypto, available in the Node proxy runtime). */

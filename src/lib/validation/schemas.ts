@@ -61,3 +61,49 @@ export const BundleChangeSchema = z.object({
 export function resetPasswordSchema(minPasswordLength: number) {
   return z.object({ userId: z.uuid(), password: passwordSchema(minPasswordLength) });
 }
+
+// ------------------------------------------------------------------ canon registry (Sprint 02)
+
+const optionalText = (max: number) =>
+  z.string().trim().max(max).optional().transform((value) => (value ? value : null));
+const optionalDate = z
+  .string()
+  .trim()
+  .optional()
+  .transform((value) => (value ? value : null))
+  .pipe(z.iso.date().nullable());
+
+/** POST prepare a direct upload: only the declared size is needed to issue the ticket. */
+export const CanonUploadRequestSchema = z.object({
+  byteSize: z.number().int().positive(),
+});
+
+/**
+ * POST register an uploaded file as a new canonical version. Either `documentId` (new version of
+ * an existing document) or `typeCode` + `documentTitle` (new document) must be given.
+ */
+export const CanonRegisterSchema = z
+  .object({
+    uploadId: z.uuid(),
+    documentId: z.union([z.uuid(), z.literal("")]).optional().transform((value) => (value ? value : null)),
+    typeCode: z.string().trim().regex(/^[a-z_]+$/).optional().or(z.literal("")),
+    documentTitle: optionalText(200),
+    subjectLabel: optionalText(80),
+    issuingAuthority: z.string().trim().min(1).max(200),
+    officialTitle: z.string().trim().min(1).max(300),
+    referenceNumber: optionalText(100),
+    publishedOn: optionalDate,
+    effectiveFrom: optionalDate,
+    revisionLabel: optionalText(60),
+  })
+  .refine((value) => value.documentId !== null || (Boolean(value.typeCode) && value.documentTitle !== null), {
+    message: "DOCUMENT_REQUIRED",
+  });
+export type CanonRegisterInput = z.infer<typeof CanonRegisterSchema>;
+
+/** POST lifecycle change of one version. Reason length matches the database check (1..500). */
+export const CanonTransitionSchema = z.object({
+  versionId: z.uuid(),
+  action: z.enum(["activate", "rollback", "reject", "archive"]),
+  reason: z.string().trim().max(500).optional().transform((value) => (value ? value : null)),
+});

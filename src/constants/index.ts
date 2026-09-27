@@ -47,3 +47,21 @@ export const STUDENT_PASSWORD_MIN_LENGTH = 10;
 export const ACCOUNT_LIST_LIMIT = 500;
 /** Route of the account administration screen. */
 export const ACCOUNTS_PATH = "/app/nalozi";
+
+/** Canon registry (Sprint 02, migration 006). */
+export const CANON_PATH = "/app/kanon";
+/** Private storage bucket for canonical source files (created by migration 006). */
+export const CANON_BUCKET = "canon-documents";
+/** Same limit as the bucket (and the Supabase project upload limit): 50 MB. */
+export const CANON_MAX_BYTES = 52_428_800;
+/** Only PDF sources are accepted (checked by magic bytes, never by name or browser type). */
+export const CANON_MIME_TYPE = "application/pdf";
+/** Uploads land here first and are moved to CANON_SOURCES_PREFIX after server-side verification. */
+export const CANON_STAGING_PREFIX = "staging/";
+export const CANON_SOURCES_PREFIX = "sources/";
+/** Lifetime of a signed download link for a canonical source file. */
+export const CANON_DOWNLOAD_URL_TTL_SECONDS = 60;
+/** Upper bound of documents on the registry screen (A-3). */
+export const CANON_DOCUMENT_LIST_LIMIT = 200;
+/** Maximum length of a lifecycle reason (matches the database check). */
+export const CANON_REASON_MAX_LENGTH = 500;

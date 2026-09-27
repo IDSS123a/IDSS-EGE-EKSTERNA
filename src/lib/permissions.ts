@@ -34,3 +34,13 @@ export function canResetPasswords(account: CurrentAccount): boolean {
 export function canChangeAccount(actor: CurrentAccount, target: { userId: string; role: AccountRole }): boolean {
   return canManageAccounts(actor) && actor.userId !== target.userId && target.role !== "superadmin";
 }
+
+/** Upload, activate, supersede, roll back, reject and archive canonical versions (Sprint 02). */
+export function canPublishCanon(account: CurrentAccount): boolean {
+  return hasCapability(account, "canon.publish");
+}
+
+/** See the canon registry, its history and download source files (publishers and reviewers). */
+export function canViewCanon(account: CurrentAccount): boolean {
+  return canPublishCanon(account) || hasCapability(account, "canon.review");
+}
