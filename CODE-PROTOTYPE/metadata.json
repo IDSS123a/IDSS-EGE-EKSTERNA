@@ -1,0 +1,6 @@
+{
+  "name": "Eksterna Matura - Informacioni Sistem",
+  "description": "Sveobuhvatna platforma za planiranje, pripremu, organizaciju, provođenje i praćenje usklađenosti eksterne mature u obrazovnim ustanovama.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
