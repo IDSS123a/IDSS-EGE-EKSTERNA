@@ -588,7 +588,8 @@
       "built": "Vektoren hinzugefügt: {stored}. Insgesamt: {embedded}.",
       "continue": "Nicht alles wurde in einem Schritt fertig; klicken Sie erneut, um fortzufahren.",
       "noKey": "Kein Schlüssel GEMINI_API_KEY (oder GEMINI_API_KEY_1 bis GEMINI_API_KEY_10) ist in .env.local gesetzt; die Suche arbeitet nach Wörtern.",
-      "privacy": "Der Suchtext wird für die Suche nach Bedeutung an Google (Gemini) gesendet. Geben Sie keine personenbezogenen Daten ein."
+      "privacy": "Der Suchtext wird für die Suche nach Bedeutung an Google (Gemini) gesendet. Geben Sie keine personenbezogenen Daten ein.",
+      "skipped": "Übersprungene Textabschnitte: {n} ({detail}). Klicken Sie erneut; übersprungene Abschnitte werden neu versucht."
     },
     "methods": {
       "semantic": "Suche nach Bedeutung",

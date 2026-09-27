@@ -25,6 +25,11 @@ Date: 2026-09-27 (open)
 7. Two lint warnings (unused parameters in a test helper) reached `main` with PR #29: lint had run before the last
    test file was written, and the later check filtered only for errors → the final lint runs after the last edit,
    and warnings count as findings. Found by ACA while adding key rotation, fixed in PR #30.
+8. The first live semantic index build stopped at 100 of 514 with only "Usluga trenutno nije dostupna": Gemini's
+   answer was logged on the Director's computer but not shown, and one failing batch stopped everything (found by the
+   Director) → external calls report a short, key-free detail to the screen (e.g. "Gemini: 500"), transient server
+   errors are retried, and a failing item is isolated and skipped instead of blocking the batch. Every loop over an
+   external service is built to survive one bad item and to say which answer it got.
 
 ## Gotchas Discovered
 - Browser textareas submit line breaks as \r\n; the first live revisions stored \r\n while the catalogue text uses \n.

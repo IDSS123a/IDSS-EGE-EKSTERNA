@@ -88,6 +88,8 @@ export const EMBEDDING_MODEL = "gemini-embedding-2";
 export const EMBEDDING_DIMENSIONS = 768;
 /** Texts per batchEmbedContents request and per stored batch. */
 export const EMBEDDING_BATCH_SIZE = 50;
+/** Pending passages read per round of an index build (failed ones are set aside within the round). */
+export const EMBEDDING_PENDING_WINDOW = 200;
 /** Longest wait for one Gemini request. */
 export const EMBEDDING_TIMEOUT_MS = 30000;
 /** Time budget of one "build semantic index" click; the rest continues with the next click. */

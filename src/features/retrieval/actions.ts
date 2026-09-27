@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { EMBEDDING_BATCH_SIZE, EMBEDDING_BUILD_BUDGET_MS, EMBEDDING_MODEL, RETRIEVAL_MIN_RANK, RETRIEVAL_MIN_SIMILARITY, RETRIEVAL_RESULT_COUNT, SEARCH_PATH } from "@/constants";
+import { EMBEDDING_BATCH_SIZE, EMBEDDING_BUILD_BUDGET_MS, EMBEDDING_MODEL, EMBEDDING_PENDING_WINDOW, RETRIEVAL_MIN_RANK, RETRIEVAL_MIN_SIMILARITY, RETRIEVAL_RESULT_COUNT, SEARCH_PATH } from "@/constants";
 import { auditIfFailed, formId } from "@/features/audit/failures";
 import { clientIpFrom } from "@/features/authentication/domain";
 import { getCurrentAccount } from "@/features/authentication/session";
@@ -13,6 +13,7 @@ import { getGeminiApiKeys } from "@/lib/env";
 import { logError, logInfo } from "@/lib/logger";
 import { canBuildIndex, canReviewSubject, canSearchCanon } from "@/lib/permissions";
 import { CanonSearchSchema } from "@/lib/validation/schemas";
+import { embedAndStore, type BuildState } from "./domain/build";
 import { relevant } from "./domain/context";
 import { embeddingCount, fullTextRetriever, pendingEmbeddings, rebuildIndex, semanticRetriever, storeEmbeddings } from "./repository";
 import type { IndexResult, RetrievalErrorCode, RetrievalMethod, RetrievedChunk, SearchResult, SemanticIndexResult } from "./types";
@@ -105,7 +106,9 @@ async function buildIndex(): Promise<IndexResult> {
  * Role required: canon.publish.
  * Embeds chunks that have no vector for the current model (catalogue text only, sent to Gemini) and stores
  * each vector bound to the hash of its text; audited. Works within a time budget; "complete" false means the
- * next click continues. Runs where the server can reach Google (the Director's machine, later the hosting).
+ * next click continues. A batch that Gemini cannot answer is split until the failing passage is found; that
+ * passage is set aside for this click (skipped, with Gemini's answer as detail) and the others are stored.
+ * Quota on every key, missing keys and a wrong model stop the build. Runs where the server can reach Google.
  * Errors: UNAUTHENTICATED, FORBIDDEN, NOT_CONFIGURED, REJECTED, RATE_LIMITED, VALIDATION, UNAVAILABLE.
  */
 export async function buildSemanticIndexAction(): Promise<SemanticIndexResult> {
@@ -122,32 +125,30 @@ async function buildSemanticIndex(): Promise<SemanticIndexResult> {
   const admin = createSupabaseAdminClient();
   const embedder = geminiEmbedder(apiKeys);
   const ipAddress = clientIpFrom((await headers()).get("x-forwarded-for"));
+  const store = (rows: { chunkId: string; contentSha256: string; embedding: number[] }[]) => storeEmbeddings(admin, { actorUserId: actor.userId, model: embedder.model, rows, ipAddress });
+  const state: BuildState = { stored: 0, skipped: new Map(), anyEmbedded: false };
   const started = Date.now();
-  let stored = 0;
-  let complete = false;
+  let exhausted = false;
   try {
-    while (Date.now() - started < EMBEDDING_BUILD_BUDGET_MS) {
-      const pending = await pendingEmbeddings(admin, actor.userId, embedder.model, EMBEDDING_BATCH_SIZE);
+    while (!exhausted && Date.now() - started < EMBEDDING_BUILD_BUDGET_MS) {
+      const pending = (await pendingEmbeddings(admin, actor.userId, embedder.model, EMBEDDING_PENDING_WINDOW)).filter((chunk) => !state.skipped.has(chunk.chunkId));
       if (pending.length === 0) {
-        complete = true;
+        exhausted = true;
         break;
       }
-      const vectors = await embedder.embedDocuments(pending.map((chunk) => ({ title: chunk.title, text: chunk.content })));
-      stored += await storeEmbeddings(admin, {
-        actorUserId: actor.userId,
-        model: embedder.model,
-        rows: pending.map((chunk, index) => ({ chunkId: chunk.chunkId, contentSha256: chunk.contentSha256, embedding: vectors[index] })),
-        ipAddress,
-      });
+      for (let index = 0; index < pending.length && Date.now() - started < EMBEDDING_BUILD_BUDGET_MS; index += EMBEDDING_BATCH_SIZE) {
+        await embedAndStore(embedder, pending.slice(index, index + EMBEDDING_BATCH_SIZE), state, store);
+      }
     }
     const embedded = await embeddingCount(admin, embedder.model);
-    logInfo("retrieval/actions.buildSemanticIndexAction", "semantic index built", { stored, embedded, complete });
+    const detail = state.skipped.size > 0 ? [...new Set(state.skipped.values())].join(", ") : null;
+    logInfo("retrieval/actions.buildSemanticIndexAction", "semantic index built", { stored: state.stored, embedded, skipped: state.skipped.size, detail });
     revalidatePath(SEARCH_PATH);
-    return { success: true, data: { stored, embedded, complete } };
+    return { success: true, data: { stored: state.stored, embedded, complete: exhausted && state.skipped.size === 0, skipped: state.skipped.size, detail } };
   } catch (error) {
     const code = databaseCode(error);
     logError("retrieval/actions.buildSemanticIndexAction", error);
-    if (stored > 0) revalidatePath(SEARCH_PATH);
-    return { success: false, code };
+    if (state.stored > 0) revalidatePath(SEARCH_PATH);
+    return { success: false, code, ...(error instanceof EmbeddingError ? { detail: error.detail } : {}) };
   }
 }
