@@ -9,3 +9,4 @@
 [2026-09-27] [FEATURE] First-paint splash (public/splash) with official IDSS logo, WebGL IDSS flow field, 12 rotating messages in bs/de/en
 [2026-09-27] [FEATURE] Live interface language switch bs/de/en without reload
 [2026-09-27] [TEST] Playwright e2e: splash first paint, dismissal, language switch, reduced motion
+[2026-09-27] [CONTENT] Splash message 10 revised by the Director: "Spreman? Tvoj put upravo počinje." (de/en aligned)

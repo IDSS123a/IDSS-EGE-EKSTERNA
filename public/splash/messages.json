@@ -1,5 +1,5 @@
 {
-  "_source": "bs: INSTRUCTION-WEB-APP-IDSS-EGE §7A.8 (Director). de/en: ACA translations, pending Director review. Single source for the splash (app + preview). Later seeded into splash_messages (editable by Superadmin).",
+  "_source": "bs: INSTRUCTION-WEB-APP-IDSS-EGE §7A.8 (Director); message 10 revised by the Director 2026-09-27. de/en: ACA translations, pending Director review. Single source for the splash (app + preview). Later seeded into splash_messages (editable by Superadmin).",
   "bs": [
     "Tvoj cilj. Tvoj izazov. Tvoj rezultat.",
     "Svaki dan jedan korak bliže cilju.",
@@ -10,7 +10,7 @@
     "Fokusiraj se. Izazov počinje sada.",
     "Osvoji znanje, ne samo bodove.",
     "Još jedan izazov. Još jedan nivo znanja.",
-    "Spreman? Tvoj EGE put upravo počinje.",
+    "Spreman? Tvoj put upravo počinje.",
     "Svaki tačan odgovor gradi tvoju sigurnost.",
     "Uči pametno. Vježbaj uporno. Napreduj svaki dan."
   ],
@@ -24,7 +24,7 @@
     "Konzentrier dich. Die Herausforderung beginnt jetzt.",
     "Erobere Wissen, nicht nur Punkte.",
     "Noch eine Herausforderung. Noch ein Level Wissen.",
-    "Bereit? Dein EGE-Weg beginnt genau jetzt.",
+    "Bereit? Dein Weg beginnt genau jetzt.",
     "Jede richtige Antwort stärkt deine Sicherheit.",
     "Lerne klug. Übe beharrlich. Werde jeden Tag besser."
   ],
@@ -38,7 +38,7 @@
     "Focus. The challenge starts now.",
     "Win knowledge, not just points.",
     "One more challenge. One more level of knowledge.",
-    "Ready? Your EGE journey starts right now.",
+    "Ready? Your journey starts right now.",
     "Every correct answer builds your confidence.",
     "Learn smart. Practise steadily. Improve every day."
   ]

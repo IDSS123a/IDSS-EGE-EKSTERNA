@@ -15,3 +15,4 @@ Date: 2026-09-27 (in progress)
 
 ## Commander Improvement Candidates
 - ARCHITECTURE_PATTERNS: add a "first-paint splash" pattern — static module in `public/`, server-rendered markup, `html[data-*]` phase attribute, `ready()` handshake from the app, fail-safe max time, no-JS `<noscript>` override.
+- 2026-09-27 — No lessons: routine content change (splash message 10 revised by the Director).
