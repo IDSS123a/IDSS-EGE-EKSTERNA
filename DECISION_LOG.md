@@ -362,3 +362,23 @@ check.
 **Implementation:** `src/lib/ai/gemini-answer.ts`, `geminiRequest` in `gemini-embeddings.ts`,
 `searchCanonAction`, `groundedContextOf` and `expandedQuery` in `domain/context.ts`, answer panel in the search screen.
 
+## PDL-026: Mock exam blueprints derived from the official 2026 tests
+**Date:** 2026-09-27 (Sprint 07; AMB-09, AMB-10)
+**Evidence:** every question of the four official B/H/S tests (C15, B1 to B4) and the four German tests (C16, 1A to 1D)
+was matched to its catalogue task (`tools/blueprint-evidence/match_tests.py`, report
+`docs/discovery/BLUEPRINT_EVIDENCE.md`). All 72 B/H/S questions and all German parts are catalogue tasks, which confirms
+C21 III (tests only from catalogue tasks).
+**Decision:** a blueprint per subject, stored as data (`config/exam-blueprints.json`), lists for every position of the real
+test the catalogue tasks that may fill it, the answer format and the points:
+- **B/H/S (18 positions):** 1 KNJ 1-8, 2 KNJ 9-16, 3 KNJ 25-32, 4 KNJ 17-24, 5 MOR 1-8, 6 and 7 MOR 9-24, 8 SIN 1-16,
+  9 MED 1-11, 10 PRA 1-16, 11 PRA 17-24, 12 HIS 1-8 (choice, 0.5 each); 13 KNJ 43-48, 14 KNJ 33-42, 15 SIN 19-30,
+  16 FON 2-9 (completion, 0.5 each); 17 TVO 1-8, 18 LEK 3-10 (matching, 1 point, partial credit by the rule).
+  The four tests follow this pattern without exception.
+- **German (5 parts x 4 items x 0.5):** one whole listening task 4.1.x, one whole reading task 4.2.x, four Wortschatz
+  items 4.3.1-40, four grammar items from four different tasks 4.4.1-9, one whole dialogue task 4.5.6-10.
+- **Mathematics (10 positions):** 1-4 catalogue tasks 1-5 (basic, choice, 1 point), 5-8 tasks 6-15 (medium, working,
+  1 point), 9-10 tasks 16-20 (advanced, 0.5 per part a/b) of the areas, C12 p.5. Which areas: AMB-22.
+Points must add up to the confirmed rule `exam.total_points` (10); the number of positions to `exam.task_count`.
+A subject reviewer confirms the blueprint in the app before any student can start a mock exam; until then the
+reviewers named in AMB-09/AMB-10 are asked to check it.
+
