@@ -21,7 +21,7 @@
     "title": "IDSS EGE",
     "subtitle": "Priprema za eksternu maturu kroz izazove, misije i vježbu zasnovanu isključivo na službenim ispitnim katalozima.",
     "statusTitle": "Platforma je u izgradnji",
-    "statusBody": "Trenutno se gradi Sprint 01, temelji platforme: prijava korisničkim imenom i lozinkom, uloge i prava pristupa, te registar kanonskih dokumenata.",
+    "statusBody": "Trenutno se gradi Sprint 02: registar kanonskih dokumenata, s trajnom historijom verzija, aktivacijom i vraćanjem ranijih verzija.",
     "replaySplash": "Prikaži uvodni ekran ponovo",
     "login": "Prijava"
   },
@@ -116,6 +116,110 @@
       "USERNAME_ROLE_MISMATCH": "Administrator mora imati e-mail kao korisničko ime, a učenik ne smije.",
       "NOT_FOUND": "Nalog nije pronađen.",
       "UNAVAILABLE": "Akcija trenutno nije uspjela. Pokušajte ponovo."
+    }
+  },
+  "canon": {
+    "navLink": "Registar kanonskih dokumenata",
+    "title": "Registar kanonskih dokumenata",
+    "subtitle": "Službeni izvori na kojima se zasniva sav sadržaj. Svaka verzija se čuva trajno, ništa se ne briše.",
+    "generation": "Generacija kanona",
+    "uploadTitle": "Novi dokument ili nova verzija",
+    "uploadIntro": "Samo PDF, najviše 50 MB. Nova verzija čeka provjeru i postaje važeća tek kada je aktivirate.",
+    "target": "Dokument",
+    "newDocument": "Novi dokument",
+    "type": "Vrsta dokumenta",
+    "documentTitle": "Naziv dokumenta",
+    "subjectLabel": "Predmet",
+    "file": "PDF fajl",
+    "issuingAuthority": "Izdavač",
+    "officialTitle": "Službeni naslov",
+    "referenceNumber": "Broj akta",
+    "publishedOn": "Datum objave",
+    "effectiveFrom": "Važi od",
+    "revisionLabel": "Oznaka izdanja",
+    "optional": "nije obavezno",
+    "submit": "Učitaj i registruj",
+    "uploading": "Učitavanje fajla",
+    "registering": "Provjera i registracija",
+    "empty": "Registar je još prazan.",
+    "versions": "Verzije",
+    "history": "Historija",
+    "noHistory": "Još nema događaja.",
+    "derives": "Iz ovog dokumenta se izvode",
+    "dependents": "Izvedeni zapisi: {current} važećih, {stale} zastarjelih",
+    "hash": "SHA-256",
+    "size": "Veličina",
+    "uploadedAt": "Učitano",
+    "activatedAt": "Aktivirano",
+    "download": "Preuzmi",
+    "reason": "Razlog",
+    "reasonHint": "Obavezno za vraćanje, odbijanje i arhiviranje. Bilježi se u historiju.",
+    "actions": {
+      "activate": "Aktiviraj",
+      "rollback": "Vrati ovu verziju",
+      "reject": "Odbij",
+      "archive": "Arhiviraj"
+    },
+    "confirm": {
+      "activate": "Aktivirati ovu verziju? Dosadašnja važeća verzija postaje zamijenjena.",
+      "rollback": "Vratiti ovu verziju kao važeću?",
+      "reject": "Odbiti ovu verziju?",
+      "archive": "Arhivirati ovu verziju?"
+    },
+    "statuses": {
+      "draft": "Nacrt",
+      "processing": "U obradi",
+      "validation_required": "Čeka provjeru",
+      "active": "Važeća",
+      "superseded": "Zamijenjena",
+      "archived": "Arhivirana",
+      "rejected": "Odbijena"
+    },
+    "events": {
+      "uploaded": "Učitana",
+      "activated": "Aktivirana",
+      "rolled_back": "Vraćena kao važeća",
+      "superseded": "Zamijenjena",
+      "rejected": "Odbijena",
+      "archived": "Arhivirana"
+    },
+    "types": {
+      "rulebook": "Pravilnik",
+      "ministry_instruction": "Uputstvo ministarstva",
+      "official_form": "Službeni obrazac",
+      "subject_catalogue": "Ispitni katalog predmeta",
+      "official_exam_test": "Službeni ispitni test",
+      "official_answer_key": "Službeno rješenje testa",
+      "idss_material": "IDSS pedagoški materijal"
+    },
+    "derivesItems": {
+      "rules": "pravila ispita",
+      "forms": "obrasci",
+      "questions": "pitanja",
+      "answer_keys": "ključevi odgovora",
+      "competencies": "kompetencije",
+      "blueprints": "struktura testa",
+      "learning_content": "materijal za učenje"
+    },
+    "messages": {
+      "REGISTERED": "Verzija je registrovana i čeka aktivaciju.",
+      "ACTIVATED": "Verzija je aktivirana.",
+      "ROLLED_BACK": "Verzija je vraćena kao važeća.",
+      "REJECTED": "Verzija je odbijena.",
+      "ARCHIVED": "Verzija je arhivirana."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Nemate pravo za ovu radnju.",
+      "VALIDATION": "Provjerite unesene podatke.",
+      "TOO_LARGE": "Fajl je veći od 50 MB.",
+      "NOT_PDF": "Fajl nije PDF dokument.",
+      "UPLOAD_MISSING": "Fajl nije stigao na server. Pokušajte ponovo.",
+      "DUPLICATE_FILE": "Ovaj fajl je već registrovan.",
+      "NOT_FOUND": "Dokument ili verzija ne postoji.",
+      "INVALID_TRANSITION": "Ova promjena nije dozvoljena za trenutni status.",
+      "REASON_REQUIRED": "Unesite razlog.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
   }
 }

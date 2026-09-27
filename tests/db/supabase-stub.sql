@@ -18,3 +18,7 @@ alter default privileges in schema public grant all on sequences to anon, authen
 -- Like Supabase: new functions in public are executable by anon and authenticated by default.
 alter default privileges in schema public grant execute on functions to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
+-- Supabase Storage: only the bucket catalogue that migrations write to.
+create schema storage;
+create table storage.buckets (id text primary key, name text not null, public boolean default false,
+  file_size_limit bigint, allowed_mime_types text[]);

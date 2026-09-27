@@ -21,7 +21,7 @@
     "title": "IDSS EGE",
     "subtitle": "Vorbereitung auf die externe Matura mit Herausforderungen, Missionen und Übungen, die ausschließlich auf den offiziellen Prüfungskatalogen beruhen.",
     "statusTitle": "Die Plattform ist im Aufbau",
-    "statusBody": "Derzeit entsteht Sprint 01, die Grundlagen der Plattform: Anmeldung mit Benutzername und Passwort, Rollen und Zugriffsrechte sowie das Register der kanonischen Dokumente.",
+    "statusBody": "Derzeit entsteht Sprint 02: das Register der kanonischen Dokumente mit dauerhaftem Versionsverlauf, Aktivierung und Wiederherstellung früherer Versionen.",
     "replaySplash": "Startbildschirm erneut anzeigen",
     "login": "Anmelden"
   },
@@ -116,6 +116,110 @@
       "USERNAME_ROLE_MISMATCH": "Administratoren verwenden eine E-Mail als Benutzernamen, Schüler/innen nicht.",
       "NOT_FOUND": "Konto nicht gefunden.",
       "UNAVAILABLE": "Die Aktion ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+    }
+  },
+  "canon": {
+    "navLink": "Register der kanonischen Dokumente",
+    "title": "Register der kanonischen Dokumente",
+    "subtitle": "Die offiziellen Quellen aller Inhalte. Jede Version bleibt dauerhaft erhalten, nichts wird gelöscht.",
+    "generation": "Kanon-Generation",
+    "uploadTitle": "Neues Dokument oder neue Version",
+    "uploadIntro": "Nur PDF, höchstens 50 MB. Eine neue Version wartet auf Prüfung und gilt erst nach der Aktivierung.",
+    "target": "Dokument",
+    "newDocument": "Neues Dokument",
+    "type": "Dokumentart",
+    "documentTitle": "Name des Dokuments",
+    "subjectLabel": "Fach",
+    "file": "PDF-Datei",
+    "issuingAuthority": "Herausgeber",
+    "officialTitle": "Offizieller Titel",
+    "referenceNumber": "Aktenzeichen",
+    "publishedOn": "Veröffentlicht am",
+    "effectiveFrom": "Gültig ab",
+    "revisionLabel": "Ausgabe",
+    "optional": "optional",
+    "submit": "Hochladen und registrieren",
+    "uploading": "Datei wird hochgeladen",
+    "registering": "Prüfung und Registrierung",
+    "empty": "Das Register ist noch leer.",
+    "versions": "Versionen",
+    "history": "Verlauf",
+    "noHistory": "Noch keine Ereignisse.",
+    "derives": "Aus diesem Dokument werden abgeleitet",
+    "dependents": "Abgeleitete Datensätze: {current} aktuell, {stale} veraltet",
+    "hash": "SHA-256",
+    "size": "Größe",
+    "uploadedAt": "Hochgeladen",
+    "activatedAt": "Aktiviert",
+    "download": "Herunterladen",
+    "reason": "Begründung",
+    "reasonHint": "Pflicht beim Zurücksetzen, Ablehnen und Archivieren. Wird im Verlauf gespeichert.",
+    "actions": {
+      "activate": "Aktivieren",
+      "rollback": "Diese Version wiederherstellen",
+      "reject": "Ablehnen",
+      "archive": "Archivieren"
+    },
+    "confirm": {
+      "activate": "Diese Version aktivieren? Die bisher gültige Version wird ersetzt.",
+      "rollback": "Diese Version wieder als gültig setzen?",
+      "reject": "Diese Version ablehnen?",
+      "archive": "Diese Version archivieren?"
+    },
+    "statuses": {
+      "draft": "Entwurf",
+      "processing": "In Bearbeitung",
+      "validation_required": "Wartet auf Prüfung",
+      "active": "Gültig",
+      "superseded": "Ersetzt",
+      "archived": "Archiviert",
+      "rejected": "Abgelehnt"
+    },
+    "events": {
+      "uploaded": "Hochgeladen",
+      "activated": "Aktiviert",
+      "rolled_back": "Wiederhergestellt",
+      "superseded": "Ersetzt",
+      "rejected": "Abgelehnt",
+      "archived": "Archiviert"
+    },
+    "types": {
+      "rulebook": "Verordnung",
+      "ministry_instruction": "Anweisung des Ministeriums",
+      "official_form": "Amtliches Formular",
+      "subject_catalogue": "Prüfungskatalog des Fachs",
+      "official_exam_test": "Offizieller Prüfungstest",
+      "official_answer_key": "Offizielle Lösung des Tests",
+      "idss_material": "Pädagogisches IDSS-Material"
+    },
+    "derivesItems": {
+      "rules": "Prüfungsregeln",
+      "forms": "Formulare",
+      "questions": "Aufgaben",
+      "answer_keys": "Lösungsschlüssel",
+      "competencies": "Kompetenzen",
+      "blueprints": "Testaufbau",
+      "learning_content": "Lernmaterial"
+    },
+    "messages": {
+      "REGISTERED": "Die Version ist registriert und wartet auf Aktivierung.",
+      "ACTIVATED": "Die Version ist aktiviert.",
+      "ROLLED_BACK": "Die Version ist wieder gültig.",
+      "REJECTED": "Die Version ist abgelehnt.",
+      "ARCHIVED": "Die Version ist archiviert."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte erneut anmelden.",
+      "FORBIDDEN": "Sie haben keine Berechtigung für diese Aktion.",
+      "VALIDATION": "Bitte die Angaben prüfen.",
+      "TOO_LARGE": "Die Datei ist größer als 50 MB.",
+      "NOT_PDF": "Die Datei ist kein PDF-Dokument.",
+      "UPLOAD_MISSING": "Die Datei ist nicht angekommen. Bitte erneut versuchen.",
+      "DUPLICATE_FILE": "Diese Datei ist bereits registriert.",
+      "NOT_FOUND": "Dokument oder Version existiert nicht.",
+      "INVALID_TRANSITION": "Diese Änderung ist im aktuellen Status nicht erlaubt.",
+      "REASON_REQUIRED": "Bitte eine Begründung angeben.",
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht erreichbar. Bitte erneut versuchen."
     }
   }
 }

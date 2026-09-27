@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNTS_PATH } from "@/constants";
+import { ACCOUNTS_PATH, CANON_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -15,10 +15,13 @@ import { SiteHeader } from "@/features/shell/components/site-header";
 export function AccountHome({
   account,
   canViewAccounts,
+  canViewCanon,
 }: {
   account: Pick<CurrentAccount, "displayName" | "role">;
   /** Decided on the server (lib/permissions.ts). */
   canViewAccounts: boolean;
+  /** Decided on the server (lib/permissions.ts). */
+  canViewCanon: boolean;
 }): ReactNode {
   const { dictionary } = useI18n();
   return (
@@ -39,9 +42,10 @@ export function AccountHome({
         <section className="card" aria-labelledby="next-steps">
           <h2 id="next-steps">{dictionary.account.nextStepsTitle}</h2>
           <p>{dictionary.account.nextStepsBody}</p>
-          {canViewAccounts && (
-            <Link href={ACCOUNTS_PATH} className="button-primary">{dictionary.accounts.navLink}</Link>
-          )}
+          <div className="link-row">
+            {canViewAccounts && <Link href={ACCOUNTS_PATH} className="button-primary">{dictionary.accounts.navLink}</Link>}
+            {canViewCanon && <Link href={CANON_PATH} className="button-primary">{dictionary.canon.navLink}</Link>}
+          </div>
         </section>
       </main>
     </div>

@@ -25,3 +25,7 @@
 [2026-09-27] [RULE] P-13 no AI characters or AI phrasing in app text; UI text cleaned; npm run check:text + CI step; runtime filter src/lib/text-style.ts
 [2026-09-27] [CONFIG] Splash minimum 5.8 s (+4 s, Director), fail-safe 12 s
 [2026-09-27] [RULE] P-14 every device, full width on desktop; fluid layout, safe areas, viewport; e2e layout test 320 to 2560 px
+[2026-09-27] [DATABASE] Migration 006_canon_lifecycle: private canon bucket, version history, dependency map, lifecycle functions (service role only); applied to Supabase
+[2026-09-27] [FEATURE] Canon registry /app/kanon: direct signed upload, server-side PDF/size/SHA-256 verification, version lifecycle (activate, reject, restore, archive), history, dependency counts, signed downloads
+[2026-09-27] [SECURITY] Failed write attempts audited for canon and account actions; CSP connect-src opened only for signed canon uploads
+[2026-09-27] [SEED] npm run canon:seed registers and activates the three current catalogues (AMB-02)

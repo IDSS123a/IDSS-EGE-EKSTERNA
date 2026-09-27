@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { ACCOUNTS_PATH, STAFF_PASSWORD_MIN_LENGTH, STUDENT_PASSWORD_MIN_LENGTH } from "@/constants";
 import { clientIpFrom, usernameToAuthEmail } from "@/features/authentication/domain";
+import { auditIfFailed, formId } from "@/features/audit/failures";
 import { insertAuditLog } from "@/features/authentication/repository";
 import { getCurrentAccount } from "@/features/authentication/session";
 import type { CurrentAccount } from "@/features/authentication/types";
@@ -36,7 +37,7 @@ async function authenticated(): Promise<CurrentAccount | null> {
  * Response: { success: true, data: { message: "CREATED" } } or { success: false, code }.
  * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, USERNAME_ROLE_MISMATCH, USERNAME_TAKEN, UNAVAILABLE.
  */
-export async function createAccountAction(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
+async function createAccount(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
   const actor = await authenticated();
   if (!actor) return { success: false, code: "UNAUTHENTICATED" };
   if (!canManageAccounts(actor)) return { success: false, code: "FORBIDDEN" };
@@ -97,7 +98,7 @@ export async function createAccountAction(_previous: AccountActionResult | null,
  * Body: FormData { userId, status }. Also bans/unbans the identity at Supabase Auth.
  * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
  */
-export async function changeAccountStatusAction(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
+async function changeAccountStatus(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
   const actor = await authenticated();
   if (!actor) return { success: false, code: "UNAUTHENTICATED" };
   if (!canManageAccounts(actor)) return { success: false, code: "FORBIDDEN" };
@@ -134,7 +135,7 @@ export async function changeAccountStatusAction(_previous: AccountActionResult |
  * Body: FormData { userId, bundle: pedagogue|psychologist|admin_operations, grant: grant|revoke }.
  * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
  */
-export async function changeBundleAction(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
+async function changeBundle(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
   const actor = await authenticated();
   if (!actor) return { success: false, code: "UNAUTHENTICATED" };
   if (!canManageAccounts(actor)) return { success: false, code: "FORBIDDEN" };
@@ -171,7 +172,7 @@ export async function changeBundleAction(_previous: AccountActionResult | null, 
  * Body: FormData { userId, password }. The password is sent to Supabase Auth only; never logged.
  * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
  */
-export async function resetPasswordAction(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
+async function resetPassword(_previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
   const actor = await authenticated();
   if (!actor) return { success: false, code: "UNAUTHENTICATED" };
   if (!canResetPasswords(actor)) return { success: false, code: "FORBIDDEN" };
@@ -199,4 +200,26 @@ export async function resetPasswordAction(_previous: AccountActionResult | null,
     return { success: false, code: "UNAVAILABLE" };
   }
   return { success: true, data: { message: "PASSWORD_RESET" } };
+}
+
+// Exported actions: the implementations above, plus an audit row for every failed attempt (auditIfFailed).
+
+/** Server Action; see createAccount above. Failed attempts are audited as `account.create_failed`. */
+export async function createAccountAction(previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
+  return auditIfFailed(await createAccount(previous, formData), { action: "account.create", entityType: "profile", entityId: null });
+}
+
+/** Server Action; see changeAccountStatus above. Failed attempts are audited as `account.status_change_failed`. */
+export async function changeAccountStatusAction(previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
+  return auditIfFailed(await changeAccountStatus(previous, formData), { action: "account.status_change", entityType: "profile", entityId: formId(formData, "userId") });
+}
+
+/** Server Action; see changeBundle above. Failed attempts are audited as `account.bundle_change_failed`. */
+export async function changeBundleAction(previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
+  return auditIfFailed(await changeBundle(previous, formData), { action: "account.bundle_change", entityType: "profile", entityId: formId(formData, "userId") });
+}
+
+/** Server Action; see resetPassword above. Failed attempts are audited as `account.password_reset_failed`. */
+export async function resetPasswordAction(previous: AccountActionResult | null, formData: FormData): Promise<AccountActionResult> {
+  return auditIfFailed(await resetPassword(previous, formData), { action: "account.password_reset", entityType: "profile", entityId: formId(formData, "userId") });
 }

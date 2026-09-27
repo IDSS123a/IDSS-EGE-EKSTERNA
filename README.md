@@ -34,6 +34,19 @@ npm run accounts:bootstrap
 Skripta pravi nalog `direktor@idss.ba`; lozinku (najmanje 12 znakova) upisujete samo Vi,
 ne prikazuje se i nigdje se ne sprema. Zatim: `npm run dev` → http://localhost:3000/prijava.
 
+### Kanonski katalozi (Sprint 02)
+
+Tri važeća ispitna kataloga (Matematika, B/H/S, Njemački) upisuju se u registar jednom komandom,
+na Vašem računaru (nakon `git pull` i `npm install`):
+
+```powershell
+npm run canon:seed
+```
+
+Skripta provjerava da su PDF fajlovi netaknuti (SHA-256), učitava ih u privatnu pohranu i
+aktivira kao važeće verzije. Može se pokrenuti više puta; ništa se ne duplira i ništa se ne briše.
+Registar je zatim na http://localhost:3000/app/kanon.
+
 Preporučene postavke u Supabase → Authentication:
 - **Sign In / Providers → Allow new users to sign up: OFF** (naloge pravi samo Superadministrator).
 - **Email → Confirm email:** može ostati uključeno; skripta i admin potvrđuju e-mail pri kreiranju.

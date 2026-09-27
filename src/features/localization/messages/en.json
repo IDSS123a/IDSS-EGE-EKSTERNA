@@ -21,7 +21,7 @@
     "title": "IDSS EGE",
     "subtitle": "External matura preparation through challenges, missions and practice based exclusively on the official exam catalogues.",
     "statusTitle": "The platform is under construction",
-    "statusBody": "Sprint 01 is in progress: the platform foundations: username and password sign-in, roles and access rights, and the register of canonical documents.",
+    "statusBody": "Sprint 02 is in progress: the canonical document registry with a permanent version history, activation and restoring earlier versions.",
     "replaySplash": "Show the intro screen again",
     "login": "Sign in"
   },
@@ -116,6 +116,110 @@
       "USERNAME_ROLE_MISMATCH": "Administrators use an e-mail as username; students must not.",
       "NOT_FOUND": "Account not found.",
       "UNAVAILABLE": "The action failed. Please try again."
+    }
+  },
+  "canon": {
+    "navLink": "Canonical document registry",
+    "title": "Canonical document registry",
+    "subtitle": "The official sources behind all content. Every version is kept permanently, nothing is deleted.",
+    "generation": "Canon generation",
+    "uploadTitle": "New document or new version",
+    "uploadIntro": "PDF only, at most 50 MB. A new version waits for validation and becomes valid only when you activate it.",
+    "target": "Document",
+    "newDocument": "New document",
+    "type": "Document type",
+    "documentTitle": "Document name",
+    "subjectLabel": "Subject",
+    "file": "PDF file",
+    "issuingAuthority": "Issuing authority",
+    "officialTitle": "Official title",
+    "referenceNumber": "Reference number",
+    "publishedOn": "Published on",
+    "effectiveFrom": "Effective from",
+    "revisionLabel": "Edition",
+    "optional": "optional",
+    "submit": "Upload and register",
+    "uploading": "Uploading file",
+    "registering": "Checking and registering",
+    "empty": "The registry is still empty.",
+    "versions": "Versions",
+    "history": "History",
+    "noHistory": "No events yet.",
+    "derives": "Derived from this document",
+    "dependents": "Derived records: {current} current, {stale} stale",
+    "hash": "SHA-256",
+    "size": "Size",
+    "uploadedAt": "Uploaded",
+    "activatedAt": "Activated",
+    "download": "Download",
+    "reason": "Reason",
+    "reasonHint": "Required to roll back, reject and archive. Stored in the history.",
+    "actions": {
+      "activate": "Activate",
+      "rollback": "Restore this version",
+      "reject": "Reject",
+      "archive": "Archive"
+    },
+    "confirm": {
+      "activate": "Activate this version? The currently valid version will be superseded.",
+      "rollback": "Make this version valid again?",
+      "reject": "Reject this version?",
+      "archive": "Archive this version?"
+    },
+    "statuses": {
+      "draft": "Draft",
+      "processing": "Processing",
+      "validation_required": "Awaiting validation",
+      "active": "Valid",
+      "superseded": "Superseded",
+      "archived": "Archived",
+      "rejected": "Rejected"
+    },
+    "events": {
+      "uploaded": "Uploaded",
+      "activated": "Activated",
+      "rolled_back": "Restored as valid",
+      "superseded": "Superseded",
+      "rejected": "Rejected",
+      "archived": "Archived"
+    },
+    "types": {
+      "rulebook": "Rulebook",
+      "ministry_instruction": "Ministry instruction",
+      "official_form": "Official form",
+      "subject_catalogue": "Subject exam catalogue",
+      "official_exam_test": "Official exam test",
+      "official_answer_key": "Official answer key",
+      "idss_material": "IDSS teaching material"
+    },
+    "derivesItems": {
+      "rules": "exam rules",
+      "forms": "forms",
+      "questions": "questions",
+      "answer_keys": "answer keys",
+      "competencies": "competencies",
+      "blueprints": "test structure",
+      "learning_content": "learning material"
+    },
+    "messages": {
+      "REGISTERED": "The version is registered and awaits activation.",
+      "ACTIVATED": "The version is activated.",
+      "ROLLED_BACK": "The version is valid again.",
+      "REJECTED": "The version is rejected.",
+      "ARCHIVED": "The version is archived."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You are not allowed to do this.",
+      "VALIDATION": "Please check the entered data.",
+      "TOO_LARGE": "The file is larger than 50 MB.",
+      "NOT_PDF": "The file is not a PDF document.",
+      "UPLOAD_MISSING": "The file did not arrive. Please try again.",
+      "DUPLICATE_FILE": "This file is already registered.",
+      "NOT_FOUND": "The document or version does not exist.",
+      "INVALID_TRANSITION": "This change is not allowed in the current status.",
+      "REASON_REQUIRED": "Please enter a reason.",
+      "UNAVAILABLE": "The service is currently unavailable. Please try again."
     }
   }
 }

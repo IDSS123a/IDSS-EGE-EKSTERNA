@@ -21,7 +21,7 @@ function isProtected(pathname: string): boolean {
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   const nonce = createNonce();
-  const csp = buildContentSecurityPolicy(nonce, process.env.NODE_ENV === "development");
+  const csp = buildContentSecurityPolicy(nonce, process.env.NODE_ENV === "development", process.env.NEXT_PUBLIC_SUPABASE_URL);
 
   /** Continue to the page with the nonce + CSP on the request (Next.js applies the nonce while rendering). */
   const forward = (): NextResponse => {
