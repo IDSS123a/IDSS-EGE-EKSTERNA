@@ -571,5 +571,16 @@
       "VALIDATION": "Svaki udio mora biti između 0 i 100, a zbir 100 %.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
+  },
+  "footer": {
+    "terms": "Uslovi korištenja",
+    "privacy": "Politika privatnosti",
+    "subscription": "Pretplata",
+    "cookies": "Obavijest o kolačićima",
+    "product": "IDSS - External Graduate Examination je proizvod IDSS-a. Kontakt: {email}.",
+    "navLabel": "Pravni dokumenti",
+    "pending": "Tekst ovog dokumenta je u pripremi i objavit će ga IDSS.",
+    "contact": "Za pitanja pišite na {email}.",
+    "back": "Nazad na početnu"
   }
 }

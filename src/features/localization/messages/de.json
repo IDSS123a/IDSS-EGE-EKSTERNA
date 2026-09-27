@@ -571,5 +571,16 @@
       "VALIDATION": "Jeder Anteil muss zwischen 0 und 100 liegen, die Summe 100 %.",
       "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
     }
+  },
+  "footer": {
+    "terms": "Nutzungsbedingungen",
+    "privacy": "Datenschutzerklärung",
+    "subscription": "Abonnement",
+    "cookies": "Cookie-Hinweis",
+    "product": "IDSS - External Graduate Examination ist ein Produkt der IDSS. Kontakt: {email}.",
+    "navLabel": "Rechtliche Dokumente",
+    "pending": "Der Text dieses Dokuments wird vorbereitet und von der IDSS veröffentlicht.",
+    "contact": "Bei Fragen schreiben Sie an {email}.",
+    "back": "Zurück zur Startseite"
   }
 }

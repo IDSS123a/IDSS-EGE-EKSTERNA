@@ -571,5 +571,16 @@
       "VALIDATION": "Every share must be between 0 and 100 and the total 100 %.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
     }
+  },
+  "footer": {
+    "terms": "Terms of Use",
+    "privacy": "Privacy Policy",
+    "subscription": "Subscription",
+    "cookies": "Cookie notice",
+    "product": "IDSS - External Graduate Examination is a product of IDSS. Contact: {email}.",
+    "navLabel": "Legal documents",
+    "pending": "The text of this document is being prepared and will be published by IDSS.",
+    "contact": "For questions write to {email}.",
+    "back": "Back to home"
   }
 }

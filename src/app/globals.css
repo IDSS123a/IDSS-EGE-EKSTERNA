@@ -797,3 +797,32 @@ body {
 .palette-swatch[data-color="yellow"], .palette-bar [data-color="yellow"] { background: var(--idss-yellow); }
 .palette-swatch[data-color="blue"], .palette-bar [data-color="blue"] { background: var(--idss-blue); }
 .palette-swatch[data-color="sky"], .palette-bar [data-color="sky"] { background: var(--idss-sky); }
+
+/* ---------------------------------------------------------------- footer (Director, 2026-09-27) */
+.site-footer {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  padding: 20px var(--space-page-right) max(20px, env(safe-area-inset-bottom)) var(--space-page-left);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface-raised);
+  font-size: 0.85rem;
+  color: var(--color-ink-muted);
+}
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-footer a {
+  display: inline-block;
+  min-height: 24px;
+  color: var(--color-brand);
+  font-weight: 600;
+}
+.site-footer__product {
+  margin: 0;
+}

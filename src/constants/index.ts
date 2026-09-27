@@ -78,6 +78,15 @@ export const RETRIEVAL_QUERY_MAX_LENGTH = 500;
  */
 export const RETRIEVAL_MIN_RANK = 1;
 
+/** Footer: product owner contact and the legal documents (Director, 2026-09-27; texts pending, AMB-20). */
+export const CONTACT_EMAIL = "ai@idss.ba";
+export const LEGAL_DOCUMENTS = [
+  { key: "terms", path: "/uslovi-koristenja" },
+  { key: "privacy", path: "/politika-privatnosti" },
+  { key: "subscription", path: "/pretplata" },
+  { key: "cookies", path: "/kolacici" },
+] as const;
+
 /** Application settings for the Superadmin (PDL-020). */
 export const SETTINGS_PATH = "/app/postavke";
 /** Public, unauthenticated route the splash reads its palette from (outside the auth proxy, like /splash/*). */
