@@ -167,3 +167,18 @@ until practice needs row-level access (Sprint 06); keys are rows (`answer_keys`)
 reference them (CF-03). pdf.js renders source regions in the browser from the legacy build (the modern
 build needs `Map.prototype.getOrInsertComputed`, missing in current and older browsers, P-14); CSP gains
 `worker-src 'self'` for its worker.
+
+## PDL-016: Bulk acceptance of the catalogue records and rules by the Director
+**Date:** 2026-09-27 (Sprint 04)
+**Decision (Director):** "Prihvati sva pitanja i pravila", confirmed after the consequences were stated
+(acceptance is final; no per-item comparison with the source page; 184 Math tasks flagged for 2-D notation;
+AMB-09 and AMB-10 confirmed without the subject teachers). Option chosen: accept with a visible tag.
+**Executed by ACA** through the migration 008 functions in one transaction, actor = Director's account:
+492 records accepted (2 more the Director had accepted individually before), every decision and rule
+confirmation carries the note "Skupno prihvatanje po nalogu direktora (27.09.2026), bez pojedinačnog
+pregleda; izvršio ACA." 6 German records whose task type the extractor did not recognise stay pending
+(a task type is never invented, P-4). 20 rules confirmed (they had already been confirmed individually by the
+Director minutes earlier; the bulk run added a second, tagged confirmation, see SPRINT_04_LESSONS).
+**Consequence:** 494 trusted question versions and 576 printed keys exist. Subject teachers can still correct
+keys by revision; a record cannot be un-accepted (append-only by design). Later work that shows questions to
+students should let teachers flag bulk-accepted questions for individual re-review (proposal for Sprint 06).
