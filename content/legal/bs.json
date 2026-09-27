@@ -1,0 +1,101 @@
+{
+  "_about": "Legal documents (Director 27.09.2026: written by ACA, facts confirmed by the Director; AMB-20). Version 1.0.",
+  "version": "Verzija 1.0, 27.09.2026.",
+  "terms": {
+    "title": "Uslovi korištenja",
+    "sections": [
+      { "heading": "1. O aplikaciji", "paragraphs": [
+        "IDSS - External Graduate Examination (u daljem tekstu: aplikacija) je platforma Internationale Deutsche Schule Sarajevo (u daljem tekstu: IDSS) za pripremu učenika IX razreda za eksternu maturu u Kantonu Sarajevo iz predmeta Bosanski, hrvatski, srpski jezik i književnost, Matematika i Njemački jezik.",
+        "Aplikacija služi isključivo za učenje i vježbu. Ona nije dio službenog postupka eksterne mature i ne zamjenjuje službene informacije Ministarstva za odgoj i obrazovanje Kantona Sarajevo."
+      ]},
+      { "heading": "2. Ko može koristiti aplikaciju", "paragraphs": [
+        "Aplikaciju koriste učenici IDSS-a, njihovi nastavnici, stručni saradnici i uprava škole. Naloge otvara škola; samostalna registracija nije moguća.",
+        "Svaki korisnik ima lični nalog. Korisničko ime i lozinku ne smijete nikome davati niti koristiti tuđi nalog. Ako posumnjate da je neko saznao vašu lozinku, odmah se obratite školi ili pišite na ai@idss.ba."
+      ]},
+      { "heading": "3. Sadržaj i njegovi izvori", "paragraphs": [
+        "Pitanja, rješenja i pravila ispita preuzeti su iz službenih ispitnih kataloga Ministarstva za odgoj i obrazovanje Kantona Sarajevo i prikazuju se sa oznakom izvora i stranice. Autorska prava na te materijale ostaju kod njihovih izdavača; aplikacija ih koristi samo u obrazovne svrhe.",
+        "Nastavnici IDSS-a pregledaju sadržaj prije nego što ga učenici koriste. Uprkos tome, u sadržaju može biti grešaka; ako primijetite grešku, javite je nastavniku predmeta ili na ai@idss.ba."
+      ]},
+      { "heading": "4. Vježba, probni ispiti i ocjene", "paragraphs": [
+        "Rezultati vježbi i probnih ispita u aplikaciji nisu službeni rezultati eksterne mature i ne ulaze u upis u srednju školu.",
+        "Probne ispite ocjenjuje predmetni nastavnik. Sistem može predložiti bodove za zadatke zatvorenog tipa, ali konačnu ocjenu potvrđuje nastavnik. Bodovi, nivoi i priznanja u aplikaciji služe motivaciji i nikada ne mijenjaju ocjenu nastavnika."
+      ]},
+      { "heading": "5. Pravila ponašanja", "paragraphs": [
+        "Zabranjeno je: pokušavati pristupiti tuđim podacima ili dijelovima aplikacije za koje nemate pravo, ometati rad aplikacije, unositi uvredljiv ili nezakonit sadržaj, te automatski preuzimati sadržaj aplikacije.",
+        "Kod kršenja ovih pravila škola može privremeno ili trajno zatvoriti nalog i primijeniti pravila škole."
+      ]},
+      { "heading": "6. Dostupnost i izmjene", "paragraphs": [
+        "IDSS nastoji da aplikacija bude dostupna bez prekida, ali ne može garantovati neprekidan rad. Zbog održavanja ili tehničkih problema aplikacija može biti privremeno nedostupna.",
+        "IDSS može mijenjati aplikaciju i ove uslove. O važnim izmjenama korisnici će biti obaviješteni u aplikaciji. Datum važeće verzije naveden je na dnu ovog dokumenta."
+      ]},
+      { "heading": "7. Mjerodavno pravo i kontakt", "paragraphs": [
+        "Na ove uslove primjenjuje se pravo Bosne i Hercegovine. Za sporove je nadležan sud u Sarajevu.",
+        "Pitanja o aplikaciji i ovim uslovima: ai@idss.ba."
+      ]}
+    ]
+  },
+  "privacy": {
+    "title": "Politika privatnosti",
+    "sections": [
+      { "heading": "1. Ko obrađuje podatke", "paragraphs": [
+        "Kontrolor podataka je Internationale Deutsche Schule Sarajevo (IDSS). Kontakt za sva pitanja o ličnim podacima: ai@idss.ba.",
+        "Podatke obrađujemo u skladu sa Zakonom o zaštiti ličnih podataka Bosne i Hercegovine."
+      ]},
+      { "heading": "2. Koje podatke obrađujemo", "paragraphs": [
+        "Podaci o nalogu: ime i prezime, korisničko ime (kod osoblja službena e-mail adresa), uloga, status naloga i dodijeljena prava.",
+        "Podaci o učenju: odgovori na zadatke, rezultati vježbi i probnih ispita, ocjene i komentari nastavnika, napredak po oblastima, bodovi i priznanja.",
+        "Sigurnosni i tehnički podaci: vrijeme prijave i odjave, neuspjeli pokušaji prijave (korisničko ime se čuva samo kao šifrovani otisak), IP adresa uz važne radnje, te zapis o važnim promjenama u aplikaciji (ko je šta promijenio i kada).",
+        "Upiti u pretrazi: za zapis o pretrazi čuvamo samo šifrovani otisak upita, ne tekst upita."
+      ]},
+      { "heading": "3. Zašto obrađujemo podatke", "paragraphs": [
+        "Da bismo učenicima omogućili pripremu za eksternu maturu, nastavnicima praćenje napretka i ocjenjivanje probnih ispita, te da bismo zaštitili aplikaciju i podatke od zloupotrebe.",
+        "Osnov za obradu podataka učenika je upis u IDSS: roditelji, odnosno staratelji, dali su saglasnost kroz upisnu dokumentaciju škole. Sigurnosne zapise vodimo radi zaštite korisnika i aplikacije."
+      ]},
+      { "heading": "4. Ko ima pristup podacima", "paragraphs": [
+        "Učenik vidi samo svoje podatke. Nastavnik vidi podatke učenika iz svog predmeta. Pedagog, psiholog i uprava škole imaju pristup samo u okviru svojih zadataka. Svaki pristup je ograničen pravima i bilježi se.",
+        "Podatke čuvamo kod pružaoca baze podataka Supabase, na serverima u Evropskoj uniji (Frankfurt). Pružalac hostinga aplikacije obrađuje tehničke podatke potrebne za rad aplikacije.",
+        "Za pretragu i objašnjenja pomoću umjetne inteligencije koristi se servis Google Gemini. Google tada prima tekst službenih ispitnih kataloga i tekst pitanja koje korisnik upiše, ali nikada ime, korisničko ime, rezultate ili druge podatke o nalogu.",
+        "Podatke ne prodajemo, ne koristimo za reklame i ne dajemo ih drugima, osim ako to nalaže zakon."
+      ]},
+      { "heading": "5. Koliko dugo čuvamo podatke", "paragraphs": [
+        "Podatke učenika čuvamo do kraja školske godine u kojoj je učenik završio IX razred i još jednu godinu nakon toga. Zatim se nalog arhivira, a lični podaci brišu ili anonimiziraju; ostaju samo anonimne statistike.",
+        "Podatke osoblja čuvamo dok osoba radi u IDSS-u i koristi aplikaciju."
+      ]},
+      { "heading": "6. Vaša prava", "paragraphs": [
+        "Imate pravo na uvid u svoje podatke, ispravku netačnih podataka, brisanje, ograničenje obrade i prigovor. Za učenike ova prava ostvaruju roditelji, odnosno staratelji. Zahtjev pošaljite na ai@idss.ba.",
+        "Ako smatrate da vaši podaci nisu zakonito obrađeni, možete se obratiti Agenciji za zaštitu ličnih podataka u Bosni i Hercegovini."
+      ]},
+      { "heading": "7. Automatske odluke", "paragraphs": [
+        "Aplikacija ne donosi odluke o učenicima bez učešća čovjeka. Ocjenu probnog ispita uvijek potvrđuje nastavnik. Aplikacija ne izvodi zaključke o ličnosti, zdravlju ili sposobnostima učenika."
+      ]},
+      { "heading": "8. Sigurnost", "paragraphs": [
+        "Podatke štitimo šifrovanom vezom, lozinkama koje se nikada ne čuvaju u čitljivom obliku, pravima pristupa po ulogama i zapisom o svim važnim radnjama."
+      ]}
+    ]
+  },
+  "subscription": {
+    "title": "Pretplata",
+    "sections": [
+      { "heading": "Korištenje je besplatno", "paragraphs": [
+        "Aplikacija je besplatna za učenike Internationale Deutsche Schule Sarajevo. Korištenje je dio školovanja u IDSS-u; u aplikaciji nema plaćanja, pretplate ni reklama.",
+        "Nalog otvara škola. Učenik ga koristi dok pohađa IX razred i do isteka roka čuvanja podataka navedenog u Politici privatnosti.",
+        "Za pitanja: ai@idss.ba."
+      ]}
+    ]
+  },
+  "cookies": {
+    "title": "Obavijest o kolačićima",
+    "sections": [
+      { "heading": "Koje kolačiće koristimo", "paragraphs": [
+        "Aplikacija koristi samo kolačiće i lokalnu memoriju preglednika koji su neophodni za njen rad. Ne koristimo kolačiće za reklame, analitiku ni praćenje, pa za njih nije potrebna saglasnost.",
+        "Kolačić prijave (naziv počinje sa sb-): čuva vašu prijavu dok ste prijavljeni; prestaje važiti odjavom ili nakon najviše 12 sati.",
+        "Kolačić jezika (ege_locale): pamti izabrani jezik interfejsa (bosanski, njemački ili engleski) do godinu dana.",
+        "Lokalna memorija preglednika (idss-ege:splash:last-message): pamti posljednju prikazanu poruku uvodnog ekrana, da se ista poruka ne bi ponavljala. Ne sadrži lične podatke."
+      ]},
+      { "heading": "Kako ih izbrisati", "paragraphs": [
+        "Kolačiće i lokalnu memoriju možete izbrisati u postavkama preglednika. Nakon brisanja morate se ponovo prijaviti i izabrati jezik.",
+        "Za pitanja: ai@idss.ba."
+      ]}
+    ]
+  }
+}

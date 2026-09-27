@@ -826,3 +826,9 @@ body {
 .site-footer__product {
   margin: 0;
 }
+.legal-document h2 {
+  margin-top: 20px;
+}
+.legal-document section:first-child h2 {
+  margin-top: 0;
+}

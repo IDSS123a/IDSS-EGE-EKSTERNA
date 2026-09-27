@@ -38,6 +38,7 @@ function withoutComments(source) {
 
 const targets = [
   ...walk(join(root, "src/features/localization/messages"), (p) => p.endsWith(".json")).map((p) => [p, jsonTexts(JSON.parse(readFileSync(p, "utf8")))]),
+  ...walk(join(root, "content/legal"), (p) => p.endsWith(".json")).map((p) => [p, jsonTexts(JSON.parse(readFileSync(p, "utf8")))]),
   [join(root, "public/splash/messages.json"), jsonTexts(JSON.parse(readFileSync(join(root, "public/splash/messages.json"), "utf8")))],
   [join(root, "public/splash/index.html"), [readFileSync(join(root, "public/splash/index.html"), "utf8").replace(/<!--[\s\S]*?-->/g, "")]],
   ...walk(join(root, "src"), (p) => p.endsWith(".tsx")).map((p) => [p, [withoutComments(readFileSync(p, "utf8"))]]),

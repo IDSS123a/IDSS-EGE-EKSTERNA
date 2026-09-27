@@ -58,3 +58,4 @@
 [2026-09-27] [FEATURE] Postavke: the Superadmin sets the splash colour shares in percent; measured calibration turns them into shader thresholds (PDL-020, migration 012)
 [2026-09-27] [CONTENT] Product name in every app text: "IDSS - External Graduate Examination" (Director); meta titles, splash, home, preview
 [2026-09-27] [FEATURE] Footer on every page (bottom left): Terms of Use, Privacy Policy, Subscription, Cookie notice, product line with ai@idss.ba; document pages wait for IDSS texts (AMB-20)
+[2026-09-27] [CONTENT] Legal documents written (Terms of Use, Privacy Policy, Subscription, Cookie notice) in bs/de/en, facts confirmed by the Director (AMB-20 resolved)

@@ -1,30 +1,34 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { CONTACT_EMAIL, type LEGAL_DOCUMENTS } from "@/constants";
+import bs from "../../../../content/legal/bs.json";
+import de from "../../../../content/legal/de.json";
+import en from "../../../../content/legal/en.json";
+import type { LEGAL_DOCUMENTS } from "@/constants";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { ReviewShell } from "@/features/review/components/review-shell";
 
 type DocumentKey = (typeof LEGAL_DOCUMENTS)[number]["key"];
 
-/**
- * A legal document page. The texts are written and approved by IDSS, never generated (AMB-20); until they
- * arrive the page says so and gives the contact.
- */
+/** Legal texts per interface language (content/legal, written for IDSS and confirmed by the Director, AMB-20). */
+const TEXTS = { bs, de, en } satisfies Record<string, typeof bs>;
+
+/** A legal document in the interface language, with its version line. */
 export function LegalDocument({ documentKey }: { documentKey: DocumentKey }): ReactNode {
-  const { dictionary } = useI18n();
-  const labels = dictionary.footer;
-  const [before, after] = labels.contact.split("{email}");
+  const { dictionary, locale } = useI18n();
+  const texts = TEXTS[locale];
+  const document = texts[documentKey];
   return (
-    <ReviewShell backHref="/" backLabel={labels.back} title={labels[documentKey]}>
-      <section className="card">
-        <p>{labels.pending}</p>
-        <p>
-          {before}
-          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-          {after}
-        </p>
-      </section>
+    <ReviewShell backHref="/" backLabel={dictionary.footer.back} title={document.title}>
+      <article className="card legal-document">
+        {document.sections.map((section) => (
+          <section key={section.heading}>
+            <h2>{section.heading}</h2>
+            {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          </section>
+        ))}
+        <p className="form__hint">{texts.version}</p>
+      </article>
     </ReviewShell>
   );
 }
