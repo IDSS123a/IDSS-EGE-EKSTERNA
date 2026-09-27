@@ -27,3 +27,5 @@ Date: 2026-09-27 (in progress)
 - Next.js renders its own `role="alert"` route announcer, so `getByRole("alert")` matched two elements → tests target the form's error by id.
 - React 19 resets an uncontrolled form after a Server Action, clearing the username on a failed login → the action echoes the caller's own normalised username (never the password) as `defaultValue`.
 - `.card p` outranked `.form__error` (specificity), so the error was not red → scoped the form rules under `.card`; caught only by looking at a screenshot, not by tests.
+- Server Actions used by `useActionState` must take `(previousState, formData)`; a plain `(formData)` action type-checks as a form action but cannot report results → all account actions use the two-argument form.
+- `ilike` on usernames would treat `_`/`%` as wildcards (both allowed in e-mail local parts) → usernames are stored lower-case and compared with `eq`.

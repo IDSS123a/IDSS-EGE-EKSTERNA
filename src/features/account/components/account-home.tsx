@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import type { ReactNode } from "react";
+import { ACCOUNTS_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -10,7 +12,14 @@ import { SiteHeader } from "@/features/shell/components/site-header";
  * Signed-in landing page until role workspaces exist (Game Hub, Command Centers).
  * Receives only display fields already authorised on the server.
  */
-export function AccountHome({ account }: { account: Pick<CurrentAccount, "displayName" | "role"> }): ReactNode {
+export function AccountHome({
+  account,
+  canViewAccounts,
+}: {
+  account: Pick<CurrentAccount, "displayName" | "role">;
+  /** Decided on the server (lib/permissions.ts). */
+  canViewAccounts: boolean;
+}): ReactNode {
   const { dictionary } = useI18n();
   return (
     <div className="page">
@@ -30,6 +39,9 @@ export function AccountHome({ account }: { account: Pick<CurrentAccount, "displa
         <section className="card" aria-labelledby="next-steps">
           <h2 id="next-steps">{dictionary.account.nextStepsTitle}</h2>
           <p>{dictionary.account.nextStepsBody}</p>
+          {canViewAccounts && (
+            <Link href={ACCOUNTS_PATH} className="button-primary">{dictionary.accounts.navLink}</Link>
+          )}
         </section>
       </main>
     </div>

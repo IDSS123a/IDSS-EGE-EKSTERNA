@@ -43,3 +43,8 @@ test("login without a reachable auth backend fails closed with a friendly messag
   await expect(page.locator("#login-error")).toHaveText("Die Anmeldung ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Anmeldung");
 });
+
+test("account administration is not reachable without a session", async ({ page }) => {
+  await page.goto("/app/nalozi");
+  await expect(page).toHaveURL(/\/prijava$/);
+});

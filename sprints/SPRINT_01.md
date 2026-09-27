@@ -36,8 +36,8 @@ Canon upload UI, ingestion, question bank, practice, gamification, AI (Sprints 0
 - [x] 4. Supabase project `dezevstfmfliyasdeflj` (Director). Migrations 001–004 applied 2026-09-27; Supabase security advisor clean after 004 (moved SECURITY DEFINER helpers out of the exposed schema). Local `npm run test:db` 33/33; live SQL checks as `anon` return 0 rows everywhere.
 - [x] 5. Username + password auth (`/prijava`, `/app`, `src/proxy.ts`): Supabase Auth with server-verified `getUser()`, role/status from the database on every request, HTTP-only SameSite=Strict session cookies, lockout after 5 failures per username / 20 per IP in 15 min, uniform error for unknown user / wrong password / inactive account, security events + audit log, logout. Superadmin bootstrap script (`npm run accounts:bootstrap`, run by the Director locally). CSP still pending (nonce via proxy) — moved to step 6.
       Verified here without a reachable database: unit 11/11 (rules, boundary N/N+1, schema), e2e 16/16 (redirects, forged cookie, validation, fail-closed, i18n of errors). **Live sign-in against Supabase must be verified by the Director locally** (sandbox egress blocks supabase.co).
-- [ ] 6. Superadmin account lifecycle UI
-- [ ] 7. Seed named staff accounts
+- [x] 6. Superadmin account lifecycle UI (`/app/nalozi`): create administrator/student accounts (students get a longitudinal `persons` row), set status (active/suspended/blocked/deactivated/archived — also banned/unbanned at Supabase Auth), grant/revoke pedagogue / psychologist / admin_operations bundles, reset passwords; no self-change, Superadmin not editable; every action audited; bs/de/en. Verified: unit 18/18, e2e 18/18; live use by the Director pending. CSP still pending → step 8.
+- [ ] 7. Seed named staff accounts — done by the Director in `/app/nalozi` (initial passwords chosen and handed over personally); bundles per AMB-16.
 - [ ] 8. Integration tests (RLS), rate-limit boundary tests
 
 Verification so far: `npm run typecheck`, `npm run lint`, `npm run build` green;

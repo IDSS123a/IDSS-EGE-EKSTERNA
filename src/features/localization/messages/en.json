@@ -52,5 +52,70 @@
     "nextStepsTitle": "What comes next",
     "nextStepsBody": "Your workspace is being built in the coming sprints. Sign-in, roles and data protection are active.",
     "logout": "Sign out"
+  },
+  "accounts": {
+    "navLink": "Account management",
+    "title": "Account management",
+    "subtitle": "Create accounts, set status, rights and passwords. Every change is logged.",
+    "forbidden": "You do not have access to this page.",
+    "back": "Back",
+    "createTitle": "New account",
+    "username": "Username",
+    "usernameHintStaff": "Administrator: official e-mail address.",
+    "usernameHintStudent": "Student: school-issued username (no e-mail), e.g. firstname.lastname.",
+    "displayName": "Full name",
+    "role": "Role",
+    "password": "Initial password",
+    "passwordHint": "At least {min} characters. Hand the password over in person.",
+    "create": "Create account",
+    "creating": "Creating…",
+    "listTitle": "Accounts",
+    "empty": "There are no accounts yet apart from yours.",
+    "columns": {
+      "name": "Full name",
+      "username": "Username",
+      "role": "Role",
+      "status": "Status",
+      "bundles": "Rights",
+      "actions": "Actions"
+    },
+    "you": "You",
+    "protected": "Protected account",
+    "statuses": {
+      "invited": "Invited",
+      "active": "Active",
+      "suspended": "Suspended",
+      "blocked": "Blocked",
+      "deactivated": "Deactivated",
+      "archived": "Archived"
+    },
+    "setStatus": "Change status",
+    "apply": "Apply",
+    "bundles": {
+      "pedagogue": "Pedagogue",
+      "psychologist": "Psychologist",
+      "admin_operations": "Administrative operations"
+    },
+    "grant": "Grant",
+    "revoke": "Revoke",
+    "subjectTeacherNote": "Subject-teacher rights are granted once the subjects are loaded from the catalogues (Sprint 04).",
+    "resetPassword": "New password",
+    "resetSubmit": "Set password",
+    "tokenNote": "Note: blocking stops new sign-ins immediately; an already open session ends within 1 hour at the latest.",
+    "messages": {
+      "CREATED": "The account was created.",
+      "STATUS_CHANGED": "The status was changed.",
+      "BUNDLE_CHANGED": "The rights were changed.",
+      "PASSWORD_RESET": "The password was set."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "This action is not allowed.",
+      "VALIDATION": "Please check the entered data.",
+      "USERNAME_TAKEN": "This username already exists.",
+      "USERNAME_ROLE_MISMATCH": "Administrators use an e-mail as username; students must not.",
+      "NOT_FOUND": "Account not found.",
+      "UNAVAILABLE": "The action failed. Please try again."
+    }
   }
 }

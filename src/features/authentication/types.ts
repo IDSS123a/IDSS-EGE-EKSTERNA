@@ -9,6 +9,8 @@ export type CurrentAccount = {
   displayName: string;
   role: AccountRole;
   status: AccountStatus;
+  /** Capability codes held through the role and granted bundles (migrations/001_identity.sql). */
+  capabilities: ReadonlySet<string>;
 };
 
 /** Machine codes returned by the login action; the UI maps them to localised text (AMB-11). */
