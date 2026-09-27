@@ -18,3 +18,9 @@ Date: 2026-09-27 (in progress)
 - 2026-09-27 — No lessons: routine content change (splash message 10 revised by the Director).
 - Supabase project was created under a different Supabase account (mulalic.davor@outlook.com) than the one the session's Supabase connector uses → migrations could not be applied; verified them on local PostgreSQL 16 with a Supabase stub instead → M-4 (second method before claiming DB work done).
 - A test that asserts `true` proves nothing: "student update of another profile affected nothing" was replaced by a server-side read of the target row after the attempt (DONE checklist: verify live, not by assumption).
+- Supabase grants EXECUTE on new `public` functions to `anon`/`authenticated` by default, so `revoke ... from public` did not stop anonymous RPC calls to SECURITY DEFINER helpers; the local stub lacked that default and all tests passed. Found only by the Supabase security advisor after applying → migration 004 moves helpers to a non-exposed `private` schema; the stub now mirrors the default grant and a test asserts no SECURITY DEFINER function lives in `public` → M-4 (second, independent method caught what the first missed).
+- The cloud sandbox's egress policy blocks `*.supabase.co`, so HTTP-level checks against the project are impossible here; equivalent checks were run inside the database with `set local role anon`.
+
+## Commander Improvement Candidates (added)
+- ENGINEERING_RULES E-4 / DONE: "Run the Supabase security advisor after every migration" and "SECURITY DEFINER helpers live in a non-exposed schema (`private`), never `public`" — the default Supabase function grants make `public` helpers anonymous RPC endpoints.
+- `.gitignore` from create-next-app contains `.env*`, which silently ignored `.env.example`; it never reached GitHub and the Director's local setup failed → added `!.env.example` and verified with `git check-ignore` → A-7 / E-10 (check the committed tree, not the working tree).

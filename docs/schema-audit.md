@@ -1,7 +1,10 @@
 # schema-audit.md
 
-| Migration | Tables | RLS | Applied to Supabase | Verified |
+Supabase project: `dezevstfmfliyasdeflj` (IDSS-EGE-EKSTERNA, eu-central-1).
+
+| Migration | Tables / objects | RLS | Applied to Supabase | Verified |
 |---|---|---|---|---|
-| 001_identity | profiles, capabilities, role_capabilities, capability_bundles, bundle_capabilities, profile_bundles, persons, school_years, cohorts, enrolments | on, read-only policies, no client writes | pending (connector access) | local PG16 + stub, `npm run test:db` |
-| 002_canon_registry | canonical_document_types, canonical_documents, canonical_document_versions, canon_generation | on; students see active versions only | pending | idem |
-| 003_audit | audit_logs, security_events (append-only triggers) | on; `audit.view` only | pending | idem |
+| 001_identity | profiles, capabilities, role_capabilities, capability_bundles, bundle_capabilities, profile_bundles, persons, school_years, cohorts, enrolments; seed 16 capabilities, 4 bundles | on, read-only policies, no client writes | 2026-09-27 (version 20260927121421) | local `npm run test:db` + live SQL |
+| 002_canon_registry | canonical_document_types (7 seeded), canonical_documents, canonical_document_versions, canon_generation | on; students see active versions only | 2026-09-27 (20260927121430) | idem |
+| 003_audit | audit_logs, security_events (append-only triggers) | on; `audit.view` only | 2026-09-27 (20260927121435) | idem |
+| 004_private_auth_helpers | `private` schema; has_capability() and current_account_role() moved there; trigger search_path pinned | — | 2026-09-27 (20260927121529) | Supabase security advisor: 0 lints; live: anon sees 0 rows in every table, no usage on `private`, 0 SECURITY DEFINER functions in `public` |
