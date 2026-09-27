@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { REVIEW_TEXT_MAX_LENGTH } from "@/constants";
+import { RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 
 /**
  * Shared Zod schemas (Commander E-2: every boundary validated, schemas in one place).
@@ -117,6 +117,12 @@ export const CanonTransitionSchema = z.object({
 
 /** POST run the catalogue extraction for one document version (Sprint 03). */
 export const IngestionRunSchema = z.object({ versionId: z.uuid() });
+
+/** POST search over trusted canon (Sprint 05). */
+export const CanonSearchSchema = z.object({
+  query: z.string().trim().min(RETRIEVAL_QUERY_MIN_LENGTH).max(RETRIEVAL_QUERY_MAX_LENGTH),
+  subjectId: z.preprocess((value) => (value === "" ? undefined : value), z.uuid().optional()),
+});
 
 /** POST load canonical facts of one catalogue version (Sprint 04). */
 export const FactsLoadSchema = z.object({ versionId: z.uuid() });

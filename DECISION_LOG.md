@@ -182,3 +182,21 @@ Director minutes earlier; the bulk run added a second, tagged confirmation, see 
 **Consequence:** 494 trusted question versions and 576 printed keys exist. Subject teachers can still correct
 keys by revision; a record cannot be un-accepted (append-only by design). Later work that shows questions to
 students should let teachers flag bulk-accepted questions for individual re-review (proposal for Sprint 06).
+
+## PDL-017: Retrieval foundation on PostgreSQL full-text search; Gemini embeddings later
+**Date:** 2026-09-27 (Sprint 05)
+**Decision (Director):** build the retrieval layer now without an external AI service or key; semantic search with
+Gemini embeddings (DL-005) is added when the Director provides a key.
+**Design:** chunks of trusted question versions and confirmed rules only (never untrusted records, never answer keys),
+`retrieve_canon()` filters active versions and the actor's subjects before ranking, audits every call with the query's
+SHA-256 (never the text), bounded k. Query text is reduced to letter/digit tokens (no query syntax can be injected);
+diacritics and case are folded (č ć đ š ž, ä ö ü ß); words of 5+ letters match by prefix (inflection); B/H/S and German
+function words are dropped; ranking = number of matched content words, then `ts_rank_cd`. Callers use the
+`CanonRetriever` interface (A-5), so the embedding implementation replaces the ranking without touching them.
+Generation (later) receives only cited, delimited source blocks after a fixed instruction; no evidence above the
+relevance floor gives the fixed refusal text.
+**Evidence:** live checks on the 514 real chunks (rolled back): "Koliko traje ispit iz matematike?" ranks
+`exam.duration_minutes` first, "koliko bodova nosi povezivanje" ranks `exam.scoring` first, "Perfekt Hilfsverb" finds
+German grammar tasks. Known limit: meaning without shared words (synonyms) needs the embeddings.
+**Alternatives rejected for now:** pgvector with Supabase's built-in small embedding model (a second model family
+beside Gemini, weaker for B/H/S); trigram similarity only (no ranking by content words).

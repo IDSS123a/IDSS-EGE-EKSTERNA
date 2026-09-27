@@ -42,3 +42,6 @@
 - [2026-09-27 16:28] Write: config/canonical-facts.json
 - [2026-09-27 16:31] Write: migrations/008_review_knowledge.sql
 - [2026-09-27] Sprint 04 started: canonical facts, migration 008 applied, scoped grants, review queue, key revisions, rules review (PR #17)
+- [2026-09-27] Sprint 04 closed (DONE checklist, compliance, handoff)
+- [2026-09-27 17:42] Write: migrations/009_retrieval.sql
+- [2026-09-27] Sprint 05 started: migrations 009 to 011 applied, retrieval feature, /app/pretraga

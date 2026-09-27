@@ -48,3 +48,7 @@
 [2026-09-27] [FEATURE] Review queue /app/pregled: each record beside its original page region (pdf.js), accept with confirmed task type or return with reason; answer-key revisions that never change the printed key; exam rules with quotes, confirm or dispute
 [2026-09-27] [SECURITY] CSP worker-src 'self' (pdf.js worker); review source served same-origin only to reviewers of that subject, SHA-256 re-checked
 [2026-09-27] [CANON] 494 catalogue records accepted as trusted (2 individually, 492 in bulk by Director order, tagged, PDL-016); 20 rules confirmed; 6 German records pending
+[2026-09-27] [SPRINT] Sprint 04 closed: facts, scoped review, 494 trusted questions; DONE checklist, compliance score, handoff note
+[2026-09-27] [DATABASE] Migrations 009 to 011: retrieval over trusted canon (chunks, audited retrieve_canon with active-version and subject filter, diacritic folding, ranking by matched words); applied to Supabase
+[2026-09-27] [FEATURE] /app/pretraga: search of checked questions and confirmed rules with cited results and a fixed refusal; "Izgradi indeks" for the Superadmin (PDL-017)
+[2026-09-27] [TEST] Local test database created as UTF-8 (was SQL_ASCII), matching Supabase

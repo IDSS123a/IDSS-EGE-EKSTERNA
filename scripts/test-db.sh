@@ -10,7 +10,7 @@ RUN_AS=()
 if [ "$(id -u)" = "0" ]; then chown -R postgres "$DATA_DIR"; RUN_AS=(runuser -u postgres --); fi
 cleanup() { "${RUN_AS[@]}" "$PG_BIN/pg_ctl" -D "$DATA_DIR" -m immediate stop >/dev/null 2>&1 || true; rm -rf "$DATA_DIR"; }
 trap cleanup EXIT
-"${RUN_AS[@]}" "$PG_BIN/initdb" -D "$DATA_DIR" -A trust -U postgres >/dev/null
+"${RUN_AS[@]}" "$PG_BIN/initdb" -D "$DATA_DIR" -A trust -U postgres -E UTF8 --locale=C.UTF-8 >/dev/null
 "${RUN_AS[@]}" "$PG_BIN/pg_ctl" -D "$DATA_DIR" -o "-p $PORT -k /tmp -c listen_addresses=''" -w start >/dev/null
 PSQL=(psql -h /tmp -p "$PORT" -U postgres -d postgres -v ON_ERROR_STOP=1 -q)
 "${PSQL[@]}" -f "$ROOT/tests/db/supabase-stub.sql"

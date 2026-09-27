@@ -33,3 +33,8 @@ test("the CSP allows workers only from the same origin", async ({ request }) => 
   const csp = (await request.get("/prijava")).headers()["content-security-policy"];
   expect(csp).toContain("worker-src 'self'");
 });
+
+test("the canon search is not reachable without a session", async ({ page }) => {
+  await page.goto("/app/pretraga");
+  await expect(page).toHaveURL(/\/prijava$/);
+});

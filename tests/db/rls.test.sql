@@ -473,3 +473,61 @@ set role anon;
 select pg_temp.assert((select count(*) from public.subjects) = 0, 'anon reads no subjects');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 008');
+
+-- 12. Retrieval (migration 009): chunks only from trusted content, scope before rank, audited, injection-safe.
+select pg_temp.assert(private.fold_text('Četverougao ĆUPRIJA Größe Đak') = 'cetverougao cuprija grosse dak', 'diacritics and case are folded for search');
+set role service_role;
+select pg_temp.expect_error($$select public.rebuild_canon_chunks('00000000-0000-0000-0000-00000000000b', null)$$,
+  'FORBIDDEN', 'a subject teacher cannot build the index');
+create temp table t_build as select public.rebuild_canon_chunks('00000000-0000-0000-0000-00000000000a', null) as result;
+select pg_temp.assert((select (result ->> 'question_chunks_added')::int from t_build) = 2, 'every trusted question version becomes a chunk');
+select pg_temp.assert((select (result ->> 'rule_chunks_added')::int from t_build) = 1, 'only confirmed rules become chunks');
+select pg_temp.assert((select count(*) from public.canonical_chunks c join public.ingested_records r on r.record_key = 'MAT-5.1.3' where c.citation ->> 'record_key' = 'MAT-5.1.3') = 0, 'untrusted records never become chunks');
+select pg_temp.assert(not exists (select 1 from public.canonical_chunks where content like '%c)%' and source_kind = 'question_version' and citation ->> 'record_key' = 'MAT-5.1.1' and content not like '%Test?%'), 'chunks carry canonical text, not answer keys');
+select pg_temp.assert((select (public.rebuild_canon_chunks('00000000-0000-0000-0000-00000000000a', null) ->> 'question_chunks_added')::int) = 0, 'rebuilding adds nothing twice');
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'retrieval.index_built'), 'index build audited');
+
+select pg_temp.expect_error($$select * from public.retrieve_canon('00000000-0000-0000-0000-00000000000c', 'test', null, 5)$$,
+  'FORBIDDEN', 'a student cannot retrieve staff canon yet');
+select pg_temp.expect_error($$select * from public.retrieve_canon('00000000-0000-0000-0000-00000000000b', 'test', (select id from t_german), 5)$$,
+  'FORBIDDEN', 'a teacher cannot search another subject');
+select pg_temp.expect_error($$select * from public.retrieve_canon('00000000-0000-0000-0000-00000000000b', 'x', null, 5)$$,
+  'VALIDATION', 'a query needs at least two characters');
+select pg_temp.expect_error($$select * from public.retrieve_canon('00000000-0000-0000-0000-00000000000b', 'test', null, 50)$$,
+  'VALIDATION', 'k is bounded');
+select pg_temp.assert((select count(*) from public.retrieve_canon('00000000-0000-0000-0000-00000000000b', 'TEST', null, 5)) = 1,
+  'a teacher finds trusted questions of own subject only (case-insensitive)');
+select pg_temp.assert((select count(*) from public.retrieve_canon('00000000-0000-0000-0000-00000000000a', 'test', null, 5)) = 2, 'the superadmin searches every subject');
+select pg_temp.assert((select count(*) from public.retrieve_canon('00000000-0000-0000-0000-00000000000a', 'traje 60 minuta', (select id from t_german), 5)) = 1, 'confirmed rules are found by their quote');
+select pg_temp.assert((select count(*) from public.retrieve_canon('00000000-0000-0000-0000-00000000000a', $q$'; drop table public.canonical_chunks; --$q$, null, 5)) = 0
+  and exists (select 1 from public.canonical_chunks), 'an injection string is just a query');
+select pg_temp.assert((select count(*) from public.retrieve_canon('00000000-0000-0000-0000-00000000000a', '!!! & | :*', null, 5)) = 0, 'operator-only queries return nothing without error');
+select pg_temp.assert(private.search_query('Koliko traje ispit?') = to_tsquery('simple', 'ispi:* | traj:*'), 'questions become an OR query of content words with prefixes for long words');
+select pg_temp.assert(private.search_terms('Da li je 60 minuta i der Test') @> array['60', 'minu:*', 'test'] and cardinality(private.search_terms('Da li je 60 minuta i der Test')) = 3, 'function words are dropped, numbers kept');
+select pg_temp.assert(private.search_query($q$a & b:* | !c ' ) ($q$) = ''::tsquery, 'query syntax in the text is dropped, never interpreted');
+select pg_temp.assert((select count(*) from public.retrieve_canon('00000000-0000-0000-0000-00000000000a', 'koliko minuta traje ispit', (select id from t_german), 5)) = 1, 'a natural question finds the rule by any of its words');
+select pg_temp.assert((select count(*) from public.retrieval_audit_logs) >= 5
+  and not exists (select 1 from public.retrieval_audit_logs where query_sha256 !~ '^[0-9a-f]{64}$'), 'every retrieval is audited with a query hash');
+select pg_temp.assert(exists (select 1 from public.retrieval_audit_logs where query_sha256 = encode(sha256(convert_to('TEST', 'UTF8')), 'hex') and cardinality(returned) = 1),
+  'the audit row lists the returned chunks');
+
+-- Superseding the source version removes its content from retrieval.
+select public.register_canon_version('00000000-0000-0000-0000-00000000000a', '66666666-6666-6666-6666-666666666601', null, null, '{}'::jsonb,
+  '77777777-7777-7777-7777-777777777702', 'x/fixture2.pdf', repeat('2', 64), 'application/pdf', 1, 'Test authority', 'Fixture v2', null, null, null, null, null);
+select public.activate_canon_version('00000000-0000-0000-0000-00000000000a', '77777777-7777-7777-7777-777777777702', null, null);
+select pg_temp.assert((select count(*) from public.retrieve_canon('00000000-0000-0000-0000-00000000000a', 'test', null, 10)) = 0, 'superseded content is never retrieved');
+select pg_temp.assert((select count(*) from public.canonical_dependencies where dependent_table = 'canonical_chunks' and state = 'stale') = 2, 'chunks of the superseded version are marked stale');
+reset role;
+
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.canonical_chunks) = 0 and (select count(*) from public.retrieval_audit_logs) = 0, 'students read no chunks and no retrieval log');
+do $$ begin
+  perform public.retrieve_canon('00000000-0000-0000-0000-00000000000c', 'test', null, 5);
+  raise exception 'FAIL: authenticated executed retrieve_canon';
+exception when insufficient_privilege then raise notice 'ok - signed-in users cannot call retrieve_canon directly';
+end $$;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.retrieval_audit_logs) = 0, 'the retrieval log needs audit.view');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 009');

@@ -506,5 +506,39 @@
       "NOT_ACCEPTABLE": "Ein strukturell fehlerhafter Datensatz kann nicht angenommen werden.",
       "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
     }
+  },
+  "search": {
+    "navLink": "Suche in den offiziellen Materialien",
+    "title": "Suche in den offiziellen Materialien",
+    "subtitle": "Durchsucht nur geprüfte Aufgaben und bestätigte Regeln der gültigen Kataloge. Jedes Ergebnis nennt Quelle und Seite.",
+    "method": "Die Suche arbeitet vorerst mit Wörtern (unabhängig von Sonderzeichen und Endungen). Die semantische Suche folgt, sobald ein KI-Dienst aktiviert ist.",
+    "query": "Frage oder Begriff",
+    "queryHint": "Zum Beispiel: wie lange dauert die Prüfung, Taschenrechner, Perfekt, Hasanaginica.",
+    "subject": "Fach",
+    "allSubjects": "Alle meine Fächer",
+    "submit": "Suchen",
+    "searching": "Suche läuft",
+    "results": "Gefundene Quellen: {n}",
+    "refusal": "Die offiziellen Materialien enthalten keine Antwort auf diese Frage.",
+    "kinds": {
+      "question_version": "Aufgabe aus dem Katalog",
+      "canonical_rule": "Prüfungsregel"
+    },
+    "source": "Quelle",
+    "empty": "Der Index enthält noch keinen Text. Der Superadministrator erstellt ihn mit \"Index erstellen\".",
+    "index": {
+      "title": "Suchindex",
+      "intro": "Der Index enthält geprüfte Aufgaben und bestätigte Regeln der gültigen Kataloge. Nach neuen Prüfentscheidungen erneut erstellen; vorhandener Text bleibt.",
+      "build": "Index erstellen",
+      "building": "Index wird erstellt",
+      "counts": "Im Index: {total} Textabschnitte.",
+      "built": "Hinzugefügt: {q} Aufgaben und {r} Regeln. Gesamt: {total}."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+      "FORBIDDEN": "Sie dürfen in diesem Fach nicht suchen.",
+      "VALIDATION": "Geben Sie eine Frage oder einen Begriff mit mindestens 2 Zeichen ein.",
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+    }
   }
 }
