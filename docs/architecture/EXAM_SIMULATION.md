@@ -23,12 +23,14 @@ ministry builds it: by selecting official catalogue tasks, never by inventing ne
 
 **Probni ispit (mock exam)**: identical to the real test in structure, points, timing and allowed
 aids. Every task is an official catalogue task, shown with its original wording (figures and
-graphical options rendered from the original page region). Scored with the catalogue's own rules
-and answer keys (with reviewed corrections, CF-03). The result is also shown as enrolment points
+graphical options rendered from the original page region). Graded by the subject teacher (PDL-018):
+the system pre-scores closed items with the catalogue's keys (with reviewed corrections, CF-03) as a
+proposal, the teacher grades open items by the catalogue's scoring rules and confirms the result; the
+student sees result, solutions and explanations only after that confirmation. The result is also shown as enrolment points
 (matura points × 0.80, C20 Art. 12) for the edition valid in the student's school year (AMB-18).
 
-**Vježba (practice)**: by subject, area and level; immediate feedback, hints and explanations in the
-student's language (the question text stays in its source language, AMB-13); spaced repetition of
+**Vježba (practice)**: by subject, area and level; feedback after the student submits an answer (never
+before, PDL-018), hints and explanations in the student's language (the question text stays in its source language, AMB-13); spaced repetition of
 tasks answered wrongly; mastery per area.
 
 ## 4. Many different sets, few repetitions

@@ -200,3 +200,22 @@ relevance floor gives the fixed refusal text.
 German grammar tasks. Known limit: meaning without shared words (synonyms) needs the embeddings.
 **Alternatives rejected for now:** pgvector with Supabase's built-in small embedding model (a second model family
 beside Gemini, weaker for B/H/S); trigram similarity only (no ranking by content words).
+
+## PDL-018: The teacher grades mock exams; answers after grading; notifications; game follows the grade
+**Date:** 2026-09-27 (Director, after the first live search)
+**Decisions:**
+1. **Grading:** a submitted mock exam goes to the subject teacher's grading queue. The system pre-scores closed items
+   (multiple choice, matching, true/false) with the catalogue key (and reviewed key revisions, CF-03) as a proposal;
+   the teacher grades open items (Math tasks 5 to 10 with working, B/H/S completion and short answers) by the official
+   scoring rules (0 / 0,5 / 1 point, C12 to C14), may change any proposal, and confirms the final result. The student sees
+   the result only after the teacher's confirmation.
+2. **Answers:** the student never sees correct answers in advance. Mock exam: solutions and explanations after the
+   teacher's grading. Practice: the solution after the student has submitted an answer, never before.
+   (Already true today: answer keys are readable only by staff (RLS) and are excluded from the search index.)
+3. **Notifications (in the app):** the teacher gets one notification per submitted mock exam waiting for grading and
+   one daily summary (who practised, who is inactive, weak areas). No notification per practice answer.
+4. **Game follows the grade (P-7):** effort and regularity (practice, streaks, missions) earn XP and badges; the
+   teacher's confirmed grade is the main source of rewards: when the teacher confirms a mock exam, the student receives
+   the XP and special recognitions tied to that result. XP never changes a score.
+**Plan impact:** Sprint 07 (exam engine) includes the grading queue, pre-scoring and grade confirmation; Sprint 08
+(gamification) awards on confirmed grades; notifications arrive with Sprint 07 (grading) and Sprint 09 (daily summary).

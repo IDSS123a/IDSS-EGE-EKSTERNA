@@ -12,9 +12,9 @@ Order follows mandate §20; canon foundations come before any student AI feature
 | 04 — Review & knowledge | Review queue UI (rendered page region beside the record), LaTeX normalisation for math, answer-key revisions, canonical rules with page quotes, subject/area rows | subject teachers review; first trusted questions |
 | 05 — Retrieval (RAG) | chunking of trusted records, embeddings, `retrieve_canon()` with active-version filter, retrieval audit, provider interface, refusal behaviour, injection tests | superseded content never retrieved (test) |
 | 06 — Student Game Hub & practice | Game Hub, subject pages, practice loop with feedback, mastery model, missions v1 | a student can practise every trusted question |
-| 07 — Exam engine | mock-exam blueprints from canonical rules (+ AMB-09/10 data), timer, scoring rules, attempts history | Math/B/H/S/German mock exams match canon structure |
-| 08 — Gamification | event stream, XP, levels, streaks, badges, celebrations (reduced-motion aware) | XP never affects scoring (test) |
-| 09 — Staff Command Center | per-student and class progress, weak areas, inactivity signals, assignments, teacher notes, support notes (separate RLS) | privacy boundaries verified live |
+| 07 — Exam engine | mock-exam blueprints from canonical rules (+ AMB-09/10 data), timer, attempts history; pre-scoring of closed items, teacher grading queue and grade confirmation, notification per submitted exam (PDL-018) | Math/B/H/S/German mock exams match canon structure; results visible only after the teacher's confirmation |
+| 08 — Gamification | event stream, XP, levels, streaks, badges, celebrations (reduced-motion aware); rewards on the teacher's confirmed grade plus effort and regularity (PDL-018) | XP never affects scoring (test) |
+| 09 — Staff Command Center | per-student and class progress, weak areas, inactivity signals, daily summary notification (PDL-018), assignments, teacher notes, support notes (separate RLS) | privacy boundaries verified live |
 | 10 — Director Command Center | aggregate analytics, content health, audit, configuration | aggregate-first views |
 | 11 — Hardening & launch | accessibility audit, security adversarial pass (forged token, self-escalation, cross-role reads), performance (E-15), production deploy | DONE checklist incl. post-deploy verification |
 
