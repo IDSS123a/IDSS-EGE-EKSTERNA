@@ -23,3 +23,4 @@ Date: 2026-09-27 (in progress)
 
 ## Commander Improvement Candidates (added)
 - ENGINEERING_RULES E-4 / DONE: "Run the Supabase security advisor after every migration" and "SECURITY DEFINER helpers live in a non-exposed schema (`private`), never `public`" — the default Supabase function grants make `public` helpers anonymous RPC endpoints.
+- `.gitignore` from create-next-app contains `.env*`, which silently ignored `.env.example`; it never reached GitHub and the Director's local setup failed → added `!.env.example` and verified with `git check-ignore` → A-7 / E-10 (check the committed tree, not the working tree).
