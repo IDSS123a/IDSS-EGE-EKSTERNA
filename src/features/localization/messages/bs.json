@@ -10,7 +10,11 @@
   },
   "language": {
     "label": "Jezik",
-    "names": { "bs": "Bosanski", "de": "Deutsch", "en": "English" }
+    "names": {
+      "bs": "Bosanski",
+      "de": "Deutsch",
+      "en": "English"
+    }
   },
   "home": {
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
@@ -18,6 +22,35 @@
     "subtitle": "Priprema za eksternu maturu kroz izazove, misije i vježbu zasnovanu isključivo na službenim ispitnim katalozima.",
     "statusTitle": "Platforma je u izgradnji",
     "statusBody": "Trenutno se gradi Sprint 01: temelji platforme — prijava korisničkim imenom i lozinkom, uloge i prava pristupa, te registar kanonskih dokumenata.",
-    "replaySplash": "Prikaži uvodni ekran ponovo"
+    "replaySplash": "Prikaži uvodni ekran ponovo",
+    "login": "Prijava"
+  },
+  "auth": {
+    "title": "Prijava",
+    "subtitle": "Prijavite se korisničkim imenom i lozinkom.",
+    "username": "Korisničko ime",
+    "usernameHint": "Osoblje: službena e-mail adresa. Učenici: korisničko ime koje je dodijelila škola.",
+    "password": "Lozinka",
+    "submit": "Prijavi se",
+    "submitting": "Prijava u toku…",
+    "errors": {
+      "VALIDATION": "Unesite ispravno korisničko ime i lozinku.",
+      "INVALID_CREDENTIALS": "Pogrešno korisničko ime ili lozinka.",
+      "LOCKED": "Previše neuspješnih pokušaja. Pokušajte ponovo za 15 minuta.",
+      "UNAVAILABLE": "Prijava trenutno nije dostupna. Pokušajte ponovo kasnije."
+    },
+    "backHome": "Nazad na početnu"
+  },
+  "account": {
+    "welcome": "Dobro došli",
+    "roleLabel": "Uloga",
+    "roles": {
+      "superadmin": "Superadministrator",
+      "administrator": "Administrator",
+      "student": "Učenik"
+    },
+    "nextStepsTitle": "Šta slijedi",
+    "nextStepsBody": "Vaš radni prostor se gradi u narednim sprintovima. Prijava, uloge i zaštita podataka su aktivni.",
+    "logout": "Odjava"
   }
 }

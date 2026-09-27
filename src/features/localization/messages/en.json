@@ -10,7 +10,11 @@
   },
   "language": {
     "label": "Language",
-    "names": { "bs": "Bosanski", "de": "Deutsch", "en": "English" }
+    "names": {
+      "bs": "Bosanski",
+      "de": "Deutsch",
+      "en": "English"
+    }
   },
   "home": {
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
@@ -18,6 +22,35 @@
     "subtitle": "External matura preparation through challenges, missions and practice based exclusively on the official exam catalogues.",
     "statusTitle": "The platform is under construction",
     "statusBody": "Sprint 01 is in progress: the platform foundations — username and password sign-in, roles and access rights, and the register of canonical documents.",
-    "replaySplash": "Show the intro screen again"
+    "replaySplash": "Show the intro screen again",
+    "login": "Sign in"
+  },
+  "auth": {
+    "title": "Sign in",
+    "subtitle": "Sign in with your username and password.",
+    "username": "Username",
+    "usernameHint": "Staff: official e-mail address. Students: the username issued by the school.",
+    "password": "Password",
+    "submit": "Sign in",
+    "submitting": "Signing in…",
+    "errors": {
+      "VALIDATION": "Enter a valid username and password.",
+      "INVALID_CREDENTIALS": "Incorrect username or password.",
+      "LOCKED": "Too many failed attempts. Please try again in 15 minutes.",
+      "UNAVAILABLE": "Sign-in is currently unavailable. Please try again later."
+    },
+    "backHome": "Back to home"
+  },
+  "account": {
+    "welcome": "Welcome",
+    "roleLabel": "Role",
+    "roles": {
+      "superadmin": "Superadministrator",
+      "administrator": "Administrator",
+      "student": "Student"
+    },
+    "nextStepsTitle": "What comes next",
+    "nextStepsBody": "Your workspace is being built in the coming sprints. Sign-in, roles and data protection are active.",
+    "logout": "Sign out"
   }
 }
