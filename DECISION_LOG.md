@@ -219,3 +219,13 @@ beside Gemini, weaker for B/H/S); trigram similarity only (no ranking by content
    the XP and special recognitions tied to that result. XP never changes a score.
 **Plan impact:** Sprint 07 (exam engine) includes the grading queue, pre-scoring and grade confirmation; Sprint 08
 (gamification) awards on confirmed grades; notifications arrive with Sprint 07 (grading) and Sprint 09 (daily summary).
+
+## PDL-019: Splash palette: yellow, blue and sky prevail; red only in traces
+**Date:** 2026-09-27 (Director)
+**Decision:** in the splash field #E8262C (red) appears only in traces; #FFCB29 (yellow), #035EA1 (blue) and #08ABE6
+(sky) prevail. Amends PDL-007 (same four IDSS stops, new proportions).
+**Implementation:** `public/splash/splash.js`: blue and yellow alternate in the main field; sky and red are layers from
+their own noise fields, drawn above a threshold; thresholds are recipe data (`skyThreshold`, `redThreshold`, `yellowFrom`,
+`blend`). Measured on rendered frames (1440 x 900, two moments): yellow 28 to 30 %, sky 26 to 27 %, blue 23 %, red 1.5 %,
+rest the card and edges. CSS fallback without WebGL: a small red spot, larger yellow fields; card rule and progress bar
+use red for 6 % of their length.

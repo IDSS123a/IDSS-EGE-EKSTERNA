@@ -34,8 +34,10 @@
   font-family: var(--splash-font);
   /* CSS fallback field (no JS / no WebGL): the four IDSS stops as a soft mesh. */
   background:
-    radial-gradient(60% 70% at 12% 18%, var(--splash-red) 0%, transparent 60%),
-    radial-gradient(55% 65% at 88% 12%, var(--splash-yellow) 0%, transparent 60%),
+    /* Red only as a trace; yellow, blue and sky prevail (PDL-019). */
+    radial-gradient(14% 16% at 12% 18%, var(--splash-red) 0%, transparent 60%),
+    radial-gradient(65% 75% at 88% 12%, var(--splash-yellow) 0% 38%, transparent 62%),
+    radial-gradient(55% 65% at 15% 50%, var(--splash-yellow) 0% 35%, transparent 60%),
     radial-gradient(70% 70% at 80% 90%, var(--splash-sky) 0%, transparent 62%),
     radial-gradient(80% 80% at 20% 95%, var(--splash-blue) 0%, transparent 65%),
     linear-gradient(135deg, var(--splash-blue), var(--splash-sky));
@@ -139,7 +141,7 @@ html:not([data-splash]) body > :not(#idss-splash):not(script) {
   margin: 14px auto 18px;
   border: 0;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--splash-red), var(--splash-yellow), var(--splash-sky), var(--splash-blue));
+  background: linear-gradient(90deg, var(--splash-red) 0 6%, var(--splash-yellow) 6% 36%, var(--splash-sky) 60%, var(--splash-blue));
 }
 
 .idss-splash__message {
@@ -174,7 +176,7 @@ html:not([data-splash]) body > :not(#idss-splash):not(script) {
   inset: 0;
   width: 40%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--splash-red), var(--splash-yellow), var(--splash-sky), var(--splash-blue));
+  background: linear-gradient(90deg, var(--splash-red) 0 6%, var(--splash-yellow) 6% 36%, var(--splash-sky) 60%, var(--splash-blue));
   animation: idss-splash-progress 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
