@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "IDSS EGE — Priprema za eksternu maturu",
+    "title": "IDSS EGE: Priprema za eksternu maturu",
     "description": "Platforma Internationale Deutsche Schule Sarajevo za pripremu učenika IX razreda za eksternu maturu."
   },
   "splash": {
     "label": "IDSS EGE se učitava",
-    "product": "EGE · Priprema za eksternu maturu",
+    "product": "EGE: Priprema za eksternu maturu",
     "logoAlt": "Internationale Deutsche Schule Sarajevo"
   },
   "language": {
@@ -21,7 +21,7 @@
     "title": "IDSS EGE",
     "subtitle": "Priprema za eksternu maturu kroz izazove, misije i vježbu zasnovanu isključivo na službenim ispitnim katalozima.",
     "statusTitle": "Platforma je u izgradnji",
-    "statusBody": "Trenutno se gradi Sprint 01: temelji platforme — prijava korisničkim imenom i lozinkom, uloge i prava pristupa, te registar kanonskih dokumenata.",
+    "statusBody": "Trenutno se gradi Sprint 01, temelji platforme: prijava korisničkim imenom i lozinkom, uloge i prava pristupa, te registar kanonskih dokumenata.",
     "replaySplash": "Prikaži uvodni ekran ponovo",
     "login": "Prijava"
   },
@@ -32,7 +32,7 @@
     "usernameHint": "Osoblje: službena e-mail adresa. Učenici: korisničko ime koje je dodijelila škola.",
     "password": "Lozinka",
     "submit": "Prijavi se",
-    "submitting": "Prijava u toku…",
+    "submitting": "Prijava u toku",
     "errors": {
       "VALIDATION": "Unesite ispravno korisničko ime i lozinku.",
       "INVALID_CREDENTIALS": "Pogrešno korisničko ime ili lozinka.",
@@ -68,7 +68,7 @@
     "password": "Početna lozinka",
     "passwordHint": "Najmanje {min} znakova. Lozinku lično predajte korisniku.",
     "create": "Kreiraj nalog",
-    "creating": "Kreiranje…",
+    "creating": "Kreiranje",
     "listTitle": "Nalozi",
     "empty": "Još nema naloga osim Vašeg.",
     "columns": {

@@ -10,7 +10,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>IDSS EGE — splash preview</title>
+    <title>IDSS EGE: splash preview</title>
     <link rel="icon" href="/brand/idss-logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -39,7 +39,7 @@
       <div class="idss-splash__veil" aria-hidden="true"></div>
       <div class="idss-splash__plate">
         <img class="idss-splash__logo" src="/brand/idss-logo.png" alt="Internationale Deutsche Schule Sarajevo" width="1460" height="443" />
-        <p class="idss-splash__product">EGE · Priprema za eksternu maturu</p>
+        <p class="idss-splash__product">EGE: Priprema za eksternu maturu</p>
         <hr class="idss-splash__rule" />
         <p class="idss-splash__message" data-splash-message data-index="-1"></p>
         <div class="idss-splash__progress" aria-hidden="true"></div>
@@ -55,7 +55,7 @@
         var params = new URLSearchParams(location.search);
         var lang = params.get("lang");
         var root = document.getElementById("idss-splash");
-        var products = { bs: "EGE · Priprema za eksternu maturu", de: "EGE · Vorbereitung auf die externe Matura", en: "EGE · External matura preparation" };
+        var products = { bs: "EGE: Priprema za eksternu maturu", de: "EGE: Vorbereitung auf die externe Matura", en: "EGE: External matura preparation" };
         if (lang && products[lang]) {
           document.documentElement.lang = lang;
           root.setAttribute("data-locale", lang);

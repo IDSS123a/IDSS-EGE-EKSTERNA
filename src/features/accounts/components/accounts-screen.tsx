@@ -35,7 +35,7 @@ export function AccountsScreen({ accounts, actorUserId, canManage, canResetPassw
         }
       />
       <main className="page__main">
-        <Link href={APP_HOME_PATH} className="back-link">← {labels.back}</Link>
+        <Link href={APP_HOME_PATH} className="back-link">{labels.back}</Link>
         <h1 className="home__title">{labels.title}</h1>
         <p className="home__subtitle">{labels.subtitle}</p>
         {canManage && <p className="notice">{labels.tokenNote}</p>}

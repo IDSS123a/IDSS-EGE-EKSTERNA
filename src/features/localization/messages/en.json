@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "IDSS EGE — External matura preparation",
+    "title": "IDSS EGE: External matura preparation",
     "description": "Internationale Deutsche Schule Sarajevo platform preparing Grade 9 students for the external matura."
   },
   "splash": {
     "label": "IDSS EGE is loading",
-    "product": "EGE · External matura preparation",
+    "product": "EGE: External matura preparation",
     "logoAlt": "Internationale Deutsche Schule Sarajevo"
   },
   "language": {
@@ -21,7 +21,7 @@
     "title": "IDSS EGE",
     "subtitle": "External matura preparation through challenges, missions and practice based exclusively on the official exam catalogues.",
     "statusTitle": "The platform is under construction",
-    "statusBody": "Sprint 01 is in progress: the platform foundations — username and password sign-in, roles and access rights, and the register of canonical documents.",
+    "statusBody": "Sprint 01 is in progress: the platform foundations: username and password sign-in, roles and access rights, and the register of canonical documents.",
     "replaySplash": "Show the intro screen again",
     "login": "Sign in"
   },
@@ -32,7 +32,7 @@
     "usernameHint": "Staff: official e-mail address. Students: the username issued by the school.",
     "password": "Password",
     "submit": "Sign in",
-    "submitting": "Signing in…",
+    "submitting": "Signing in",
     "errors": {
       "VALIDATION": "Enter a valid username and password.",
       "INVALID_CREDENTIALS": "Incorrect username or password.",
@@ -68,7 +68,7 @@
     "password": "Initial password",
     "passwordHint": "At least {min} characters. Hand the password over in person.",
     "create": "Create account",
-    "creating": "Creating…",
+    "creating": "Creating",
     "listTitle": "Accounts",
     "empty": "There are no accounts yet apart from yours.",
     "columns": {

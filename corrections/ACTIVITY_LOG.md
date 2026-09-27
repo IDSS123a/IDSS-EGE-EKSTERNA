@@ -22,3 +22,4 @@
 - [2026-09-27 12:04] Write: migrations/001_identity.sql
 - [2026-09-27 12:04] Write: migrations/002_canon_registry.sql
 - [2026-09-27 12:04] Write: migrations/003_audit.sql
+- [2026-09-27] P-13 (no AI characters/phrasing) introduced by the Director; UI text cleaned; check:text added to CI

@@ -41,6 +41,10 @@ jobs:
         if: steps.cfg.outputs.active == 'true'
         run: node .claude/hooks/project-guard.js --scan
 
+      - name: App text style rule (CONSTITUTION P-13)
+        if: steps.cfg.outputs.active == 'true'
+        run: node scripts/check-app-text.mjs
+
       - name: No guard config — skipped
         if: steps.cfg.outputs.active == 'false'
         run: echo "No .claude/project-guard.config.json found — guard inactive for this repo."
