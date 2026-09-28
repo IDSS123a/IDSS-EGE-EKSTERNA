@@ -718,6 +718,7 @@
       "VALIDATION": "Answer every item.",
       "NOT_FOUND": "The question is no longer available. Open the next one.",
       "UNAVAILABLE": "The service is not available right now. Try again."
-    }
+    },
+    "modeNote": "This is practice: questions keep coming with no end and no time limit until you stop. The mock exam, with the number of questions, points and duration of the external examination, is a separate part of the app (coming soon)."
   }
 }

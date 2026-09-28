@@ -718,6 +718,7 @@
       "VALIDATION": "Odgovori na svaku stavku.",
       "NOT_FOUND": "Pitanje više nije dostupno. Otvori sljedeće.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušaj ponovo."
-    }
+    },
+    "modeNote": "Ovo je vježba: pitanja se smjenjuju bez kraja i bez vremenskog ograničenja, dok sam ne prekineš. Probni ispit sa brojem pitanja, bodovima i trajanjem kao na eksternoj maturi je poseban dio aplikacije (uskoro)."
   }
 }

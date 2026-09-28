@@ -30,15 +30,17 @@ export function CreateAccountForm(): ReactNode {
           <input id="new-display-name" name="displayName" type="text" required maxLength={160} autoComplete="off" />
         </div>
         <div className="form__field">
-          <label htmlFor="new-username">{dictionary.accounts.username}</label>
-          <input id="new-username" name="username" type="text" required maxLength={120} autoCapitalize="none" spellCheck={false} autoComplete="off" aria-describedby="new-username-hint" />
+          <label htmlFor="new-account-login">{dictionary.accounts.username}</label>
+          {/* The new account's name, not the administrator's own login: field names the browser's password manager does
+              not take for a sign-in form (Director: Chrome offered "Manage Passwords" here). */}
+          <input id="new-account-login" name="newAccountLogin" type="text" required maxLength={120} autoCapitalize="none" spellCheck={false} autoComplete="off" data-1p-ignore data-lpignore="true" data-form-type="other" aria-describedby="new-username-hint" />
           <p id="new-username-hint" className="form__hint">
             {role === "administrator" ? dictionary.accounts.usernameHintStaff : dictionary.accounts.usernameHintStudent}
           </p>
         </div>
         <div className="form__field">
-          <label htmlFor="new-password">{dictionary.accounts.password}</label>
-          <input id="new-password" name="password" type="password" required minLength={minLength} maxLength={200} autoComplete="new-password" aria-describedby="new-password-hint" />
+          <label htmlFor="new-account-secret">{dictionary.accounts.password}</label>
+          <input id="new-account-secret" name="initialPassword" type="password" required minLength={minLength} maxLength={200} autoComplete="off" data-1p-ignore data-lpignore="true" data-form-type="other" aria-describedby="new-password-hint" />
           <p id="new-password-hint" className="form__hint">{dictionary.accounts.passwordHint.replace("{min}", String(minLength))}</p>
         </div>
         <div className="form__actions">

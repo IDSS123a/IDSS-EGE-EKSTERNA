@@ -26,6 +26,7 @@ export function PracticeScreen({ code, areaId, question }: Props): ReactNode {
 
   return (
     <ReviewShell backHref={backHref} backLabel={areaId ? labels.backToSubject : labels.back} title={dictionary.subjects[code]} subtitle={question?.area ?? undefined}>
+      <p className="notice">{labels.modeNote}</p>
       {!question ? (
         <p className="notice">{labels.empty}</p>
       ) : (

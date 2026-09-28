@@ -1,5 +1,5 @@
 # Sprint 06 — Lessons Learned
-Date: 2026-09-27 (open)
+Date: 2026-09-27 (closed)
 
 ## Corrections Applied
 1. Account administration forbade changing one's own account (no self-lockout) and there was no self-service password
@@ -40,12 +40,13 @@ Date: 2026-09-27 (open)
     used it; fixed by migration 018. New data-shaped logic is checked against every live record, not only fixtures.
 11. All radio groups of a multi-item question shared the name "response", so choosing in one item cleared the others;
     caught while reading the form before the first render → one field name per item.
-12. The z >= 4 floor fixed "Ministar" but refused "class" and five of the Director's other six searches (audit: best
-    passage z 2.7 to 3.9). One numeric floor was tuned on one complaint and never replayed against the other queries
-    already in the audit log. Cross-language queries (English against B/H/S and German catalogues) were not considered.
-    Now: the query is translated into all three languages and the answer model judges relevance from the passages
-    (PDL-025). A relevance change is checked against every recorded query, and against a query in each supported
-    language, before it ships.
+12. Search quality took three rounds and was still rejected ("Ne valja tražilica. Na nju ćemo se vratiti kasnije."):
+    the 0.6 floor let everything through ("Ministar"), the z >= 4 floor then refused "class" and five of the Director's
+    six other searches (audit: best passage z 2.7 to 3.9), and the answer model with query translation (PDL-025) shipped
+    without one live call. Each round fixed the latest complaint and was never replayed against the earlier queries in
+    the audit log or against queries in all three languages. Search is parked as a carry-over; the next attempt starts
+    with a test set of 15 to 20 questions in bs/de/en with expected sources, agreed with the Director, run live before
+    hand-over.
 
 ## Gotchas Discovered
 - Browser textareas submit line breaks as \r\n; the first live revisions stored \r\n while the catalogue text uses \n.
@@ -68,4 +69,6 @@ Date: 2026-09-27 (open)
   dev server must be restarted before the keys are seen.
 
 ## Commander Improvement Candidates
-None yet.
+1. AI feature quality (retrieval, answers, generated feedback): a rule that an evaluation set with expected results is
+   agreed with the Director before the first version ships, and every later change is replayed against the whole set
+   and against the real queries already logged. Tuning to the latest complaint alone repeated the defect three times.
