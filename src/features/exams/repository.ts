@@ -39,7 +39,7 @@ type UnitRow = {
 
 type ErratumRow = { item: number | null; description?: string; evidence?: string };
 
-type ViewRow = {
+export type ViewRow = {
   id: string;
   subject_code: SubjectCode;
   status: ExamStatus;

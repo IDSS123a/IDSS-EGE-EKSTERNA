@@ -57,3 +57,10 @@ None yet.
 - `Intl.NumberFormat("bs")` gave "14,5" on the server (Node with full ICU) and "14.5" in headless Chromium, which
   caused a hydration mismatch on the mock exam overview. Numbers shown by client components are formatted by a small
   deterministic function (`formatPoints`), not by Intl with a locale the browser may lack.
+
+### 2026-10-03 - Stopping a preview dev server
+- The PID saved for `npx next dev` is the npx wrapper; killing it leaves `next-server` serving the port (a 500 after
+  the preview page is deleted). Stop the dev server by the PIDs of both processes found through /proc command lines,
+  never with a name-wide pkill.
+- A write probe against the live database runs inside a DO block that ends with `raise exception`, so the whole block
+  rolls back even when the SQL tool does not keep an explicit transaction open; check afterwards that nothing stayed.

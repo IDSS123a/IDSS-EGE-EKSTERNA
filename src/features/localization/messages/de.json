@@ -807,5 +807,112 @@
       "CLOSED": "Die Prüfung ist bereits abgegeben.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
     }
+  },
+  "grading": {
+    "navLink": "Probeprüfungen: Bewertung",
+    "title": "Probeprüfungen",
+    "subtitle": "Genehmigung der Sätze und Bewertung",
+    "back": "Zurück zur Startseite",
+    "backToQueue": "Zurück zu den Probeprüfungen",
+    "queue": {
+      "approval": "Sätze, die auf Genehmigung warten",
+      "grading": "Abgegebene Prüfungen zur Bewertung",
+      "graded": "In den letzten 30 Tagen bewertet",
+      "empty": "Nichts vorhanden.",
+      "ungraded": "{n} von {total} unbewertet",
+      "auto": "automatisch abgegeben"
+    },
+    "blueprints": {
+      "title": "Prüfungspläne",
+      "hint": "Der Prüfungsplan legt fest, welche Katalogaufgaben die App an welche Position setzen darf und wie viele Punkte sie zählen. Er ist aus den offiziellen Tests und dem Katalog abgeleitet. Die Fachlehrkraft bestätigt, dass der Plan diesen Dokumenten entspricht; erst dann können Schüler eine Probeprüfung anfordern.",
+      "states": {
+        "none": "Nicht geladen",
+        "waiting": "Wartet auf Bestätigung",
+        "confirmed": "Bestätigt",
+        "rejected": "Abgelehnt"
+      },
+      "loaded": "Version {version}, geladen {date}",
+      "reviewed": "Geprüft: {name}, {date}",
+      "details": "Positionen: {n}, insgesamt {points} Punkte",
+      "checker": "Prüft: {name}",
+      "evidence": "Beleg: {text}",
+      "columns": {
+        "position": "Position",
+        "format": "Art",
+        "points": "Punkte",
+        "pool": "Katalogaufgaben"
+      },
+      "formats": {
+        "choice": "Auswahl",
+        "completion": "Ergänzung",
+        "matching": "Zuordnung",
+        "working": "Aufgabe mit Lösungsweg",
+        "task": "Ganze Aufgabe",
+        "items": "Einzelne Items"
+      },
+      "parts": "Teile zu {p}",
+      "range": "{first} bis {last}",
+      "note": "Hinweis (bei Ablehnung Pflicht)",
+      "confirm": "Plan bestätigen",
+      "reject": "Plan ablehnen",
+      "confirmQuestion": "Bestätigen Sie, dass der Plan den offiziellen Tests und dem Katalog entspricht? Danach können Schüler Probeprüfungen anfordern.",
+      "load": "Plan {version} laden",
+      "loadNew": "Neuere Version {version} laden",
+      "noConfig": "Für dieses Fach gibt es im Repository keinen Plan.",
+      "change": "Entscheidung ändern"
+    },
+    "exam": {
+      "requested": "Angefordert",
+      "submitted": "Abgegeben",
+      "points": "Punkte",
+      "approvalHint": "Prüfen Sie jede Aufgabe und die offizielle Lösung. Der Satz ist nach dem bestätigten Plan zusammengestellt; genehmigen Sie ihn oder verwerfen Sie ihn mit Begründung.",
+      "gradingHint": "Neben jeder Antwort steht die offizielle Lösung des Katalogs. Auswahl- und Richtig/Falsch-Aufgaben sind nach der gedruckten Lösung vorbewertet; der Vorschlag gilt, bis Sie ihn ändern.",
+      "decision": "Entscheidung zum Satz",
+      "approve": "Satz genehmigen",
+      "confirmApprove": "Satz genehmigen? Danach kann der Schüler beginnen.",
+      "discard": "Satz verwerfen",
+      "discardReason": "Grund",
+      "newSet": "Sofort einen neuen Satz für denselben Schüler zusammenstellen",
+      "discardSubmit": "Satz verwerfen",
+      "printedKey": "Offizielle Lösung",
+      "noKey": "Keine gedruckte Lösung",
+      "response": "Antwort des Schülers",
+      "proposed": "Vorschlag nach Lösung: {p}",
+      "pairs": "Richtige Paare",
+      "pairsOption": "{n} richtige Paare: {p} P.",
+      "keep": "Ohne Bewertung",
+      "keepProposal": "Vorschlag ({p})",
+      "note": "Hinweis für den Schüler",
+      "save": "Punkte speichern",
+      "confirmHint": "Wenn alle Aufgaben bewertet sind, bestätigen Sie das Ergebnis. Der Schüler sieht dann Punkte, Lösungen und Ihre Hinweise; das Ergebnis ändert sich nicht mehr.",
+      "confirmSubmit": "Ergebnis bestätigen",
+      "confirmResult": "Ergebnis bestätigen? Danach können die Punkte nicht mehr geändert werden.",
+      "followUp": "Nachprüfung: wartet auf {name} ({note})"
+    },
+    "messages": {
+      "BLUEPRINT_LOADED": "Der Plan ist geladen und wartet auf Bestätigung.",
+      "BLUEPRINT_CONFIRMED": "Der Plan ist bestätigt.",
+      "BLUEPRINT_REJECTED": "Der Plan ist abgelehnt.",
+      "SET_APPROVED": "Der Satz ist genehmigt.",
+      "SET_DISCARDED": "Der Satz ist verworfen.",
+      "SET_REPLACED": "Der Satz ist verworfen und ein neuer Satz ist zusammengestellt.",
+      "GRADES_SAVED": "Die Punkte sind gespeichert.",
+      "RESULT_CONFIRMED": "Das Ergebnis ist bestätigt und für den Schüler sichtbar."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte neu anmelden.",
+      "FORBIDDEN": "Keine Berechtigung für dieses Fach.",
+      "VALIDATION": "Bitte prüfen Sie die Eingabe.",
+      "NOT_FOUND": "Der Eintrag existiert nicht.",
+      "CLOSED": "Dieser Schritt ist nicht mehr möglich (der Zustand hat sich geändert). Bitte Seite neu laden.",
+      "UNGRADED": "Einige Aufgaben haben noch keine Punkte.",
+      "IN_PROGRESS": "Der Schüler schreibt die Prüfung noch.",
+      "NO_BLUEPRINT": "Für dieses Fach gibt es keinen bestätigten Plan.",
+      "BLUEPRINT_UNFILLABLE": "Nicht genug geprüfte Aufgaben für einen neuen Satz.",
+      "POINTS_MISMATCH": "Die Punkte des Plans stimmen nicht mit der bestätigten Gesamtpunktzahl überein.",
+      "VERSION_EXISTS": "Diese Planversion ist bereits mit anderem Inhalt geladen.",
+      "NO_CONFIG": "Für dieses Fach gibt es im Repository keinen Plan.",
+      "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
+    }
   }
 }

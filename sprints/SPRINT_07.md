@@ -37,7 +37,13 @@ teacher for a class (later); enrolment points display (AMB-18, when the 2026/27 
       `/app/ispit/[id]` (waiting for approval, start, countdown on the server clock, autosave every 20 s, submission,
       automatic submission at the deadline, result after grading with printed key, teacher notes and errata). Mock
       exams open for students once the blueprints are loaded and confirmed (item 4).
-- [ ] 4. Teacher screens: blueprint confirmation, grading queue, grading.
+- [x] 4. Teacher screens (2026-10-03): `/app/ocjenjivanje` with sets awaiting approval, exams to grade and recent
+      results; blueprints per subject loaded from `config/exam-blueprints.json` (canon.publish, identified by SHA-256)
+      and confirmed or rejected by the subject reviewer (positions, points and catalogue ranges shown for comparison
+      with C12, C15, C16); `/app/ocjenjivanje/[id]`: approval or discard (with reason, optional new set) after seeing
+      every question with its printed key, errata and open follow-ups; grading beside the printed key with
+      pre-scored proposals, pairs for matching, notes, then result confirmation. Live probe: all three blueprints pass
+      load_exam_blueprint (rolled back). Next: the Director loads the blueprints, the three subject teachers confirm.
 - [x] 5. Canon fidelity (P-15, PDL-027, Director 2026-10-03): question crops for all 500 extracted questions
       (`tools/question-images`, verified word by word), practice shows the crop and errata notices; migrations 020 and
       021 applied live (printed key only, errata, follow-ups, teacher verdicts on practice answers); 022 and 023 (set

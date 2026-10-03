@@ -168,3 +168,5 @@ export const DAILY_MISSION_GOAL = 5;
 export const EXAM_PATH = "/app/ispit";
 /** Autosave interval while writing; the database accepts answers until the deadline plus 30 s. */
 export const EXAM_AUTOSAVE_MS = 20_000;
+/** Teachers' mock exam area: blueprints, set approval and grading (Sprint 07). */
+export const GRADING_PATH = "/app/ocjenjivanje";

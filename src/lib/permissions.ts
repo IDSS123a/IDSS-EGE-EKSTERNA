@@ -83,3 +83,13 @@ export function canViewCanon(account: CurrentAccount): boolean {
 export function canPractise(account: CurrentAccount): boolean {
   return hasCapability(account, "practice.participate");
 }
+
+/** Open the teachers' mock exam area: approve sets and grade (Sprint 07). */
+export function canGrade(account: CurrentAccount): boolean {
+  return hasCapability(account, "exams.grade");
+}
+
+/** Approve sets and grade mock exams of one subject. */
+export function canGradeSubject(account: CurrentAccount, subjectId: string): boolean {
+  return hasSubjectCapability(account, "exams.grade", subjectId);
+}

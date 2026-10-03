@@ -212,3 +212,26 @@ export const ExamResponsesSchema = z.object({
   examId: z.uuid(),
   responses: z.array(z.object({ id: z.uuid(), response: z.string().max(PRACTICE_RESPONSE_MAX_LENGTH) })).max(60),
 });
+
+/** POST a reviewer's decision on a mock exam blueprint: a rejection needs a note (migration 019). */
+export const BlueprintReviewSchema = z
+  .object({ blueprintId: z.uuid(), subjectId: z.uuid(), decision: z.enum(["confirmed", "rejected"]), note: optionalReviewText })
+  .refine((value) => value.decision === "confirmed" || value.note !== undefined);
+
+/** POST discard a mock exam set with a reason, optionally composing a new set (migration 022). */
+export const SetDiscardSchema = z.object({ examId: z.uuid(), subjectId: z.uuid(), note: reviewText, newSet: z.boolean() });
+
+/** POST teacher grades: points the unit allows, or correct pairs for matching units; the database checks both. */
+export const GradesSchema = z.object({
+  examId: z.uuid(),
+  subjectId: z.uuid(),
+  scores: z
+    .array(
+      z.union([
+        z.object({ id: z.uuid(), points: z.number().min(0).max(10), note: z.string().trim().max(REVIEW_TEXT_MAX_LENGTH).nullable() }),
+        z.object({ id: z.uuid(), pairs: z.number().int().min(0).max(20), note: z.string().trim().max(REVIEW_TEXT_MAX_LENGTH).nullable() }),
+      ]),
+    )
+    .min(1)
+    .max(60),
+});

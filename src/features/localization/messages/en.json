@@ -807,5 +807,112 @@
       "CLOSED": "The exam is already submitted.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
     }
+  },
+  "grading": {
+    "navLink": "Mock exams: grading",
+    "title": "Mock exams",
+    "subtitle": "Set approval and grading",
+    "back": "Back to home",
+    "backToQueue": "Back to mock exams",
+    "queue": {
+      "approval": "Sets waiting for approval",
+      "grading": "Submitted exams to grade",
+      "graded": "Graded in the last 30 days",
+      "empty": "Nothing here.",
+      "ungraded": "{n} of {total} ungraded",
+      "auto": "submitted automatically"
+    },
+    "blueprints": {
+      "title": "Exam blueprints",
+      "hint": "The blueprint sets which catalogue tasks the app may put at which position and how many points they carry. It is derived from the official tests and the catalogue. The subject teacher confirms that the blueprint matches these documents; only then can students request a mock exam.",
+      "states": {
+        "none": "Not loaded",
+        "waiting": "Waiting for confirmation",
+        "confirmed": "Confirmed",
+        "rejected": "Rejected"
+      },
+      "loaded": "Version {version}, loaded {date}",
+      "reviewed": "Reviewed: {name}, {date}",
+      "details": "Positions: {n}, {points} points in total",
+      "checker": "Checked by: {name}",
+      "evidence": "Evidence: {text}",
+      "columns": {
+        "position": "Position",
+        "format": "Kind",
+        "points": "Points",
+        "pool": "Catalogue tasks"
+      },
+      "formats": {
+        "choice": "Choice",
+        "completion": "Completion",
+        "matching": "Matching",
+        "working": "Task with working",
+        "task": "Whole task",
+        "items": "Single items"
+      },
+      "parts": "parts of {p}",
+      "range": "{first} to {last}",
+      "note": "Note (required to reject)",
+      "confirm": "Confirm blueprint",
+      "reject": "Reject blueprint",
+      "confirmQuestion": "Do you confirm that the blueprint matches the official tests and the catalogue? Students can then request mock exams.",
+      "load": "Load blueprint {version}",
+      "loadNew": "Load newer version {version}",
+      "noConfig": "There is no blueprint for this subject in the repository.",
+      "change": "Change the decision"
+    },
+    "exam": {
+      "requested": "Requested",
+      "submitted": "Submitted",
+      "points": "Points",
+      "approvalHint": "Check every task and the official key. The set is composed by the confirmed blueprint; approve it or discard it with a reason.",
+      "gradingHint": "Every answer is shown beside the official key of the catalogue. Choice and true or false tasks are pre-scored by the printed key; the proposal counts until you change it.",
+      "decision": "Decision on the set",
+      "approve": "Approve set",
+      "confirmApprove": "Approve the set? The student can then start it.",
+      "discard": "Discard set",
+      "discardReason": "Reason",
+      "newSet": "Compose a new set for the same student at once",
+      "discardSubmit": "Discard set",
+      "printedKey": "Official key",
+      "noKey": "No printed key",
+      "response": "Student's answer",
+      "proposed": "Proposal by the key: {p}",
+      "pairs": "Correct pairs",
+      "pairsOption": "{n} correct pairs: {p} pts",
+      "keep": "Not graded",
+      "keepProposal": "Proposal ({p})",
+      "note": "Note for the student",
+      "save": "Save points",
+      "confirmHint": "When every task is graded, confirm the result. The student then sees points, keys and your notes; the result no longer changes.",
+      "confirmSubmit": "Confirm result",
+      "confirmResult": "Confirm the result? Points cannot be changed afterwards.",
+      "followUp": "Follow-up check: waiting for {name} ({note})"
+    },
+    "messages": {
+      "BLUEPRINT_LOADED": "The blueprint is loaded and waits for confirmation.",
+      "BLUEPRINT_CONFIRMED": "The blueprint is confirmed.",
+      "BLUEPRINT_REJECTED": "The blueprint is rejected.",
+      "SET_APPROVED": "The set is approved.",
+      "SET_DISCARDED": "The set is discarded.",
+      "SET_REPLACED": "The set is discarded and a new set is composed.",
+      "GRADES_SAVED": "Points are saved.",
+      "RESULT_CONFIRMED": "The result is confirmed and visible to the student."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session expired. Please sign in again.",
+      "FORBIDDEN": "You have no rights for this subject.",
+      "VALIDATION": "Check your input.",
+      "NOT_FOUND": "The record does not exist.",
+      "CLOSED": "This step is no longer possible (the state has changed). Reload the page.",
+      "UNGRADED": "Some tasks have no points yet.",
+      "IN_PROGRESS": "The student is still writing the exam.",
+      "NO_BLUEPRINT": "There is no confirmed blueprint for this subject.",
+      "BLUEPRINT_UNFILLABLE": "Not enough checked tasks for a new set.",
+      "POINTS_MISMATCH": "The blueprint's points do not match the confirmed total.",
+      "VERSION_EXISTS": "This blueprint version is already loaded with different content.",
+      "NO_CONFIG": "There is no blueprint for this subject in the repository.",
+      "UNAVAILABLE": "The service is not available right now. Please try again."
+    }
   }
 }
