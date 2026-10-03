@@ -89,5 +89,5 @@ Completed: teacher review of practice answers; set request notifications (migrat
 Not completed: blueprint confirmation by Nizama Memija, Haris Hamzić and Nikolina Todorović; erratum DEU-4.3.34; first live mock exam from request to released result.
 Open risks: no mock exam has run live yet; six German records still wait for Nikolina Todorović; the HIBP check has not run against the live service from this sandbox (it runs from the Director's machine and the server).
 Technical debt: shadcn/ui deviation (PDL-010); Sentry deferred; Vercel deployment postponed; in-app printable guide waits for stable screens.
-Lessons captured: 8 entries in corrections/SPRINT_08_LESSONS.md.
+Lessons captured: 10 entries in corrections/SPRINT_08_LESSONS.md.
 Next sprint: Sprint 09 - Support monitoring for the pedagogue and the psychologist (SUPPORT_MONITORING.md, PDL-032): student overview with user-set filters, student profile with the five dimensions, persistent errors, activity calendar, mock exam trend and the IDSS readiness indicator, group analysis (aggregates only), support notes with visibility and audit, print and CSV export; plus the carried-over live walk-through.
