@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNTS_PATH, CANON_PATH, GRADING_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH } from "@/constants";
+import { ACCOUNTS_PATH, CANON_PATH, GRADING_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH, SUPPORT_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -19,6 +19,7 @@ export function AccountHome({
   canOpenReview,
   canManageSettings,
   canGrade,
+  canMonitor,
 }: {
   account: Pick<CurrentAccount, "displayName" | "role">;
   /** Decided on the server (lib/permissions.ts). */
@@ -28,6 +29,8 @@ export function AccountHome({
   canOpenReview: boolean;
   /** Mock exam approval and grading (Sprint 07). */
   canGrade: boolean;
+  /** School-wide student monitoring (Sprint 09). */
+  canMonitor: boolean;
   /** Decided on the server (lib/permissions.ts). */
   canManageSettings: boolean;
 }): ReactNode {
@@ -53,6 +56,7 @@ export function AccountHome({
           <div className="link-row">
             {canViewAccounts && <Link href={ACCOUNTS_PATH} className="button-primary">{dictionary.accounts.navLink}</Link>}
             {canViewCanon && <Link href={CANON_PATH} className="button-primary">{dictionary.canon.navLink}</Link>}
+            {canMonitor && <Link href={SUPPORT_PATH} className="button-primary">{dictionary.support.navLink}</Link>}
             {canGrade && <Link href={GRADING_PATH} className="button-primary">{dictionary.grading.navLink}</Link>}
             {canOpenReview && <Link href={REVIEW_PATH} className="button-primary">{dictionary.review.navLink}</Link>}
             {canOpenReview && <Link href={SEARCH_PATH} className="button-primary">{dictionary.search.navLink}</Link>}

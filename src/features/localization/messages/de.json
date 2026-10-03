@@ -973,5 +973,149 @@
       "allSubjectsHint": "Gib eine Probeprüfung in allen drei Fächern ab."
     },
     "note": "IDSS-Punkte und Abzeichen dienen der Motivation. Sie sind keine Note und ändern keine Prüfungspunkte."
+  },
+  "support": {
+    "navLink": "Lernbegleitung",
+    "title": "Lernbegleitung",
+    "subtitle": "Der Fortschritt jedes Schülers in drei Fächern",
+    "back": "Zurück zur Startseite",
+    "backToOverview": "Zurück zur Lernbegleitung",
+    "principle": "Gezeigt werden gemessene Fakten aus Übung und Probeprüfungen, ohne Einstufung eines Schülers. Die Filter setzen Sie. Jedes Öffnen eines Schülerprofils wird im Zugriffsprotokoll vermerkt.",
+    "followUps": "Vereinbarte nächste Schritte",
+    "print": "Drucken",
+    "export": "CSV-Export",
+    "analysisLink": "Gruppenanalyse",
+    "students": "Schüler ({n})",
+    "empty": "Kein Schüler entspricht den Filtern.",
+    "never": "keine Aktivität",
+    "filters": {
+      "title": "Filter",
+      "subject": "Fach",
+      "allSubjects": "Alle Fächer",
+      "inactive": "Ohne Übung in den letzten N Tagen",
+      "inactivePlaceholder": "z. B. 7",
+      "drop": "Letzte Probeprüfung schwächer als die vorherige",
+      "sort": "Sortieren nach"
+    },
+    "sort": {
+      "name": "Name",
+      "lastActivity": "Letzter Aktivität",
+      "days30": "Übungstagen (30)",
+      "mastered": "Beherrschung",
+      "accuracy": "Richtigkeit (30 Tage)"
+    },
+    "columns": {
+      "student": "Schüler",
+      "lastActivity": "Letzte Aktivität",
+      "days": "Übungstage (7 / 30)"
+    },
+    "daysValue": "{d7} / {d30}",
+    "cell": {
+      "mastered": "Beherrscht {m} von {t}",
+      "accuracy": "Richtigkeit 30 Tage: {p} %",
+      "noAccuracy": "Richtigkeit 30 Tage: keine Daten",
+      "exam": "Letzte Prüfung: {p} / {max}",
+      "noExam": "Keine bewertete Prüfung",
+      "open": "Wartet auf Lehrkraft: {n}",
+      "noData": "keine Daten"
+    },
+    "readiness": {
+      "short": "Bereitschaft:",
+      "notAvailable": "noch nicht verfügbar",
+      "below80": "unter 80 %",
+      "label": "Die Prüfungsbereitschaft ist ein interner Indikator der IDSS, keine offizielle Bewertung: die letzten drei bewerteten Probeprüfungen, ohne Fehler 100 %, 1 bis 2 Fehler 90 %, 3 Fehler 80 %.",
+      "hint": "Bewertete Prüfungen: {exams}, Fehler: {errors}"
+    },
+    "profile": {
+      "subtitle": "Schülerprofil",
+      "practiceDays": "Übungstage (60 Tage)",
+      "missions": "Erfüllte Tagesmissionen (30 Tage)",
+      "calendar": "Aktivität der letzten 60 Tage",
+      "calendarHint": "Jedes Feld ist ein Tag; dunkler heißt mehr Antworten.",
+      "areas": "Katalogbereiche",
+      "area": "Bereich",
+      "answered": "Beantwortet",
+      "correctShare": "Letzte Antwort richtig",
+      "areasHint": "Bereiche mit Antworten, von der niedrigsten Richtigkeit an; gemessen, keine Bewertung.",
+      "persistent": "Wiederholte Fehler",
+      "noPersistent": "Keine wiederholten Fehler.",
+      "persistentItem": "{key}: {n} Mal falsch, zuletzt {date}",
+      "persistentHint": "Frage mindestens zweimal falsch beantwortet, die letzte Antwort ist weiterhin falsch.",
+      "exams": "Probeprüfungen",
+      "examDate": "Abgegeben",
+      "examPoints": "Punkte (Änderung zur vorherigen)",
+      "examTime": "Zeit",
+      "examEmpty": "Ohne Antwort",
+      "awaitingGrade": "wartet auf Bewertung",
+      "auto": "automatisch abgegeben"
+    },
+    "dimensions": {
+      "completion": "Abdeckung",
+      "completionValue": "{a} von {t} Fragen beantwortet",
+      "accuracy": "Richtigkeit",
+      "accuracyValue": "30 Tage: {p30}, gesamt: {p}",
+      "mastery": "Beherrschung",
+      "masteryValue": "{m} von {t} Fragen (letzte Antwort richtig)",
+      "exams": "Probeprüfungen"
+    },
+    "notes": {
+      "title": "Notizen der Schülerbegleitung",
+      "hint": "Nur für Pädagogin und Psychologin sichtbar; nie für Lehrkräfte, Schüler oder im Export. Gespeicherte Notizen ändern sich nicht. Schreiben Sie Fakten und Vereinbarungen, keine Persönlichkeitsurteile.",
+      "kind": "Art",
+      "noKind": "Ohne Art",
+      "kinds": {
+        "student_talk": "Gespräch mit dem Schüler",
+        "parent_talk": "Gespräch mit den Eltern",
+        "agreement": "Vereinbarung",
+        "observation": "Begleitung"
+      },
+      "followUp": "Datum des nächsten Schritts",
+      "visibility": "Wer sieht es",
+      "visibilities": {
+        "author": "Nur ich",
+        "support": "Pädagogin und Psychologin"
+      },
+      "body": "Notiz",
+      "submit": "Notiz speichern",
+      "saved": "Die Notiz ist gespeichert.",
+      "none": "Keine Notizen.",
+      "byLine": "{name}, sichtbar: {visibility}",
+      "followUpOn": "nächster Schritt {date}"
+    },
+    "analysis": {
+      "title": "Gruppenanalyse",
+      "subtitle": "Zusammengefasste Daten, aktive Schüler: {n}",
+      "hint": "Nur zusammengefasste Daten, ohne Namen und ohne Rangliste.",
+      "weeks": "Aktivität pro Woche (12 Wochen)",
+      "week": "Woche ab",
+      "activeStudents": "Aktive Schüler",
+      "answers": "Antworten",
+      "areas": "Richtigkeit nach Bereichen",
+      "area": "Bereich",
+      "checked": "Geprüfte Antworten",
+      "correctShare": "Richtig",
+      "examPoints": "Punkteverteilung der bewerteten Probeprüfungen",
+      "pointsRow": "{p} Punkte: {n} Prüfungen",
+      "missed": "Am häufigsten falsch beantwortete Fragen",
+      "missedRow": "{key}: {n} Mal falsch, Schüler {s}",
+      "empty": "Keine Daten."
+    },
+    "csv": {
+      "student": "Schüler",
+      "lastActivity": "Letzte Aktivität",
+      "days7": "Übungstage (7)",
+      "days30": "Übungstage (30)",
+      "mastered": "Beherrscht",
+      "accuracy": "Richtigkeit 30 Tage (%)",
+      "latestExam": "Letzte Prüfung",
+      "readiness": "Bereitschaft (interner Indikator)"
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte neu anmelden.",
+      "FORBIDDEN": "Keine Berechtigung für diese Aktion.",
+      "VALIDATION": "Bitte prüfen Sie die Eingabe.",
+      "NOT_FOUND": "Der Schüler existiert nicht.",
+      "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
+    }
   }
 }

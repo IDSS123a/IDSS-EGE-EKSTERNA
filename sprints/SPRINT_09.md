@@ -30,3 +30,9 @@ Subject teacher view of their students (later, same functions scoped by subject)
 ## Progress
 - [x] 1. Migration 026 applied live (three parts): overview, profile with access audit, group analysis, support notes
       (D1 to D3), readiness scale (PDL-032, mapping tested); DB tests section 21; security advisor only the known WARN.
+- [x] 2. Screens: `/app/pracenje` (follow-ups, user-set filters, sortable table, print, CSV export safe against formula
+      injection and audited), `/app/pracenje/[student]` (dimensions, areas, persistent errors, activity calendar, mock
+      exam trend, readiness, support notes; print without notes), `/app/pracenje/analiza` (aggregates only); staff home
+      link "Praćenje učenika"; unit tests for filters, readiness mapping and CSV.
+- [x] 4. User guide: chapter 04, superadministrator chapter, personal pages of Adnana Agić and Medina Karaga,
+      screenshot list.

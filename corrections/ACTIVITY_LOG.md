@@ -85,3 +85,4 @@
 - [2026-10-03] AMB-24 resolved (Director accepted proposals a to d)
 - [2026-10-03] Sprint 08 closed; blueprints loaded live by the Director (SHA-256 match)
 - [2026-10-03] Sprint 09 started; migration 026 live (support monitoring)
+- [2026-10-03] Support monitoring screens; e2e expectation of the home status text fixed (Sprint 08 regression)

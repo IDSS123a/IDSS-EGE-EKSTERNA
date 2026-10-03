@@ -2,10 +2,9 @@
 
 Prijava: `psiholog@idss.ba`.
 
-## Danas
-Promjena lozinke u **Moj nalog** i pregled liste naloga u **Upravljanje nalozima**.
-
-## Uskoro (Sprint 09)
-Pregled napretka učenika, bilješke podrške vidljive samo pedagogu i psihologu, izvještaji bez bilješki podrške.
+## Prvi koraci
+1. Na početnoj stranici kliknite **Praćenje učenika** i pregledajte tabelu; postavite filter **Bez vježbe zadnjih N dana**.
+2. Otvorite profil učenika: pokazatelji po predmetu, ponovljene greške, kalendar aktivnosti i probni ispiti.
+3. Upišite bilješku podrške s datumom sljedećeg koraka; vaše bilješke su po zadanom "Samo ja".
 
 Detaljno: `../04-pedagog-psiholog.md`, `../00-zajednicko.md`.
