@@ -714,12 +714,13 @@ select pg_temp.expect_error($$select public.practice_submit('00000000-0000-0000-
   'VALIDATION', 'an answer covers every item');
 select pg_temp.expect_error($$select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[{"item": null, "response": 5}]'::jsonb)$$,
   'VALIDATION', 'responses are text');
--- The printed key of MAT-5.1.1 is c); its reviewed revision (section 11) is b), which is the effective key (CF-03).
-create temp table t_sub1 as select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[{"item": null, "response": "c"}]'::jsonb) as r;
-select pg_temp.assert((select r ->> 'outcome' from t_sub1) = 'incorrect' and (select r -> 'results' -> 0 ->> 'solution' from t_sub1) = 'b)',
-  'the answer is checked against the effective key and the solution is returned after the answer');
-create temp table t_sub2 as select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[{"item": null, "response": " B "}]'::jsonb) as r;
-select pg_temp.assert((select r ->> 'outcome' from t_sub2) = 'correct', 'the revised key counts, case and spaces aside');
+-- The printed key of MAT-5.1.1 is c); a revision (section 11) proposed b). P-15 (migration 020): the printed key is
+-- always the key; revisions are history only.
+create temp table t_sub1 as select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[{"item": null, "response": "b"}]'::jsonb) as r;
+select pg_temp.assert((select r ->> 'outcome' from t_sub1) = 'incorrect' and (select r -> 'results' -> 0 ->> 'solution' from t_sub1) = 'c)',
+  'the answer is checked against the printed key, not a revision, and the solution is returned after the answer');
+create temp table t_sub2 as select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_math), '[{"item": null, "response": " C "}]'::jsonb) as r;
+select pg_temp.assert((select r ->> 'outcome' from t_sub2) = 'correct', 'the printed key counts, case and spaces aside');
 create temp table t_sub3 as select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select (q ->> 'question_version_id')::uuid from t_q_german),
   '[{"item": 1, "response": "r"}, {"item": 2, "response": "r"}]'::jsonb) as r;
 select pg_temp.assert((select r ->> 'outcome' from t_sub3) = 'partly_correct' and (select (r ->> 'items_correct')::int from t_sub3) = 1, 'items are checked one by one');
@@ -756,3 +757,210 @@ exception when insufficient_privilege then raise notice 'ok - signed-in users ca
 end $$;
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 017');
+
+-- 18. Mock exams (migration 019): confirmed blueprint, generation from trusted tasks, no key before the teacher's
+--     confirmation, pre-scoring by the effective key, grading with allowed points only, release, frozen result.
+set role service_role;
+create function pg_temp.blueprint(p_items integer, p_format text) returns jsonb language sql as $$
+  select jsonb_build_object('distinct_area', false, 'positions', jsonb_build_array(jsonb_build_object(
+    'position', 1, 'format', p_format, 'scoring', 'per_item', 'points', 10, 'item_points', 10.0 / p_items, 'items', p_items,
+    'pool', jsonb_build_array(jsonb_build_object('key', '^DEU-4\.2\.([0-9]+)$', 'from', 1, 'to', 10)))))
+$$;
+select pg_temp.expect_error($$select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000b', 'german', 't1', pg_temp.blueprint(2, 'task'), repeat('a', 64), null)$$,
+  'FORBIDDEN', 'only a publisher loads a blueprint');
+select pg_temp.expect_error($$select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1',
+  jsonb_set(pg_temp.blueprint(2, 'task'), '{positions,0,points}', '9'), repeat('a', 64), null)$$,
+  'POINTS_MISMATCH', 'blueprint points must add up to the confirmed total');
+select pg_temp.expect_error($$select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1',
+  jsonb_set(pg_temp.blueprint(2, 'task'), '{positions,0,scoring}', '"free"'), repeat('a', 64), null)$$,
+  'VALIDATION', 'blueprint positions are validated');
+create temp table t_bp as select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1', pg_temp.blueprint(2, 'task'), repeat('a', 64), null) as id;
+select pg_temp.assert((select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1', pg_temp.blueprint(2, 'task'), repeat('a', 64), null)) = (select id from t_bp),
+  'loading the same blueprint again is idempotent');
+select pg_temp.expect_error($$select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1', pg_temp.blueprint(2, 'task'), repeat('b', 64), null)$$,
+  'VERSION_EXISTS', 'a version is never replaced by other content');
+select pg_temp.expect_error($$select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null)$$,
+  'NO_BLUEPRINT', 'no mock exam before a reviewer confirms the blueprint');
+select pg_temp.expect_error($$select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000b', (select id from t_bp), 'confirmed', null, null)$$,
+  'FORBIDDEN', 'a teacher of another subject cannot confirm');
+select pg_temp.expect_error($$select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000a', (select id from t_bp), 'rejected', ' ', null)$$,
+  'VALIDATION', 'a rejection needs a reason');
+select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000a', (select id from t_bp), 'confirmed', null, null);
+select pg_temp.expect_error($$select public.mock_exam_start('00000000-0000-0000-0000-00000000000b', (select id from t_german), null)$$,
+  'FORBIDDEN', 'staff cannot take a mock exam');
+create temp table t_exam as select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null) as id;
+select pg_temp.assert((select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null)) = (select id from t_exam),
+  'starting again returns the mock exam in progress');
+-- P-15 (migration 020): the set waits for a teacher; the student sees no question before approval and start.
+select pg_temp.assert((select status from public.mock_exams where id = (select id from t_exam)) = 'awaiting_approval'
+  and (select deadline_at from public.mock_exams where id = (select id from t_exam)) is null, 'a generated set waits for a teacher, no time runs');
+select pg_temp.assert(jsonb_array_length(public.mock_exam_view('00000000-0000-0000-0000-00000000000c', (select id from t_exam)) -> 'items') = 0,
+  'the student sees no question before approval');
+select pg_temp.expect_error($$select public.mock_exam_begin('00000000-0000-0000-0000-00000000000c', (select id from t_exam), null)$$,
+  'NOT_APPROVED', 'an unapproved set cannot be started');
+select pg_temp.expect_error($$select public.mock_exam_approve('00000000-0000-0000-0000-00000000000b', (select id from t_exam), null)$$,
+  'FORBIDDEN', 'a teacher of another subject cannot approve');
+select pg_temp.assert((select public.grading_view('00000000-0000-0000-0000-00000000000a', (select id from t_exam)) -> 'items' -> 0 ->> 'solution') = 'r',
+  'the approving teacher sees the printed key of every question');
+select pg_temp.expect_error($$select public.mock_exam_discard('00000000-0000-0000-0000-00000000000a', (select id from t_exam), ' ', true, null)$$,
+  'VALIDATION', 'discarding a set needs a reason');
+update t_exam set id = public.mock_exam_discard('00000000-0000-0000-0000-00000000000a', (select id from t_exam), 'Test: new set', true, null);
+select pg_temp.assert((select count(*) from public.mock_exams where status = 'discarded') = 1 and (select status from public.mock_exams where id = (select id from t_exam)) = 'awaiting_approval',
+  'a discarded set is replaced by a new one waiting for approval');
+select public.mock_exam_approve('00000000-0000-0000-0000-00000000000a', (select id from t_exam), null);
+select public.mock_exam_begin('00000000-0000-0000-0000-00000000000c', (select id from t_exam), null);
+select pg_temp.assert((select deadline_at - started_at from public.mock_exams where id = (select id from t_exam)) = interval '60 minutes',
+  'the official duration runs from the student''s start');
+create temp table t_view as select public.mock_exam_view('00000000-0000-0000-0000-00000000000c', (select id from t_exam)) as v;
+select pg_temp.assert(jsonb_array_length((select v -> 'items' from t_view)) = 2 and (select (v ->> 'max_points')::numeric from t_view) = 10,
+  'a whole task becomes one unit per scored item, worth the blueprint points');
+select pg_temp.assert(not exists (select 1 from t_view, jsonb_array_elements(v -> 'items') i
+  where i ->> 'solution' is not null or i ->> 'proposed_points' is not null or i ->> 'final_points' is not null)
+  and (select v ->> 'total_points' from t_view) is null, 'the student view carries no solution and no points');
+select pg_temp.expect_error($$select public.mock_exam_view('00000000-0000-0000-0000-00000000000d', (select id from t_exam))$$,
+  'NOT_FOUND', 'another student cannot open the mock exam');
+select pg_temp.expect_error($$select public.mock_exam_save('00000000-0000-0000-0000-00000000000c', (select id from t_exam), jsonb_build_array(jsonb_build_object('id', gen_random_uuid()::text, 'response', 'r')))$$,
+  'VALIDATION', 'answers only for units of the exam');
+select public.mock_exam_save('00000000-0000-0000-0000-00000000000c', (select id from t_exam),
+  (select jsonb_agg(jsonb_build_object('id', i ->> 'id', 'response', 'f')) from t_view, jsonb_array_elements(v -> 'items') i));
+select public.mock_exam_submit('00000000-0000-0000-0000-00000000000c', (select id from t_exam),
+  (select jsonb_agg(jsonb_build_object('id', i ->> 'id', 'response', 'r')) from t_view, jsonb_array_elements(v -> 'items') i), null);
+select pg_temp.assert((select array_agg(proposed_points order by item_number) from public.mock_exam_items where mock_exam_id = (select id from t_exam)) = array[5.00, 0.00]::numeric[],
+  'closed units are pre-scored by the key (item 1 r correct, item 2 r wrong)');
+select pg_temp.assert((select status from public.mock_exams where id = (select id from t_exam)) = 'submitted', 'the mock exam is submitted');
+select pg_temp.expect_error($$select public.mock_exam_save('00000000-0000-0000-0000-00000000000c', (select id from t_exam), '[]'::jsonb)$$,
+  'CLOSED', 'answers cannot change after submission');
+select pg_temp.assert((select public.mock_exam_view('00000000-0000-0000-0000-00000000000c', (select id from t_exam)) -> 'items' -> 0 ->> 'solution') is null,
+  'no solution after submission before the teacher confirms');
+select pg_temp.assert(exists (select 1 from public.notifications where kind = 'mock_exam_submitted' and entity_id = (select id from t_exam)),
+  'the subject teachers are notified of the submission');
+select pg_temp.expect_error($$select public.grading_view('00000000-0000-0000-0000-00000000000b', (select id from t_exam))$$,
+  'FORBIDDEN', 'a teacher of another subject cannot grade');
+select pg_temp.assert((select public.grading_view('00000000-0000-0000-0000-00000000000a', (select id from t_exam)) -> 'items' -> 1 ->> 'solution') = 'f',
+  'the grader sees the solution');
+select pg_temp.assert(jsonb_array_length(public.grading_queue('00000000-0000-0000-0000-00000000000a')) = 1, 'the submitted exam is in the grading queue');
+select pg_temp.expect_error($$select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_exam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_exam) and item_number = 2), 'points', 3)), null)$$,
+  'VALIDATION', 'only points the rule allows');
+select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_exam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_exam) and item_number = 2), 'points', 5, 'note', 'Prihvaćeno')), null);
+select pg_temp.assert((select public.grading_confirm('00000000-0000-0000-0000-00000000000a', (select id from t_exam), null)) = 10,
+  'confirmation totals the teacher''s points and accepted proposals');
+select pg_temp.assert(exists (select 1 from public.notifications where kind = 'mock_exam_graded' and recipient_user_id = '00000000-0000-0000-0000-00000000000c'),
+  'the student is notified of the result');
+create temp table t_result as select public.mock_exam_view('00000000-0000-0000-0000-00000000000c', (select id from t_exam)) as v;
+select pg_temp.assert((select (v ->> 'total_points')::numeric from t_result) = 10 and (select v -> 'items' -> 1 ->> 'note' from t_result) = 'Prihvaćeno'
+  and (select v -> 'items' -> 1 ->> 'solution' from t_result) = 'f', 'after confirmation the student sees points, notes and solutions');
+select pg_temp.expect_error($$select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_exam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_exam) limit 1), 'points', 0)), null)$$,
+  'CLOSED', 'a confirmed result is not graded again');
+-- A blueprint that needs more distinct tasks than exist cannot start a mock exam.
+select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000a',
+  public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't2', pg_temp.blueprint(2, 'items'), repeat('c', 64), null), 'confirmed', null, null);
+select pg_temp.expect_error($$select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null)$$,
+  'BLUEPRINT_UNFILLABLE', 'a position without enough trusted tasks is reported, not filled with anything else');
+reset role;
+do $$ begin
+  update public.mock_exam_items set final_points = 0 where mock_exam_id = (select id from t_exam);
+  raise exception 'FAIL: graded unit changed';
+exception when others then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - a graded mock exam is frozen';
+end $$;
+do $$ begin
+  update public.exam_blueprints set version = 'x';
+  raise exception 'FAIL: blueprint changed';
+exception when raise_exception then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - blueprints are append-only';
+end $$;
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.mock_exams) = 2 and (select count(*) from public.mock_exam_items) = 2,
+  'a student reads own mock exams (also the discarded set) and the units of the graded one only');
+select pg_temp.assert((select count(*) from public.exam_blueprints) = 0, 'a student reads no blueprint');
+select pg_temp.assert((select count(*) from public.notifications) = 1, 'a student reads own notifications only');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.mock_exams) = 0 and (select count(*) from public.mock_exam_items) = 0, 'a teacher of another subject reads no mock exam');
+do $$ begin
+  perform public.mock_exam_start('00000000-0000-0000-0000-00000000000c', gen_random_uuid(), null);
+  raise exception 'FAIL: authenticated executed mock_exam_start';
+exception when insufficient_privilege then raise notice 'ok - signed-in users cannot call mock exam functions directly';
+end $$;
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 019');
+
+-- 19. Canon fidelity (migration 020, P-15): errata never change text or key and are shown as notices; follow-ups;
+--     teacher verdicts on practice answers; matching graded by correct pairs.
+set role service_role;
+create temp table t_dq as select (q ->> 'question_version_id')::uuid as id from t_q_german;
+select pg_temp.expect_error($$select public.record_catalogue_erratum('00000000-0000-0000-0000-00000000000c', (select id from t_dq), 1, 'x', 'y', null)$$,
+  'FORBIDDEN', 'a student cannot record an erratum');
+select pg_temp.expect_error($$select public.record_catalogue_erratum('00000000-0000-0000-0000-00000000000a', (select id from t_dq), 9, 'x', 'y', null)$$,
+  'VALIDATION', 'an erratum names an existing item');
+create temp table t_err as select public.record_catalogue_erratum('00000000-0000-0000-0000-00000000000a', (select id from t_dq), 1,
+  'Printed key r is false: the text says otherwise.', 'C14 p. 65', null) as id;
+select pg_temp.assert((select printed_answer from public.answer_keys where question_version_id = (select id from t_dq) and item_number = 1) = 'r',
+  'an erratum does not change the printed key');
+select pg_temp.assert((select public.practice_next('00000000-0000-0000-0000-00000000000d', (select id from t_german), null) -> 'errata') = '[{"item": 1}]'::jsonb,
+  'before answering, the student learns only that the source has an error at item 1');
+create temp table t_sub_err as select public.practice_submit('00000000-0000-0000-0000-00000000000d', (select id from t_dq),
+  '[{"item": 1, "response": "r"}, {"item": 2, "response": "f"}]'::jsonb) as r;
+select pg_temp.assert((select r ->> 'outcome' from t_sub_err) = 'correct' and (select r -> 'errata' -> 0 ->> 'evidence' from t_sub_err) = 'C14 p. 65',
+  'the printed key still decides, and after answering the student reads the erratum');
+select pg_temp.expect_error($$select public.withdraw_catalogue_erratum('00000000-0000-0000-0000-00000000000a', (select id from t_err), '', null)$$,
+  'VALIDATION', 'withdrawing an erratum needs a reason');
+select public.withdraw_catalogue_erratum('00000000-0000-0000-0000-00000000000a', (select id from t_err), 'Recorded by mistake', null);
+select pg_temp.assert((select public.practice_next('00000000-0000-0000-0000-00000000000d', (select id from t_german), null) -> 'errata') = '[]'::jsonb,
+  'a withdrawn erratum is no longer shown');
+-- Provisional acceptance: an open follow-up names who must still review.
+create temp table t_fu as select public.open_canon_follow_up('00000000-0000-0000-0000-00000000000a', (select id from t_dq), 'Nikolina Todorović',
+  'Privremeno prihvaćeno; pregled prije zvaničnosti.', null) as id;
+select pg_temp.expect_error($$select public.open_canon_follow_up('00000000-0000-0000-0000-00000000000b', (select id from t_dq), 'X', 'Y', null)$$,
+  'FORBIDDEN', 'only a reviewer of the subject opens a follow-up');
+select public.resolve_canon_follow_up('00000000-0000-0000-0000-00000000000a', (select id from t_fu), 'Pregledano', null);
+select pg_temp.expect_error($$select public.resolve_canon_follow_up('00000000-0000-0000-0000-00000000000a', (select id from t_fu), 'again', null)$$,
+  'NOT_FOUND', 'a follow-up is resolved once');
+reset role;
+-- An answer waiting for the teacher (an open task) and a matching rule for the German fixture subject.
+insert into public.practice_answers (person_id, question_version_id, subject_id, responses, results, outcome, items_checked, items_correct)
+values ('22222222-2222-2222-2222-22222222222c', (select id from t_dq), (select id from t_german), '[{"item": null, "response": "Text"}]',
+        '[{"item": null, "mode": "open", "correct": null}]', 'awaiting_teacher', 0, 0);
+insert into public.canonical_rules (subject_id, source_version_id, rule_code, value, evidence, facts_version, loaded_by)
+select id, source_version_id, 'exam.scoring', '{"matching_points_by_correct_pairs": {"0": 0, "1": 0, "2": 0.5, "3": 0.5, "4": 1}}',
+       '[{"page": 8, "quote": "test"}]', facts_version, '00000000-0000-0000-0000-00000000000a' from public.subjects where id = (select id from t_german);
+set role service_role;
+select pg_temp.assert(jsonb_array_length(public.practice_review_queue('00000000-0000-0000-0000-00000000000a')) = 1
+  and (select public.practice_review_queue('00000000-0000-0000-0000-00000000000a') -> 0 -> 'keys' -> 0 ->> 'key') = 'r',
+  'the teacher sees the answer waiting for review with the printed key');
+select pg_temp.expect_error($$select public.review_practice_answer('00000000-0000-0000-0000-00000000000a',
+  (select id from public.practice_answers where outcome = 'awaiting_teacher' limit 1), 'maybe', null, null)$$, 'VALIDATION', 'a verdict is correct, partly correct or incorrect');
+select public.review_practice_answer('00000000-0000-0000-0000-00000000000a', (select id from public.practice_answers where outcome = 'awaiting_teacher' limit 1), 'correct', 'Dobro', null);
+select pg_temp.assert(jsonb_array_length(public.practice_review_queue('00000000-0000-0000-0000-00000000000a')) = 0
+  and (select (a ->> 'awaiting')::int from jsonb_array_elements(public.practice_overview('00000000-0000-0000-0000-00000000000c') -> 'areas') a
+       where a ->> 'subject_code' = 'german') = 0, 'a reviewed answer leaves the queue and counts with the teacher''s verdict');
+-- Matching units are graded by correct pairs, converted by the confirmed rule.
+create function pg_temp.matching_blueprint() returns jsonb language sql as $$
+  select jsonb_build_object('distinct_area', false, 'positions', jsonb_build_array(jsonb_build_object(
+    'position', 1, 'format', 'matching', 'scoring', 'matching', 'points', 10,
+    'pool', jsonb_build_array(jsonb_build_object('key', '^DEU-4\.2\.([0-9]+)$', 'from', 1, 'to', 10)))))
+$$;
+select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000a',
+  public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't3', pg_temp.matching_blueprint(), repeat('d', 64), null), 'confirmed', null, null);
+create temp table t_mexam as select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null) as id;
+select public.mock_exam_approve('00000000-0000-0000-0000-00000000000a', (select id from t_mexam), null);
+select public.mock_exam_begin('00000000-0000-0000-0000-00000000000c', (select id from t_mexam), null);
+select public.mock_exam_submit('00000000-0000-0000-0000-00000000000c', (select id from t_mexam),
+  (select jsonb_agg(jsonb_build_object('id', id::text, 'response', 'a1 b2 c3 d4')) from public.mock_exam_items where mock_exam_id = (select id from t_mexam)), null);
+select pg_temp.expect_error($$select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_mexam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_mexam)), 'points', 1)), null)$$,
+  'VALIDATION', 'a matching unit takes the number of correct pairs, not points');
+select pg_temp.expect_error($$select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_mexam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_mexam)), 'pairs', 5)), null)$$,
+  'VALIDATION', 'only pair counts the rule knows');
+select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_mexam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_mexam)), 'pairs', 3)), null);
+select pg_temp.assert((select final_points from public.mock_exam_items where mock_exam_id = (select id from t_mexam)) = 0.5,
+  'three correct pairs give 0.5 points by the rule');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 020');

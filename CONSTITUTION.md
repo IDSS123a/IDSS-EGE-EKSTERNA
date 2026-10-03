@@ -80,6 +80,20 @@ max-width columns, margins as `--space-page-x` with device safe areas, touch tar
 44 px, user zoom allowed, no hover-only functions, `100dvh`. Enforced by `tests/e2e/layout.spec.ts`
 (no horizontal scroll from 320 px to 2560 px; desktop content spans the width).
 
+## P-15. The catalogue is canon: a faithful copy, errors marked, never changed (🔴, Director 2026-10-03)
+EGE is a faithful copy of the official catalogues and strictly follows the other canonical documents (rulebook,
+instructions, official tests). Consequences:
+- A question is shown exactly as printed: the student and the teacher see the original catalogue region (page crop),
+  never a retyped or corrected text. Extracted text serves search and accessibility only.
+- The printed official key is always the key: checking, pre-scoring and solutions use it, nothing else.
+- An error in a catalogue is established unambiguously (source, page, reasoning, confirming reviewer) and recorded as
+  an erratum. It never changes text or key; every place that shows the question shows a notice to the student and
+  the teacher that the source document contains an error here.
+- Mock exams are composed only as the canonical documents prescribe (catalogue rules and the official tests). No
+  rule is added by IDSS, the system or a teacher. A teacher reviews each generated set, sees the official key of every
+  question, and approves it before the student sees it.
+- Nothing is unknown: every open point is in `docs/discovery/AMBIGUITIES.md` until a source or the Director settles it.
+
 ## P-12. Known limitation (E-4)
 Blocking a user prevents new logins immediately; an already-issued access token stays
 valid until expiry (≤ 1 h). Shown in the admin UI when blocking.

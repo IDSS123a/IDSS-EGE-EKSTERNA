@@ -690,7 +690,6 @@
     "area": "Oblast",
     "level": "Nivo",
     "source": "Izvor: {title}, str. {page}",
-    "figure": "Zadatak ima sliku u katalogu (str. {page}). Slike se u aplikaciji još ne prikazuju.",
     "transcript": "Transkript slušanja (službeni audio zapis nije dostupan)",
     "choose": "Izaberi odgovor",
     "item": "Stavka {n}",
@@ -719,6 +718,10 @@
       "NOT_FOUND": "Pitanje više nije dostupno. Otvori sljedeće.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušaj ponovo."
     },
-    "modeNote": "Ovo je vježba: pitanja se smjenjuju bez kraja i bez vremenskog ograničenja, dok sam ne prekineš. Probni ispit sa brojem pitanja, bodovima i trajanjem kao na eksternoj maturi je poseban dio aplikacije (uskoro)."
+    "modeNote": "Ovo je vježba: pitanja se smjenjuju bez kraja i bez vremenskog ograničenja, dok sam ne prekineš. Probni ispit sa brojem pitanja, bodovima i trajanjem kao na eksternoj maturi je poseban dio aplikacije (uskoro).",
+    "erratumNotice": "Pažnja: u službenom katalogu je kod ovog zadatka utvrđena greška. Zadatak i službeno rješenje prikazani su tačno kako su štampani.",
+    "erratumTitle": "Utvrđena greška u katalogu",
+    "erratumKeyStands": "Službeno rješenje iz kataloga ostaje rješenje za bodovanje; greška je samo označena.",
+    "noCrop": "Originalni prikaz zadatka iz kataloga nije dostupan; ispod je izdvojeni tekst, koji može odstupati od štampanog (formule, slike, istaknute riječi)."
   }
 }

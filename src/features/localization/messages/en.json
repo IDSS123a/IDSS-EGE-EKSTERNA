@@ -690,7 +690,6 @@
     "area": "Area",
     "level": "Level",
     "source": "Source: {title}, p. {page}",
-    "figure": "This task has a picture in the catalogue (p. {page}). Pictures are not shown in the application yet.",
     "transcript": "Listening transcript (the official audio recording is not available)",
     "choose": "Choose an answer",
     "item": "Item {n}",
@@ -719,6 +718,10 @@
       "NOT_FOUND": "The question is no longer available. Open the next one.",
       "UNAVAILABLE": "The service is not available right now. Try again."
     },
-    "modeNote": "This is practice: questions keep coming with no end and no time limit until you stop. The mock exam, with the number of questions, points and duration of the external examination, is a separate part of the app (coming soon)."
+    "modeNote": "This is practice: questions keep coming with no end and no time limit until you stop. The mock exam, with the number of questions, points and duration of the external examination, is a separate part of the app (coming soon).",
+    "erratumNotice": "Attention: an error has been established in the official catalogue for this task. The task and the official solution are shown exactly as printed.",
+    "erratumTitle": "Established catalogue error",
+    "erratumKeyStands": "The official solution from the catalogue remains the solution for scoring; the error is only marked.",
+    "noCrop": "The original catalogue view of this task is not available; below is the extracted text, which may differ from print (formulas, figures, highlighted words)."
   }
 }

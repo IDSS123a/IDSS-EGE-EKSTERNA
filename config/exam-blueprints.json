@@ -1,30 +1,354 @@
 {
-  "_source": "Mock exam blueprints (Sprint 07, PDL-026; AMB-09, AMB-10, AMB-22). Canonical data with provenance: each position lists the catalogue tasks that may fill it and the evidence. B/H/S and German are derived from the four official 2026 tests per subject (C15, C16) by matching every test question to its catalogue task (script output in docs/discovery/BLUEPRINT_EVIDENCE.md); Mathematics follows C12 p.5 (levels by position). Points come from the confirmed canonical rules exam.scoring and exam.total_points. A subject teacher confirms each blueprint in the app before students can start a mock exam.",
-  "version": "2026-09-27.1",
+  "_source": "Mock exam blueprints (Sprint 07, PDL-026; AMB-09, AMB-10, AMB-22). Canonical data with provenance: each position lists the catalogue tasks that may fill it and the evidence. B/H/S and German are derived from the four official 2026 tests per subject (C15, C16) by matching every test question to its catalogue task (script output in docs/discovery/BLUEPRINT_EVIDENCE.md); Mathematics follows C12 p.5 (levels by position). Points come from the confirmed canonical rules exam.scoring and exam.total_points. A reviewer of the subject confirms that the blueprint matches these documents; it is not a choice (P-15, PDL-027).",
+  "version": "2026-10-03.1",
   "subjects": {
     "bhs_language_literature": {
       "reviewer": "Nizama Memija (AMB-10)",
       "evidence": "C15: tests B1 to B4 (school year 2025/26). All four tests use the same 18 positions; every question is a catalogue task (text match 0.73 to 0.99; short questions 0.29 to 0.60 checked by reading).",
       "distinct_area": false,
       "positions": [
-        { "position": 1, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-KNJ\\.([0-9]+)$", "from": 1, "to": 8 }], "observed": ["KNJ.5", "KNJ.2", "KNJ.7", "KNJ.8"] },
-        { "position": 2, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-KNJ\\.([0-9]+)$", "from": 9, "to": 16 }], "observed": ["KNJ.14", "KNJ.10", "KNJ.16", "KNJ.13"] },
-        { "position": 3, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-KNJ\\.([0-9]+)$", "from": 25, "to": 32 }], "observed": ["KNJ.29", "KNJ.31", "KNJ.25", "KNJ.28"] },
-        { "position": 4, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-KNJ\\.([0-9]+)$", "from": 17, "to": 24 }], "observed": ["KNJ.23", "KNJ.20", "KNJ.24", "KNJ.19"] },
-        { "position": 5, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-MOR\\.([0-9]+)$", "from": 1, "to": 8 }], "observed": ["MOR.6", "MOR.1", "MOR.7", "MOR.5"] },
-        { "position": 6, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-MOR\\.([0-9]+)$", "from": 9, "to": 24 }], "observed": ["MOR.15", "MOR.24", "MOR.20", "MOR.11"] },
-        { "position": 7, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-MOR\\.([0-9]+)$", "from": 9, "to": 24 }], "observed": ["MOR.22", "MOR.9", "MOR.17", "MOR.19"] },
-        { "position": 8, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-SIN\\.([0-9]+)$", "from": 1, "to": 16 }], "observed": ["SIN.11", "SIN.6", "SIN.4", "SIN.9"] },
-        { "position": 9, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-MED\\.([0-9]+)$", "from": 1, "to": 11 }], "observed": ["MED.7", "MED.8", "MED.1", "MED.9"] },
-        { "position": 10, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-PRA\\.([0-9]+)$", "from": 1, "to": 16 }], "observed": ["PRA.4", "PRA.5", "PRA.2", "PRA.14"] },
-        { "position": 11, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-PRA\\.([0-9]+)$", "from": 17, "to": 24 }], "observed": ["PRA.22", "PRA.20", "PRA.17", "PRA.24"] },
-        { "position": 12, "format": "choice", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-HIS\\.([0-9]+)$", "from": 1, "to": 8 }], "observed": ["HIS.8", "HIS.5", "HIS.3", "HIS.6"] },
-        { "position": 13, "format": "completion", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-KNJ\\.([0-9]+)$", "from": 43, "to": 48 }], "observed": ["KNJ.48", "KNJ.46", "KNJ.45", "KNJ.44"] },
-        { "position": 14, "format": "completion", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-KNJ\\.([0-9]+)$", "from": 33, "to": 42 }], "observed": ["KNJ.41", "KNJ.42", "KNJ.35", "KNJ.38"] },
-        { "position": 15, "format": "completion", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-SIN\\.([0-9]+)$", "from": 19, "to": 30 }], "observed": ["SIN.19", "SIN.21", "SIN.26", "SIN.22"] },
-        { "position": 16, "format": "completion", "scoring": "single", "points": 0.5, "pool": [{ "key": "^BHS-FON\\.([0-9]+)$", "from": 2, "to": 9 }], "observed": ["FON.2", "FON.7", "FON.8", "FON.5"] },
-        { "position": 17, "format": "matching", "scoring": "matching", "points": 1, "pool": [{ "key": "^BHS-TVO\\.([0-9]+)$", "from": 1, "to": 8 }], "observed": ["TVO.8", "TVO.4", "TVO.6", "TVO.7"] },
-        { "position": 18, "format": "matching", "scoring": "matching", "points": 1, "pool": [{ "key": "^BHS-LEK\\.([0-9]+)$", "from": 3, "to": 10 }], "observed": ["LEK.3", "LEK.9", "LEK.10", "LEK.8"] }
+        {
+          "position": 1,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-KNJ\\.([0-9]+)$",
+              "from": 1,
+              "to": 8
+            }
+          ],
+          "observed": [
+            "KNJ.5",
+            "KNJ.2",
+            "KNJ.7",
+            "KNJ.8"
+          ]
+        },
+        {
+          "position": 2,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-KNJ\\.([0-9]+)$",
+              "from": 9,
+              "to": 16
+            }
+          ],
+          "observed": [
+            "KNJ.14",
+            "KNJ.10",
+            "KNJ.16",
+            "KNJ.13"
+          ]
+        },
+        {
+          "position": 3,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-KNJ\\.([0-9]+)$",
+              "from": 25,
+              "to": 32
+            }
+          ],
+          "observed": [
+            "KNJ.29",
+            "KNJ.31",
+            "KNJ.25",
+            "KNJ.28"
+          ]
+        },
+        {
+          "position": 4,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-KNJ\\.([0-9]+)$",
+              "from": 17,
+              "to": 24
+            }
+          ],
+          "observed": [
+            "KNJ.23",
+            "KNJ.20",
+            "KNJ.24",
+            "KNJ.19"
+          ]
+        },
+        {
+          "position": 5,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-MOR\\.([0-9]+)$",
+              "from": 1,
+              "to": 8
+            }
+          ],
+          "observed": [
+            "MOR.6",
+            "MOR.1",
+            "MOR.7",
+            "MOR.5"
+          ]
+        },
+        {
+          "position": 6,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-MOR\\.([0-9]+)$",
+              "from": 9,
+              "to": 24
+            }
+          ],
+          "observed": [
+            "MOR.15",
+            "MOR.24",
+            "MOR.20",
+            "MOR.11"
+          ]
+        },
+        {
+          "position": 7,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-MOR\\.([0-9]+)$",
+              "from": 9,
+              "to": 24
+            }
+          ],
+          "observed": [
+            "MOR.22",
+            "MOR.9",
+            "MOR.17",
+            "MOR.19"
+          ]
+        },
+        {
+          "position": 8,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-SIN\\.([0-9]+)$",
+              "from": 1,
+              "to": 16
+            }
+          ],
+          "observed": [
+            "SIN.11",
+            "SIN.6",
+            "SIN.4",
+            "SIN.9"
+          ]
+        },
+        {
+          "position": 9,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-MED\\.([0-9]+)$",
+              "from": 1,
+              "to": 11
+            }
+          ],
+          "observed": [
+            "MED.7",
+            "MED.8",
+            "MED.1",
+            "MED.9"
+          ]
+        },
+        {
+          "position": 10,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-PRA\\.([0-9]+)$",
+              "from": 1,
+              "to": 16
+            }
+          ],
+          "observed": [
+            "PRA.4",
+            "PRA.5",
+            "PRA.2",
+            "PRA.14"
+          ]
+        },
+        {
+          "position": 11,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-PRA\\.([0-9]+)$",
+              "from": 17,
+              "to": 24
+            }
+          ],
+          "observed": [
+            "PRA.22",
+            "PRA.20",
+            "PRA.17",
+            "PRA.24"
+          ]
+        },
+        {
+          "position": 12,
+          "format": "choice",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-HIS\\.([0-9]+)$",
+              "from": 1,
+              "to": 8
+            }
+          ],
+          "observed": [
+            "HIS.8",
+            "HIS.5",
+            "HIS.3",
+            "HIS.6"
+          ]
+        },
+        {
+          "position": 13,
+          "format": "completion",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-KNJ\\.([0-9]+)$",
+              "from": 43,
+              "to": 48
+            }
+          ],
+          "observed": [
+            "KNJ.48",
+            "KNJ.46",
+            "KNJ.45",
+            "KNJ.44"
+          ]
+        },
+        {
+          "position": 14,
+          "format": "completion",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-KNJ\\.([0-9]+)$",
+              "from": 33,
+              "to": 42
+            }
+          ],
+          "observed": [
+            "KNJ.41",
+            "KNJ.42",
+            "KNJ.35",
+            "KNJ.38"
+          ]
+        },
+        {
+          "position": 15,
+          "format": "completion",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-SIN\\.([0-9]+)$",
+              "from": 19,
+              "to": 30
+            }
+          ],
+          "observed": [
+            "SIN.19",
+            "SIN.21",
+            "SIN.26",
+            "SIN.22"
+          ]
+        },
+        {
+          "position": 16,
+          "format": "completion",
+          "scoring": "single",
+          "points": 0.5,
+          "pool": [
+            {
+              "key": "^BHS-FON\\.([0-9]+)$",
+              "from": 2,
+              "to": 9
+            }
+          ],
+          "observed": [
+            "FON.2",
+            "FON.7",
+            "FON.8",
+            "FON.5"
+          ]
+        },
+        {
+          "position": 17,
+          "format": "matching",
+          "scoring": "matching",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^BHS-TVO\\.([0-9]+)$",
+              "from": 1,
+              "to": 8
+            }
+          ],
+          "observed": [
+            "TVO.8",
+            "TVO.4",
+            "TVO.6",
+            "TVO.7"
+          ]
+        },
+        {
+          "position": 18,
+          "format": "matching",
+          "scoring": "matching",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^BHS-LEK\\.([0-9]+)$",
+              "from": 3,
+              "to": 10
+            }
+          ],
+          "observed": [
+            "LEK.3",
+            "LEK.9",
+            "LEK.10",
+            "LEK.8"
+          ]
+        }
       ]
     },
     "german": {
@@ -32,28 +356,257 @@
       "evidence": "C16: tests 1A to 1D (Eksterna matura 2025/2026). I one whole listening task (all four: 4.1.10), II one whole reading task (4.2.10, 4.2.8, 4.2.9, 4.2.5), III four Wortschatz items, IV four grammar items from four different tasks 4.4.1 to 4.4.9 (4.4.10 never used), V one whole communication dialogue task (4.5.6, 4.5.10, 4.5.8, 4.5.9). Every item 0.50 points.",
       "distinct_area": false,
       "positions": [
-        { "position": 1, "label": "HÖRVERSTEHEN", "format": "task", "scoring": "per_item", "points": 2, "item_points": 0.5, "items": 4, "pool": [{ "key": "^DEU-4\\.1\\.([0-9]+)$", "from": 1, "to": 10 }], "observed": ["4.1.10", "4.1.10", "4.1.10", "4.1.10"] },
-        { "position": 2, "label": "LESEVERSTEHEN", "format": "task", "scoring": "per_item", "points": 2, "item_points": 0.5, "items": 4, "pool": [{ "key": "^DEU-4\\.2\\.([0-9]+)$", "from": 1, "to": 10 }], "observed": ["4.2.10", "4.2.8", "4.2.9", "4.2.5"] },
-        { "position": 3, "label": "WORTSCHATZ", "format": "items", "scoring": "per_item", "points": 2, "item_points": 0.5, "items": 4, "distinct_tasks": true, "pool": [{ "key": "^DEU-4\\.3\\.([0-9]+)$", "from": 1, "to": 40 }], "observed": ["4.3.1 4.3.19 4.3.9 4.3.20", "4.3.6 4.3.4 4.3.26 4.3.36", "4.3.27 4.3.2 4.3.22 4.3.38", "4.3.10 4.3.19 4.3.24 4.3.26"] },
-        { "position": 4, "label": "GRAMMATIK", "format": "items", "scoring": "per_item", "points": 2, "item_points": 0.5, "items": 4, "distinct_tasks": true, "pool": [{ "key": "^DEU-4\\.4\\.([0-9]+)$", "from": 1, "to": 9 }], "observed": ["4.4.3#1 4.4.8#1 4.4.6#4 4.4.5#4", "4.4.5#1 4.4.2#2 4.4.6#1 4.4.7#1", "4.4.9#3 4.4.5#2 4.4.6#3 4.4.8#2", "4.4.4#4 4.4.5#3 4.4.6#2 4.4.7#4"] },
-        { "position": 5, "label": "KOMMUNIKATION", "format": "task", "scoring": "per_item", "points": 2, "item_points": 0.5, "items": 4, "pool": [{ "key": "^DEU-4\\.5\\.([0-9]+)$", "from": 6, "to": 10 }], "observed": ["4.5.6", "4.5.10", "4.5.8", "4.5.9"] }
+        {
+          "position": 1,
+          "label": "HÖRVERSTEHEN",
+          "format": "task",
+          "scoring": "per_item",
+          "points": 2,
+          "item_points": 0.5,
+          "items": 4,
+          "pool": [
+            {
+              "key": "^DEU-4\\.1\\.([0-9]+)$",
+              "from": 1,
+              "to": 10
+            }
+          ],
+          "observed": [
+            "4.1.10",
+            "4.1.10",
+            "4.1.10",
+            "4.1.10"
+          ]
+        },
+        {
+          "position": 2,
+          "label": "LESEVERSTEHEN",
+          "format": "task",
+          "scoring": "per_item",
+          "points": 2,
+          "item_points": 0.5,
+          "items": 4,
+          "pool": [
+            {
+              "key": "^DEU-4\\.2\\.([0-9]+)$",
+              "from": 1,
+              "to": 10
+            }
+          ],
+          "observed": [
+            "4.2.10",
+            "4.2.8",
+            "4.2.9",
+            "4.2.5"
+          ]
+        },
+        {
+          "position": 3,
+          "label": "WORTSCHATZ",
+          "format": "items",
+          "scoring": "per_item",
+          "points": 2,
+          "item_points": 0.5,
+          "items": 4,
+          "distinct_tasks": true,
+          "pool": [
+            {
+              "key": "^DEU-4\\.3\\.([0-9]+)$",
+              "from": 1,
+              "to": 40
+            }
+          ],
+          "observed": [
+            "4.3.1 4.3.19 4.3.9 4.3.20",
+            "4.3.6 4.3.4 4.3.26 4.3.36",
+            "4.3.27 4.3.2 4.3.22 4.3.38",
+            "4.3.10 4.3.19 4.3.24 4.3.26"
+          ]
+        },
+        {
+          "position": 4,
+          "label": "GRAMMATIK",
+          "format": "items",
+          "scoring": "per_item",
+          "points": 2,
+          "item_points": 0.5,
+          "items": 4,
+          "distinct_tasks": true,
+          "pool": [
+            {
+              "key": "^DEU-4\\.4\\.([0-9]+)$",
+              "from": 1,
+              "to": 9
+            }
+          ],
+          "observed": [
+            "4.4.3#1 4.4.8#1 4.4.6#4 4.4.5#4",
+            "4.4.5#1 4.4.2#2 4.4.6#1 4.4.7#1",
+            "4.4.9#3 4.4.5#2 4.4.6#3 4.4.8#2",
+            "4.4.4#4 4.4.5#3 4.4.6#2 4.4.7#4"
+          ]
+        },
+        {
+          "position": 5,
+          "label": "KOMMUNIKATION",
+          "format": "task",
+          "scoring": "per_item",
+          "points": 2,
+          "item_points": 0.5,
+          "items": 4,
+          "pool": [
+            {
+              "key": "^DEU-4\\.5\\.([0-9]+)$",
+              "from": 6,
+              "to": 10
+            }
+          ],
+          "observed": [
+            "4.5.6",
+            "4.5.10",
+            "4.5.8",
+            "4.5.9"
+          ]
+        }
       ]
     },
     "mathematics": {
-      "reviewer": "Haris Hamzić (AMB-09, AMB-22)",
-      "evidence": "C12 p.5: \"prva četiri zadatka na Ispitnom testu treba da budu iz osnovnog nivoa, naredna četiri zadatka iz srednjeg i posljednja dva zadatka iz dijela zadataka naprednog nivoa\"; basic = catalogue tasks 1 to 5 of every area, medium 6 to 15, advanced 16 to 20. The catalogue does not say which areas; IDSS proposal (AMB-22): ten different areas in one test. No official 2026 Math test is in the repository.",
-      "distinct_area": true,
+      "reviewer": "Haris Hamzić (AMB-09)",
+      "evidence": "C12 p.5: \"prva četiri zadatka na Ispitnom testu treba da budu iz osnovnog nivoa, naredna četiri zadatka iz srednjeg i posljednja dva zadatka iz dijela zadataka naprednog nivoa\"; basic = catalogue tasks 1 to 5 of every area, medium 6 to 15, advanced 16 to 20. The catalogue sets no area rule, so any area may fill any position (PDL-027, AMB-22 resolved). No official 2026 Math test is in the repository.",
+      "distinct_area": false,
       "positions": [
-        { "position": 1, "format": "choice", "scoring": "single", "points": 1, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 1, "to": 5 }] },
-        { "position": 2, "format": "choice", "scoring": "single", "points": 1, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 1, "to": 5 }] },
-        { "position": 3, "format": "choice", "scoring": "single", "points": 1, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 1, "to": 5 }] },
-        { "position": 4, "format": "choice", "scoring": "single", "points": 1, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 1, "to": 5 }] },
-        { "position": 5, "format": "working", "scoring": "single", "points": 1, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 6, "to": 15 }] },
-        { "position": 6, "format": "working", "scoring": "single", "points": 1, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 6, "to": 15 }] },
-        { "position": 7, "format": "working", "scoring": "single", "points": 1, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 6, "to": 15 }] },
-        { "position": 8, "format": "working", "scoring": "single", "points": 1, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 6, "to": 15 }] },
-        { "position": 9, "format": "working", "scoring": "parts", "points": 1, "part_points": 0.5, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 16, "to": 20 }] },
-        { "position": 10, "format": "working", "scoring": "parts", "points": 1, "part_points": 0.5, "pool": [{ "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$", "from": 16, "to": 20 }] }
+        {
+          "position": 1,
+          "format": "choice",
+          "scoring": "single",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 1,
+              "to": 5
+            }
+          ]
+        },
+        {
+          "position": 2,
+          "format": "choice",
+          "scoring": "single",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 1,
+              "to": 5
+            }
+          ]
+        },
+        {
+          "position": 3,
+          "format": "choice",
+          "scoring": "single",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 1,
+              "to": 5
+            }
+          ]
+        },
+        {
+          "position": 4,
+          "format": "choice",
+          "scoring": "single",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 1,
+              "to": 5
+            }
+          ]
+        },
+        {
+          "position": 5,
+          "format": "working",
+          "scoring": "single",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 6,
+              "to": 15
+            }
+          ]
+        },
+        {
+          "position": 6,
+          "format": "working",
+          "scoring": "single",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 6,
+              "to": 15
+            }
+          ]
+        },
+        {
+          "position": 7,
+          "format": "working",
+          "scoring": "single",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 6,
+              "to": 15
+            }
+          ]
+        },
+        {
+          "position": 8,
+          "format": "working",
+          "scoring": "single",
+          "points": 1,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 6,
+              "to": 15
+            }
+          ]
+        },
+        {
+          "position": 9,
+          "format": "working",
+          "scoring": "parts",
+          "points": 1,
+          "part_points": 0.5,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 16,
+              "to": 20
+            }
+          ]
+        },
+        {
+          "position": 10,
+          "format": "working",
+          "scoring": "parts",
+          "points": 1,
+          "part_points": 0.5,
+          "pool": [
+            {
+              "key": "^MAT-5\\.[0-9]+\\.([0-9]+)$",
+              "from": 16,
+              "to": 20
+            }
+          ]
+        }
       ]
     }
   }

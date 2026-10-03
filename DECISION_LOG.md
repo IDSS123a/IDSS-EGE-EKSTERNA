@@ -382,3 +382,26 @@ Points must add up to the confirmed rule `exam.total_points` (10); the number of
 A subject reviewer confirms the blueprint in the app before any student can start a mock exam; until then the
 reviewers named in AMB-09/AMB-10 are asked to check it.
 
+## PDL-027: Canon fidelity (P-15); supersedes the correcting parts of CF-03, PDL-021 and PDL-026
+**Date:** 2026-10-03 (Director: "web app EGE mora biti vjerna kopija kataloga i strogo mora poštivati ostale kanonske
+dokumente"; ten instructions of the same day, analysed in the session report)
+**Decision:**
+1. **Questions are shown as printed:** every trusted question is shown to students and teachers as the crop of its
+   catalogue region (rendered from the stored catalogue PDF, `tools/question-images`). Reason, measured: 180 of 200 Math
+   questions lose fractions, exponents and subscripts in the text layer (e.g. MAT-5.5.4), 42 B/H/S questions ask about
+   highlighted words that plain text cannot show, 20 questions reference figures. The solutions sit in separate
+   catalogue sections, so a question crop never shows a key.
+2. **Printed key only:** `effective_key` returns the printed key. Key revisions (CF-03) and text revisions (PDL-021,
+   AMB-19) are no longer applied to what students see or how answers are checked; their rows stay as history.
+3. **Errata:** an established catalogue error is an erratum (question, optional item, description, page evidence,
+   confirming reviewer). It changes nothing and shows a notice wherever the question appears. First case: DEU-4.3.34
+   (AMB-23).
+4. **Set approval:** a generated mock exam waits for a teacher of the subject, who sees every question with its
+   official key and errata notices, and approves it (or discards it for a new one); only then the student can start.
+5. **Blueprints only from canonical documents:** Mathematics: levels by position from C12 p.5, no area rule (the IDSS
+   proposal of AMB-22 is withdrawn). B/H/S and German: the positions observed in all four official 2026 tests (C15,
+   C16, ministry documents) stand, as they are canonical documents; the reviewer's confirmation checks that the blueprint
+   matches them, it is not a choice.
+6. **Scoring precision:** B/H/S matching is graded by the number of correct pairs and converted by the confirmed rule;
+   Mathematics positions 9 and 10 allow 0.5 steps only for tasks with parts a) and b).
+

@@ -64,3 +64,10 @@
 - [2026-09-27 22:21] Write: tests/unit/gemini-answer.test.ts
 - [2026-09-27] Search: multilingual query translation and grounded answers (PDL-025; Director: "class" returned nothing)
 - [2026-09-27] New-account form: no browser password manager offer (Director); practice screen explains practice vs mock exam
+- [2026-09-27 22:51] Write: migrations/019_mock_exams.sql
+- [2026-10-03] Migration 019 applied live (mock exams); probe rolled back
+- [2026-10-03] Director: catalogue is canon (P-15, PDL-027); fidelity work started
+- [2026-10-03] Question crops: 500 rendered and verified (tools/question-images)
+- [2026-10-03 08:03] Write: migrations/020_canon_fidelity.sql
+- [2026-10-03] Migrations 020, 021 applied live; 022/023 wait for Director confirmation (DROP)
+- [2026-10-03] Six German records accepted provisionally (Director), follow-ups to Nikolina Todorović; 500/500 trusted

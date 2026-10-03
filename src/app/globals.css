@@ -1052,3 +1052,30 @@ body {
 .practice-feedback__items li + li {
   margin-top: 10px;
 }
+
+/* ---------------------------------------------------------------- catalogue crops (P-15) */
+.question-crop {
+  /* Natural size (rendered at 2x the print), never wider than the screen (P-14: no fixed content column). */
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  margin: 8px 0 12px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+.practice-erratum {
+  border-left-color: var(--color-danger);
+}
+.practice-erratum-details {
+  margin: 12px 0;
+  padding: 12px 16px;
+  border-left: 4px solid var(--color-danger);
+  border-radius: 8px;
+  background: var(--color-surface);
+}
+.practice-erratum-details h3 {
+  margin: 0 0 6px;
+}
+

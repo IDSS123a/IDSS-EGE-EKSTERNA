@@ -42,8 +42,17 @@ export function PracticeScreen({ code, areaId, question }: Props): ReactNode {
               <pre className="review-record__text" lang="de">{question.transcript}</pre>
             </details>
           )}
-          <pre className="review-record__text practice-question__text" lang={lang}>{question.options.length > 0 && question.stem ? question.stem : question.text}</pre>
-          {question.hasFigure && question.source.page && <p className="notice">{labels.figure.replace("{page}", String(question.source.page))}</p>}
+          {question.errata.length > 0 && <p className="notice practice-erratum" role="note">{labels.erratumNotice}</p>}
+          {question.crop ? (
+            // The question exactly as printed in the catalogue (P-15); the extracted text is the accessible name.
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="question-crop" src={question.crop} alt={question.text} lang={lang} />
+          ) : (
+            <>
+              <p className="notice">{labels.noCrop}</p>
+              <pre className="review-record__text practice-question__text" lang={lang}>{question.text}</pre>
+            </>
+          )}
 
           <form action={formAction} className="form practice-form">
             <input type="hidden" name="questionVersionId" value={question.questionVersionId} />
@@ -62,6 +71,20 @@ export function PracticeScreen({ code, areaId, question }: Props): ReactNode {
           </form>
 
           {answered && <Feedback result={answered} lang={lang} />}
+          {answered && answered.errata.length > 0 && (
+            <section className="practice-erratum-details" aria-label={labels.erratumTitle}>
+              <h3>{labels.erratumTitle}</h3>
+              <ul>
+                {answered.errata.map((erratum, index) => (
+                  <li key={index}>
+                    {erratum.item !== null && <strong>{labels.item.replace("{n}", String(erratum.item))}: </strong>}
+                    <span>{erratum.description}</span> <span className="form__hint">({erratum.evidence})</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="form__hint">{labels.erratumKeyStands}</p>
+            </section>
+          )}
           {answered && (
             <div className="link-row">
               <Link href={nextHref} className="button-primary">{labels.next}</Link>
