@@ -102,6 +102,16 @@ export function canViewStudentProgress(account: CurrentAccount): boolean {
   return hasCapability(account, "students.view_progress");
 }
 
+/** Director Command Center: institution analytics (PDL-040). */
+export function canViewInstitution(account: CurrentAccount): boolean {
+  return hasCapability(account, "analytics.view_institution");
+}
+
+/** Read the audit log (PDL-040 K4). */
+export function canViewAudit(account: CurrentAccount): boolean {
+  return hasCapability(account, "audit.view");
+}
+
 /** Give and withdraw assignments: in the own subjects for a teacher, all subjects for the superadministrator (PDL-035). */
 export function canManageAssignments(account: CurrentAccount): boolean {
   return hasCapability(account, "assignments.manage");

@@ -15,11 +15,11 @@ test("signed-out visitor is redirected from /app to /prijava", async ({ page }) 
 });
 
 test("signed-out visitor cannot open the new staff pages or exports", async ({ page, request }) => {
-  for (const path of ["/app/zadaci", "/app/pracenje/dan", "/app/vitrina"]) {
+  for (const path of ["/app/zadaci", "/app/pracenje/dan", "/app/vitrina", "/app/direktor"]) {
     await page.goto(path);
     await expect(page).toHaveURL(/\/prijava$/);
   }
-  for (const path of ["/app/pracenje/dan/izvoz", "/app/pracenje/analiza/izvoz", "/app/zadaci/00000000-0000-4000-8000-000000000000/izvoz"]) {
+  for (const path of ["/app/pracenje/dan/izvoz", "/app/pracenje/analiza/izvoz", "/app/direktor/izvoz?tab=dnevnik", "/app/zadaci/00000000-0000-4000-8000-000000000000/izvoz"]) {
     const response = await request.get(path, { maxRedirects: 0 });
     expect([302, 303, 307, 401]).toContain(response.status());
   }

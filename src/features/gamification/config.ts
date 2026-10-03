@@ -1,8 +1,7 @@
 import { z } from "zod";
 import gamification from "../../../config/gamification.json";
-import { DAILY_MISSION_GOAL } from "@/constants";
 
-/** Approved XP and badge values (config/gamification.json, PDL-029), checked at load. */
+/** Approved XP and badge values (config/gamification.json, PDL-029): the defaults when no setting is stored (PDL-040 K5). */
 const ValuesSchema = z.object({
   version: z.string(),
   xp: z.object({
@@ -20,7 +19,7 @@ const ValuesSchema = z.object({
 
 export const GAMIFICATION = ValuesSchema.parse(gamification);
 
-/** The values as the database function takes them, with the daily mission goal (PDL-024). */
-export function gamificationValues(): { mission_goal: number; xp: typeof GAMIFICATION.xp; badges: typeof GAMIFICATION.badges } {
-  return { mission_goal: DAILY_MISSION_GOAL, xp: GAMIFICATION.xp, badges: GAMIFICATION.badges };
+/** The values as the database function takes them: the Director's settings (PDL-040 K5) with the daily mission goal. */
+export function gamificationValues(settings: { missionGoal: number; gamification: { xp: typeof GAMIFICATION.xp; badges: typeof GAMIFICATION.badges } }): { mission_goal: number; xp: typeof GAMIFICATION.xp; badges: typeof GAMIFICATION.badges } {
+  return { mission_goal: settings.missionGoal, xp: settings.gamification.xp, badges: settings.gamification.badges };
 }

@@ -646,6 +646,39 @@
       "FORBIDDEN": "You may not change the settings.",
       "VALIDATION": "Every share must be between 0 and 100 and the total 100 %.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
+    },
+    "app": {
+      "saved": "The setting is saved. It applies from the next page load.",
+      "invalid": "Check the values: whole numbers in the allowed range.",
+      "history": "Change history",
+      "change": "before: {before}, after: {after}",
+      "canonNote": "Exam rules, duration and scoring come from the official catalogues and are not settings.",
+      "mission": {
+        "title": "Daily mission",
+        "hint": "How many answers a student gives in one day to complete the daily mission (Europe/Sarajevo).",
+        "label": "Number of answers (1 to 100)"
+      },
+      "minGroup": {
+        "title": "Smallest group for aggregates",
+        "hint": "The Director Command Center shows no number or share computed from fewer students than this (protects individuals).",
+        "label": "Smallest number of students (1 to 50)"
+      },
+      "points": {
+        "title": "IDSS points and badges",
+        "hint": "Points motivate and never change a grade (P-7). A change applies to every student from the next page load.",
+        "streakDays": "Badge: days in a row",
+        "answersInSubject": "Badge: answers in a subject",
+        "xp": {
+          "answer_correct": "Correct answer",
+          "answer_partly_correct": "Partly correct answer",
+          "answer_incorrect": "Incorrect answer",
+          "mission_completed": "Completed daily mission",
+          "practice_day": "Practice day",
+          "mock_exam_submitted": "Submitted mock exam",
+          "mock_exam_point": "Per point of a graded exam",
+          "mock_exam_points_cap": "At most per graded exam"
+        }
+      }
     }
   },
   "footer": {
@@ -1331,6 +1364,135 @@
       "VALIDATION": "Choose a gift and write a message of up to 200 characters.",
       "NOT_FOUND": "The student is not active.",
       "UNAVAILABLE": "The service is unavailable. Please try again."
+    }
+  },
+  "director": {
+    "title": "Director overview",
+    "back": "Back to home",
+    "navLink": "Director overview",
+    "tabs": {
+      "pregled": "Overview",
+      "predmeti": "Subjects",
+      "nastavnici": "Teachers",
+      "sadrzaj": "Content",
+      "sistem": "System",
+      "dnevnik": "Audit log"
+    },
+    "periods": {
+      "7": "last 7 days",
+      "30": "last 30 days",
+      "90": "last 90 days",
+      "godina": "school year"
+    },
+    "period": "Period",
+    "noSchoolYear": "The school year is not active yet.",
+    "dailyLink": "Daily summary",
+    "supportLink": "Student monitoring",
+    "tooFew": "too few students",
+    "empty": "No data for this period.",
+    "minGroupNote": "Figures from fewer than {n} students are not shown (privacy). You change the minimum group in Settings.",
+    "overview": {
+      "participation": "Participation",
+      "studentsActive": "Active student accounts",
+      "studentsPractised": "Students who practised",
+      "answers": "Answers",
+      "exams": "Mock exams: requested / submitted / graded",
+      "examsHint": "Mock exams are counted in the chosen period.",
+      "assignments": "Assignments given",
+      "gifts": "Special gifts",
+      "weeks": "By week",
+      "week": "Week from",
+      "assignmentStates": "Assignment states"
+    },
+    "subjects": {
+      "trusted": "Verified questions",
+      "students": "Students who practised",
+      "coverage": "Question coverage",
+      "accuracy": "Accuracy",
+      "gradedExams": "Graded mock exams",
+      "readiness": "Exam readiness",
+      "examPoints": "Mock exam points",
+      "pointsRow": "{p} points: {n} exams"
+    },
+    "teachers": {
+      "title": "Teacher activity",
+      "hint": "Activity in the chosen period. This is an overview of work, not an assessment of teachers.",
+      "name": "Teacher",
+      "records": "Records reviewed",
+      "answers": "Answers reviewed",
+      "exams": "Sets / exams graded",
+      "assignments": "Assignments",
+      "gifts": "Gifts",
+      "notes": "Notes",
+      "waiting": "Waiting",
+      "waitingValue": "{a} answers, {e} exams",
+      "legend": "Records reviewed include catalogue questions and rules. The Waiting column shows the current state, not the period.",
+      "subjectsColumn": "Subjects",
+      "setsColumn": "Sets approved",
+      "gradedColumn": "Exams graded",
+      "waitingAnswersColumn": "Answers waiting",
+      "waitingExamsColumn": "Exams waiting"
+    },
+    "content": {
+      "accepted": "Accepted questions / records",
+      "returned": "Returned",
+      "revisions": "Text revisions",
+      "errata": "Open errata",
+      "followUps": "Open follow-ups",
+      "index": "Search index",
+      "blueprint": "Exam blueprint",
+      "noBlueprint": "not loaded",
+      "blueprintReviewed": "{decision}, {by}, {at}",
+      "blueprintWaiting": "loaded {at}, waiting for teacher confirmation",
+      "decisions": {
+        "confirmed": "confirmed",
+        "rejected": "rejected"
+      },
+      "missed": "Most often wrong questions",
+      "noMissed": "No question was answered wrongly by at least {n} students.",
+      "missedRow": "{key}: {n} wrong answers, {s} students"
+    },
+    "system": {
+      "waitingTitle": "Waiting for the Director",
+      "m030done": "Assignment and gift notifications are on (migration 030).",
+      "m030waiting": "Migration 030 has not run yet: assignment and gift notifications are not sent.",
+      "pushOn": "Push notifications are configured.",
+      "pushOff": "Push notifications are not configured (VAPID keys in .env.local).",
+      "security": "Security events, last 30 days",
+      "noSecurity": "No security events.",
+      "kinds": {
+        "login_failed": "failed sign-ins",
+        "login_locked": "locked accounts",
+        "permission_denied": "access denied",
+        "rate_limited": "too many requests",
+        "token_rejected": "rejected tokens"
+      },
+      "index": "Search index",
+      "indexValue": "{e} of {c} chunks have a vector, last build: {at}",
+      "jobs": "Catalogue ingestion",
+      "states": {
+        "succeeded": "succeeded",
+        "failed": "failed"
+      },
+      "migrations": "Latest database migrations"
+    },
+    "audit": {
+      "title": "Audit log ({n} entries)",
+      "action": "Action",
+      "all": "All",
+      "person": "Person",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply",
+      "reset": "Reset",
+      "at": "Time",
+      "entity": "Object",
+      "details": "Details",
+      "ip": "IP address",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {p} of {n}",
+      "hint": "The log cannot be changed. An export holds at most 5000 entries and is itself recorded."
     }
   }
 }

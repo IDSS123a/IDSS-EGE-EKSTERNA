@@ -132,6 +132,22 @@ export const SplashPaletteSchema = z
   .object({ red: share, yellow: share, blue: share, sky: share })
   .refine((value) => Math.abs(value.red + value.yellow + value.blue + value.sky - 100) < 0.1);
 
+/** POST one of the Director's settings (PDL-040 K5); the database validates again (migration 033). */
+const settingNumber = z.coerce.number().min(0).max(1000);
+const settingInt = (max: number) => z.coerce.number().int().min(1).max(max);
+export const AppSettingSchema = z.discriminatedUnion("key", [
+  z.object({ key: z.literal("mission.daily_goal"), value: settingInt(100) }),
+  z.object({ key: z.literal("privacy.min_group"), value: settingInt(50) }),
+  z.object({
+    key: z.literal("gamification.values"),
+    xp: z.object({
+      answer_correct: settingNumber, answer_partly_correct: settingNumber, answer_incorrect: settingNumber, mission_completed: settingNumber,
+      practice_day: settingNumber, mock_exam_submitted: settingNumber, mock_exam_point: settingNumber, mock_exam_points_cap: settingNumber,
+    }),
+    badges: z.object({ streak_days: settingInt(1000), answers_in_subject: settingInt(1000) }),
+  }),
+]);
+
 /** POST search over trusted canon (Sprint 05). */
 export const CanonSearchSchema = z.object({
   query: z.string().trim().min(RETRIEVAL_QUERY_MIN_LENGTH).max(RETRIEVAL_QUERY_MAX_LENGTH),

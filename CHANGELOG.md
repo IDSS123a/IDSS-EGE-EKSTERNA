@@ -102,3 +102,6 @@
 [2026-10-03] [FEATURE] Web Push notices (migration 031, PDL-037): free browser push, per-device switch, service worker; VAPID keys in .env.local
 [2026-10-03] [FEATURE] Special gifts and the IDSS Vitrina (migration 032, PDL-039): six procedural 3D gifts (three.js, PBR, bloom), unboxing animation, teacher form on the student profile, "Moja vitrina" on the Game Hub, Web Push notice
 [2026-10-04] [SPRINT] Sprint 09 closed: DONE checklist, compliance score, handoff note
+[2026-10-04] [DATABASE] Migration 033 (PDL-040): Director Command Center functions, settings with history (mission goal, IDSS points and badges, minimum group 3)
+[2026-10-04] [FEATURE] Direktorski pregled /app/direktor (PDL-040): Pregled, Predmeti, Nastavnici, Sadržaj, Sistem, Dnevnik; small-group protection; IDSS print; CSV for teachers and the audit log (audited)
+[2026-10-04] [FEATURE] Postavke: daily mission goal, IDSS points and badges, minimum group, each with history

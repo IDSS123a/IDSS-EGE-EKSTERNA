@@ -32,3 +32,5 @@ check, not for the final guide); "Live" = to capture from the real app with a re
 | Teacher assignments card | `/app` | student | open, done, progress, push switch, phone | Fixture 2026-10-03 |
 | IDSS Vitrina | `/app/vitrina` | student | new gift, unboxing frames, six gifts, phone | Fixture 2026-10-03 |
 | Special gift form | `/app/pracenje/[student]` | teacher | six gifts, message, list | Live pending |
+| Director overview | `/app/direktor` | superadmin | six tabs, periods, "premalo učenika", audit filters, print, CSV, phone | Fixture 2026-10-04 |
+| Director settings | `/app/postavke` | superadmin | mission goal, minimum group, IDSS points and badges, history | Live pending |
