@@ -457,3 +457,17 @@ printable guide (one page per role, print stylesheet) is built from this source 
 **Amendment 2026-10-03 (Director):** in every app text the reward is called "IDSS bodovi" (de "IDSS-Punkte", en "IDSS
 points"), never "XP". The panel always states that IDSS points are not a grade and never change exam points, so the
 name cannot be confused with the points of a mock exam. Code identifiers (`xp`) stay internal.
+
+## PDL-032: Support monitoring decisions D1 to D5 and the IDSS exam readiness scale
+**Date:** 2026-10-03 (Director: "prihvatam D1 do D5" with a readiness scale)
+**Decision:** `docs/architecture/SUPPORT_MONITORING.md` is approved with:
+- D1: support notes default to "samo ja" for the psychologist and "pedagog i psiholog" for the pedagogue.
+- D2: the superadministrator does not read support notes; aggregates only.
+- D3: optional neutral note types (razgovor s učenikom, razgovor s roditeljem, dogovor, praćenje) besides free text.
+- D4: a persistent error is a question answered wrongly at least twice whose latest answer is still wrong.
+- D5 amended: an **internal IDSS readiness indicator** ("Spremnost za ispit") is shown, defined by the Director, always
+  labelled "interni pokazatelj IDSS-a, nije službena procjena" (mandate §9). Per subject, from the three most recent
+  consecutive graded mock exams: no error in all three = 100 %; 1 to 2 errors in the three = 90 %; 3 errors = 80 %.
+  Open points, proposed until the Director confirms (AMB-24): an error is a scored unit with fewer points than its
+  maximum; with more than 3 errors or fewer than three graded mock exams no percentage is shown ("još nije dostupno" or
+  "ispod 80 %"); the indicator never changes a score and never feeds IDSS points.
