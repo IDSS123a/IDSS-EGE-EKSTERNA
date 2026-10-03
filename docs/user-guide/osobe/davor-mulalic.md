@@ -9,4 +9,9 @@ Prijava: `direktor@idss.ba`. Imate sva prava za sva tri predmeta.
 3. **Nalozi učenika**: Upravljanje nalozima, Novi nalog, uloga Učenik, korisničko ime ime.prezime.
 4. **Prvi probni ispit uživo**: probnim učenikom zatražite ispit, odobrite ga, riješite, ocijenite i potvrdite rezultat.
 
+## Direktorski pregled
+Na početnoj stranici **Direktorski pregled**: učešće, predmeti, rad nastavnika, sadržaj, sistem i dnevnik promjena.
+Kartica Sistem pokazuje šta još čeka na vas (migracija 030 i VAPID ključevi). U **Postavke** mijenjate dnevni cilj
+misije, najmanju grupu (sada 3) i IDSS bodove.
+
 Detaljno: `../03-superadministrator.md`, `../02-nastavnik-predmeta.md`, `../00-zajednicko.md`.

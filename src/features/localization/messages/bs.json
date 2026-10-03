@@ -646,6 +646,39 @@
       "FORBIDDEN": "Nemate pravo mijenjati postavke.",
       "VALIDATION": "Svaki udio mora biti između 0 i 100, a zbir 100 %.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    },
+    "app": {
+      "saved": "Postavka je sačuvana. Vrijedi od sljedećeg otvaranja stranice.",
+      "invalid": "Provjerite vrijednosti: cijeli brojevi u dozvoljenom rasponu.",
+      "history": "Istorija izmjena",
+      "change": "prije: {before}, poslije: {after}",
+      "canonNote": "Pravila ispita, trajanje i bodovanje dolaze iz službenih kataloga i nisu postavke.",
+      "mission": {
+        "title": "Dnevna misija",
+        "hint": "Koliko odgovora učenik treba dati u jednom danu da ispuni dnevnu misiju (Europe/Sarajevo).",
+        "label": "Broj odgovora (1 do 100)"
+      },
+      "minGroup": {
+        "title": "Najmanja grupa za zbirne podatke",
+        "hint": "Direktorski pregled ne prikazuje broj ili udio izračunat iz manje učenika od ovog broja (zaštita pojedinca).",
+        "label": "Najmanji broj učenika (1 do 50)"
+      },
+      "points": {
+        "title": "IDSS bodovi i značke",
+        "hint": "Bodovi motivišu i nikad ne mijenjaju ocjenu (P-7). Promjena važi za sve učenike od sljedećeg otvaranja.",
+        "streakDays": "Značka: dana zaredom",
+        "answersInSubject": "Značka: odgovora u predmetu",
+        "xp": {
+          "answer_correct": "Tačan odgovor",
+          "answer_partly_correct": "Djelimično tačan odgovor",
+          "answer_incorrect": "Netačan odgovor",
+          "mission_completed": "Ispunjena dnevna misija",
+          "practice_day": "Dan vježbe",
+          "mock_exam_submitted": "Predan probni ispit",
+          "mock_exam_point": "Po bodu ocijenjenog ispita",
+          "mock_exam_points_cap": "Najviše po ocijenjenom ispitu"
+        }
+      }
     }
   },
   "footer": {
@@ -1331,6 +1364,135 @@
       "VALIDATION": "Izaberite poklon i napišite poruku do 200 znakova.",
       "NOT_FOUND": "Učenik nije aktivan.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    }
+  },
+  "director": {
+    "title": "Direktorski pregled",
+    "back": "Nazad na početnu",
+    "navLink": "Direktorski pregled",
+    "tabs": {
+      "pregled": "Pregled",
+      "predmeti": "Predmeti",
+      "nastavnici": "Nastavnici",
+      "sadrzaj": "Sadržaj",
+      "sistem": "Sistem",
+      "dnevnik": "Dnevnik"
+    },
+    "periods": {
+      "7": "zadnjih 7 dana",
+      "30": "zadnjih 30 dana",
+      "90": "zadnjih 90 dana",
+      "godina": "školska godina"
+    },
+    "period": "Razdoblje",
+    "noSchoolYear": "Školska godina još nije aktivna.",
+    "dailyLink": "Dnevni pregled",
+    "supportLink": "Praćenje učenika",
+    "tooFew": "premalo učenika",
+    "empty": "Nema podataka za ovo razdoblje.",
+    "minGroupNote": "Brojke izračunate iz manje od {n} učenika se ne prikazuju (zaštita privatnosti). Najmanju grupu mijenjate u Postavkama.",
+    "overview": {
+      "participation": "Učešće",
+      "studentsActive": "Aktivni učenički nalozi",
+      "studentsPractised": "Učenici koji su vježbali",
+      "answers": "Odgovori",
+      "exams": "Probni ispiti: zatraženi / predani / ocijenjeni",
+      "examsHint": "Probni ispiti se broje u odabranom razdoblju.",
+      "assignments": "Zadani zadaci",
+      "gifts": "Posebni pokloni",
+      "weeks": "Po sedmicama",
+      "week": "Sedmica od",
+      "assignmentStates": "Stanje zadataka"
+    },
+    "subjects": {
+      "trusted": "Provjerena pitanja",
+      "students": "Učenici koji su vježbali",
+      "coverage": "Pokrivenost pitanja",
+      "accuracy": "Tačnost",
+      "gradedExams": "Ocijenjeni probni ispiti",
+      "readiness": "Spremnost za ispit",
+      "examPoints": "Bodovi na probnim ispitima",
+      "pointsRow": "{p} bodova: {n} ispita"
+    },
+    "teachers": {
+      "title": "Rad nastavnika",
+      "hint": "Rad u odabranom razdoblju. Ovo je pregled rada, ne ocjena nastavnika.",
+      "name": "Nastavnik",
+      "records": "Pregledani zapisi",
+      "answers": "Pregledani odgovori",
+      "exams": "Setovi / ocijenjeni ispiti",
+      "assignments": "Zadaci",
+      "gifts": "Pokloni",
+      "notes": "Bilješke",
+      "waiting": "Čeka",
+      "waitingValue": "{a} odgovora, {e} ispita",
+      "legend": "Pregledani zapisi uključuju pitanja i pravila kataloga. Kolona Čeka pokazuje trenutno stanje, ne razdoblje.",
+      "subjectsColumn": "Predmeti",
+      "setsColumn": "Odobreni setovi",
+      "gradedColumn": "Ocijenjeni ispiti",
+      "waitingAnswersColumn": "Odgovori na čekanju",
+      "waitingExamsColumn": "Ispiti na čekanju"
+    },
+    "content": {
+      "accepted": "Prihvaćena pitanja / zapisi",
+      "returned": "Vraćeno",
+      "revisions": "Izmjene teksta",
+      "errata": "Otvorene ispravke",
+      "followUps": "Otvorena praćenja",
+      "index": "Indeks pretrage",
+      "blueprint": "Plan ispita",
+      "noBlueprint": "nije učitan",
+      "blueprintReviewed": "{decision}, {by}, {at}",
+      "blueprintWaiting": "učitan {at}, čeka potvrdu nastavnika",
+      "decisions": {
+        "confirmed": "potvrđen",
+        "rejected": "odbijen"
+      },
+      "missed": "Najčešće netačna pitanja",
+      "noMissed": "Nema pitanja koja je netačno odgovorilo najmanje {n} učenika.",
+      "missedRow": "{key}: {n} netačnih odgovora, {s} učenika"
+    },
+    "system": {
+      "waitingTitle": "Čeka na Direktora",
+      "m030done": "Obavijesti o zadacima i poklonima su uključene (migracija 030).",
+      "m030waiting": "Migracija 030 još nije pokrenuta: obavijesti o zadacima i poklonima se ne šalju.",
+      "pushOn": "Push obavijesti su podešene.",
+      "pushOff": "Push obavijesti nisu podešene (VAPID ključevi u .env.local).",
+      "security": "Sigurnosni događaji, zadnjih 30 dana",
+      "noSecurity": "Nema sigurnosnih događaja.",
+      "kinds": {
+        "login_failed": "neuspjele prijave",
+        "login_locked": "zaključani nalozi",
+        "permission_denied": "odbijen pristup",
+        "rate_limited": "previše zahtjeva",
+        "token_rejected": "odbijeni tokeni"
+      },
+      "index": "Indeks pretrage",
+      "indexValue": "{e} od {c} dijelova ima vektor, zadnja izgradnja: {at}",
+      "jobs": "Učitavanje kataloga",
+      "states": {
+        "succeeded": "uspješno",
+        "failed": "neuspješno"
+      },
+      "migrations": "Zadnje migracije baze"
+    },
+    "audit": {
+      "title": "Dnevnik promjena ({n} zapisa)",
+      "action": "Radnja",
+      "all": "Sve",
+      "person": "Osoba",
+      "from": "Od",
+      "to": "Do",
+      "apply": "Primijeni",
+      "reset": "Poništi",
+      "at": "Vrijeme",
+      "entity": "Objekat",
+      "details": "Detalji",
+      "ip": "IP adresa",
+      "previous": "Prethodna",
+      "next": "Sljedeća",
+      "page": "Strana {p} od {n}",
+      "hint": "Dnevnik se ne može mijenjati. Izvoz sadrži najviše 5000 zapisa i i sam se bilježi."
     }
   }
 }

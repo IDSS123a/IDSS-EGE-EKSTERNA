@@ -18,8 +18,11 @@ describe("XP and badges (PDL-029)", () => {
     expect(GAMIFICATION.badges).toEqual({ streak_days: 7, answers_in_subject: 50 });
   });
 
-  it("passes the daily mission goal with the values", () => {
-    expect(gamificationValues().mission_goal).toBe(DAILY_MISSION_GOAL);
+  it("passes the Director's settings to the database, with the mission goal (PDL-040 K5)", () => {
+    const values = gamificationValues({ missionGoal: 7, gamification: { xp: { ...GAMIFICATION.xp, answer_correct: 12 }, badges: GAMIFICATION.badges } });
+    expect(values.mission_goal).toBe(7);
+    expect(values.xp.answer_correct).toBe(12);
+    expect(DAILY_MISSION_GOAL).toBe(5);
   });
 
   it("adds XP of all sources", () => {

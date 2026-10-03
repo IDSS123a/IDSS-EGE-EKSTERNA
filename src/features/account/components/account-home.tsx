@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNTS_PATH, ASSIGNMENTS_PATH, CANON_PATH, GRADING_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH, SUPPORT_PATH } from "@/constants";
+import { ACCOUNTS_PATH, ASSIGNMENTS_PATH, CANON_PATH, DIRECTOR_PATH, GRADING_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH, SUPPORT_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -21,6 +21,7 @@ export function AccountHome({
   canGrade,
   canMonitor,
   canAssign,
+  canDirect,
 }: {
   account: Pick<CurrentAccount, "displayName" | "role">;
   /** Decided on the server (lib/permissions.ts). */
@@ -34,6 +35,8 @@ export function AccountHome({
   canMonitor: boolean;
   /** Give assignments in the own subjects (PDL-035). */
   canAssign: boolean;
+  /** Director Command Center (analytics.view_institution). */
+  canDirect: boolean;
   /** Decided on the server (lib/permissions.ts). */
   canManageSettings: boolean;
 }): ReactNode {
@@ -58,6 +61,7 @@ export function AccountHome({
           <p>{dictionary.account.nextStepsBody}</p>
           <div className="link-row">
             {canViewAccounts && <Link href={ACCOUNTS_PATH} className="button-primary">{dictionary.accounts.navLink}</Link>}
+            {canDirect && <Link href={DIRECTOR_PATH} className="button-primary">{dictionary.director.navLink}</Link>}
             {canViewCanon && <Link href={CANON_PATH} className="button-primary">{dictionary.canon.navLink}</Link>}
             {canMonitor && <Link href={SUPPORT_PATH} className="button-primary">{dictionary.support.navLink}</Link>}
             {canMonitor && <Link href={`${SUPPORT_PATH}/dan`} className="button-primary">{dictionary.support.dailyLink}</Link>}

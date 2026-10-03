@@ -646,6 +646,39 @@
       "FORBIDDEN": "Sie dürfen die Einstellungen nicht ändern.",
       "VALIDATION": "Jeder Anteil muss zwischen 0 und 100 liegen, die Summe 100 %.",
       "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+    },
+    "app": {
+      "saved": "Die Einstellung ist gespeichert. Sie gilt ab dem nächsten Öffnen der Seite.",
+      "invalid": "Bitte Werte prüfen: ganze Zahlen im erlaubten Bereich.",
+      "history": "Änderungsverlauf",
+      "change": "vorher: {before}, nachher: {after}",
+      "canonNote": "Prüfungsregeln, Dauer und Bewertung stammen aus den offiziellen Katalogen und sind keine Einstellungen.",
+      "mission": {
+        "title": "Tagesmission",
+        "hint": "Wie viele Antworten eine Schülerin oder ein Schüler an einem Tag geben muss, um die Tagesmission zu erfüllen (Europe/Sarajevo).",
+        "label": "Anzahl der Antworten (1 bis 100)"
+      },
+      "minGroup": {
+        "title": "Kleinste Gruppe für Zusammenfassungen",
+        "hint": "Die Direktorenübersicht zeigt keine Zahl und keinen Anteil, die aus weniger Schülern berechnet wurden (Schutz der Einzelnen).",
+        "label": "Kleinste Schülerzahl (1 bis 50)"
+      },
+      "points": {
+        "title": "IDSS-Punkte und Abzeichen",
+        "hint": "Punkte motivieren und ändern nie eine Note (P-7). Eine Änderung gilt für alle ab dem nächsten Öffnen.",
+        "streakDays": "Abzeichen: Tage in Folge",
+        "answersInSubject": "Abzeichen: Antworten in einem Fach",
+        "xp": {
+          "answer_correct": "Richtige Antwort",
+          "answer_partly_correct": "Teilweise richtige Antwort",
+          "answer_incorrect": "Falsche Antwort",
+          "mission_completed": "Erfüllte Tagesmission",
+          "practice_day": "Übungstag",
+          "mock_exam_submitted": "Abgegebene Probeprüfung",
+          "mock_exam_point": "Pro Punkt einer bewerteten Prüfung",
+          "mock_exam_points_cap": "Höchstens pro bewerteter Prüfung"
+        }
+      }
     }
   },
   "footer": {
@@ -1331,6 +1364,135 @@
       "VALIDATION": "Wählen Sie ein Geschenk und schreiben Sie eine Botschaft bis 200 Zeichen.",
       "NOT_FOUND": "Die Schülerin oder der Schüler ist nicht aktiv.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
+    }
+  },
+  "director": {
+    "title": "Direktionsübersicht",
+    "back": "Zurück zur Startseite",
+    "navLink": "Direktionsübersicht",
+    "tabs": {
+      "pregled": "Übersicht",
+      "predmeti": "Fächer",
+      "nastavnici": "Lehrkräfte",
+      "sadrzaj": "Inhalte",
+      "sistem": "System",
+      "dnevnik": "Protokoll"
+    },
+    "periods": {
+      "7": "letzte 7 Tage",
+      "30": "letzte 30 Tage",
+      "90": "letzte 90 Tage",
+      "godina": "Schuljahr"
+    },
+    "period": "Zeitraum",
+    "noSchoolYear": "Das Schuljahr ist noch nicht aktiv.",
+    "dailyLink": "Tagesübersicht",
+    "supportLink": "Lernbegleitung",
+    "tooFew": "zu wenige Schüler",
+    "empty": "Keine Daten für diesen Zeitraum.",
+    "minGroupNote": "Werte aus weniger als {n} Schülern werden nicht angezeigt (Datenschutz). Die Mindestgruppe ändern Sie in den Einstellungen.",
+    "overview": {
+      "participation": "Beteiligung",
+      "studentsActive": "Aktive Schülerkonten",
+      "studentsPractised": "Schüler, die geübt haben",
+      "answers": "Antworten",
+      "exams": "Probeprüfungen: angefordert / abgegeben / bewertet",
+      "examsHint": "Probeprüfungen werden im gewählten Zeitraum gezählt.",
+      "assignments": "Erteilte Aufgaben",
+      "gifts": "Besondere Geschenke",
+      "weeks": "Nach Wochen",
+      "week": "Woche ab",
+      "assignmentStates": "Stand der Aufgaben"
+    },
+    "subjects": {
+      "trusted": "Geprüfte Fragen",
+      "students": "Schüler, die geübt haben",
+      "coverage": "Abdeckung der Fragen",
+      "accuracy": "Richtigkeit",
+      "gradedExams": "Bewertete Probeprüfungen",
+      "readiness": "Prüfungsbereitschaft",
+      "examPoints": "Punkte in Probeprüfungen",
+      "pointsRow": "{p} Punkte: {n} Prüfungen"
+    },
+    "teachers": {
+      "title": "Arbeit der Lehrkräfte",
+      "hint": "Arbeit im gewählten Zeitraum. Dies ist eine Arbeitsübersicht, keine Bewertung der Lehrkräfte.",
+      "name": "Lehrkraft",
+      "records": "Geprüfte Einträge",
+      "answers": "Geprüfte Antworten",
+      "exams": "Sets / bewertete Prüfungen",
+      "assignments": "Aufgaben",
+      "gifts": "Geschenke",
+      "notes": "Notizen",
+      "waiting": "Offen",
+      "waitingValue": "{a} Antworten, {e} Prüfungen",
+      "legend": "Geprüfte Einträge umfassen Fragen und Regeln des Katalogs. Die Spalte Offen zeigt den aktuellen Stand, nicht den Zeitraum.",
+      "subjectsColumn": "Fächer",
+      "setsColumn": "Freigegebene Sets",
+      "gradedColumn": "Bewertete Prüfungen",
+      "waitingAnswersColumn": "Offene Antworten",
+      "waitingExamsColumn": "Offene Prüfungen"
+    },
+    "content": {
+      "accepted": "Angenommene Fragen / Einträge",
+      "returned": "Zurückgegeben",
+      "revisions": "Textänderungen",
+      "errata": "Offene Berichtigungen",
+      "followUps": "Offene Nachverfolgungen",
+      "index": "Suchindex",
+      "blueprint": "Prüfungsplan",
+      "noBlueprint": "nicht geladen",
+      "blueprintReviewed": "{decision}, {by}, {at}",
+      "blueprintWaiting": "geladen {at}, wartet auf Bestätigung der Lehrkraft",
+      "decisions": {
+        "confirmed": "bestätigt",
+        "rejected": "abgelehnt"
+      },
+      "missed": "Am häufigsten falsch beantwortete Fragen",
+      "noMissed": "Keine Frage wurde von mindestens {n} Schülern falsch beantwortet.",
+      "missedRow": "{key}: {n} falsche Antworten, {s} Schüler"
+    },
+    "system": {
+      "waitingTitle": "Wartet auf die Direktion",
+      "m030done": "Benachrichtigungen zu Aufgaben und Geschenken sind aktiv (Migration 030).",
+      "m030waiting": "Migration 030 wurde noch nicht ausgeführt: Benachrichtigungen zu Aufgaben und Geschenken werden nicht gesendet.",
+      "pushOn": "Push-Benachrichtigungen sind eingerichtet.",
+      "pushOff": "Push-Benachrichtigungen sind nicht eingerichtet (VAPID-Schlüssel in .env.local).",
+      "security": "Sicherheitsereignisse, letzte 30 Tage",
+      "noSecurity": "Keine Sicherheitsereignisse.",
+      "kinds": {
+        "login_failed": "fehlgeschlagene Anmeldungen",
+        "login_locked": "gesperrte Konten",
+        "permission_denied": "verweigerter Zugriff",
+        "rate_limited": "zu viele Anfragen",
+        "token_rejected": "abgelehnte Tokens"
+      },
+      "index": "Suchindex",
+      "indexValue": "{e} von {c} Abschnitten haben einen Vektor, letzter Aufbau: {at}",
+      "jobs": "Katalogimport",
+      "states": {
+        "succeeded": "erfolgreich",
+        "failed": "fehlgeschlagen"
+      },
+      "migrations": "Letzte Datenbankmigrationen"
+    },
+    "audit": {
+      "title": "Änderungsprotokoll ({n} Einträge)",
+      "action": "Aktion",
+      "all": "Alle",
+      "person": "Person",
+      "from": "Von",
+      "to": "Bis",
+      "apply": "Anwenden",
+      "reset": "Zurücksetzen",
+      "at": "Zeit",
+      "entity": "Objekt",
+      "details": "Details",
+      "ip": "IP-Adresse",
+      "previous": "Zurück",
+      "next": "Weiter",
+      "page": "Seite {p} von {n}",
+      "hint": "Das Protokoll kann nicht geändert werden. Ein Export enthält höchstens 5000 Einträge und wird selbst protokolliert."
     }
   }
 }

@@ -1,6 +1,6 @@
-# Director Command Center (design proposal)
+# Director Command Center
 
-Status: **proposal, waiting for the Director (decisions K1 to K6)** · Sources: mandate §13 ("institutional intelligence
+Status: **approved 2026-10-04 (PDL-040: K1 to K6 as proposed, K2 minimum group 3), implemented in Sprint 10** · Sources: mandate §13 ("institutional intelligence
 layer, not a surveillance dashboard"; participation, subject and class progress, aggregate mastery, teacher activity,
 content health, system health, audit activity, configuration and permissions; "minimize exposure of sensitive student
 information; use aggregation wherever individual-level detail is not necessary"), §7A.7, §11; ROLES_AND_PERMISSIONS §2
@@ -31,7 +31,9 @@ Migration 033: read-only functions `director_overview`, `director_subjects`, `di
 log), service_role only, no new table except what K5 needs. DB tests: refused for teachers, pedagogue, psychologist and
 students; no function returns note or message content.
 
-## 4. Decisions for the Director
+## 4. Decisions of the Director (PDL-040)
+Answer 2026-10-04: "prihvatam. K2 3". Every proposal below is accepted; K2 uses a minimum group of 3 students.
+
 - **K1 Teacher activity by name.** Proposal: yes, counts of completed work per teacher (no times, no logins), so the
   Director sees where support is needed; alternatively only per subject.
 - **K2 Small-group protection.** With few students an aggregate can reveal one student. Proposal: below a minimum group
