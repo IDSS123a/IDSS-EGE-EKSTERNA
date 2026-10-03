@@ -116,7 +116,8 @@
       "USERNAME_TAKEN": "Dieser Benutzername existiert bereits.",
       "USERNAME_ROLE_MISMATCH": "Administratoren verwenden eine E-Mail als Benutzernamen, Schüler/innen nicht.",
       "NOT_FOUND": "Konto nicht gefunden.",
-      "UNAVAILABLE": "Die Aktion ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+      "UNAVAILABLE": "Die Aktion ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "PWNED_PASSWORD": "Dieses Passwort ist aus bekannten Datenlecks bekannt und nicht sicher. Bitte ein anderes wählen."
     },
     "noSubjects": "Die Fächer sind noch nicht geladen. Starten Sie im Register der kanonischen Dokumente \"Fach und Regeln laden\" für jeden Katalog."
   },
@@ -676,7 +677,8 @@
       "UNCHANGED": "Das neue Passwort muss sich vom aktuellen unterscheiden.",
       "WRONG_PASSWORD": "Das aktuelle Passwort ist nicht korrekt.",
       "LOCKED": "Zu viele Fehlversuche. Bitte versuchen Sie es in einigen Minuten erneut.",
-      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut.",
+      "PWNED_PASSWORD": "Dieses Passwort ist aus bekannten Datenlecks bekannt und nicht sicher. Bitte ein anderes wählen."
     }
   },
   "hub": {

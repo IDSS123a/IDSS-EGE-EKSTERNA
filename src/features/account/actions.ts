@@ -8,11 +8,12 @@ import { countRecentLoginFailures, insertAuditLog, insertSecurityEvent } from "@
 import { getCurrentAccount } from "@/features/authentication/session";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { createSupabaseVerifierClient } from "@/lib/db/supabase-verifier";
+import { isPasswordPwned } from "@/lib/security/pwned-passwords";
 import { logError, logInfo } from "@/lib/logger";
 import { changeOwnPasswordSchema } from "@/lib/validation/schemas";
 
 /** Machine codes of the own-password action; the UI localises them (AMB-11). */
-export type OwnPasswordErrorCode = "UNAUTHENTICATED" | "VALIDATION" | "MISMATCH" | "UNCHANGED" | "WRONG_PASSWORD" | "LOCKED" | "UNAVAILABLE";
+export type OwnPasswordErrorCode = "UNAUTHENTICATED" | "VALIDATION" | "MISMATCH" | "UNCHANGED" | "WRONG_PASSWORD" | "PWNED_PASSWORD" | "LOCKED" | "UNAVAILABLE";
 export type OwnPasswordResult = { success: true; data: { message: "PASSWORD_CHANGED" } } | { success: false; code: OwnPasswordErrorCode };
 
 /**
@@ -21,7 +22,8 @@ export type OwnPasswordResult = { success: true; data: { message: "PASSWORD_CHAN
  * Body: FormData { currentPassword, newPassword, confirmPassword }; minimum length by role (staff / student).
  * The current password is verified with a session-less client; a wrong one counts as a failed sign-in and
  * feeds the same lockout as the login. Passwords go to Supabase Auth only and are never logged.
- * Errors: UNAUTHENTICATED, VALIDATION, MISMATCH, UNCHANGED, WRONG_PASSWORD, LOCKED, UNAVAILABLE.
+ * A password known from data breaches is refused (PDL-030).
+ * Errors: UNAUTHENTICATED, VALIDATION, MISMATCH, UNCHANGED, WRONG_PASSWORD, PWNED_PASSWORD, LOCKED, UNAVAILABLE.
  */
 export async function changeOwnPasswordAction(_previous: OwnPasswordResult | null, formData: FormData): Promise<OwnPasswordResult> {
   const result = await changeOwnPassword(formData);
@@ -52,6 +54,7 @@ async function changeOwnPassword(formData: FormData): Promise<OwnPasswordResult>
       await insertSecurityEvent(admin, { kind: "login_failed", usernameSha256, userId: actor.userId, ipAddress, details: { context: "own_password_change" } });
       return { success: false, code: "WRONG_PASSWORD" };
     }
+    if ((await isPasswordPwned(parsed.data.newPassword)) === true) return { success: false, code: "PWNED_PASSWORD" };
     const updated = await admin.auth.admin.updateUserById(actor.userId, { password: parsed.data.newPassword });
     if (updated.error) throw new Error(`auth password update failed: ${updated.error.message}`);
     await insertAuditLog(admin, { actorUserId: actor.userId, action: "account.own_password_changed", entityType: "profile", entityId: actor.userId, ipAddress });

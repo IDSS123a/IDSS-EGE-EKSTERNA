@@ -30,8 +30,12 @@ Levels, challenges and leaderboards (later); search (parked); daily teacher summ
       the student's answer beside the printed key and errata, verdict correct / partly correct / incorrect with an
       optional note (review_practice_answer, audited); the grading area links to it with the waiting count. Live: 7
       answers wait (payload checked through practice_review_queue).
-- [ ] 3. Set request notification: migration 024 written and tested (DB test section 18), app shows the new kind;
-      waits for the Director to run 024 in the Supabase SQL editor (DROP CONSTRAINT).
-- [ ] 4. XP and badges: value proposal sent to the Director (PDL-029, proposed); implementation after approval.
-- [ ] 5. Leaked-password protection: a Supabase Auth dashboard switch for the Director.
+- [x] 3. Set request notification: migration 024 run by the Director in the SQL editor on 2026-10-03 ("Success. No rows
+      returned"), verified live (kind check includes mock_exam_requested), history row 20261003150000 recorded;
+      security advisor: only the known Auth WARN.
+- [ ] 4. XP and badges: values approved by the Director (PDL-029); implementation in progress.
+- [x] 5. Leaked-password protection: Supabase offers it only on Pro plans (Director's screenshot), so the application
+      checks every new password against the Pwned Passwords range API (PDL-030, k-anonymity) on account creation,
+      reset and own change; unit tests with a fake service (the API is not reachable from the build sandbox).
+- [ ] 6. User guide source per participant (PDL-031): `docs/user-guide/`, updated with every screen change.
 - [ ] 1. Live walk-through (Director).

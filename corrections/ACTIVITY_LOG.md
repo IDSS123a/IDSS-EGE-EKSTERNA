@@ -78,3 +78,4 @@
 - [2026-10-03] Commander upgrade v1.6.1 to v1.6.2 (diff checked, automation identical)
 - [2026-10-03] Sprint 07 closed (notifications panel and dead-code removal fixed at close-out)
 - [2026-10-03] Sprint 08 started; practice answer review screen; migration 024 written and tested locally
+- [2026-10-03] Migration 024 live (Director), history recorded; PDL-029 to PDL-031; leaked-password check in the app

@@ -172,3 +172,7 @@ export const EXAM_AUTOSAVE_MS = 20_000;
 export const GRADING_PATH = "/app/ocjenjivanje";
 /** Notifications shown on the home and grading screens. */
 export const NOTIFICATIONS_LIMIT = 20;
+/** Pwned Passwords range API (PDL-030): the 5-character SHA-1 prefix is appended. */
+export const PWNED_PASSWORDS_URL = "https://api.pwnedpasswords.com/range/";
+/** The leaked-password check never holds a password change longer than this. */
+export const PWNED_PASSWORDS_TIMEOUT_MS = 4000;

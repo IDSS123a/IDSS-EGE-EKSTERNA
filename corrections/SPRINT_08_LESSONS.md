@@ -12,3 +12,10 @@ None yet.
 
 ## Commander Improvement Candidates
 None yet.
+
+### 2026-10-03 - Plan-gated platform features
+- Supabase leaked-password protection is a Pro-plan feature; the dashboard switch fails on Free. A security control
+  the platform gates behind a plan is rebuilt in the application when it is cheap and privacy-safe (here: Pwned
+  Passwords range API with k-anonymity, PDL-030), and the advisor WARN is recorded as mitigated, not ignored.
+- The build sandbox cannot reach api.pwnedpasswords.com (egress policy); such checks are tested with a fake service
+  and fail open with a log entry, so an unreachable service never blocks a password change.

@@ -9,6 +9,7 @@ import { insertAuditLog } from "@/features/authentication/repository";
 import { getCurrentAccount } from "@/features/authentication/session";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
+import { isPasswordPwned } from "@/lib/security/pwned-passwords";
 import { logError, logInfo } from "@/lib/logger";
 import { canChangeAccount, canManageAccounts, canResetPasswords } from "@/lib/permissions";
 import { BundleChangeSchema, ChangeStatusSchema, createAccountSchema, resetPasswordSchema } from "@/lib/validation/schemas";
@@ -56,6 +57,8 @@ async function createAccount(_previous: AccountActionResult | null, formData: Fo
     return { success: false, code: mismatch ? "USERNAME_ROLE_MISMATCH" : "VALIDATION" };
   }
   const input = parsed.data;
+  // PDL-030: a password known from data breaches is refused (null: the service did not answer, accepted).
+  if ((await isPasswordPwned(input.password)) === true) return { success: false, code: "PWNED_PASSWORD" };
 
   let admin: ReturnType<typeof createSupabaseAdminClient> | null = null;
   let createdUserId: string | null = null;
@@ -195,6 +198,7 @@ async function resetPassword(_previous: AccountActionResult | null, formData: Fo
     const minLength = target.role === "student" ? STUDENT_PASSWORD_MIN_LENGTH : STAFF_PASSWORD_MIN_LENGTH;
     const parsed = resetPasswordSchema(minLength).safeParse({ userId, password: formData.get("password") });
     if (!parsed.success) return { success: false, code: "VALIDATION" };
+    if ((await isPasswordPwned(parsed.data.password)) === true) return { success: false, code: "PWNED_PASSWORD" };
     const updated = await admin.auth.admin.updateUserById(target.userId, { password: parsed.data.password });
     if (updated.error) throw new Error(`auth password update failed: ${updated.error.message}`);
     await insertAuditLog(admin, {

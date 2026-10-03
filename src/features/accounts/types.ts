@@ -20,6 +20,7 @@ export type AccountErrorCode =
   | "VALIDATION"
   | "USERNAME_TAKEN"
   | "USERNAME_ROLE_MISMATCH"
+  | "PWNED_PASSWORD"
   | "NOT_FOUND"
   | "UNAVAILABLE";
 

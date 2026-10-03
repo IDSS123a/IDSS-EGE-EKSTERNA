@@ -116,7 +116,8 @@
       "USERNAME_TAKEN": "To korisničko ime već postoji.",
       "USERNAME_ROLE_MISMATCH": "Administrator mora imati e-mail kao korisničko ime, a učenik ne smije.",
       "NOT_FOUND": "Nalog nije pronađen.",
-      "UNAVAILABLE": "Akcija trenutno nije uspjela. Pokušajte ponovo."
+      "UNAVAILABLE": "Akcija trenutno nije uspjela. Pokušajte ponovo.",
+      "PWNED_PASSWORD": "Ova lozinka se pojavila u poznatim curenjima podataka i nije sigurna. Izaberite drugu."
     },
     "noSubjects": "Predmeti još nisu učitani. Na stranici Registar kanonskih dokumenata pokrenite \"Učitaj predmet i pravila\" za svaki katalog."
   },
@@ -676,7 +677,8 @@
       "UNCHANGED": "Nova lozinka mora biti drugačija od trenutne.",
       "WRONG_PASSWORD": "Trenutna lozinka nije tačna.",
       "LOCKED": "Previše neuspjelih pokušaja. Pokušajte ponovo za nekoliko minuta.",
-      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo.",
+      "PWNED_PASSWORD": "Ova lozinka se pojavila u poznatim curenjima podataka i nije sigurna. Izaberite drugu."
     }
   },
   "hub": {

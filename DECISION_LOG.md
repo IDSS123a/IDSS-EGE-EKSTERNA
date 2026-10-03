@@ -422,3 +422,35 @@ of the CLAUDE.md template, so nothing installed in `.claude/` or `.github/` chan
 - A-4, permission gating by section, and A-12, sequential calls are invisible to the in-flight cache: no current use;
   the grading area already gates by subject scope per section and per action.
 **Reversibility:** a version stamp; reverting means restoring the three stamps.
+
+## PDL-029: XP and badges, values approved by the Director
+**Date:** 2026-10-03 (Director: "XP bodovi i značke - Odobravam")
+**Decision:** XP is earned from events (mandate §8.4) and stored in its own ledger, apart from every score (P-7, mandate
+§8.3). It is never shown as a grade and never changes points or results.
+| Event | XP |
+|---|---|
+| Practice answer correct (latest outcome, teacher's verdict counts) | 10 |
+| Practice answer partly correct | 5 |
+| Practice answer incorrect (effort) | 2 |
+| Daily mission completed (PDL-024, once per day) | 20 |
+| Each day of the practice streak (once per day) | 5 |
+| Mock exam submitted | 30 |
+| Mock exam result confirmed by the teacher | 10 per point earned, at most 100 |
+Badges: first answer; 7 days in a row; 50 answers in one subject; first mock exam in a subject; a mock exam in all three
+subjects. Values live in configuration with this decision as provenance; a change is a new decision.
+
+## PDL-030: Leaked-password protection in the application (Supabase Free plan)
+**Date:** 2026-10-03 (Director's screenshot: Supabase answers that leaked-password protection is available on Pro plans and up)
+**Decision:** Until the project is on a Pro plan, the application rejects known leaked passwords itself wherever a
+password is set (new account, reset by an administrator, own change): the server sends the first five characters of the
+password's SHA-1 hash to the Pwned Passwords range API (k-anonymity; neither the password nor its full hash leaves the
+server) and refuses a password found there. If the service does not answer, the password is accepted and the event is
+logged (availability over a check that cannot run). The Supabase advisor WARN stays as a known, mitigated item until Pro.
+
+## PDL-031: User guide per participant, printable inside the application
+**Date:** 2026-10-03 (Director: individual user guide for every participant, generally for students and specifically for
+Nizama, Nikolina, Haris, Davor, Medina and Adnana; a comprehensive guide with screenshots, part of the web app, printable)
+**Decision:** `docs/user-guide/` is the source, written alongside the code: one chapter per role (student; subject teacher
+for B/H/S, German, Mathematics; superadministrator; pedagogue; psychologist) with personal start pages for the named staff,
+and a screenshot list per screen. Every sprint that changes a screen updates its chapter in the same change. The in-app,
+printable guide (one page per role, print stylesheet) is built from this source once the screens are stable.

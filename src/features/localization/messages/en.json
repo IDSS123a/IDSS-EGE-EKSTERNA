@@ -116,7 +116,8 @@
       "USERNAME_TAKEN": "This username already exists.",
       "USERNAME_ROLE_MISMATCH": "Administrators use an e-mail as username; students must not.",
       "NOT_FOUND": "Account not found.",
-      "UNAVAILABLE": "The action failed. Please try again."
+      "UNAVAILABLE": "The action failed. Please try again.",
+      "PWNED_PASSWORD": "This password appears in known data breaches and is not safe. Choose another one."
     },
     "noSubjects": "Subjects are not loaded yet. In the canonical document registry, run \"Load subject and rules\" for each catalogue."
   },
@@ -676,7 +677,8 @@
       "UNCHANGED": "The new password must differ from the current one.",
       "WRONG_PASSWORD": "The current password is not correct.",
       "LOCKED": "Too many failed attempts. Please try again in a few minutes.",
-      "UNAVAILABLE": "The service is not available right now. Please try again."
+      "UNAVAILABLE": "The service is not available right now. Please try again.",
+      "PWNED_PASSWORD": "This password appears in known data breaches and is not safe. Choose another one."
     }
   },
   "hub": {
