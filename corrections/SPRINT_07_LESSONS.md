@@ -16,12 +16,21 @@ Date: 2026-09-27 (open)
    mock exam unseen (caught by the DB test) → the superadministrators are notified when the subject has no teacher.
    Every notification path names who receives it when the expected recipient does not exist yet.
 
+4. Earlier designs corrected the canon: text revisions (AMB-19) changed what students read and key revisions (CF-03)
+   replaced printed keys; a later recommendation proposed correcting DEU-4.3.34, and the mock exam blueprint added an
+   IDSS rule (ten different Math areas). The Director ruled (P-15, PDL-027) that the catalogue is a faithful copy: errors
+   are marked, never changed, and no rule is added beyond the canonical documents. Any feature that alters, filters or
+   extends canon content is checked against P-15 before it is designed.
+5. Students saw plain extracted text: 180 of 200 Math questions without real fractions and exponents, 42 B/H/S questions
+   without the highlighted words they ask about. The "requires visual verification" flag was recorded at ingestion but
+   never used when showing questions. A data-quality flag must change what the user sees, or it is noise.
+
 ## Gotchas Discovered
 - Six German records (DEU-4.4.10, 4.5.6 to 4.5.10) were never reviewed: their task type was "unclassified", so the Sprint
   04 bulk acceptance skipped them silently. The gap appeared only when the mock exam pool for "Kommunikation" came up
   empty. Pools are now checked against live trusted counts before a blueprint is declared usable.
-- The official German key for DEU-4.3.34 is factually wrong (Salzburg "in Deutschland"); a printed key is evidence, not
-  truth. Keys are read for plausibility when a task enters auto-checking (AMB-23).
+- The official German key for DEU-4.3.34 is factually wrong (Salzburg "in Deutschland"). Per P-15 the printed key still
+  counts; the error is recorded as an erratum and shown as a notice, never corrected (AMB-23).
 - Chrome ignores `autocomplete="off"` on a field it classifies as a username beside a password field; the
   classification uses the field name and id, so renaming is what works.
 

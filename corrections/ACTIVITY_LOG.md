@@ -66,3 +66,4 @@
 - [2026-09-27] New-account form: no browser password manager offer (Director); practice screen explains practice vs mock exam
 - [2026-09-27 22:51] Write: migrations/019_mock_exams.sql
 - [2026-10-03] Migration 019 applied live (mock exams); probe rolled back
+- [2026-10-03] Director: catalogue is canon (P-15, PDL-027); fidelity work started
