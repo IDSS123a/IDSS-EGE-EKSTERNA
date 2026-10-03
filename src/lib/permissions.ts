@@ -102,6 +102,11 @@ export function canViewStudentProgress(account: CurrentAccount): boolean {
   return hasCapability(account, "students.view_progress");
 }
 
+/** Read and write academic teacher notes: in the own subjects for a teacher, all subjects for unscoped holders (PDL-034). */
+export function canWriteTeacherNotes(account: CurrentAccount): boolean {
+  return hasCapability(account, "teacher_notes.read_write");
+}
+
 /** Write and read support notes (pedagogue and psychologist only, D2). */
 export function canWriteSupportNotes(account: CurrentAccount): boolean {
   return hasCapability(account, "support_notes.read_write");

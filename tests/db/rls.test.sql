@@ -1092,3 +1092,38 @@ select pg_temp.assert((select count(*) from t_daily, jsonb_array_elements(d -> '
   'every active student is either among those who practised that day or those who did not');
 select pg_temp.assert(jsonb_array_length(public.daily_summary('00000000-0000-0000-0000-00000000001f', (now() at time zone 'Europe/Sarajevo')::date) -> 'subjects') = (select count(*) from public.subjects),
   'the pedagogue''s daily summary covers every subject');
+
+-- 23. Teacher (academic) notes (migration 028, PDL-034): per student and subject, the subject teacher only in the own
+-- subject, pedagogue, psychologist and superadministrator in every subject, never the student; append-only; the audit
+-- row never carries the content.
+insert into public.subjects (id, code, official_name, legal_basis, source_version_id, evidence, facts_version)
+  select '11111111-1111-1111-1111-111111111112', 'german', 'Njemački jezik', 'Test', '77777777-7777-7777-7777-777777777701', '[{"page": 1, "quote": "Test"}]', 1
+  where not exists (select 1 from public.subjects where code = 'german');
+select public.teacher_note_add('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c', 'mathematics', 'Test: razlomci ponoviti', null);
+select pg_temp.expect_error($$select public.teacher_note_add('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c', 'german', 'x', null)$$,
+  'FORBIDDEN', 'a subject teacher writes notes only in the own subject');
+select pg_temp.expect_error($$select public.teacher_note_add('00000000-0000-0000-0000-00000000000c', '22222222-2222-2222-2222-22222222222c', 'mathematics', 'x', null)$$,
+  'FORBIDDEN', 'a student writes no teacher note');
+select pg_temp.expect_error($$select public.teacher_notes_of('00000000-0000-0000-0000-00000000000c', '22222222-2222-2222-2222-22222222222c')$$,
+  'FORBIDDEN', 'a student reads no teacher note');
+select pg_temp.expect_error($$select public.teacher_note_add('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c', 'mathematics', '   ', null)$$,
+  'VALIDATION', 'an empty teacher note is refused');
+select pg_temp.expect_error($$select public.teacher_note_add('00000000-0000-0000-0000-00000000000b', gen_random_uuid(), 'mathematics', 'x', null)$$,
+  'NOT_FOUND', 'teacher notes only for students');
+select public.teacher_note_add('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c', 'german', 'Test: Wortschatz', null);
+select pg_temp.assert(jsonb_array_length(public.teacher_notes_of('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c')) = 1,
+  'the mathematics teacher reads only the mathematics note');
+select pg_temp.assert(jsonb_array_length(public.teacher_notes_of('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c')) = 2
+  and jsonb_array_length(public.teacher_notes_of('00000000-0000-0000-0000-00000000000a', '22222222-2222-2222-2222-22222222222c')) = 2,
+  'the pedagogue and the superadministrator read the notes of every subject');
+select pg_temp.assert(not exists (select 1 from public.audit_logs where action = 'teacher.note_added' and details::text like '%Test:%')
+  and (select count(*) from public.audit_logs where action = 'teacher.note_added') = 2,
+  'every teacher note is audited without its content');
+select pg_temp.expect_error($$update public.teacher_notes set body = 'changed'$$, 'audit records are append-only (UPDATE on teacher_notes)', 'teacher notes are append-only');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.teacher_notes) = 1, 'RLS: the teacher reads only notes of the own subject');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.teacher_notes) = 0, 'RLS: a student reads no teacher note');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 028');

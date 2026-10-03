@@ -88,3 +88,6 @@
 - [2026-10-03] Support monitoring screens; e2e expectation of the home status text fixed (Sprint 08 regression)
 - [2026-10-03 15:04] Write: src/features/support/components/daily-summary-screen.tsx
 - [2026-10-03] Migration 027 live; subject teacher view and daily summary (PDL-033)
+- [2026-10-03 20:23] Write: migrations/028_teacher_notes.sql
+- [2026-10-03 20:26] Write: docs/architecture/ASSIGNMENTS.md
+- [2026-10-03] Migration 028 live (teacher notes, PDL-034); assignments design proposal (Z1 to Z6)

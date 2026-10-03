@@ -1083,6 +1083,14 @@
       "byLine": "{name}, sichtbar: {visibility}",
       "followUpOn": "nächster Schritt {date}"
     },
+    "teacherNotes": {
+      "title": "Notizen der Lehrkräfte",
+      "hint": "Fachliche Notizen zum Lernen in diesem Fach. Sie sehen die Lehrkräfte dieses Fachs, die Pädagogin, die Psychologin und der Direktor; die Schülerin oder der Schüler sieht sie nicht. Gespeicherte Notizen werden nicht geändert.",
+      "body": "Notiz",
+      "submit": "Notiz der Lehrkraft speichern",
+      "saved": "Die Notiz ist gespeichert.",
+      "none": "Keine Notizen der Lehrkräfte."
+    },
     "analysis": {
       "title": "Gruppenanalyse",
       "subtitle": "Zusammengefasste Daten, aktive Schüler: {n}",

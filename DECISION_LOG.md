@@ -488,3 +488,14 @@ name cannot be confused with the points of a mock exam. Code identifiers (`xp`) 
    and the days since the last practice. Nobody is labelled inactive; the reader decides.
 **Implementation:** migration 027 (`private.actor_progress_subjects`, scoped `support_overview`, `support_student`,
 `support_patterns`, new `daily_summary`), `canViewStudentProgress`, `/app/pracenje/dan`; DB tests section 22.
+
+## PDL-034: Academic teacher notes per student and subject
+**Date:** 2026-10-03 (Director: "idemo dalje"; implementation plan row 09; ROLES §2 "Read/write teacher (academic)
+notes": superadministrator, subject teacher scoped, pedagogue, psychologist, never the student; DATA_MODEL §7)
+**Decision:** academic notes are kept per student and subject, separate from support notes: the subject teacher reads
+and writes them only in the own subject, the pedagogue, the psychologist and the superadministrator in every subject;
+the student never sees them. Append-only (no edit, no delete), shown in the subject section of the student profile,
+left out of print and of every export; the audit row records the note's id and subject, never its content (M-15).
+**Implementation:** migration 028 (`teacher_notes` with RLS by subject capability, `teacher_notes_of`,
+`teacher_note_add`), `addTeacherNoteAction`; DB tests section 23. Assignments wait for decisions Z1 to Z6
+(`docs/architecture/ASSIGNMENTS.md`).

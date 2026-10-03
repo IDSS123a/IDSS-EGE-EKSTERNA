@@ -6,9 +6,9 @@ import { formatDateTime } from "@/features/canon/components/format";
 import { formatPoints } from "@/features/exams/domain/exam";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { ReviewShell } from "@/features/review/components/review-shell";
-import { addSupportNoteAction } from "../actions";
+import { addSupportNoteAction, addTeacherNoteAction } from "../actions";
 import { share } from "../domain/indicators";
-import type { NoteKind, ProfileSubject, StudentProfile, SupportActionResult } from "../types";
+import type { NoteKind, ProfileSubject, StudentProfile, SupportActionResult, TeacherNote } from "../types";
 import { ReadinessBadge } from "./readiness-badge";
 
 const KINDS: NoteKind[] = ["student_talk", "parent_talk", "agreement", "observation"];
@@ -18,7 +18,7 @@ const KINDS: NoteKind[] = ["student_talk", "parent_talk", "agreement", "observat
  * activity, mock exam trend against the student's own results, IDSS readiness (PDL-032), and support notes for the
  * pedagogue and the psychologist (D1 to D3). Opening this page is recorded in the access audit.
  */
-export function StudentProfileScreen({ profile }: { profile: StudentProfile }): ReactNode {
+export function StudentProfileScreen({ profile, teacherNotes }: { profile: StudentProfile; teacherNotes: TeacherNote[] | null }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.support;
   const activeDays = new Map(profile.days.map((day) => [day.day, day.answers]));
@@ -49,7 +49,11 @@ export function StudentProfileScreen({ profile }: { profile: StudentProfile }): 
         </div>
       </section>
 
-      {profile.subjects.map((subject) => <SubjectSection key={subject.code} subject={subject} />)}
+      {profile.subjects.map((subject) => (
+        <SubjectSection key={subject.code} subject={subject}>
+          {teacherNotes && <TeacherNotes personId={profile.personId} subject={subject.code} notes={teacherNotes.filter((note) => note.subject === subject.code)} />}
+        </SubjectSection>
+      ))}
 
       {profile.canWriteNotes && <Notes profile={profile} />}
       <p className="form__hint">{labels.readiness.label}</p>
@@ -57,7 +61,7 @@ export function StudentProfileScreen({ profile }: { profile: StudentProfile }): 
   );
 }
 
-function SubjectSection({ subject }: { subject: ProfileSubject }): ReactNode {
+function SubjectSection({ subject, children }: { subject: ProfileSubject; children?: ReactNode }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.support;
   const percent = (part: number, whole: number) => {
@@ -136,7 +140,50 @@ function SubjectSection({ subject }: { subject: ProfileSubject }): ReactNode {
           </table>
         </div>
       )}
+      {children}
     </section>
+  );
+}
+
+/** Academic teacher notes of one subject (PDL-034): append-only, never shown to the student, kept out of print. */
+function TeacherNotes({ personId, subject, notes }: { personId: string; subject: ProfileSubject["code"]; notes: TeacherNote[] }): ReactNode {
+  const { dictionary, locale } = useI18n();
+  const labels = dictionary.support.teacherNotes;
+  const [result, formAction, pending] = useActionState<SupportActionResult | null, FormData>(addTeacherNoteAction, null);
+
+  return (
+    <div className="no-print">
+      <h3 className="support-subhead">{labels.title}</h3>
+      <p className="form__hint">{labels.hint}</p>
+      <form key={notes.length} action={formAction} className="form">
+        <input type="hidden" name="personId" value={personId} />
+        <input type="hidden" name="subject" value={subject} />
+        <div className="form__field">
+          <label htmlFor={`teacher-note-${subject}`}>{labels.body}</label>
+          <textarea id={`teacher-note-${subject}`} name="body" required maxLength={4000} rows={3} />
+        </div>
+        <div className="form__actions">
+          <button type="submit" className="button-secondary" disabled={pending}>{labels.submit}</button>
+          <p className="action-feedback" aria-live="polite">
+            {result?.success && <span className="action-feedback--ok">{labels.saved}</span>}
+            {result && !result.success && <span className="action-feedback--error">{dictionary.support.errors[result.code]}</span>}
+          </p>
+        </div>
+      </form>
+      {notes.length === 0 ? (
+        <p>{labels.none}</p>
+      ) : (
+        <ul className="canon-history__list">
+          {notes.map((note) => (
+            <li key={note.id}>
+              <span className="canon-history__event">{formatDateTime(note.createdAt, locale)}</span>
+              <span>{note.body}</span>
+              <span className="form__hint">{note.author}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
 

@@ -40,3 +40,7 @@ najčešće pogrešna pitanja. Samo zbirni podaci, bez imena i bez rangiranja u�
 Dugme **Dnevni sažetak** na početnoj stranici (i na ekranu Praćenje učenika) pokazuje za jedan dan i svaki predmet ko je
 vježbao, ko nije i od kada, oblasti tog dana od najniže tačnosti i otvoreni rad. Zadano je jučer; do 30 dana unazad.
 Nastavnici predmeta vide isti sažetak samo za svoj predmet i nikad ne vide bilješke podrške.
+
+## Bilješke nastavnika (Dostupno)
+Na profilu učenika, u dijelu svakog predmeta, su akademske bilješke nastavnika tog predmeta. Vi ih čitate i možete
+upisati svoju; učenik ih ne vidi. One su odvojene od bilješki podrške, koje nastavnici nikad ne vide.

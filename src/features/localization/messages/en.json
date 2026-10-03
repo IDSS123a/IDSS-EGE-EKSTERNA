@@ -1083,6 +1083,14 @@
       "byLine": "{name}, visible to: {visibility}",
       "followUpOn": "next step {date}"
     },
+    "teacherNotes": {
+      "title": "Teacher notes",
+      "hint": "Academic notes on learning in this subject. Seen by the teachers of this subject, the pedagogue, the psychologist and the director; the student does not see them. Saved notes are not changed.",
+      "body": "Note",
+      "submit": "Save teacher note",
+      "saved": "The note is saved.",
+      "none": "No teacher notes."
+    },
     "analysis": {
       "title": "Group analysis",
       "subtitle": "Aggregates, active students: {n}",

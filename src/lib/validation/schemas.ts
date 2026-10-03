@@ -244,6 +244,12 @@ export const PracticeVerdictSchema = z.object({
 });
 
 /** POST a support note (migration 026): neutral type (D3), visibility (D1), optional follow-up date. */
+export const TeacherNoteSchema = z.object({
+  personId: z.uuid(),
+  subject: z.enum(["bhs_language_literature", "mathematics", "german"]),
+  body: z.string().trim().min(1).max(4000),
+});
+
 export const SupportNoteSchema = z.object({
   personId: z.uuid(),
   kind: z.preprocess((value) => (value === "" ? null : value), z.enum(["student_talk", "parent_talk", "agreement", "observation"]).nullable()),

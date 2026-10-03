@@ -18,9 +18,11 @@ P-14), mandate §7A.3, §9, §11 to §13, ROLES_AND_PERMISSIONS §2 and §3.
 4. **User guide:** chapter 04 and the personal pages of Adnana Agić and Medina Karaga describe the new screens.
 5. **Added 2026-10-03 (Director: "idi dalje po planu", plan row 09, PDL-033):** subject teacher view of student
    progress scoped to the own subject, and the daily summary (PDL-018 item 3) as a page (migration 027).
+6. **Added 2026-10-03 (Director: "idemo dalje", plan row 09, PDL-034):** academic teacher notes (migration 028);
+   assignments designed (`docs/architecture/ASSIGNMENTS.md`), built after the Director's decisions Z1 to Z6.
 
 ## OUT
-Class assignments and teacher (academic) notes (next sprint candidates); leaderboards.
+Building assignments before decisions Z1 to Z6; leaderboards.
 
 ## Acceptance criteria
 - Only accounts with unscoped `students.view_progress` (pedagogue, psychologist, superadministrator) open the screens;
@@ -42,3 +44,6 @@ Class assignments and teacher (academic) notes (next sprint candidates); leaderb
       section 22 (11 assertions); live check: Haris Hamzić sees only Mathematics; screens `/app/pracenje` (subject
       filter only with more than one subject), `/app/pracenje/dan` (day picker, print); staff home links for teachers;
       unit tests for the summary day; guide chapter 02 and the teachers' personal pages.
+- [x] 6. Migration 028 applied live: teacher notes (own subject for the teacher, all subjects for the support roles and
+      the superadministrator, never the student), DB tests section 23 (13 assertions); profile shows them per subject,
+      out of print; unit tests for the input; assignments design proposal with decisions Z1 to Z6.
