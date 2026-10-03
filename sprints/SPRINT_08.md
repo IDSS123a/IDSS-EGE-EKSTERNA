@@ -91,3 +91,7 @@ Open risks: no mock exam has run live yet; six German records still wait for Nik
 Technical debt: shadcn/ui deviation (PDL-010); Sentry deferred; Vercel deployment postponed; in-app printable guide waits for stable screens.
 Lessons captured: 10 entries in corrections/SPRINT_08_LESSONS.md.
 Next sprint: Sprint 09 - Support monitoring for the pedagogue and the psychologist (SUPPORT_MONITORING.md, PDL-032): student overview with user-set filters, student profile with the five dimensions, persistent errors, activity calendar, mock exam trend and the IDSS readiness indicator, group analysis (aggregates only), support notes with visibility and audit, print and CSV export; plus the carried-over live walk-through.
+
+**Correction (2026-10-03, Sprint 09):** the Playwright result above was measured before the home status texts were
+replaced; that change made the language-switch test fail (2 of 68). Found and fixed in Sprint 09 (test expectation
+updated, 68/68 again); see `corrections/SPRINT_09_LESSONS.md`.

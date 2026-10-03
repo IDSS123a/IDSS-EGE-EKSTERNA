@@ -973,5 +973,149 @@
       "allSubjectsHint": "Submit a mock exam in all three subjects."
     },
     "note": "IDSS points and badges are for motivation. They are not a grade and never change exam points."
+  },
+  "support": {
+    "navLink": "Student monitoring",
+    "title": "Student monitoring",
+    "subtitle": "Each student's progress in three subjects",
+    "back": "Back to home",
+    "backToOverview": "Back to student monitoring",
+    "principle": "Measured facts from practice and mock exams are shown, with no label about a student. You set the filters. Every opening of a student profile is recorded in the access log.",
+    "followUps": "Agreed next steps",
+    "print": "Print",
+    "export": "CSV export",
+    "analysisLink": "Group analysis",
+    "students": "Students ({n})",
+    "empty": "No student matches the filters.",
+    "never": "no activity",
+    "filters": {
+      "title": "Filters",
+      "subject": "Subject",
+      "allSubjects": "All subjects",
+      "inactive": "No practice in the last N days",
+      "inactivePlaceholder": "e.g. 7",
+      "drop": "Latest mock exam lower than the previous one",
+      "sort": "Sort by"
+    },
+    "sort": {
+      "name": "Name",
+      "lastActivity": "Last activity",
+      "days30": "Practice days (30)",
+      "mastered": "Mastery",
+      "accuracy": "Accuracy (30 days)"
+    },
+    "columns": {
+      "student": "Student",
+      "lastActivity": "Last activity",
+      "days": "Practice days (7 / 30)"
+    },
+    "daysValue": "{d7} / {d30}",
+    "cell": {
+      "mastered": "Mastered {m} of {t}",
+      "accuracy": "Accuracy 30 days: {p} %",
+      "noAccuracy": "Accuracy 30 days: no data",
+      "exam": "Latest exam: {p} / {max}",
+      "noExam": "No graded exam",
+      "open": "Waiting for a teacher: {n}",
+      "noData": "no data"
+    },
+    "readiness": {
+      "short": "Readiness:",
+      "notAvailable": "not available yet",
+      "below80": "below 80 %",
+      "label": "Exam readiness is an internal IDSS indicator, not an official assessment: the last three graded mock exams, no error 100 %, 1 to 2 errors 90 %, 3 errors 80 %.",
+      "hint": "Graded exams: {exams}, errors: {errors}"
+    },
+    "profile": {
+      "subtitle": "Student profile",
+      "practiceDays": "Practice days (60 days)",
+      "missions": "Daily missions completed (30 days)",
+      "calendar": "Activity in the last 60 days",
+      "calendarHint": "Each square is a day; darker means more answers.",
+      "areas": "Catalogue areas",
+      "area": "Area",
+      "answered": "Answered",
+      "correctShare": "Latest answer correct",
+      "areasHint": "Areas with answers, lowest accuracy first; measured, not an assessment.",
+      "persistent": "Persistent errors",
+      "noPersistent": "No persistent errors.",
+      "persistentItem": "{key}: wrong {n} times, last {date}",
+      "persistentHint": "A question answered wrongly at least twice whose latest answer is still wrong.",
+      "exams": "Mock exams",
+      "examDate": "Submitted",
+      "examPoints": "Points (change against the previous)",
+      "examTime": "Time",
+      "examEmpty": "Unanswered",
+      "awaitingGrade": "waiting for grading",
+      "auto": "submitted automatically"
+    },
+    "dimensions": {
+      "completion": "Completion",
+      "completionValue": "{a} of {t} questions answered",
+      "accuracy": "Accuracy",
+      "accuracyValue": "30 days: {p30}, overall: {p}",
+      "mastery": "Mastery",
+      "masteryValue": "{m} of {t} questions (latest answer correct)",
+      "exams": "Mock exams"
+    },
+    "notes": {
+      "title": "Support notes",
+      "hint": "Visible only to the pedagogue and the psychologist; never to teachers, students or in exports. Saved notes do not change. Write facts and agreements, not judgements about personality.",
+      "kind": "Type",
+      "noKind": "No type",
+      "kinds": {
+        "student_talk": "Talk with the student",
+        "parent_talk": "Talk with a parent",
+        "agreement": "Agreement",
+        "observation": "Follow-up"
+      },
+      "followUp": "Date of the next step",
+      "visibility": "Who sees it",
+      "visibilities": {
+        "author": "Only me",
+        "support": "Pedagogue and psychologist"
+      },
+      "body": "Note",
+      "submit": "Save note",
+      "saved": "The note is saved.",
+      "none": "No notes.",
+      "byLine": "{name}, visible to: {visibility}",
+      "followUpOn": "next step {date}"
+    },
+    "analysis": {
+      "title": "Group analysis",
+      "subtitle": "Aggregates, active students: {n}",
+      "hint": "Aggregates only, no names and no ranking of students.",
+      "weeks": "Activity per week (12 weeks)",
+      "week": "Week from",
+      "activeStudents": "Active students",
+      "answers": "Answers",
+      "areas": "Accuracy by area",
+      "area": "Area",
+      "checked": "Checked answers",
+      "correctShare": "Correct",
+      "examPoints": "Points of graded mock exams",
+      "pointsRow": "{p} points: {n} exams",
+      "missed": "Questions most often answered wrongly",
+      "missedRow": "{key}: wrong {n} times, students {s}",
+      "empty": "No data."
+    },
+    "csv": {
+      "student": "Student",
+      "lastActivity": "Last activity",
+      "days7": "Practice days (7)",
+      "days30": "Practice days (30)",
+      "mastered": "Mastered",
+      "accuracy": "Accuracy 30 days (%)",
+      "latestExam": "Latest exam",
+      "readiness": "Readiness (internal indicator)"
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session expired. Please sign in again.",
+      "FORBIDDEN": "You have no rights for this action.",
+      "VALIDATION": "Check your input.",
+      "NOT_FOUND": "The student does not exist.",
+      "UNAVAILABLE": "The service is not available right now. Please try again."
+    }
   }
 }

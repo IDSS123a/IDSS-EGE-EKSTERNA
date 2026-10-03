@@ -1175,3 +1175,56 @@ body {
 .badge[data-earned="false"] {
   opacity: 0.75;
 }
+
+/* ---------------------------------------------------------------- Support monitoring (Sprint 09) */
+.support-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 24px;
+}
+.support-filters .form__field {
+  min-width: min(100%, 220px);
+}
+.support-cell {
+  display: block;
+  white-space: nowrap;
+}
+.support-dimensions > div {
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.support-dimensions p {
+  margin: 4px 0 0;
+}
+.status-pill[data-readiness="100"],
+.status-pill[data-readiness="90"] { color: var(--color-brand); }
+.activity-calendar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14px, 1fr));
+  gap: 4px;
+  max-width: 100%;
+  margin: 8px 0;
+}
+.activity-day {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: var(--color-border);
+}
+.activity-day[data-level="1"] { background: color-mix(in srgb, var(--color-brand) 45%, transparent); }
+.activity-day[data-level="2"] { background: var(--color-brand); }
+@media print {
+  .no-print,
+  .site-header,
+  .site-footer {
+    display: none !important;
+  }
+  .card {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+}
+.support-subhead {
+  margin: 20px 0 8px;
+}

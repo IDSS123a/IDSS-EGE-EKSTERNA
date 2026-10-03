@@ -176,3 +176,5 @@ export const NOTIFICATIONS_LIMIT = 20;
 export const PWNED_PASSWORDS_URL = "https://api.pwnedpasswords.com/range/";
 /** The leaked-password check never holds a password change longer than this. */
 export const PWNED_PASSWORDS_TIMEOUT_MS = 4000;
+/** School-wide student monitoring for the pedagogue and the psychologist (Sprint 09). */
+export const SUPPORT_PATH = "/app/pracenje";

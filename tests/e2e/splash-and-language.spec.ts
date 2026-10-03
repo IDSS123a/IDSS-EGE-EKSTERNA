@@ -39,10 +39,10 @@ test("language switches instantly without reload and persists", async ({ page })
 
   await page.getByText("DE", { exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("lang", "de");
-  await expect(page.getByRole("heading", { level: 2 })).toHaveText("Die Plattform ist im Aufbau");
+  await expect(page.getByRole("heading", { level: 2 })).toHaveText("Vorbereitungsphase");
 
   await page.getByText("EN", { exact: true }).click();
-  await expect(page.getByRole("heading", { level: 2 })).toHaveText("The platform is under construction");
+  await expect(page.getByRole("heading", { level: 2 })).toHaveText("Preparation phase");
   expect(await page.evaluate(() => performance.timeOrigin)).toBe(navigationMarker); // no reload
 
   await page.reload();

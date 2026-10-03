@@ -20,6 +20,10 @@ preuzimanje. Svaka verzija ima trajnu historiju.
 ## Pregled pitanja i pravila (Dostupno)
 Kao nastavnik, za sve predmete; uključuje greške u katalogu i naknadne preglede. Upis greške za DEU-4.3.34 radi se ovdje.
 
+## Praćenje učenika (Dostupno)
+Pregled, profil učenika, analiza grupe i izvoz kao u uputstvu za pedagoga i psihologa, bez bilješki podrške: njih
+superadministrator ne čita ni ne piše (odluka D2).
+
 ## Postavke (Dostupno)
 **Boje uvodnog ekrana**: udio svake IDSS boje u procentima, zbir 100 %.
 

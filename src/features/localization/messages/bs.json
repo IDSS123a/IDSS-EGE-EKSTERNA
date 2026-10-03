@@ -973,5 +973,149 @@
       "allSubjectsHint": "Predaj probni ispit iz sva tri predmeta."
     },
     "note": "IDSS bodovi i značke su za motivaciju. Nisu ocjena i ne mijenjaju bodove na ispitu."
+  },
+  "support": {
+    "navLink": "Praćenje učenika",
+    "title": "Praćenje učenika",
+    "subtitle": "Napredak svakog učenika u tri predmeta",
+    "back": "Nazad na početnu",
+    "backToOverview": "Nazad na praćenje učenika",
+    "principle": "Prikazane su izmjerene činjenice iz vježbe i probnih ispita, bez oznaka o učeniku. Filtere postavljate vi. Svako otvaranje profila učenika bilježi se u dnevnik pristupa.",
+    "followUps": "Dogovoreni sljedeći koraci",
+    "print": "Štampaj",
+    "export": "Izvoz CSV",
+    "analysisLink": "Analiza grupe",
+    "students": "Učenici ({n})",
+    "empty": "Nijedan učenik ne odgovara filterima.",
+    "never": "nema aktivnosti",
+    "filters": {
+      "title": "Filteri",
+      "subject": "Predmet",
+      "allSubjects": "Svi predmeti",
+      "inactive": "Bez vježbe zadnjih N dana",
+      "inactivePlaceholder": "npr. 7",
+      "drop": "Zadnji probni ispit slabiji od prethodnog",
+      "sort": "Poredaj po"
+    },
+    "sort": {
+      "name": "Imenu",
+      "lastActivity": "Zadnjoj aktivnosti",
+      "days30": "Danima vježbe (30)",
+      "mastered": "Savladanosti",
+      "accuracy": "Tačnosti (30 dana)"
+    },
+    "columns": {
+      "student": "Učenik",
+      "lastActivity": "Zadnja aktivnost",
+      "days": "Dani vježbe (7 / 30)"
+    },
+    "daysValue": "{d7} / {d30}",
+    "cell": {
+      "mastered": "Savladano {m} od {t}",
+      "accuracy": "Tačnost 30 dana: {p} %",
+      "noAccuracy": "Tačnost 30 dana: nema podataka",
+      "exam": "Zadnji ispit: {p} / {max}",
+      "noExam": "Nema ocijenjenog ispita",
+      "open": "Čeka nastavnika: {n}",
+      "noData": "nema podataka"
+    },
+    "readiness": {
+      "short": "Spremnost:",
+      "notAvailable": "još nije dostupno",
+      "below80": "ispod 80 %",
+      "label": "Spremnost za ispit je interni pokazatelj IDSS-a, nije službena procjena: zadnja tri ocijenjena probna ispita, bez greške 100 %, 1 do 2 greške 90 %, 3 greške 80 %.",
+      "hint": "Ocijenjenih ispita: {exams}, grešaka: {errors}"
+    },
+    "profile": {
+      "subtitle": "Profil učenika",
+      "practiceDays": "Dani vježbanja (60 dana)",
+      "missions": "Ispunjene dnevne misije (30 dana)",
+      "calendar": "Aktivnost u zadnjih 60 dana",
+      "calendarHint": "Svaki kvadrat je jedan dan; tamniji znači više odgovora.",
+      "areas": "Oblasti kataloga",
+      "area": "Oblast",
+      "answered": "Odgovoreno",
+      "correctShare": "Zadnji odgovor tačan",
+      "areasHint": "Oblasti s odgovorima, od najniže tačnosti; izmjereno, ne procjena.",
+      "persistent": "Ponovljene greške",
+      "noPersistent": "Nema ponovljenih grešaka.",
+      "persistentItem": "{key}: pogrešno {n} puta, zadnji put {date}",
+      "persistentHint": "Pitanje odgovoreno pogrešno bar dva puta, a zadnji odgovor je i dalje netačan.",
+      "exams": "Probni ispiti",
+      "examDate": "Predano",
+      "examPoints": "Bodovi (promjena prema prethodnom)",
+      "examTime": "Vrijeme",
+      "examEmpty": "Bez odgovora",
+      "awaitingGrade": "čeka ocjenu",
+      "auto": "predano automatski"
+    },
+    "dimensions": {
+      "completion": "Obuhvat",
+      "completionValue": "{a} od {t} pitanja odgovoreno",
+      "accuracy": "Tačnost",
+      "accuracyValue": "30 dana: {p30}, ukupno: {p}",
+      "mastery": "Savladanost",
+      "masteryValue": "{m} od {t} pitanja (zadnji odgovor tačan)",
+      "exams": "Probni ispiti"
+    },
+    "notes": {
+      "title": "Bilješke podrške",
+      "hint": "Vidljive samo pedagogu i psihologu; nikad nastavnicima, učenicima ni u izvozu. Upisane bilješke se ne mijenjaju. Pišite činjenice i dogovore, ne procjene ličnosti.",
+      "kind": "Vrsta",
+      "noKind": "Bez vrste",
+      "kinds": {
+        "student_talk": "Razgovor s učenikom",
+        "parent_talk": "Razgovor s roditeljem",
+        "agreement": "Dogovor",
+        "observation": "Praćenje"
+      },
+      "followUp": "Datum sljedećeg koraka",
+      "visibility": "Ko vidi",
+      "visibilities": {
+        "author": "Samo ja",
+        "support": "Pedagog i psiholog"
+      },
+      "body": "Bilješka",
+      "submit": "Sačuvaj bilješku",
+      "saved": "Bilješka je sačuvana.",
+      "none": "Nema bilješki.",
+      "byLine": "{name}, vidljivo: {visibility}",
+      "followUpOn": "sljedeći korak {date}"
+    },
+    "analysis": {
+      "title": "Analiza grupe",
+      "subtitle": "Zbirni podaci, aktivnih učenika: {n}",
+      "hint": "Samo zbirni podaci, bez imena i bez rangiranja učenika.",
+      "weeks": "Aktivnost po sedmicama (12 sedmica)",
+      "week": "Sedmica od",
+      "activeStudents": "Aktivnih učenika",
+      "answers": "Odgovora",
+      "areas": "Tačnost po oblastima",
+      "area": "Oblast",
+      "checked": "Provjerenih odgovora",
+      "correctShare": "Tačno",
+      "examPoints": "Raspodjela bodova na ocijenjenim probnim ispitima",
+      "pointsRow": "{p} bodova: {n} ispita",
+      "missed": "Najčešće pogrešna pitanja",
+      "missedRow": "{key}: pogrešno {n} puta, učenika {s}",
+      "empty": "Nema podataka."
+    },
+    "csv": {
+      "student": "Učenik",
+      "lastActivity": "Zadnja aktivnost",
+      "days7": "Dani vježbe (7)",
+      "days30": "Dani vježbe (30)",
+      "mastered": "Savladano",
+      "accuracy": "Tačnost 30 dana (%)",
+      "latestExam": "Zadnji ispit",
+      "readiness": "Spremnost (interni pokazatelj)"
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Nemate pravo za ovu radnju.",
+      "VALIDATION": "Provjerite unos.",
+      "NOT_FOUND": "Učenik ne postoji.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    }
   }
 }

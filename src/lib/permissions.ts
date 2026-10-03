@@ -93,3 +93,13 @@ export function canGrade(account: CurrentAccount): boolean {
 export function canGradeSubject(account: CurrentAccount, subjectId: string): boolean {
   return hasSubjectCapability(account, "exams.grade", subjectId);
 }
+
+/** School-wide student monitoring (pedagogue, psychologist, superadministrator): unscoped students.view_progress (Sprint 09). */
+export function canMonitorStudents(account: CurrentAccount): boolean {
+  return account.subjectScopes.get("students.view_progress") === "all";
+}
+
+/** Write and read support notes (pedagogue and psychologist only, D2). */
+export function canWriteSupportNotes(account: CurrentAccount): boolean {
+  return hasCapability(account, "support_notes.read_write");
+}
