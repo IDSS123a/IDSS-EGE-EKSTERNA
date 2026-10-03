@@ -690,7 +690,6 @@
     "area": "Bereich",
     "level": "Niveau",
     "source": "Quelle: {title}, S. {page}",
-    "figure": "Die Aufgabe enthält im Katalog ein Bild (S. {page}). Bilder werden in der Anwendung noch nicht angezeigt.",
     "transcript": "Hörtext-Transkript (die offizielle Audioaufnahme ist nicht verfügbar)",
     "choose": "Wähle eine Antwort",
     "item": "Aufgabe {n}",
@@ -719,6 +718,10 @@
       "NOT_FOUND": "Die Frage ist nicht mehr verfügbar. Öffne die nächste.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Versuche es erneut."
     },
-    "modeNote": "Das ist eine Übung: Die Fragen wechseln ohne Ende und ohne Zeitlimit, bis du selbst aufhörst. Die Probeprüfung mit Fragenzahl, Punkten und Dauer wie bei der externen Matura ist ein eigener Teil der Anwendung (bald verfügbar)."
+    "modeNote": "Das ist eine Übung: Die Fragen wechseln ohne Ende und ohne Zeitlimit, bis du selbst aufhörst. Die Probeprüfung mit Fragenzahl, Punkten und Dauer wie bei der externen Matura ist ein eigener Teil der Anwendung (bald verfügbar).",
+    "erratumNotice": "Achtung: Im offiziellen Katalog wurde bei dieser Aufgabe ein Fehler festgestellt. Aufgabe und offizielle Lösung werden genau wie gedruckt gezeigt.",
+    "erratumTitle": "Festgestellter Fehler im Katalog",
+    "erratumKeyStands": "Die offizielle Lösung aus dem Katalog bleibt für die Bewertung maßgeblich; der Fehler ist nur gekennzeichnet.",
+    "noCrop": "Die Originaldarstellung der Aufgabe aus dem Katalog ist nicht verfügbar; unten steht der extrahierte Text, der vom Druck abweichen kann (Formeln, Bilder, hervorgehobene Wörter)."
   }
 }

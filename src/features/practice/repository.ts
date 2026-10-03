@@ -1,6 +1,7 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { RegistryFunctionError } from "@/features/canon/repository";
+import { questionCropPath } from "@/features/canon/domain/question-crop";
 import type { SubjectCode } from "@/features/knowledge/types";
 import type { AreaProgress, PracticeOverview, PracticeQuestion, PracticeResult } from "./types";
 
@@ -24,7 +25,8 @@ type QuestionRow = {
   has_figure: boolean;
   items: { item: number | null; text: string | null; mode: PracticeQuestion["items"][number]["mode"]; choices: string[] }[];
   transcript: string | null;
-  source: { page: number | null; official_title: string };
+  source: { page: number | null; official_title: string; sha256?: string };
+  errata?: { item: number | null }[];
 };
 
 function toQuestion(row: QuestionRow): PracticeQuestion {
@@ -43,6 +45,8 @@ function toQuestion(row: QuestionRow): PracticeQuestion {
     items: row.items.map((item) => ({ item: item.item, text: item.text, mode: item.mode, choices: [...item.choices].sort() })),
     transcript: row.transcript,
     source: { page: row.source.page, officialTitle: row.source.official_title },
+    crop: questionCropPath(row.record_key, row.source.sha256),
+    errata: (row.errata ?? []).map((erratum) => ({ item: erratum.item })),
   };
 }
 
@@ -63,8 +67,8 @@ export async function nextQuestion(admin: SupabaseClient, input: { actorUserId: 
 export async function submitAnswer(admin: SupabaseClient, input: { actorUserId: string; questionVersionId: string; responses: { item: number | null; response: string }[] }): Promise<PracticeResult> {
   const { data, error } = await admin.rpc("practice_submit", { p_actor: input.actorUserId, p_question_version_id: input.questionVersionId, p_responses: input.responses });
   if (error) throw new RegistryFunctionError(error.message);
-  const result = data as { outcome: PracticeResult["outcome"]; items_checked: number; items_correct: number; results: PracticeResult["results"] };
-  return { outcome: result.outcome, itemsChecked: result.items_checked, itemsCorrect: result.items_correct, results: result.results };
+  const result = data as { outcome: PracticeResult["outcome"]; items_checked: number; items_correct: number; results: PracticeResult["results"]; errata?: PracticeResult["errata"] };
+  return { outcome: result.outcome, itemsChecked: result.items_checked, itemsCorrect: result.items_correct, results: result.results, errata: result.errata ?? [] };
 }
 
 /**

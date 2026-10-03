@@ -34,5 +34,9 @@ Date: 2026-09-27 (open)
 - Chrome ignores `autocomplete="off"` on a field it classifies as a username beside a password field; the
   classification uses the field name and id, so renaming is what works.
 
+- The Supabase connector holds statements with DROP (even a check constraint of an empty table) for the user's
+  confirmation; unanswered, apply_migration and execute_sql time out after 60 s and nothing is applied (the request
+  never reaches the database). Migrations with DROP are announced to the Director before they are sent.
+
 ## Commander Improvement Candidates
 None yet.

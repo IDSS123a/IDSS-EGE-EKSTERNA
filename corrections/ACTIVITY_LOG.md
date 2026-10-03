@@ -68,3 +68,5 @@
 - [2026-10-03] Migration 019 applied live (mock exams); probe rolled back
 - [2026-10-03] Director: catalogue is canon (P-15, PDL-027); fidelity work started
 - [2026-10-03] Question crops: 500 rendered and verified (tools/question-images)
+- [2026-10-03 08:03] Write: migrations/020_canon_fidelity.sql
+- [2026-10-03] Migrations 020, 021 applied live; 022/023 wait for Director confirmation (DROP)

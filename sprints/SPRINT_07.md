@@ -35,3 +35,8 @@ teacher for a class (later); enrolment points display (AMB-18, when the 2026/27 
       were never reviewed (pending in the review queue).
 - [ ] 3. Student screens: start, exam with timer, submission, result.
 - [ ] 4. Teacher screens: blueprint confirmation, grading queue, grading.
+- [x] 5. Canon fidelity (P-15, PDL-027, Director 2026-10-03): question crops for all 500 extracted questions
+      (`tools/question-images`, verified word by word), practice shows the crop and errata notices; migrations 020 and
+      021 applied live (printed key only, errata, follow-ups, teacher verdicts on practice answers); 022 and 023 (set
+      approval, grading by pairs) wait for the Director's confirmation of three DROP statements.
+

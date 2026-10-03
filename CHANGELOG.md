@@ -81,3 +81,4 @@
 [2026-09-27] [FEATURE] Search: query translated into bs/de/en, grounded answer from cited sources with Gemini (PDL-025)
 [2026-09-27] [SPRINT] Sprint 06 closed: DONE checklist, compliance score, handoff note (search carried over)
 [2026-10-03] [DATABASE] Migration 019: mock exams, blueprints with reviewer confirmation, pre-scoring, teacher grading, release, notifications
+[2026-10-03] [CANON] P-15 canon fidelity: catalogue crops for every question, printed key only, errata notices, teacher verdicts on practice answers (migrations 020, 021); set approval and grading by pairs (022, 023, pending)

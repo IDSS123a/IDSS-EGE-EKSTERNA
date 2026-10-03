@@ -23,7 +23,14 @@ export type PracticeQuestion = {
   /** Official listening transcript (AMB-04 option a), null for other tasks. */
   transcript: string | null;
   source: { page: number | null; officialTitle: string };
+  /** The question as printed: public path of its catalogue crop (P-15), null when none exists for this edition. */
+  crop: string | null;
+  /** Established catalogue errors (migration 020): before answering only which item is affected, never the description. */
+  errata: { item: number | null }[];
 };
+
+/** An established catalogue error, as shown once the student has answered (P-15: the printed key still counts). */
+export type Erratum = { item: number | null; description: string; evidence: string };
 
 export type PracticeOutcome = "correct" | "partly_correct" | "incorrect" | "awaiting_teacher";
 
@@ -33,6 +40,7 @@ export type PracticeResult = {
   itemsChecked: number;
   itemsCorrect: number;
   results: { item: number | null; mode: PracticeMode; response: string; correct: boolean | null; solution: string | null }[];
+  errata: Erratum[];
 };
 
 /** Counts of one area for the Game Hub. */
