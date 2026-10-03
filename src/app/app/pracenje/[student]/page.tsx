@@ -7,6 +7,7 @@ import { clientIpFrom } from "@/features/authentication/domain";
 import { requireAccount } from "@/features/authentication/session";
 import { RegistryFunctionError } from "@/features/canon/repository";
 import { StudentProfileScreen } from "@/features/support/components/student-profile-screen";
+import { assignmentsOfPerson } from "@/features/assignments/repository";
 import { studentProfile, teacherNotes } from "@/features/support/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
@@ -24,7 +25,7 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
   if (!canViewStudentProgress(account)) return <ForbiddenScreen />;
   const { student } = await params;
   if (!UUID.test(student)) notFound();
-  let profile, notes;
+  let profile, notes, assignments;
   try {
     const admin = createSupabaseAdminClient();
     profile = await studentProfile(admin, {
@@ -33,11 +34,14 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
       missionGoal: DAILY_MISSION_GOAL,
       ipAddress: clientIpFrom((await headers()).get("x-forwarded-for")),
     });
-    notes = canWriteTeacherNotes(account) ? await teacherNotes(admin, account.userId, student) : null;
+    [notes, assignments] = await Promise.all([
+      canWriteTeacherNotes(account) ? teacherNotes(admin, account.userId, student) : Promise.resolve(null),
+      assignmentsOfPerson(admin, account.userId, student),
+    ]);
   } catch (error) {
     if (error instanceof RegistryFunctionError && error.databaseMessage === "NOT_FOUND") notFound();
     logError("app/pracenje/[student]/page", error);
     throw error;
   }
-  return <StudentProfileScreen profile={profile} teacherNotes={notes} />;
+  return <StudentProfileScreen profile={profile} teacherNotes={notes} assignments={assignments} />;
 }

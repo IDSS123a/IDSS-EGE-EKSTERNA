@@ -9,26 +9,31 @@ import { ReviewShell } from "@/features/review/components/review-shell";
 import { submitPracticeAnswerAction } from "../actions";
 import type { PracticeItem, PracticeQuestion, PracticeResult, PracticeSubmitResult } from "../types";
 
-type Props = { code: SubjectCode; areaId: string | null; question: PracticeQuestion | null };
+type Props = { code: SubjectCode; areaId: string | null; question: PracticeQuestion | null; assignment?: { id: string; title: string; answered: number; total: number } };
 
 /**
  * One practice question (Sprint 06, PDL-018): the student answers first; only the database's answer to the submission
  * carries the solution. Catalogue text is shown verbatim in its source language (AMB-13, P-13 exempt).
  */
-export function PracticeScreen({ code, areaId, question }: Props): ReactNode {
+export function PracticeScreen({ code, areaId, question, assignment }: Props): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.practice;
   const [result, formAction, pending] = useActionState<PracticeSubmitResult | null, FormData>(submitPracticeAnswerAction, null);
   const lang = code === "german" ? "de" : "bs";
   const answered = result?.success ? result.data : null;
-  const nextHref = `${PRACTICE_PATH}?predmet=${code}${areaId ? `&oblast=${areaId}` : ""}${question ? `&poslije=${question.questionVersionId}` : ""}`;
+  const nextHref = assignment
+    ? `${PRACTICE_PATH}?zadatak=${assignment.id}${question ? `&poslije=${question.questionVersionId}` : ""}`
+    : `${PRACTICE_PATH}?predmet=${code}${areaId ? `&oblast=${areaId}` : ""}${question ? `&poslije=${question.questionVersionId}` : ""}`;
   const backHref = areaId ? `${SUBJECT_PATH}/${code}` : APP_HOME_PATH;
 
   return (
-    <ReviewShell backHref={backHref} backLabel={areaId ? labels.backToSubject : labels.back} title={dictionary.subjects[code]} subtitle={question?.area ?? undefined}>
+    <ReviewShell backHref={backHref} backLabel={areaId ? labels.backToSubject : labels.back} title={assignment ? assignment.title : dictionary.subjects[code]} subtitle={assignment ? dictionary.subjects[code] : (question?.area ?? undefined)}>
       <p className="notice">{labels.modeNote}</p>
+      {assignment && question && (
+        <p className="form__hint">{dictionary.assignments.student.progress.replace("{a}", String(assignment.answered)).replace("{t}", String(assignment.total))}</p>
+      )}
       {!question ? (
-        <p className="notice">{labels.empty}</p>
+        <p className="notice">{assignment ? dictionary.assignments.student.allDone : labels.empty}</p>
       ) : (
         <section className="card practice-question" aria-labelledby="practice-title">
           <h2 id="practice-title" className="sr-only">{labels.title}</h2>

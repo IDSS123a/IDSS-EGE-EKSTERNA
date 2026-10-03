@@ -52,3 +52,7 @@ Building assignments before decisions Z1 to Z6; leaderboards.
       out of print; unit tests for the input; assignments design proposal with decisions Z1 to Z6.
 - [x] 7a. Uniform IDSS print and export format (PDL-036): letterhead and page footer on every analysis and result,
       IDSS CSV for overview, daily summary and group analysis; unit tests; PDF checked.
+- [x] 7b. Assignments (migrations 029 live, 030 for the Director, PDL-035): teacher list and form, detail with withdrawal,
+      print and CSV; student card, assignment practice, profile section; DB tests section 24; unit tests.
+- [x] 7c. Web Push (migration 031 live, PDL-037): service worker, per-device switch, sender; DB tests section 25. Live
+      push needs the Director's VAPID keys in `.env.local`.

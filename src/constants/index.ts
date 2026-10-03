@@ -178,3 +178,9 @@ export const PWNED_PASSWORDS_URL = "https://api.pwnedpasswords.com/range/";
 export const PWNED_PASSWORDS_TIMEOUT_MS = 4000;
 /** School-wide student monitoring for the pedagogue and the psychologist (Sprint 09). */
 export const SUPPORT_PATH = "/app/pracenje";
+
+/** Teacher assignments (PDL-035): the teacher's list and form; students reach them from the Game Hub. */
+export const ASSIGNMENTS_PATH = "/app/zadaci";
+
+/** Where a push notice about a new assignment opens: the student's Game Hub with the "Zadaci nastavnika" card. */
+export const ASSIGNMENTS_PUSH_URL = "/app#zadaci";

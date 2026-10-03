@@ -5,6 +5,7 @@ import { SUPPORT_PATH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
 import { formatPoints } from "@/features/exams/domain/exam";
 import { useI18n } from "@/features/localization/i18n-provider";
+import type { PersonAssignment } from "@/features/assignments/types";
 import { ReviewShell } from "@/features/review/components/review-shell";
 import { addSupportNoteAction, addTeacherNoteAction } from "../actions";
 import { share } from "../domain/indicators";
@@ -18,7 +19,7 @@ const KINDS: NoteKind[] = ["student_talk", "parent_talk", "agreement", "observat
  * activity, mock exam trend against the student's own results, IDSS readiness (PDL-032), and support notes for the
  * pedagogue and the psychologist (D1 to D3). Opening this page is recorded in the access audit.
  */
-export function StudentProfileScreen({ profile, teacherNotes }: { profile: StudentProfile; teacherNotes: TeacherNote[] | null }): ReactNode {
+export function StudentProfileScreen({ profile, teacherNotes, assignments }: { profile: StudentProfile; teacherNotes: TeacherNote[] | null; assignments: PersonAssignment[] }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.support;
   const activeDays = new Map(profile.days.map((day) => [day.day, day.answers]));
@@ -52,6 +53,7 @@ export function StudentProfileScreen({ profile, teacherNotes }: { profile: Stude
         </SubjectSection>
       ))}
 
+      <Assignments assignments={assignments} />
       {profile.canWriteNotes && <Notes profile={profile} />}
       <p className="form__hint">{labels.readiness.label}</p>
     </ReviewShell>
@@ -181,6 +183,45 @@ function TeacherNotes({ personId, subject, notes }: { personId: string; subject:
         </ul>
       )}
     </div>
+  );
+}
+
+/** Teacher assignments of the student (mandate §11: completed and missed), within the reader's subjects. */
+function Assignments({ assignments }: { assignments: PersonAssignment[] }): ReactNode {
+  const { dictionary, locale } = useI18n();
+  const labels = dictionary.assignments;
+  return (
+    <section className="card" aria-labelledby="profile-assignments">
+      <h2 id="profile-assignments">{labels.profile.title}</h2>
+      {assignments.length === 0 ? (
+        <p>{labels.profile.none}</p>
+      ) : (
+        <div className="table-scroll">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>{labels.columns.title}</th>
+                <th>{labels.columns.subject}</th>
+                <th>{labels.columns.due}</th>
+                <th>{labels.detail.answered}</th>
+                <th>{labels.detail.state}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {assignments.map((assignment) => (
+                <tr key={assignment.id}>
+                  <td>{assignment.title}</td>
+                  <td>{dictionary.subjects[assignment.subject]}</td>
+                  <td>{formatDateTime(assignment.dueAt, locale)}</td>
+                  <td>{assignment.answered} / {assignment.total}</td>
+                  <td><span className="status-pill" data-assignment={assignment.state}>{labels.states[assignment.state]}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 }
 

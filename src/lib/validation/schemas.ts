@@ -244,6 +244,34 @@ export const PracticeVerdictSchema = z.object({
 });
 
 /** POST a support note (migration 026): neutral type (D3), visibility (D1), optional follow-up date. */
+/** POST a new assignment (PDL-035): keys or an area with a count; all active students or chosen ones; due date in Sarajevo time. */
+export const AssignmentSchema = z
+  .object({
+    subject: z.enum(["bhs_language_literature", "mathematics", "german"]),
+    title: z.string().trim().min(1).max(120),
+    instruction: z.preprocess((value) => (typeof value === "string" && value.trim() === "" ? null : value), z.string().trim().max(1000).nullable()),
+    due: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/),
+    content: z.enum(["keys", "area"]),
+    keys: z.array(z.string().regex(/^[A-Z]{3}-[0-9A-Z./#-]{1,30}$/)).max(50),
+    areaId: z.preprocess((value) => (value === "" ? null : value), z.uuid().nullable()),
+    count: z.preprocess((value) => (value === "" || value === null ? null : Number(value)), z.number().int().min(1).max(50).nullable()),
+    audience: z.enum(["all", "chosen"]),
+    personIds: z.array(z.uuid()).max(500),
+  })
+  .refine((value) => (value.content === "keys" ? value.keys.length > 0 : value.areaId !== null && value.count !== null))
+  .refine((value) => value.audience === "all" || value.personIds.length > 0);
+
+/** POST withdraw an assignment with a reason. */
+export const AssignmentWithdrawalSchema = z.object({ assignmentId: z.uuid(), reason: z.string().trim().min(1).max(500) });
+
+/** POST the push subscription of the browser in use (Web Push, PDL-037). */
+export const PushSubscriptionSchema = z.object({
+  endpoint: z.string().url().startsWith("https://").max(1000),
+  p256dh: z.string().min(20).max(200),
+  auth: z.string().min(8).max(100),
+  userAgent: z.string().max(300).nullable(),
+});
+
 export const TeacherNoteSchema = z.object({
   personId: z.uuid(),
   subject: z.enum(["bhs_language_literature", "mathematics", "german"]),

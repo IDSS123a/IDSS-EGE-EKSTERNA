@@ -1,5 +1,7 @@
 "use client";
 
+import { StudentAssignmentsCard } from "@/features/assignments/components/student-assignments-card";
+import type { StudentAssignment } from "@/features/assignments/types";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { EXAM_PATH, OWN_ACCOUNT_PATH, PRACTICE_PATH, SUBJECT_PATH } from "@/constants";
@@ -21,7 +23,7 @@ const SUBJECT_ORDER: SubjectCode[] = ["bhs_language_literature", "mathematics", 
  * Student home (Game Hub, Sprint 06): streak, daily mission and the three subjects with mastery. Everything shown is a
  * learning signal (P-7); grades come from the teacher. Receives only the student's own counts, decided on the server.
  */
-export function GameHub({ displayName, overview, dailyGoal, notifications, gamification, badgeRules }: { displayName: string; overview: PracticeOverview; dailyGoal: number; notifications: AppNotification[]; gamification: GamificationOverview; badgeRules: { streakDays: number; answersInSubject: number } }): ReactNode {
+export function GameHub({ displayName, overview, dailyGoal, notifications, gamification, badgeRules, assignments }: { displayName: string; overview: PracticeOverview; dailyGoal: number; notifications: AppNotification[]; gamification: GamificationOverview; badgeRules: { streakDays: number; answersInSubject: number }; assignments: StudentAssignment[] }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.hub;
   const streak = streakDays(overview.days, overview.todayDate);
@@ -61,6 +63,8 @@ export function GameHub({ displayName, overview, dailyGoal, notifications, gamif
             <p className="hub-stat__value">{mission.complete ? labels.missionDone : `${mission.done} / ${mission.goal}`}</p>
           </section>
         </div>
+
+        <StudentAssignmentsCard assignments={assignments} />
 
         <GamificationPanel overview={gamification} streakDays={badgeRules.streakDays} answersInSubject={badgeRules.answersInSubject} />
 

@@ -98,3 +98,5 @@
 [2026-10-03] [FEATURE] Academic teacher notes per student and subject on the student profile (migration 028, PDL-034); assignments design proposal (ASSIGNMENTS.md, decisions Z1 to Z6)
 [2026-10-03] [FEATURE] Uniform IDSS print and export format for every analysis and result (PDL-036): letterhead, page footer, IDSS CSV with heading rows; CSV for the daily summary and the group analysis
 [2026-10-03] [DOCS] Assignments approved (PDL-035, Z1 to Z6); special gifts design proposal (SPECIAL_GIFTS.md, G1 to G6)
+[2026-10-03] [FEATURE] Teacher assignments (migration 029, PDL-035): /app/zadaci (group or chosen students, picked keys or area draw, required due date, withdraw, IDSS print and CSV), "Zadaci nastavnika" on the Game Hub, assignment practice, assignments on the student profile; migration 030 (in-app notification) handed to the Director
+[2026-10-03] [FEATURE] Web Push notices (migration 031, PDL-037): free browser push, per-device switch, service worker; VAPID keys in .env.local

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNTS_PATH, CANON_PATH, GRADING_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH, SUPPORT_PATH } from "@/constants";
+import { ACCOUNTS_PATH, ASSIGNMENTS_PATH, CANON_PATH, GRADING_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH, SUPPORT_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -20,6 +20,7 @@ export function AccountHome({
   canManageSettings,
   canGrade,
   canMonitor,
+  canAssign,
 }: {
   account: Pick<CurrentAccount, "displayName" | "role">;
   /** Decided on the server (lib/permissions.ts). */
@@ -31,6 +32,8 @@ export function AccountHome({
   canGrade: boolean;
   /** Student monitoring and the daily summary: all subjects or the own subjects (Sprint 09). */
   canMonitor: boolean;
+  /** Give assignments in the own subjects (PDL-035). */
+  canAssign: boolean;
   /** Decided on the server (lib/permissions.ts). */
   canManageSettings: boolean;
 }): ReactNode {
@@ -58,6 +61,7 @@ export function AccountHome({
             {canViewCanon && <Link href={CANON_PATH} className="button-primary">{dictionary.canon.navLink}</Link>}
             {canMonitor && <Link href={SUPPORT_PATH} className="button-primary">{dictionary.support.navLink}</Link>}
             {canMonitor && <Link href={`${SUPPORT_PATH}/dan`} className="button-primary">{dictionary.support.dailyLink}</Link>}
+            {canAssign && <Link href={ASSIGNMENTS_PATH} className="button-primary">{dictionary.assignments.navLink}</Link>}
             {canGrade && <Link href={GRADING_PATH} className="button-primary">{dictionary.grading.navLink}</Link>}
             {canOpenReview && <Link href={REVIEW_PATH} className="button-primary">{dictionary.review.navLink}</Link>}
             {canOpenReview && <Link href={SEARCH_PATH} className="button-primary">{dictionary.search.navLink}</Link>}

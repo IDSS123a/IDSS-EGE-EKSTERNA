@@ -943,7 +943,8 @@
     "kinds": {
       "mock_exam_requested": "Set čeka odobrenje: {subject}",
       "mock_exam_submitted": "Predan probni ispit: {subject}",
-      "mock_exam_graded": "Tvoj probni ispit je ocijenjen: {subject}"
+      "mock_exam_graded": "Tvoj probni ispit je ocijenjen: {subject}",
+      "assignment_given": "Novi zadatak nastavnika: {subject}"
     }
   },
   "gamification": {
@@ -1162,5 +1163,113 @@
     "printedAt": "Odštampano: {date}.",
     "exportedAt": "Izvezeno: {date}",
     "confidential": "Povjerljivo: sadrži podatke o učenicima, samo za ovlaštene zaposlenike IDSS-a."
+  },
+  "push": {
+    "turnOn": "Uključi obavijesti na ovom uređaju",
+    "turnOff": "Isključi obavijesti na ovom uređaju",
+    "working": "Sačekajte",
+    "states": {
+      "unsupported": "Ovaj preglednik ne podržava obavijesti; novi zadaci se vide ovdje i u obavijestima u aplikaciji.",
+      "ios-install": "Na iPhoneu: u Safariju dodirnite Dijeli, pa \"Dodaj na početni ekran\", otvorite aplikaciju s početnog ekrana i ovdje uključite obavijesti (iOS 16.4 ili noviji).",
+      "denied": "Obavijesti su blokirane u postavkama preglednika. Dozvolite ih za ovu stranicu ako ih želite.",
+      "off": "Obavijesti na ovom uređaju su isključene. Uključite ih da odmah saznate za novi zadatak nastavnika.",
+      "on": "Obavijesti na ovom uređaju su uključene.",
+      "error": "Uključivanje nije uspjelo. Pokušajte ponovo.",
+      "checking": ""
+    }
+  },
+  "assignments": {
+    "navLink": "Zadaci za učenike",
+    "title": "Zadaci za učenike",
+    "subtitle": "Zadaci iz kataloga vašeg predmeta, s rokom",
+    "back": "Nazad na početnu",
+    "backToList": "Nazad na zadatke",
+    "newTitle": "Novi zadatak",
+    "subject": "Predmet",
+    "name": "Naziv zadatka",
+    "instruction": "Uputa učenicima (nije obavezno)",
+    "due": "Rok (vrijeme u Sarajevu)",
+    "content": "Šta se zadaje",
+    "contentKeys": "Pitanja koja ja biram",
+    "contentArea": "Pitanja iz oblasti koja bira aplikacija",
+    "keys": "Oznake pitanja iz kataloga",
+    "keysHint": "Npr. MAT-5.3.7, MAT-5.4.2; odvojite zarezom ili novim redom. Samo provjerena pitanja vašeg predmeta, najviše 50.",
+    "area": "Oblast",
+    "count": "Broj pitanja",
+    "audience": "Kome",
+    "audienceAll": "Svim aktivnim učenicima",
+    "audienceChosen": "Izabranim učenicima",
+    "students": "Učenici",
+    "noStudents": "Nema aktivnih učenika.",
+    "create": "Zadaj zadatak",
+    "created": "Zadatak je zadan.",
+    "open": "Otvori",
+    "list": "Zadani zadaci",
+    "none": "Još nema zadataka.",
+    "withdrawn": "povučen",
+    "columns": {
+      "title": "Zadatak",
+      "subject": "Predmet",
+      "due": "Rok",
+      "questions": "Pitanja",
+      "states": "Stanje učenika",
+      "author": "Zadao"
+    },
+    "states": {
+      "open": "u toku",
+      "complete": "završen u roku",
+      "late": "završen nakon roka",
+      "missed": "propušten",
+      "withdrawn": "povučen"
+    },
+    "statesHint": "Završen znači da je učenik odgovorio na svako pitanje zadatka nakon što je zadan, bez obzira na tačnost (PDL-035).",
+    "detail": {
+      "questions": "Pitanja",
+      "recipients": "Učenici",
+      "answered": "Odgovoreno",
+      "correct": "Tačno",
+      "completedAt": "Završeno",
+      "state": "Stanje",
+      "instruction": "Uputa",
+      "author": "Zadao",
+      "created": "Zadano",
+      "due": "Rok",
+      "audienceAll": "svi aktivni učenici",
+      "audienceChosen": "izabrani učenici",
+      "withdrawal": "Povučen: {reason}"
+    },
+    "withdraw": {
+      "title": "Povuci zadatak",
+      "reason": "Razlog",
+      "submit": "Povuci zadatak",
+      "done": "Zadatak je povučen.",
+      "hint": "Povučen zadatak nestaje kod učenika; ništa se ne briše."
+    },
+    "student": {
+      "title": "Zadaci nastavnika",
+      "none": "Trenutno nemaš zadataka nastavnika.",
+      "progress": "Odgovoreno {a} od {t}",
+      "due": "Rok: {date}",
+      "teacher": "Zadao/la: {name}",
+      "start": "Radi zadatak",
+      "continue": "Nastavi zadatak",
+      "done": "Zadatak je završen. Bravo!",
+      "allDone": "Zadatak je završen. Sva pitanja su odgovorena.",
+      "back": "Nazad na početnu"
+    },
+    "profile": {
+      "title": "Zadaci nastavnika",
+      "none": "Učenik nema zadataka u predmetima koje pratite."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Nemate pravo za ovu radnju.",
+      "VALIDATION": "Provjerite unos: naziv, rok u budućnosti, pitanja ili oblast s brojem, učenici.",
+      "UNKNOWN_KEYS": "Neka oznaka nije provjereno pitanje vašeg predmeta. Provjerite oznake.",
+      "NO_STUDENTS": "Nema aktivnih učenika kojima se zadatak može dati.",
+      "NOT_FOUND": "Zadatak ne postoji.",
+      "ALREADY_WITHDRAWN": "Zadatak je već povučen.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    }
   }
 }

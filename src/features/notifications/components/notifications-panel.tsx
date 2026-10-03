@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useTransition, type ReactNode } from "react";
-import { EXAM_PATH, GRADING_PATH } from "@/constants";
+import { ASSIGNMENTS_PUSH_URL, EXAM_PATH, GRADING_PATH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { markNotificationsReadAction } from "../actions";
 import type { AppNotification } from "../types";
 
-/** In-app notifications (Sprint 07): submitted mock exams for teachers, released results for students. */
+/** In-app notifications (Sprint 07): submitted mock exams for teachers, released results and new assignments for students. */
 export function NotificationsPanel({ notifications }: { notifications: AppNotification[] }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.notifications;
@@ -26,7 +26,7 @@ export function NotificationsPanel({ notifications }: { notifications: AppNotifi
       <ul className="review-list">
         {notifications.map((notification) => {
           const subject = notification.subjectCode ? dictionary.subjects[notification.subjectCode] : "";
-          const href = notification.examId ? `${notification.kind === "mock_exam_graded" ? EXAM_PATH : GRADING_PATH}/${notification.examId}` : null;
+          const href = notification.kind === "assignment_given" ? ASSIGNMENTS_PUSH_URL : notification.examId ? `${notification.kind === "mock_exam_graded" ? EXAM_PATH : GRADING_PATH}/${notification.examId}` : null;
           const text = labels.kinds[notification.kind].replace("{subject}", subject);
           return (
             <li key={notification.id}>

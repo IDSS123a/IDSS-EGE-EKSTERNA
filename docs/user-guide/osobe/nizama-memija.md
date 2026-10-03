@@ -10,6 +10,8 @@ Prijava: `nizama.memija@idss.ba`. Vaša prava važe samo za B/H/S jezik i knjiž
 3. **Dnevni sažetak**: na početnoj stranici kliknite **Dnevni sažetak**; vidite ko je jučer vježbao vaš predmet, ko
    nije i od kada, oblasti od najniže tačnosti i šta čeka vašu ocjenu. **Praćenje učenika** daje isti pregled po
    učeniku, samo za vaš predmet.
+4. **Zadaci za učenike**: dugme **Zadaci za učenike**; zadajte pitanja iz kataloga svog predmeta svim učenicima ili
+   izabranim, s rokom, i pratite ko je završio.
 
 ## Posebno za B/H/S
 - Zadaci povezivanja ocjenjuju se brojem tačnih parova; bodove računa službeno pravilo (2 ili 3 para 0,5 boda, 4 para 1

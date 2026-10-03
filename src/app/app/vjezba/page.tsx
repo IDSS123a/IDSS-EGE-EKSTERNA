@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { ForbiddenScreen } from "@/features/accounts/components/forbidden-screen";
+import { assignmentNext, studentAssignments } from "@/features/assignments/repository";
+import { RegistryFunctionError } from "@/features/canon/repository";
 import { requireAccount } from "@/features/authentication/session";
 import { listSubjects } from "@/features/knowledge/repository";
 import { PracticeScreen } from "@/features/practice/components/practice-screen";
@@ -14,6 +16,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /**
  * GET /app/vjezba?predmet=&oblast= — the next practice question of a subject or area (Sprint 06, PDL-018).
+ * GET /app/vjezba?zadatak= — the next open question of the student's own assignment (migration 029, PDL-035).
  * Role required: practice.participate. The question arrives without any key (practice_next, migration 017).
  */
 export default async function PracticePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }): Promise<ReactNode> {
@@ -24,6 +27,31 @@ export default async function PracticePage({ searchParams }: { searchParams: Pro
   const code = single(params.predmet);
   const areaParam = single(params.oblast);
   const areaId = areaParam && UUID.test(areaParam) ? areaParam : null;
+  const assignmentParam = single(params.zadatak);
+
+  if (assignmentParam) {
+    if (!UUID.test(assignmentParam)) notFound();
+    let found;
+    try {
+      const admin = createSupabaseAdminClient();
+      const [question, assignments] = await Promise.all([assignmentNext(admin, account.userId, assignmentParam), studentAssignments(admin, account.userId)]);
+      found = { question, assignment: assignments.find((entry) => entry.id === assignmentParam) ?? null };
+    } catch (error) {
+      if (error instanceof RegistryFunctionError && error.databaseMessage === "NOT_FOUND") notFound();
+      logError("app/vjezba/page.assignment", error);
+      throw error;
+    }
+    if (!found.assignment) notFound();
+    return (
+      <PracticeScreen
+        key={found.question?.questionVersionId ?? "done"}
+        code={found.assignment.subject}
+        areaId={null}
+        question={found.question}
+        assignment={{ id: found.assignment.id, title: found.assignment.title, answered: found.assignment.answered, total: found.assignment.total }}
+      />
+    );
+  }
 
   let view;
   try {

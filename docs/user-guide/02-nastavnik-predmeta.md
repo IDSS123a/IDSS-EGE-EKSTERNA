@@ -76,5 +76,18 @@ Pretraga postoji, ali njena kvaliteta još nije prihvaćena; vraćamo joj se s u
 ## Upravljanje nalozima (Dostupno, samo pregled)
 Vidite listu naloga. Kreiranje i promjene radi superadministrator.
 
+## Zadaci za učenike (Dostupno)
+Dugme **Zadaci za učenike** na početnoj stranici.
+1. **Novi zadatak**: predmet, naziv, rok (vrijeme u Sarajevu, obavezno) i po želji uputa.
+2. **Šta se zadaje**: **Pitanja koja ja biram** (upišite oznake, npr. MAT-5.3.7, MAT-5.4.2) ili **Pitanja iz oblasti
+   koja bira aplikacija** (oblast i broj pitanja). Samo provjerena pitanja vašeg predmeta, najviše 50.
+3. **Kome**: **Svim aktivnim učenicima** ili **Izabranim učenicima** (označite imena).
+4. Kliknite **Zadaj zadatak**. Učenici ga odmah vide na početnoj stranici, a oni koji su uključili obavijesti dobiju
+   ih na uređaj.
+5. U listi **Zadani zadaci** vidite koliko je učenika u toku, završilo u roku, završilo nakon roka ili propustilo rok.
+   Klik na naziv otvara zadatak: pitanja i svaki učenik (odgovoreno, tačno, kada je završio).
+6. Zadatak povlačite s razlogom (**Povuci zadatak**); kod učenika nestaje, ništa se ne briše.
+Završen znači da je učenik odgovorio na svako pitanje nakon što je zadatak zadan, bez obzira na tačnost.
+
 ## Uskoro
-Zadaci za učenike (prijedlog čeka odluke direktora).
+Poseban poklon za učenike (prijedlog čeka odluke direktora G1 do G6).
