@@ -38,7 +38,7 @@ teacher for a class (later); enrolment points display (AMB-18, when the 2026/27 
 - [x] 5. Canon fidelity (P-15, PDL-027, Director 2026-10-03): question crops for all 500 extracted questions
       (`tools/question-images`, verified word by word), practice shows the crop and errata notices; migrations 020 and
       021 applied live (printed key only, errata, follow-ups, teacher verdicts on practice answers); 022 and 023 (set
-      approval, grading by pairs) wait for the Director's confirmation of three DROP statements.
+      approval, grading by pairs) run by the Director in the SQL editor on 2026-10-03 and verified live.
 - [x] 6. Director 03.10.2026: DEU-4.4.10 and 4.5.6 to 4.5.10 accepted provisionally under the Director's account with an
       open follow-up "Nikolina Todorović" each (review before official use); live: 500 of 500 catalogue questions
       trusted, dialogue tasks answered by choice 1/2/3 and checked by the printed key. Erratum DEU-4.3.34 waits for the
