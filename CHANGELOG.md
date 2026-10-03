@@ -86,3 +86,6 @@
 [2026-10-03] [FEATURE] Student mock exam screens /app/ispit: request a set, waiting for teacher approval, start, countdown on the server clock, autosave, submission, result after grading with printed key and errata; Game Hub link
 [2026-10-03] [FEATURE] Teacher mock exam area /app/ocjenjivanje: blueprints per subject (load from config by SHA-256, confirm or reject by the subject reviewer), sets awaiting approval (approve, discard with reason and optional new set), grading with printed key, proposals, pairs for matching, notes and result confirmation
 [2026-10-03] [GOVERNANCE] Commander upgraded to v1.6.2 (PDL-028): stamps only, automation unchanged
+[2026-10-03] [FEATURE] In-app notifications (submitted mock exams for teachers, released results for students) on the Game Hub and in the grading area
+[2026-10-03] [SPRINT] Sprint 07 closed: DONE checklist, compliance score, handoff note
+[2026-10-03] [FEATURE] Teacher review of open practice answers (/app/ocjenjivanje/vjezba); migration 024 written (set request notifications, pending Director run)

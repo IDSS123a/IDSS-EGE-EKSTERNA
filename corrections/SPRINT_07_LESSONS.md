@@ -1,5 +1,5 @@
 # Sprint 07 — Lessons Learned
-Date: 2026-09-27 (open)
+Date: 2026-09-27 to 2026-10-03 (closed)
 
 ## Corrections Applied
 1. The Director signed in as a student, opened practice and expected a test of 18 questions; practice is an endless
@@ -25,6 +25,14 @@ Date: 2026-09-27 (open)
    without the highlighted words they ask about. The "requires visual verification" flag was recorded at ingestion but
    never used when showing questions. A data-quality flag must change what the user sees, or it is noise.
 
+6. Sprint IN item 4 (notifications in the app) was implemented in the database only: rows were written for teachers
+   and students, but no screen showed them; found by the ACA during the close-out checklist → a notifications panel on
+   the student Game Hub and the teacher grading area, with mark as read. Every IN item is checked against what a user
+   can see, not against the schema.
+7. Removing the text-revision forms (P-15) left the proposal helpers used only by their own unit test (found by the ACA
+   at close-out) → removed with the test; `config/text-revision-proposals.json` stays as evidence. When a feature is
+   withdrawn, its domain helpers and tests go in the same change.
+
 ## Gotchas Discovered
 - Six German records (DEU-4.4.10, 4.5.6 to 4.5.10) were never reviewed: their task type was "unclassified", so the Sprint
   04 bulk acceptance skipped them silently. The gap appeared only when the mock exam pool for "Kommunikation" came up
@@ -41,32 +49,22 @@ Date: 2026-09-27 (open)
 - The Director's approval in chat does not answer the Supabase connector's destructive-statement confirmation: in this
   remote session the confirmation never surfaces, so DROP migrations time out even after approval. Such migrations are
   handed to the Director as SQL files for the Supabase SQL editor, and the history row is recorded afterwards.
+- Sign-in failures are diagnosed without the password: Supabase auth logs give the error code, and
+  `public.security_events` stores SHA-256 of the typed username, so matching it against `profiles.username` shows
+  whether a known account was typed (2026-10-03: one wrong password for direktor@idss.ba, two unknown usernames).
+- `Intl.NumberFormat("bs")` gave "14,5" on the server and "14.5" in headless Chromium (hydration mismatch). Numbers in
+  client components use the deterministic `formatPoints`, never Intl with a locale the browser may lack.
+- The PID of `npx next dev` is the wrapper; killing it leaves `next-server` serving the port. Stop both PIDs, found
+  through /proc command lines, never with a name-wide pkill.
+- A write probe against the live database runs in a DO block that ends with `raise exception`, so everything rolls
+  back even without an explicit transaction; check afterwards that nothing stayed.
+- Before a Commander upgrade, `git diff vA vB --stat` of the Commander repository shows whether `automation/` changed;
+  v1.6.1 to v1.6.2 changed only stamps. The project guard's `--ci` mode waits on stdin; `--scan` reproduces CI.
 
 ## Commander Improvement Candidates
-None yet.
-
-### 2026-10-03 — No lessons this session (routine changes only: migrations 022/023 verified live, history rows recorded)
-
-### 2026-10-03 - Sign-in failure diagnosis
-- When a staff member cannot sign in, the cause is found without asking for the password: Supabase auth logs give the
-  error code (invalid_credentials), and public.security_events stores SHA-256 of the typed username, so matching it
-  against profiles.username shows whether a known account was typed. On 2026-10-03 one attempt named
-  direktor@idss.ba with a wrong password, two named no account at all; the account itself was active and not locked.
-
-### 2026-10-03 - Locale formatting in client components
-- `Intl.NumberFormat("bs")` gave "14,5" on the server (Node with full ICU) and "14.5" in headless Chromium, which
-  caused a hydration mismatch on the mock exam overview. Numbers shown by client components are formatted by a small
-  deterministic function (`formatPoints`), not by Intl with a locale the browser may lack.
-
-### 2026-10-03 - Stopping a preview dev server
-- The PID saved for `npx next dev` is the npx wrapper; killing it leaves `next-server` serving the port (a 500 after
-  the preview page is deleted). Stop the dev server by the PIDs of both processes found through /proc command lines,
-  never with a name-wide pkill.
-- A write probe against the live database runs inside a DO block that ends with `raise exception`, so the whole block
-  rolls back even when the SQL tool does not keep an explicit transaction open; check afterwards that nothing stayed.
-
-### 2026-10-03 - Commander upgrade check
-- Before upgrading Commander, diff the two tags of the Commander repository (`git diff vA vB --stat`): when
-  `automation/` is unchanged apart from the template's version line, the upgrade is a version stamp plus a decision
-  entry, and nothing installed under `.claude/` or `.github/` needs replacing.
-- The project guard's `--ci` mode waits for hook input on stdin; run `--scan` locally to reproduce the CI step.
+- DONE_CHECKLIST: add "every IN item of the sprint is visible to its user (a screen or a message), not only stored in
+  the database" (correction 6).
+- E-10 / A-1: when a feature is withdrawn by a decision, remove its domain helpers and tests in the same change
+  (correction 7).
+- Client-rendered numbers and dates: format deterministically or on the server only; Intl locale data differs between
+  Node and browsers (gotcha above, hydration).

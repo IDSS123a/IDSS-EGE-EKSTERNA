@@ -897,7 +897,8 @@
       "SET_DISCARDED": "Der Satz ist verworfen.",
       "SET_REPLACED": "Der Satz ist verworfen und ein neuer Satz ist zusammengestellt.",
       "GRADES_SAVED": "Die Punkte sind gespeichert.",
-      "RESULT_CONFIRMED": "Das Ergebnis ist bestätigt und für den Schüler sichtbar."
+      "RESULT_CONFIRMED": "Das Ergebnis ist bestätigt und für den Schüler sichtbar.",
+      "ANSWER_REVIEWED": "Die Bewertung der Antwort ist gespeichert."
     },
     "errors": {
       "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte neu anmelden.",
@@ -913,6 +914,34 @@
       "VERSION_EXISTS": "Diese Planversion ist bereits mit anderem Inhalt geladen.",
       "NO_CONFIG": "Für dieses Fach gibt es im Repository keinen Plan.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
+    },
+    "practice": {
+      "link": "Übungsantworten, die auf die Lehrkraft warten ({n})",
+      "title": "Übungsantworten",
+      "subtitle": "Offene Aufgaben, die Schüler üben",
+      "hint": "Das ist Übung: Die Bewertung zählt nur für den Lernfortschritt, nie für eine Probeprüfung. Neben der Antwort steht die offizielle Lösung des Katalogs.",
+      "empty": "Keine wartenden Antworten.",
+      "student": "Schüler",
+      "answer": "Antwort",
+      "printedKey": "Offizielle Lösung",
+      "verdict": "Bewertung",
+      "verdicts": {
+        "correct": "Richtig",
+        "partly_correct": "Teilweise richtig",
+        "incorrect": "Falsch"
+      },
+      "note": "Hinweis für den Schüler (optional)",
+      "submit": "Bewertung speichern"
+    }
+  },
+  "notifications": {
+    "title": "Mitteilungen",
+    "unread": "ungelesen: {n}",
+    "markAll": "Alle als gelesen markieren",
+    "kinds": {
+      "mock_exam_requested": "Ein Satz wartet auf Genehmigung: {subject}",
+      "mock_exam_submitted": "Probeprüfung abgegeben: {subject}",
+      "mock_exam_graded": "Deine Probeprüfung ist bewertet: {subject}"
     }
   }
 }

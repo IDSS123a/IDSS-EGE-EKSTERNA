@@ -170,3 +170,5 @@ export const EXAM_PATH = "/app/ispit";
 export const EXAM_AUTOSAVE_MS = 20_000;
 /** Teachers' mock exam area: blueprints, set approval and grading (Sprint 07). */
 export const GRADING_PATH = "/app/ocjenjivanje";
+/** Notifications shown on the home and grading screens. */
+export const NOTIFICATIONS_LIMIT = 20;

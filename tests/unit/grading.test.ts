@@ -5,7 +5,7 @@ vi.mock("server-only", () => ({}));
 
 const { pairChoices, poolRange } = await import("@/features/grading/domain/blueprint");
 const { blueprintConfig, BLUEPRINT_VERSION } = await import("@/features/grading/blueprint-config");
-const { GradesSchema, BlueprintReviewSchema, SetDiscardSchema } = await import("@/lib/validation/schemas");
+const { GradesSchema, BlueprintReviewSchema, PracticeVerdictSchema, SetDiscardSchema } = await import("@/lib/validation/schemas");
 
 const ID = "7522b1fc-c34b-4543-bae9-ed303dc5eb51";
 
@@ -43,5 +43,10 @@ describe("grading validation", () => {
     expect(BlueprintReviewSchema.safeParse({ blueprintId: ID, subjectId: ID, decision: "confirmed" }).success).toBe(true);
     expect(BlueprintReviewSchema.safeParse({ blueprintId: ID, subjectId: ID, decision: "rejected", note: " " }).success).toBe(false);
     expect(SetDiscardSchema.safeParse({ examId: ID, subjectId: ID, note: "", newSet: true }).success).toBe(false);
+  });
+
+  it("a practice verdict is one of three, the note is optional", () => {
+    expect(PracticeVerdictSchema.safeParse({ answerId: ID, verdict: "partly_correct", note: "" }).success).toBe(true);
+    expect(PracticeVerdictSchema.safeParse({ answerId: ID, verdict: "excellent" }).success).toBe(false);
   });
 });

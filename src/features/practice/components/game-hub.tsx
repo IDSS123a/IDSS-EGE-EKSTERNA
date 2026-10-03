@@ -6,6 +6,8 @@ import { EXAM_PATH, OWN_ACCOUNT_PATH, PRACTICE_PATH, SUBJECT_PATH } from "@/cons
 import { logoutAction } from "@/features/authentication/actions";
 import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
+import { NotificationsPanel } from "@/features/notifications/components/notifications-panel";
+import type { AppNotification } from "@/features/notifications/types";
 import { SiteHeader } from "@/features/shell/components/site-header";
 import { missionProgress, percent, streakDays, sumProgress } from "../domain/progress";
 import type { PracticeOverview } from "../types";
@@ -17,7 +19,7 @@ const SUBJECT_ORDER: SubjectCode[] = ["bhs_language_literature", "mathematics", 
  * Student home (Game Hub, Sprint 06): streak, daily mission and the three subjects with mastery. Everything shown is a
  * learning signal (P-7); grades come from the teacher. Receives only the student's own counts, decided on the server.
  */
-export function GameHub({ displayName, overview, dailyGoal }: { displayName: string; overview: PracticeOverview; dailyGoal: number }): ReactNode {
+export function GameHub({ displayName, overview, dailyGoal, notifications }: { displayName: string; overview: PracticeOverview; dailyGoal: number; notifications: AppNotification[] }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.hub;
   const streak = streakDays(overview.days, overview.todayDate);
@@ -42,6 +44,8 @@ export function GameHub({ displayName, overview, dailyGoal }: { displayName: str
       <main className="page__main">
         <p className="home__eyebrow">{labels.eyebrow}</p>
         <h1 className="home__title">{labels.greeting.replace("{name}", displayName)}</h1>
+
+        <NotificationsPanel notifications={notifications} />
 
         <div className="hub-stats">
           <section className="card hub-stat" aria-labelledby="hub-streak">

@@ -235,3 +235,10 @@ export const GradesSchema = z.object({
     .min(1)
     .max(60),
 });
+
+/** POST a teacher's verdict on a practice answer waiting for the teacher (migration 021). */
+export const PracticeVerdictSchema = z.object({
+  answerId: z.uuid(),
+  verdict: z.enum(["correct", "partly_correct", "incorrect"]),
+  note: optionalReviewText,
+});

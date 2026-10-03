@@ -897,7 +897,8 @@
       "SET_DISCARDED": "The set is discarded.",
       "SET_REPLACED": "The set is discarded and a new set is composed.",
       "GRADES_SAVED": "Points are saved.",
-      "RESULT_CONFIRMED": "The result is confirmed and visible to the student."
+      "RESULT_CONFIRMED": "The result is confirmed and visible to the student.",
+      "ANSWER_REVIEWED": "The verdict is saved."
     },
     "errors": {
       "UNAUTHENTICATED": "Your session expired. Please sign in again.",
@@ -913,6 +914,34 @@
       "VERSION_EXISTS": "This blueprint version is already loaded with different content.",
       "NO_CONFIG": "There is no blueprint for this subject in the repository.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
+    },
+    "practice": {
+      "link": "Practice answers waiting for the teacher ({n})",
+      "title": "Practice answers",
+      "subtitle": "Open tasks students practise",
+      "hint": "This is practice: the verdict counts only for the student's progress, never for a mock exam. The official key of the catalogue is shown beside the answer.",
+      "empty": "No answers waiting.",
+      "student": "Student",
+      "answer": "Answer",
+      "printedKey": "Official key",
+      "verdict": "Verdict",
+      "verdicts": {
+        "correct": "Correct",
+        "partly_correct": "Partly correct",
+        "incorrect": "Incorrect"
+      },
+      "note": "Note for the student (optional)",
+      "submit": "Save verdict"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unread": "unread: {n}",
+    "markAll": "Mark all as read",
+    "kinds": {
+      "mock_exam_requested": "A set waits for approval: {subject}",
+      "mock_exam_submitted": "Mock exam submitted: {subject}",
+      "mock_exam_graded": "Your mock exam is graded: {subject}"
     }
   }
 }

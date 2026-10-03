@@ -2,9 +2,10 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { RegistryFunctionError } from "@/features/canon/repository";
 import { toExamView, type ViewRow } from "@/features/exams/repository";
+import { toQuestion, type QuestionRow } from "@/features/practice/repository";
 import type { Subject, SubjectCode } from "@/features/knowledge/types";
 import { blueprintConfig } from "./blueprint-config";
-import type { BlueprintContent, GradingQueueEntry, GradingView, SubjectBlueprint } from "./types";
+import type { BlueprintContent, GradingQueueEntry, GradingView, PracticeReviewEntry, SubjectBlueprint } from "./types";
 
 /**
  * Data for teachers (migrations 019, 022, 023; A-3). Reads of blueprints use the caller's client (RLS); queue, exams
@@ -170,4 +171,35 @@ export async function saveGrades(admin: SupabaseClient, input: { actorUserId: st
 /** grading_confirm: fixes the result (proposals become final), notifies the student. */
 export async function confirmGrades(admin: SupabaseClient, input: { actorUserId: string; examId: string; ipAddress: string | null }): Promise<number> {
   return Number(await call<number | string>(admin, "grading_confirm", { p_actor: input.actorUserId, p_exam_id: input.examId, p_ip: input.ipAddress }));
+}
+
+type PracticeReviewRow = {
+  id: string;
+  submitted_at: string;
+  student: string;
+  subject_code: SubjectCode;
+  responses: { item: number | null; response: string }[];
+  question: QuestionRow;
+  keys: { item: number | null; key: string }[];
+  errata: { item: number | null; description: string; evidence: string }[];
+};
+
+/** practice_review_queue (exams.grade): practice answers of the teacher's subjects waiting for a verdict, oldest first. */
+export async function practiceReviewQueue(admin: SupabaseClient, actorUserId: string): Promise<PracticeReviewEntry[]> {
+  const rows = await call<PracticeReviewRow[]>(admin, "practice_review_queue", { p_actor: actorUserId });
+  return rows.map((row) => ({
+    id: row.id,
+    submittedAt: row.submitted_at,
+    student: row.student,
+    subjectCode: row.subject_code,
+    question: toQuestion(row.question),
+    responses: row.responses ?? [],
+    keys: row.keys ?? [],
+    errata: row.errata ?? [],
+  }));
+}
+
+/** review_practice_answer: the teacher's verdict on a practice answer (append-only, audited). */
+export async function reviewPracticeAnswer(admin: SupabaseClient, input: { actorUserId: string; answerId: string; verdict: "correct" | "partly_correct" | "incorrect"; note: string | null; ipAddress: string | null }): Promise<void> {
+  await call<string>(admin, "review_practice_answer", { p_actor: input.actorUserId, p_answer_id: input.answerId, p_verdict: input.verdict, p_note: input.note, p_ip: input.ipAddress });
 }
