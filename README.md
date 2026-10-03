@@ -24,7 +24,7 @@ Za pretragu po značenju u `.env.local` trebaju ključevi iz Google AI Studio: `
 `GEMINI_API_KEY_10=...` (rotiraju se kada jedan potroši kvotu; prihvataju se i `GEMINI_API_KEY` i `GOOGLE_API_KEY`).
 Bez ključa pretraga radi po riječima.
 
-Ako mapa već postoji: `cd C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027` pa `git pull`.
+Ako mapa već postoji: `cd C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027`, pa `git pull`, pa **uvijek `npm install`** (nova verzija može donijeti nove biblioteke; bez toga se pojavi greška "Module not found").
 
 ## Prvi nalog (Superadministrator)
 

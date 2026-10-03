@@ -14,7 +14,7 @@ P-14), mandate §7A.3, §9, §11 to §13, ROLES_AND_PERMISSIONS §2 and §3.
 2. **Screens:** `/app/pracenje` (overview with user-set filters, print, CSV export), `/app/pracenje/[student]`
    (profile with notes), `/app/pracenje/analiza` (aggregates only); a link on the staff home.
 3. **Carried over (Director):** blueprint confirmation by the three subject teachers, erratum DEU-4.3.34, first live
-   mock exam.
+   mock exam. **Postponed 2026-10-03 (Director):** the teachers do it when they have time; not a sprint blocker.
 4. **User guide:** chapter 04 and the personal pages of Adnana Agić and Medina Karaga describe the new screens.
 5. **Added 2026-10-03 (Director: "idi dalje po planu", plan row 09, PDL-033):** subject teacher view of student
    progress scoped to the own subject, and the daily summary (PDL-018 item 3) as a page (migration 027).
@@ -56,3 +56,5 @@ Building assignments before decisions Z1 to Z6; leaderboards.
       print and CSV; student card, assignment practice, profile section; DB tests section 24; unit tests.
 - [x] 7c. Web Push (migration 031 live, PDL-037): service worker, per-device switch, sender; DB tests section 25. Live
       push needs the Director's VAPID keys in `.env.local`.
+- [ ] 3. Postponed by the Director until the teachers have time (blueprints, DEU-4.3.34, first live mock exam).
+- [x] 8. Clean start before production recorded (PDL-038, `docs/PRODUCTION_READINESS.md`, CLAUDE.md non-negotiable).

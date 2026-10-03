@@ -545,3 +545,13 @@ removed. The in-app notification (migration 030) is always created as well. E-ma
 never into the repository. Without them push stays off and nothing else changes.
 **Implementation:** migration 031 (`push_subscriptions`, own rows only), `public/sw.js` (push and click only, no cache),
 `src/features/push` (sender with `web-push`, actions, `PushToggle`); DB tests section 25.
+
+## PDL-038: Clean start before production
+**Date:** 2026-10-03 (Director: "Zapamti, prije produkcije sistem mora biti očišćen od svih probnih testiranja i unosa.
+Sve mora biti čisto i spremno za prvo korištenje.")
+**Decision:** before the production deploy every trial account and everything produced while testing is removed; only
+the canon, the real staff accounts and the configuration remain. The inventory, the procedure (a reviewed cleanup
+migration run by the Director, verified by the ACA) and the open decision D-A (audit history of the test phase) are
+in `docs/PRODUCTION_READINESS.md`. The cleanup is a release gate: no production deploy without it (M-23).
+Also recorded: the teachers' blueprint confirmations and the erratum DEU-4.3.34 wait until the teachers have time;
+they do not block the sprint.

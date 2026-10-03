@@ -29,6 +29,9 @@ Date: 2026-10-03 (open)
 - The fixture math catalogue in the DB tests has only one trusted question (MAT-5.1.1); a test that assumed MAT-5.1.2
   was trusted failed with UNKNOWN_KEYS, which was the function working correctly. Check fixture state before writing
   expectations.
+- A new npm dependency (`web-push`) reached the Director's machine through the merge, but `node_modules` there was not
+  updated, so `next dev` failed with "Module not found: Can't resolve 'web-push'". Every report that adds or changes a
+  dependency tells the Director to run `npm install` after pulling; README now says so.
 
 ## Commander Improvement Candidates
 None yet.
