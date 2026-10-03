@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 import { clientIpFrom } from "@/features/authentication/domain";
 import { insertAuditLog } from "@/features/authentication/repository";
 import { getCurrentAccount } from "@/features/authentication/session";
-import { getDictionary, getRequestLocale } from "@/features/localization/server";
-import { share, toCsv } from "@/features/support/domain/indicators";
+import { readinessPercent, share } from "@/features/support/domain/indicators";
+import { exportDictionary, idssCsvResponse } from "@/features/support/export";
 import { supportOverview, visibleSubjectCodes } from "@/features/support/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
@@ -22,7 +22,7 @@ export async function GET(): Promise<Response> {
   try {
     const admin = createSupabaseAdminClient();
     const [students, codes] = await Promise.all([supportOverview(admin, account.userId), visibleSubjectCodes(admin, account)]);
-    const dictionary = getDictionary(await getRequestLocale());
+    const dictionary = await exportDictionary();
     const labels = dictionary.support.csv;
     const header = [labels.student, labels.lastActivity, labels.days7, labels.days30];
     for (const code of codes) {
@@ -39,18 +39,21 @@ export async function GET(): Promise<Response> {
           subject ? `${subject.mastered}/${subject.total}` : "",
           subject ? (share(subject.correct30, subject.checked30) ?? "") : "",
           latest ? `${latest.points}/${latest.max}` : "",
-          subject ? subject.readiness.state : "",
+          subject ? readinessText(subject.readiness, dictionary.support.readiness) : "",
         );
       }
       rows.push(row);
     }
     await insertAuditLog(admin, { actorUserId: account.userId, action: "support.overview_exported", entityType: "persons", ipAddress: clientIpFrom((await headers()).get("x-forwarded-for")), details: { rows: String(students.length) } });
-    return new NextResponse(toCsv(rows), {
-      status: 200,
-      headers: { "content-type": "text/csv; charset=utf-8", "content-disposition": 'attachment; filename="pracenje-ucenika.csv"', "cache-control": "no-store" },
-    });
+    return await idssCsvResponse({ title: dictionary.support.title, confidential: true, rows });
   } catch (error) {
     logError("app/pracenje/izvoz.GET", error);
     return new NextResponse("Unavailable", { status: 503 });
   }
+}
+
+/** Readiness in words for the export: the percentage, or the label the screen shows (PDL-032). */
+function readinessText(readiness: Parameters<typeof readinessPercent>[0], labels: { notAvailable: string; below80: string }): string {
+  const percent = readinessPercent(readiness);
+  return percent !== null ? `${percent} %` : readiness.state === "below_80" ? labels.below80 : labels.notAvailable;
 }

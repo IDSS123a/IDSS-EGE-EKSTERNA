@@ -19,7 +19,7 @@ export function ExamOverviewScreen({ overview }: { overview: ExamOverview }): Re
   const labels = dictionary.exam;
 
   return (
-    <ReviewShell backHref={APP_HOME_PATH} backLabel={labels.back} title={labels.title} subtitle={labels.subtitle}>
+    <ReviewShell backHref={APP_HOME_PATH} backLabel={labels.back} title={labels.title} subtitle={labels.subtitle} print={{ confidential: false }}>
       <p className="notice">{labels.intro}</p>
       <div className="hub-subjects">
         {overview.subjects.map((subject) => <SubjectCard key={subject.subjectId} subject={subject} />)}

@@ -1107,7 +1107,12 @@
       "pointsRow": "{p} points: {n} exams",
       "missed": "Questions most often answered wrongly",
       "missedRow": "{key}: wrong {n} times, students {s}",
-      "empty": "No data."
+      "empty": "No data.",
+      "points": "Points",
+      "exams": "Exams",
+      "key": "Question",
+      "wrong": "Wrong",
+      "students": "Students"
     },
     "daily": {
       "title": "Daily summary",
@@ -1150,5 +1155,12 @@
       "NOT_FOUND": "The student does not exist.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
     }
+  },
+  "print": {
+    "button": "Print or save as PDF",
+    "export": "Export CSV",
+    "printedAt": "Printed: {date}.",
+    "exportedAt": "Exported: {date}",
+    "confidential": "Confidential: contains student data, for authorised IDSS staff only."
   }
 }

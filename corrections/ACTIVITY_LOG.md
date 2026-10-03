@@ -91,3 +91,5 @@
 - [2026-10-03 20:23] Write: migrations/028_teacher_notes.sql
 - [2026-10-03 20:26] Write: docs/architecture/ASSIGNMENTS.md
 - [2026-10-03] Migration 028 live (teacher notes, PDL-034); assignments design proposal (Z1 to Z6)
+- [2026-10-03 20:47] Write: src/features/shell/components/print-frame.tsx
+- [2026-10-03] PDL-035 (assignments Z1 to Z6), PDL-036 uniform IDSS print and export format; gifts proposal

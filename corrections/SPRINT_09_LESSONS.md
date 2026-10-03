@@ -20,6 +20,9 @@ Date: 2026-10-03 (open)
 - Piping `npm run build` into `grep ... | head` ended the build early (head closed the pipe, the build got SIGPIPE),
   leaving `.next` without `prerender-manifest.json`, so the e2e web server could not start. Run the build with its
   output in a log file and read the log; never cut a build's output with `head`.
+- `/proc/<pid>/task/*/children` of the `npx next dev` wrapper did not list the `next-server` process, so killing the
+  PID tree left the server running (port still answered 200). Confirm the port is closed after stopping, and stop
+  `next-server` and the `next dev` node process by their own PIDs, excluding the current shell.
 
 ## Commander Improvement Candidates
 None yet.

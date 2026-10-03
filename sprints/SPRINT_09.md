@@ -20,6 +20,9 @@ P-14), mandate §7A.3, §9, §11 to §13, ROLES_AND_PERMISSIONS §2 and §3.
    progress scoped to the own subject, and the daily summary (PDL-018 item 3) as a page (migration 027).
 6. **Added 2026-10-03 (Director: "idemo dalje", plan row 09, PDL-034):** academic teacher notes (migration 028);
    assignments designed (`docs/architecture/ASSIGNMENTS.md`), built after the Director's decisions Z1 to Z6.
+7. **Added 2026-10-03 (Director, PDL-035, PDL-036):** uniform IDSS print and export format for every analysis and
+   result; assignments as decided (group and single students, both content kinds, required due date, card plus in-app
+   notification and Web Push); special gifts design proposal (G1 to G6).
 
 ## OUT
 Building assignments before decisions Z1 to Z6; leaderboards.
@@ -47,3 +50,5 @@ Building assignments before decisions Z1 to Z6; leaderboards.
 - [x] 6. Migration 028 applied live: teacher notes (own subject for the teacher, all subjects for the support roles and
       the superadministrator, never the student), DB tests section 23 (13 assertions); profile shows them per subject,
       out of print; unit tests for the input; assignments design proposal with decisions Z1 to Z6.
+- [x] 7a. Uniform IDSS print and export format (PDL-036): letterhead and page footer on every analysis and result,
+      IDSS CSV for overview, daily summary and group analysis; unit tests; PDF checked.

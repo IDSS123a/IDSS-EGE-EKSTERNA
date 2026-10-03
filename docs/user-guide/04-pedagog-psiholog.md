@@ -9,7 +9,7 @@ oznaka o učeniku; filtere postavljate vi. Svako otvaranje profila učenika bilj
   prethodnog** (poređenje s vlastitim prethodnim ispitom učenika), **Poredaj po**.
 - **Tabela**: za svakog učenika zadnja aktivnost, dani vježbe (7 i 30 dana) i po predmetu: savladano, tačnost u zadnjih
   30 dana, zadnji ocijenjeni ispit, šta čeka nastavnika i **Spremnost**.
-- **Štampaj** štampa tabelu; **Izvoz CSV** preuzima istu tabelu za tabelarni program (bez bilješki podrške).
+- **Štampaj ili sačuvaj PDF** štampa tabelu u IDSS formatu; **Izvoz CSV** preuzima istu tabelu za tabelarni program (bez bilješki podrške). Isto važi za Analizu grupe i Dnevni sažetak.
 
 ## Spremnost za ispit (interni pokazatelj IDSS-a, nije službena procjena)
 Po predmetu, iz zadnja tri ocijenjena probna ispita: bez greške 100 %, 1 do 2 greške 90 %, 3 greške 80 %, više od 3
@@ -22,7 +22,7 @@ Klik na ime u tabeli otvara profil:
 - **Oblasti kataloga** od najniže tačnosti;
 - **Ponovljene greške**: pitanje odgovoreno pogrešno bar dva puta, a zadnji odgovor i dalje netačan;
 - **Probni ispiti**: bodovi i promjena prema prethodnom ispitu, iskorišteno vrijeme, zadaci bez odgovora.
-**Štampaj** štampa profil bez bilješki podrške.
+**Štampaj ili sačuvaj PDF** štampa profil u IDSS formatu, bez bilješki podrške i bilješki nastavnika.
 
 ## Bilješke podrške (Dostupno)
 Na dnu profila: **Vrsta** (razgovor s učenikom, razgovor s roditeljem, dogovor, praćenje ili bez vrste), **Datum

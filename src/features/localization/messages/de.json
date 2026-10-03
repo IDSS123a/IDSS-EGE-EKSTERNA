@@ -1107,7 +1107,12 @@
       "pointsRow": "{p} Punkte: {n} Prüfungen",
       "missed": "Am häufigsten falsch beantwortete Fragen",
       "missedRow": "{key}: {n} Mal falsch, Schüler {s}",
-      "empty": "Keine Daten."
+      "empty": "Keine Daten.",
+      "points": "Punkte",
+      "exams": "Prüfungen",
+      "key": "Frage",
+      "wrong": "Falsch",
+      "students": "Schüler"
     },
     "daily": {
       "title": "Tageszusammenfassung",
@@ -1150,5 +1155,12 @@
       "NOT_FOUND": "Der Schüler existiert nicht.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
     }
+  },
+  "print": {
+    "button": "Drucken oder als PDF speichern",
+    "export": "CSV-Export",
+    "printedAt": "Gedruckt: {date}.",
+    "exportedAt": "Exportiert: {date}",
+    "confidential": "Vertraulich: enthält Schülerdaten, nur für berechtigte Mitarbeitende der IDSS."
   }
 }

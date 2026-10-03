@@ -1,6 +1,6 @@
 # Teacher assignments (design proposal)
 
-Status: **proposal, waiting for the Director (decisions Z1 to Z6)** · Sources: mandate §7A.3 ("Teacher: teach, assign,
+Status: **approved 2026-10-03 (PDL-035)**, with the Director's answers to Z1 to Z6 in section 6 · Sources: mandate §7A.3 ("Teacher: teach, assign,
 monitor and intervene"), §11 ("completed and missed missions/assignments", "teacher-assigned learning activities"),
 §12 ("assigned work"); ROLES_AND_PERMISSIONS §2 ("Assign practice / missions": superadministrator, subject teacher
 scoped); DATA_MODEL §7, §9; CONSTITUTION P-4, P-7, P-15 · Implementation plan row 09.
@@ -26,7 +26,7 @@ Per assignment and student: questions answered of the assignment, of them correc
 due date or after it, open. "Missed" is a fact: the due date passed and not every question was answered. No grade,
 no ranking.
 
-## 4. Decisions for the Director
+## 4. Decisions (proposals as written; the Director's answers in PDL-035 prevail)
 - **Z1 Recipients.** There are no classes in the database yet (enrolments are empty). Proposal: the teacher chooses
   "all active students" or selected students by name; classes come later, when the Director sets up the generation
   (IX 2026/27) and class labels.
@@ -49,3 +49,7 @@ Migration 029: `assignments` (subject, author, title, instruction, due date, rec
 reads own open assignments through a function only; functions `assignment_create`, `assignment_withdraw`,
 `assignments_of_student`, `assignment_progress`; audit on create and withdraw; DB tests for scope, student isolation
 and completion.
+
+## 6. The Director's answers (PDL-035)
+Z1 group and single students as the teacher judges; Z2 both kinds; Z3 as proposed; Z4 the due date is set by the
+teacher (required); Z5 no extra points; Z6 card plus notice: in-app notification and Web Push (free, permanent).

@@ -23,7 +23,7 @@ export function ExamScreen({ exam }: { exam: ExamView }): ReactNode {
   const labels = dictionary.exam;
 
   return (
-    <ReviewShell backHref={EXAM_PATH} backLabel={labels.backToExams} title={dictionary.subjects[exam.subjectCode]} subtitle={labels.title}>
+    <ReviewShell backHref={EXAM_PATH} backLabel={labels.backToExams} title={dictionary.subjects[exam.subjectCode]} subtitle={labels.title} print={exam.status === "graded" ? { confidential: false } : undefined}>
       {exam.status === "awaiting_approval" && <Waiting exam={exam} />}
       {exam.status === "approved" && <BeforeStart exam={exam} />}
       {exam.status === "in_progress" && <Writer exam={exam} />}

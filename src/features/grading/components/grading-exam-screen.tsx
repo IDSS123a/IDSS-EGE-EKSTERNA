@@ -24,7 +24,7 @@ export function GradingExamScreen({ exam }: { exam: GradingView }): ReactNode {
   const grading = exam.status === "submitted";
 
   return (
-    <ReviewShell backHref={GRADING_PATH} backLabel={labels.backToQueue} title={exam.student} subtitle={`${dictionary.subjects[exam.subjectCode]}, ${dictionary.exam.states[exam.status]}`}>
+    <ReviewShell backHref={GRADING_PATH} backLabel={labels.backToQueue} title={exam.student} subtitle={`${dictionary.subjects[exam.subjectCode]}, ${dictionary.exam.states[exam.status]}`} print={{ confidential: true }}>
       <section className="card">
         <dl className="canon-version__meta">
           <div><dt>{labels.exam.requested}</dt><dd>{formatDateTime(exam.createdAt, locale)}</dd></div>
