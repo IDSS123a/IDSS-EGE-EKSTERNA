@@ -15,9 +15,11 @@ system forbids deletion (append-only audit), handled as the Director decides bel
 | Practice answers of the trial student | 28 | remove (with the account) |
 | Teacher reviews of those answers | 7 | remove (with the answers) |
 | IDSS points and badges | derived, not stored | nothing (they follow the answers) |
-| Mock exams, notifications, support notes, teacher notes, assignments, push subscriptions | 0 each | check again; remove trial rows |
+| Trial assignment "03.10.26" (B/H/S, given by the Director) with its questions and recipients | 1 (2026-10-04) | remove |
+| Trial gift from Nizama Memija to a.b. and its opening | 1 + 1 (2026-10-04) | remove |
+| Mock exams, notifications, support notes, teacher notes, push subscriptions | 0 each (2026-10-04) | check again; remove trial rows |
 | Exam blueprints (Math, B/H/S, German) | 3 | **keep** (real data, waiting for the teachers' confirmation) |
-| Audit log | 681 rows | D-A decided: export to the school archive, then one audited removal |
+| Audit log | 704 rows (2026-10-04) | D-A decided: export to the school archive, then one audited removal |
 | Security events (failed logins during tests) | 6 | D-A decided (same procedure) |
 | Retrieval audit of test searches | 13 | D-A decided (same procedure) |
 | Staff accounts and their passwords | 6 | keep the accounts; every staff member sets a new password at first real use |

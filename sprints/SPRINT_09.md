@@ -1,6 +1,6 @@
 # SPRINT 09 — Support monitoring for the pedagogue and the psychologist
 
-Status: **in progress** · Started 2026-10-03 (Director: "zatvori sprint08 sve uredu. Nastavi po planu")
+Status: **closed 2026-10-04** (Director: "sprint je gotov") · Started 2026-10-03 (Director: "zatvori sprint08 sve uredu. Nastavi po planu")
 Prerequisites met: Sprint 08 closed; PDL-032 (D1 to D5, readiness scale, AMB-24 resolved); design
 `docs/architecture/SUPPORT_MONITORING.md`.
 Required reading (Tier 2): Commander M-1…M-5, ENGINEERING_RULES, ARCHITECTURE_PATTERNS, `CONSTITUTION.md` (P-4, P-7, P-13,
@@ -75,3 +75,53 @@ Building assignments before decisions Z1 to Z6; leaderboards.
 
       Result: no account reads data outside its role; the student reads no key, note, audit row or other student;
       teachers read keys and answers of their own subject only; support notes stay with their authors (none exist yet).
+
+## DONE checklist (Commander v1.6.2, 2026-10-04)
+| Area | Result | Notes |
+|---|---|---|
+| Code quality | PASS | typecheck clean; no `any`, `@ts-ignore`, TODO or `console.log` in the 58 changed source files; colours of the 3D materials are the IDSS tokens in `gifts/catalogue.ts` plus material constants inside the model builders (presentation data, not rules) |
+| Browser console | PASS | every new screen rendered with page errors captured: support screens, daily summary, assignments, vitrina (all six gifts and the unboxing), profile with gifts; zero uncaught errors (dev CSP inline-style notices are dev tooling only) |
+| Architecture | PASS | pages authorise, actions validate with Zod, repositories call database functions, permissions only in `lib/permissions.ts`; three.js only in `features/gifts/scene` and loaded dynamically on `/app/vitrina` |
+| Security | PASS | every new function re-checks capability and scope; RLS on every table (DB tests after 026 to 032); IDOR: student functions use the caller's own person, staff functions their scope; VAPID private key server-only; CSV exports formula-safe; live privacy check of every account (item 10) |
+| Error handling | PASS | actions and routes return the standard shape, unknown errors logged and audited (`auditIfFailed`), friendly messages in three languages |
+| User experience | PASS | loading states on every submit, empty states, phone layouts checked in screenshots, reduced-motion and no-WebGL fallbacks for the vitrina, real-time capture of the unboxing |
+| Documentation | PASS | PDL-033 to PDL-039, schema audit rows 027 to 032, `.env.example` (VAPID), constants, CHANGELOG, user guide, design docs |
+| Build and deploy readiness | PASS | build clean; `three` and `web-push` in `dependencies` and recorded (PDL-039, PDL-037) |
+| Test data | DEFERRED BY DIRECTOR | trial rows (a.b., 28 answers, 7 reviews, 1 assignment, 1 gift) stay for further testing; removal is the last step before the deploy (PDL-038), inventory updated in `docs/PRODUCTION_READINESS.md` |
+| Post-deploy verification | N/A | no deploy in this sprint (postponed, M-23) |
+| Sprint-level learning | PASS | lessons consolidated, three Commander candidates |
+
+Checks at close: typecheck, lint, check:text (96 files), Vitest 168/168, test:db (sections 21 to 26 added this sprint),
+build, e2e 72/72; Supabase security advisor: only the known Auth leaked-password WARN (mitigated in the app, PDL-030).
+
+## Commander compliance
+```
+COMMANDER COMPLIANCE — Sprint 09
+──────────────────────────────────
+Rules followed without reminder:        19/23
+Rules violated, caught by ACA:          3  (e2e not rerun after an app-text change in Sprint 08; build output cut by head;
+                                            RLS draft using the subject-less capability check, fixed before it ran)
+Rules violated, caught by Director:     1  (no install instruction with a new dependency: "Module not found: web-push")
+Rules that slowed work or felt wrong:   none
+New rules suggested by this sprint:     install instruction with every new dependency; never pipe a build into head;
+                                        standard live RLS impersonation as evidence for privacy exit criteria
+```
+
+## Handoff note
+**Completed:** support monitoring for the pedagogue and the psychologist (overview, profile, group analysis, support
+notes D1 to D3, IDSS readiness PDL-032); subject teacher view of the own subject and the daily summary (PDL-033);
+teacher notes (PDL-034); assignments with in-app notice and Web Push (PDL-035, PDL-037); uniform IDSS print and export
+format (PDL-036); special gifts and the 3D IDSS Vitrina (PDL-039); clean start before production recorded (PDL-038);
+privacy boundaries verified live.
+**Not completed (postponed by the Director):** blueprint confirmation by the three teachers, erratum DEU-4.3.34, first
+live mock exam; they wait until the teachers have time.
+**Waiting on the Director:** run migration 030 in the SQL editor (in-app notices for assignments and gifts); VAPID keys
+in `.env.local` to switch on Web Push.
+**Risks:** push on iPhone needs the app on the home screen (iOS 16.4 or later); the in-app guide is still a source
+document (`docs/user-guide`), not yet a printable page in the app.
+**Technical debt:** the pdfjs-dist "can't be external" build warning (pre-existing); class assignments wait for classes
+in the database (no generation or class labels yet).
+**Next sprint (plan row 10):** Director Command Center: participation, subject progress, teacher activity, content
+health, audit and configuration, aggregate-first; design proposal with decisions before code.
+
+Lessons captured: 13 entries in corrections/SPRINT_09_LESSONS.md
