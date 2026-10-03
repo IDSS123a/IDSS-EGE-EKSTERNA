@@ -55,4 +55,6 @@ teacher for a class (later); enrolment points display (AMB-18, when the 2026/27 
       (request, mark as checked), "Open notices" per subject on the queue (shows the six "Čeka: Nikolina Todorović");
       text and key revision forms removed, earlier rows shown as history only. Erratum DEU-4.3.34 is entered by the
       Director in this form.
+- [x] 8. Commander upgraded to v1.6.2 (Director: "obavezno nadograditi", PDL-028): four Learned-From additions,
+      no new rules; automation identical to v1.6.1, so only the version stamps changed.
 

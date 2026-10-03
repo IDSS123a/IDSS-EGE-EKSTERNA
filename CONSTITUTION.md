@@ -1,6 +1,6 @@
 # CONSTITUTION.md — IDSS EGE (project)
 
-Commander version: 1.6.1 · Mode: FULL (sprints) · Created: 2026-09-27
+Commander version: 1.6.2 · Mode: FULL (sprints) · Created: 2026-09-27 · Upgraded: 2026-10-03 (from 1.6.1)
 Precedence: Commander CONSTITUTION > ENGINEERING_RULES > ARCHITECTURE_PATTERNS >
 ACA_COMMUNICATION_PROTOCOL > **this document** > current sprint document.
 Full product mandate: `docs/mandate/INSTRUCTION-WEB-APP-IDSS-EGE.html`.

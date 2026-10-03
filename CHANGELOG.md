@@ -85,3 +85,4 @@
 [2026-10-03] [FEATURE] Review screen (P-15): catalogue errata form (record, withdraw), follow-ups (request, mark as checked), open notices per subject on the queue; text and key revision forms removed, their rows kept as history
 [2026-10-03] [FEATURE] Student mock exam screens /app/ispit: request a set, waiting for teacher approval, start, countdown on the server clock, autosave, submission, result after grading with printed key and errata; Game Hub link
 [2026-10-03] [FEATURE] Teacher mock exam area /app/ocjenjivanje: blueprints per subject (load from config by SHA-256, confirm or reject by the subject reviewer), sets awaiting approval (approve, discard with reason and optional new set), grading with printed key, proposals, pairs for matching, notes and result confirmation
+[2026-10-03] [GOVERNANCE] Commander upgraded to v1.6.2 (PDL-028): stamps only, automation unchanged
