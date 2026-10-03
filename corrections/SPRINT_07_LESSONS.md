@@ -44,3 +44,5 @@ Date: 2026-09-27 (open)
 
 ## Commander Improvement Candidates
 None yet.
+
+### 2026-10-03 — No lessons this session (routine changes only: migrations 022/023 verified live, history rows recorded)
