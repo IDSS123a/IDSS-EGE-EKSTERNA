@@ -1,0 +1,32 @@
+# SPRINT 09 — Support monitoring for the pedagogue and the psychologist
+
+Status: **in progress** · Started 2026-10-03 (Director: "zatvori sprint08 sve uredu. Nastavi po planu")
+Prerequisites met: Sprint 08 closed; PDL-032 (D1 to D5, readiness scale, AMB-24 resolved); design
+`docs/architecture/SUPPORT_MONITORING.md`.
+Required reading (Tier 2): Commander M-1…M-5, ENGINEERING_RULES, ARCHITECTURE_PATTERNS, `CONSTITUTION.md` (P-4, P-7, P-13,
+P-14), mandate §7A.3, §9, §11 to §13, ROLES_AND_PERMISSIONS §2 and §3.
+
+## IN
+1. **Data (migration 026):** read-only functions for the student overview, the student profile (five dimensions, areas,
+   persistent errors, activity, mock exam trend, IDSS readiness) and group analysis; support notes (append-only,
+   visibility per D1, no access for the superadministrator per D2, neutral types per D3); access audit on every
+   profile read.
+2. **Screens:** `/app/pracenje` (overview with user-set filters, print, CSV export), `/app/pracenje/[student]`
+   (profile with notes), `/app/pracenje/analiza` (aggregates only); a link on the staff home.
+3. **Carried over (Director):** blueprint confirmation by the three subject teachers, erratum DEU-4.3.34, first live
+   mock exam.
+4. **User guide:** chapter 04 and the personal pages of Adnana Agić and Medina Karaga describe the new screens.
+
+## OUT
+Subject teacher view of their students (later, same functions scoped by subject); class assignments; leaderboards.
+
+## Acceptance criteria
+- Only accounts with unscoped `students.view_progress` (pedagogue, psychologist, superadministrator) open the screens;
+  support notes only for `support_notes.read_write`, and a "samo ja" note only for its author (DB tests).
+- Every opening of a student profile writes an access audit row.
+- No indicator labels a student; readiness follows PDL-032 exactly and says it is internal.
+- CSV export contains no support note and is safe against formula injection.
+
+## Progress
+- [x] 1. Migration 026 applied live (three parts): overview, profile with access audit, group analysis, support notes
+      (D1 to D3), readiness scale (PDL-032, mapping tested); DB tests section 21; security advisor only the known WARN.

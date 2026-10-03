@@ -84,3 +84,4 @@
 - [2026-10-03] PDL-032: D1 to D5 accepted, readiness scale defined by the Director (AMB-24 open)
 - [2026-10-03] AMB-24 resolved (Director accepted proposals a to d)
 - [2026-10-03] Sprint 08 closed; blueprints loaded live by the Director (SHA-256 match)
+- [2026-10-03] Sprint 09 started; migration 026 live (support monitoring)
