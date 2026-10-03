@@ -83,3 +83,4 @@
 [2026-10-03] [DATABASE] Migration 019: mock exams, blueprints with reviewer confirmation, pre-scoring, teacher grading, release, notifications
 [2026-10-03] [CANON] P-15 canon fidelity: catalogue crops for every question, printed key only, errata notices, teacher verdicts on practice answers (migrations 020, 021); set approval and grading by pairs (022, 023, pending)
 [2026-10-03] [FEATURE] Review screen (P-15): catalogue errata form (record, withdraw), follow-ups (request, mark as checked), open notices per subject on the queue; text and key revision forms removed, their rows kept as history
+[2026-10-03] [FEATURE] Student mock exam screens /app/ispit: request a set, waiting for teacher approval, start, countdown on the server clock, autosave, submission, result after grading with printed key and errata; Game Hub link

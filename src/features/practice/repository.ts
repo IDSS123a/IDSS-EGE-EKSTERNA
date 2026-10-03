@@ -11,7 +11,7 @@ import type { AreaProgress, PracticeOverview, PracticeQuestion, PracticeResult }
  * binds every answer to the student's person.
  */
 
-type QuestionRow = {
+export type QuestionRow = {
   question_version_id: string;
   record_key: string;
   subject_id: string;
@@ -29,7 +29,7 @@ type QuestionRow = {
   errata?: { item: number | null }[];
 };
 
-function toQuestion(row: QuestionRow): PracticeQuestion {
+export function toQuestion(row: QuestionRow): PracticeQuestion {
   return {
     questionVersionId: row.question_version_id,
     recordKey: row.record_key,

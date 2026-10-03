@@ -52,3 +52,8 @@ None yet.
   error code (invalid_credentials), and public.security_events stores SHA-256 of the typed username, so matching it
   against profiles.username shows whether a known account was typed. On 2026-10-03 one attempt named
   direktor@idss.ba with a wrong password, two named no account at all; the account itself was active and not locked.
+
+### 2026-10-03 - Locale formatting in client components
+- `Intl.NumberFormat("bs")` gave "14,5" on the server (Node with full ICU) and "14.5" in headless Chromium, which
+  caused a hydration mismatch on the mock exam overview. Numbers shown by client components are formatted by a small
+  deterministic function (`formatPoints`), not by Intl with a locale the browser may lack.

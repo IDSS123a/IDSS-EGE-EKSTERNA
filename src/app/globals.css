@@ -1079,3 +1079,41 @@ body {
   margin: 0 0 6px;
 }
 
+
+/* ---------------------------------------------------------------- Mock exams (Sprint 07) */
+.hub-exam h2 {
+  margin-top: 0;
+}
+.status-pill[data-exam="graded"],
+.status-pill[data-exam="approved"] { color: var(--color-brand); }
+.status-pill[data-exam="discarded"] { color: var(--color-danger); }
+/* The bar with the countdown stays in view while the student scrolls through the tasks. */
+.exam-bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 24px;
+  margin-bottom: 16px;
+}
+.exam-bar p {
+  margin: 0;
+}
+.exam-bar .link-row {
+  margin: 0 0 0 auto;
+}
+.exam-bar__clock strong {
+  font: 700 1.4rem/1.2 var(--font-display), system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-brand);
+}
+.exam-bar__clock strong[data-low="true"] {
+  color: var(--color-danger);
+}
+.exam-question + .exam-question {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+}

@@ -206,3 +206,9 @@ export const PracticeAnswerSchema = z.object({
     .min(1)
     .max(20),
 });
+
+/** Answers of a mock exam while writing or on submission (migration 019): at most 60 units of 4000 characters. */
+export const ExamResponsesSchema = z.object({
+  examId: z.uuid(),
+  responses: z.array(z.object({ id: z.uuid(), response: z.string().max(PRACTICE_RESPONSE_MAX_LENGTH) })).max(60),
+});

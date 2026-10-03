@@ -73,3 +73,4 @@
 - [2026-10-03] Six German records accepted provisionally (Director), follow-ups to Nikolina Todorović; 500/500 trusted
 - [2026-10-03] Migrations 022, 023 run by the Director; verified live, history recorded
 - [2026-10-03] Review screen: errata form, follow-ups, open notices; revision forms removed (P-15)
+- [2026-10-03] Student mock exam screens (request, approval wait, start, timer, autosave, submit, result)

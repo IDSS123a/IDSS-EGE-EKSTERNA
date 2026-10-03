@@ -33,7 +33,10 @@ teacher for a class (later); enrolment points display (AMB-18, when the 2026/27 
 - [x] 2. Migration 019 (applied live 2026-10-03): blueprints and reviews, mock exams, items, pre-scoring, grading, release,
       notifications; DB tests section 18 (31 assertions). German cannot be generated yet: DEU-4.5.6 to 4.5.10 and 4.4.10
       were never reviewed (pending in the review queue).
-- [ ] 3. Student screens: start, exam with timer, submission, result.
+- [x] 3. Student screens (2026-10-03): `/app/ispit` (per subject: request a set, open exam, earlier exams) and
+      `/app/ispit/[id]` (waiting for approval, start, countdown on the server clock, autosave every 20 s, submission,
+      automatic submission at the deadline, result after grading with printed key, teacher notes and errata). Mock
+      exams open for students once the blueprints are loaded and confirmed (item 4).
 - [ ] 4. Teacher screens: blueprint confirmation, grading queue, grading.
 - [x] 5. Canon fidelity (P-15, PDL-027, Director 2026-10-03): question crops for all 500 extracted questions
       (`tools/question-images`, verified word by word), practice shows the crop and errata notices; migrations 020 and
