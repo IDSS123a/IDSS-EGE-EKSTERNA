@@ -9,10 +9,10 @@ import { getCurrentAccount } from "@/features/authentication/session";
 import { RegistryFunctionError } from "@/features/canon/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError, logInfo } from "@/lib/logger";
-import { canReviewSubject, canReviseAnswerKeys } from "@/lib/permissions";
-import { KeyRevisionSchema, QuestionTextRevisionSchema, RecordDecisionSchema } from "@/lib/validation/schemas";
+import { canReviewSubject } from "@/lib/permissions";
+import { ErratumSchema, ErratumWithdrawalSchema, FollowUpResolutionSchema, FollowUpSchema, RecordDecisionSchema } from "@/lib/validation/schemas";
 import { reviewErrorFromDatabase } from "./domain/errors";
-import { decideRecord, proposeKeyRevision, reviseQuestionText } from "./repository";
+import { decideRecord, openFollowUp, recordErratum, resolveFollowUp, withdrawErratum } from "./repository";
 import type { ReviewActionResult } from "./types";
 
 /**
@@ -75,98 +75,119 @@ async function decide(formData: FormData): Promise<ReviewActionResult> {
 }
 
 /**
- * POST (Server Action) proposeKeyRevisionAction
- * Role required: answer_keys.propose_revision for the key's subject.
- * Body: FormData { answerKeyId, subjectId, correctedAnswer, reason, evidence? }.
- * The printed key is never changed (CF-03); the newest revision is the effective key.
- * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
- */
-export async function proposeKeyRevisionAction(_previous: ReviewActionResult | null, formData: FormData): Promise<ReviewActionResult> {
-  const result = await revise(formData);
-  return auditIfFailed(result, { action: "review.answer_key_revision", entityType: "answer_key", entityId: formId(formData, "answerKeyId") });
-}
-
-async function revise(formData: FormData): Promise<ReviewActionResult> {
-  const actor = await getCurrentAccount();
-  if (!actor) return { success: false, code: "UNAUTHENTICATED" };
-  const parsed = KeyRevisionSchema.safeParse({
-    answerKeyId: formData.get("answerKeyId"),
-    subjectId: formData.get("subjectId"),
-    correctedAnswer: formData.get("correctedAnswer"),
-    reason: formData.get("reason"),
-    evidence: formData.get("evidence") ?? undefined,
-  });
-  if (!parsed.success) return { success: false, code: "VALIDATION" };
-  if (!canReviseAnswerKeys(actor, parsed.data.subjectId)) return { success: false, code: "FORBIDDEN" };
-  try {
-    await proposeKeyRevision(createSupabaseAdminClient(), {
-      actorUserId: actor.userId,
-      answerKeyId: parsed.data.answerKeyId,
-      correctedAnswer: parsed.data.correctedAnswer,
-      reason: parsed.data.reason,
-      evidence: parsed.data.evidence ?? null,
-      ipAddress: await requestIp(),
-    });
-  } catch (error) {
-    return failure(error, "review/actions.proposeKeyRevisionAction");
-  }
-  revalidatePath(REVIEW_PATH, "layout");
-  return { success: true, data: { message: "KEY_REVISED" } };
-}
-
-/**
- * POST (Server Action) reviseQuestionTextAction
+ * POST (Server Action) recordErratumAction
  * Role required: canon.review for the question's subject (or canon.publish).
- * Body: FormData { questionVersionId, subjectId, rawText, stemText?, optionLabel[] + optionText[],
- *   itemNumber[] + itemText[], reason, evidence? }.
- * The trusted version never changes (AMB-19, PDL-021); the newest revision is the text students see.
- * Labels and item numbers must equal the version's; the database refuses any other shape.
+ * Body: FormData { questionVersionId, subjectId, itemNumber?, description, evidence }.
+ * The printed task and key never change (P-15, PDL-027): the erratum is a notice shown to students
+ * (existence before answering, description after) and to teachers.
  * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
  */
-export async function reviseQuestionTextAction(_previous: ReviewActionResult | null, formData: FormData): Promise<ReviewActionResult> {
-  const result = await reviseText(formData);
-  return auditIfFailed(result, { action: "review.question_text_revision", entityType: "question_version", entityId: formId(formData, "questionVersionId") });
+export async function recordErratumAction(_previous: ReviewActionResult | null, formData: FormData): Promise<ReviewActionResult> {
+  const result = await recordErratumFrom(formData);
+  return auditIfFailed(result, { action: "review.erratum", entityType: "question_version", entityId: formId(formData, "questionVersionId") });
 }
 
-function strings(formData: FormData, name: string): string[] {
-  return formData.getAll(name).filter((value): value is string => typeof value === "string");
-}
-
-async function reviseText(formData: FormData): Promise<ReviewActionResult> {
+async function recordErratumFrom(formData: FormData): Promise<ReviewActionResult> {
   const actor = await getCurrentAccount();
   if (!actor) return { success: false, code: "UNAUTHENTICATED" };
-  const optionLabels = strings(formData, "optionLabel");
-  const optionTexts = strings(formData, "optionText");
-  const itemNumbers = strings(formData, "itemNumber");
-  const itemTexts = strings(formData, "itemText");
-  if (optionLabels.length !== optionTexts.length || itemNumbers.length !== itemTexts.length) return { success: false, code: "VALIDATION" };
-  const stemText = formData.get("stemText");
-  const parsed = QuestionTextRevisionSchema.safeParse({
+  const parsed = ErratumSchema.safeParse({
     questionVersionId: formData.get("questionVersionId"),
     subjectId: formData.get("subjectId"),
-    rawText: formData.get("rawText"),
-    stemText: typeof stemText === "string" ? stemText : null,
-    options: optionLabels.map((label, index) => ({ label, text: optionTexts[index] })),
-    scoredItems: itemNumbers.map((itemNumber, index) => ({ itemNumber, rawText: itemTexts[index] })),
-    reason: formData.get("reason"),
-    evidence: formData.get("evidence") ?? undefined,
+    itemNumber: formData.get("itemNumber"),
+    description: formData.get("description"),
+    evidence: formData.get("evidence"),
   });
   if (!parsed.success) return { success: false, code: "VALIDATION" };
   if (!canReviewSubject(actor, parsed.data.subjectId)) return { success: false, code: "FORBIDDEN" };
-  const { questionVersionId, rawText, options, scoredItems, reason, evidence } = parsed.data;
   try {
-    await reviseQuestionText(createSupabaseAdminClient(), {
-      actorUserId: actor.userId,
-      questionVersionId,
-      text: { rawText, stemText: parsed.data.stemText, options, scoredItems },
-      reason,
-      evidence: evidence ?? null,
-      ipAddress: await requestIp(),
-    });
-    logInfo("review/actions.reviseQuestionTextAction", "question text revised");
+    await recordErratum(createSupabaseAdminClient(), { actorUserId: actor.userId, ...parsed.data, itemNumber: parsed.data.itemNumber ?? null, ipAddress: await requestIp() });
+    logInfo("review/actions.recordErratumAction", "erratum recorded");
   } catch (error) {
-    return failure(error, "review/actions.reviseQuestionTextAction");
+    return failure(error, "review/actions.recordErratumAction");
   }
   revalidatePath(REVIEW_PATH, "layout");
-  return { success: true, data: { message: "TEXT_REVISED" } };
+  return { success: true, data: { message: "ERRATUM_RECORDED" } };
+}
+
+/**
+ * POST (Server Action) withdrawErratumAction
+ * Role required: canon.review for the erratum's subject (or canon.publish).
+ * Body: FormData { erratumId, subjectId, reason }. Withdrawal is a new row; nothing is deleted.
+ * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
+ */
+export async function withdrawErratumAction(_previous: ReviewActionResult | null, formData: FormData): Promise<ReviewActionResult> {
+  const result = await withdrawErratumFrom(formData);
+  return auditIfFailed(result, { action: "review.erratum_withdrawal", entityType: "catalogue_erratum", entityId: formId(formData, "erratumId") });
+}
+
+async function withdrawErratumFrom(formData: FormData): Promise<ReviewActionResult> {
+  const actor = await getCurrentAccount();
+  if (!actor) return { success: false, code: "UNAUTHENTICATED" };
+  const parsed = ErratumWithdrawalSchema.safeParse({ erratumId: formData.get("erratumId"), subjectId: formData.get("subjectId"), reason: formData.get("reason") });
+  if (!parsed.success) return { success: false, code: "VALIDATION" };
+  if (!canReviewSubject(actor, parsed.data.subjectId)) return { success: false, code: "FORBIDDEN" };
+  try {
+    await withdrawErratum(createSupabaseAdminClient(), { actorUserId: actor.userId, erratumId: parsed.data.erratumId, reason: parsed.data.reason, ipAddress: await requestIp() });
+  } catch (error) {
+    return failure(error, "review/actions.withdrawErratumAction");
+  }
+  revalidatePath(REVIEW_PATH, "layout");
+  return { success: true, data: { message: "ERRATUM_WITHDRAWN" } };
+}
+
+/**
+ * POST (Server Action) openFollowUpAction
+ * Role required: canon.review for the question's subject (or canon.publish).
+ * Body: FormData { questionVersionId, subjectId, assignee, note }: a named person must still check the question.
+ * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
+ */
+export async function openFollowUpAction(_previous: ReviewActionResult | null, formData: FormData): Promise<ReviewActionResult> {
+  const result = await openFollowUpFrom(formData);
+  return auditIfFailed(result, { action: "review.follow_up", entityType: "question_version", entityId: formId(formData, "questionVersionId") });
+}
+
+async function openFollowUpFrom(formData: FormData): Promise<ReviewActionResult> {
+  const actor = await getCurrentAccount();
+  if (!actor) return { success: false, code: "UNAUTHENTICATED" };
+  const parsed = FollowUpSchema.safeParse({
+    questionVersionId: formData.get("questionVersionId"),
+    subjectId: formData.get("subjectId"),
+    assignee: formData.get("assignee"),
+    note: formData.get("note"),
+  });
+  if (!parsed.success) return { success: false, code: "VALIDATION" };
+  if (!canReviewSubject(actor, parsed.data.subjectId)) return { success: false, code: "FORBIDDEN" };
+  try {
+    await openFollowUp(createSupabaseAdminClient(), { actorUserId: actor.userId, ...parsed.data, ipAddress: await requestIp() });
+  } catch (error) {
+    return failure(error, "review/actions.openFollowUpAction");
+  }
+  revalidatePath(REVIEW_PATH, "layout");
+  return { success: true, data: { message: "FOLLOW_UP_OPENED" } };
+}
+
+/**
+ * POST (Server Action) resolveFollowUpAction
+ * Role required: canon.review for the follow-up's subject (or canon.publish).
+ * Body: FormData { followUpId, subjectId, note }.
+ * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
+ */
+export async function resolveFollowUpAction(_previous: ReviewActionResult | null, formData: FormData): Promise<ReviewActionResult> {
+  const result = await resolveFollowUpFrom(formData);
+  return auditIfFailed(result, { action: "review.follow_up_resolution", entityType: "canon_follow_up", entityId: formId(formData, "followUpId") });
+}
+
+async function resolveFollowUpFrom(formData: FormData): Promise<ReviewActionResult> {
+  const actor = await getCurrentAccount();
+  if (!actor) return { success: false, code: "UNAUTHENTICATED" };
+  const parsed = FollowUpResolutionSchema.safeParse({ followUpId: formData.get("followUpId"), subjectId: formData.get("subjectId"), note: formData.get("note") });
+  if (!parsed.success) return { success: false, code: "VALIDATION" };
+  if (!canReviewSubject(actor, parsed.data.subjectId)) return { success: false, code: "FORBIDDEN" };
+  try {
+    await resolveFollowUp(createSupabaseAdminClient(), { actorUserId: actor.userId, followUpId: parsed.data.followUpId, note: parsed.data.note, ipAddress: await requestIp() });
+  } catch (error) {
+    return failure(error, "review/actions.resolveFollowUpAction");
+  }
+  revalidatePath(REVIEW_PATH, "layout");
+  return { success: true, data: { message: "FOLLOW_UP_RESOLVED" } };
 }

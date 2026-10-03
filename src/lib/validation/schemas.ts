@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PRACTICE_RESPONSE_MAX_LENGTH, QUESTION_TEXT_MAX_LENGTH, RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
+import { PRACTICE_RESPONSE_MAX_LENGTH, RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 
 /**
  * Shared Zod schemas (Commander E-2: every boundary validated, schemas in one place).
@@ -171,29 +171,31 @@ export const RecordDecisionSchema = z
   })
   .refine((value) => (value.decision === "accepted" ? value.taskType !== undefined : value.reason !== undefined));
 
-/** POST reviewed answer-key correction (CF-03): corrected answer and reason required. */
-export const KeyRevisionSchema = z.object({
-  answerKeyId: z.uuid(),
-  subjectId: z.uuid(),
-  correctedAnswer: reviewText,
-  reason: reviewText,
-  evidence: optionalReviewText,
-});
-
 /**
- * POST reviewed text revision of a trusted question (AMB-19, PDL-021): texts only. Labels and item
- * numbers are echoed from the version; the database refuses any change of them.
+ * POST a catalogue erratum (P-15, migration 020): the printed task and key stay as printed; the erratum is a notice
+ * to students and teachers. itemNumber names the German statement it concerns, empty for the whole task.
  */
-export const QuestionTextRevisionSchema = z.object({
+export const ErratumSchema = z.object({
   questionVersionId: z.uuid(),
   subjectId: z.uuid(),
-  rawText: z.string().trim().min(1).max(QUESTION_TEXT_MAX_LENGTH),
-  stemText: z.string().trim().min(1).max(QUESTION_TEXT_MAX_LENGTH).nullable(),
-  options: z.array(z.object({ label: z.string().min(1).max(8), text: reviewText })).max(20),
-  scoredItems: z.array(z.object({ itemNumber: z.coerce.number().int().positive(), rawText: reviewText })).max(20),
-  reason: reviewText,
-  evidence: optionalReviewText,
+  itemNumber: z.preprocess((value) => (value === "" || value === null ? undefined : value), z.coerce.number().int().positive().optional()),
+  description: reviewText,
+  evidence: reviewText,
 });
+
+/** POST withdraw an erratum (a new row that cancels it; nothing is deleted). */
+export const ErratumWithdrawalSchema = z.object({ erratumId: z.uuid(), subjectId: z.uuid(), reason: reviewText });
+
+/** POST a follow-up (provisional acceptance: a named person must still check the question). */
+export const FollowUpSchema = z.object({
+  questionVersionId: z.uuid(),
+  subjectId: z.uuid(),
+  assignee: z.string().trim().min(1).max(200),
+  note: reviewText,
+});
+
+/** POST resolve a follow-up with a note. */
+export const FollowUpResolutionSchema = z.object({ followUpId: z.uuid(), subjectId: z.uuid(), note: reviewText });
 
 /** POST a practice answer (migration 017): one response per item of the question; the database checks the items. */
 export const PracticeAnswerSchema = z.object({

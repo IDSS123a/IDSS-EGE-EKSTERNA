@@ -395,16 +395,10 @@
       "by": "{name}, {date}"
     },
     "keys": {
-      "title": "Rješenje i revizije",
-      "printed": "Štampano rješenje",
-      "effective": "Važeće rješenje",
-      "revisions": "Revizije",
-      "corrected": "Ispravljeno rješenje",
-      "reason": "Razlog",
-      "evidence": "Dokaz (postupak ili izvor)",
-      "submit": "Sačuvaj reviziju",
-      "hint": "Štampano rješenje se nikada ne mijenja. Revizija se čuva uz njega i postaje važeće rješenje.",
-      "noRevisions": "Nema revizija."
+      "title": "Službeno rješenje",
+      "printed": "Štampano rješenje (važi)",
+      "hint": "Štampano rješenje iz kataloga je uvijek službeno rješenje i nikada se ne mijenja. Ako je u katalogu utvrđena greška, upišite je u dijelu \"Greške u katalogu\".",
+      "historyNote": "Ranije unesene revizije (samo historija, ne važe):"
     },
     "source": {
       "page": "Originalna stranica {page}",
@@ -491,41 +485,28 @@
     "messages": {
       "ACCEPTED": "Zapis je prihvaćen.",
       "RETURNED": "Zapis je vraćen s razlogom.",
-      "KEY_REVISED": "Revizija rješenja je sačuvana.",
       "RULE_CONFIRMED": "Pravilo je potvrđeno.",
       "RULE_DISPUTED": "Pravilo je osporeno.",
-      "TEXT_REVISED": "Ispravka teksta je sačuvana."
+      "ERRATUM_RECORDED": "Greška je upisana.",
+      "ERRATUM_WITHDRAWN": "Greška je povučena.",
+      "FOLLOW_UP_OPENED": "Naknadni pregled je zatražen.",
+      "FOLLOW_UP_RESOLVED": "Naknadni pregled je završen."
     },
     "errors": {
       "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
       "FORBIDDEN": "Nemate pravo pregleda za ovaj predmet.",
-      "VALIDATION": "Provjerite unos: za prihvatanje izaberite vrstu zadatka, za vraćanje upišite razlog.",
+      "VALIDATION": "Provjerite unos: za prihvatanje izaberite vrstu zadatka, za vraćanje upišite razlog, a u ostalim obrascima popunite sva polja.",
       "NOT_FOUND": "Zapis ne postoji.",
       "SUBJECT_MISSING": "Predmet ovog zapisa još nije učitan.",
       "STALE_RECORD": "Zapis je iz starijeg izdvajanja. Otvorite listu ponovo.",
       "ALREADY_ACCEPTED": "Zapis je već prihvaćen.",
       "NOT_ACCEPTABLE": "Strukturno neispravan zapis se ne može prihvatiti.",
-      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo.",
-      "UNCHANGED": "Tekst je isti kao tekst koji učenici već vide. Ispravka nije sačuvana."
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     },
     "text": {
-      "title": "Tekst pitanja za učenike",
-      "hint": "Učenici vide najnoviju potvrđenu ispravku. Tekst iz kataloga ostaje sačuvan nepromijenjen; ispravka mijenja samo tekst, nikada oznake odgovora ni rješenje.",
-      "shown": "Tekst koji učenici vide",
-      "original": "Tekst iz kataloga",
-      "noRevision": "Nema ispravki: učenici vide tekst iz kataloga.",
-      "proposal": "Prijedlog ispravke je unesen u polja ispod: uklonjen je tekst fusnote s dna stranice (izvor zadatka, poveznica). Uporedite s izvornom stranicom lijevo, pa potvrdite ili prilagodite.",
-      "proposalEvidence": "Stranica {page}, fusnota {footnotes}",
-      "rawText": "Cijeli tekst pitanja",
-      "stemText": "Tekst zadatka (bez ponuđenih odgovora)",
-      "option": "Odgovor {label}",
-      "item": "Tvrdnja {n}",
-      "reason": "Razlog ispravke",
-      "evidence": "Dokaz (stranica, fusnota)",
-      "submit": "Sačuvaj ispravku teksta",
-      "confirm": "Sačuvati ispravku teksta? Učenici će vidjeti ovaj tekst.",
-      "history": "Ispravke teksta",
-      "open": "Ispravi tekst"
+      "title": "Ranije ispravke teksta",
+      "hint": "Ovo je samo historija. Učenici vide zadatak tačno kako je štampan u katalogu.",
+      "revised": "Tekst ispravke"
     },
     "keySearch": {
       "label": "Pronađi pitanje po oznaci",
@@ -535,12 +516,45 @@
       "results": "Rezultati za oznaku {query}",
       "none": "Nema pitanja s oznakom {query} u ovom predmetu."
     },
-    "proposals": {
-      "title": "Prijedlozi ispravki teksta",
-      "hint": "U ovim pitanjima je tekst fusnote s dna stranice ušao u tekst pitanja. Otvorite pitanje, uporedite prijedlog s izvornom stranicom i kliknite \"Sačuvaj ispravku teksta\".",
-      "waiting": "Čeka potvrdu",
-      "confirmed": "Potvrđeno",
-      "done": "Sve ispravke su potvrđene."
+    "notices": {
+      "title": "Otvorene napomene",
+      "hint": "Greške u katalogu i pitanja koja još neko treba pregledati. Otvorite pitanje za detalje.",
+      "erratum": "Greška u katalogu",
+      "followUp": "Čeka: {name}"
+    },
+    "errata": {
+      "title": "Greške u katalogu",
+      "hint": "Zadatak i službeno rješenje ostaju tačno kako su štampani. Upisana greška se prikazuje učeniku (prije odgovora samo da greška postoji, nakon odgovora i opis) i nastavniku pri ocjenjivanju.",
+      "none": "Za ovaj zadatak nije upisana greška.",
+      "open": "Upiši grešku u katalogu",
+      "item": "Odnosi se na",
+      "wholeTask": "Cijeli zadatak",
+      "description": "Opis greške",
+      "descriptionHint": "Ovaj opis učenik vidi nakon odgovora. Pišite kratko i jasno.",
+      "evidence": "Dokaz (izvor, obrazloženje)",
+      "submit": "Sačuvaj grešku",
+      "confirm": "Sačuvati grešku? Učenici i nastavnici će vidjeti napomenu uz ovaj zadatak.",
+      "active": "Važi",
+      "withdrawn": "Povučeno",
+      "evidenceShown": "Dokaz: {text}",
+      "withdrawalShown": "Povučeno: {text}",
+      "withdraw": "Povuci grešku",
+      "withdrawReason": "Razlog povlačenja",
+      "withdrawSubmit": "Povuci"
+    },
+    "followUps": {
+      "title": "Naknadni pregled",
+      "hint": "Pitanje je prihvaćeno privremeno i navedena osoba ga još treba pregledati.",
+      "none": "Nema naknadnog pregleda.",
+      "open": "Zatraži naknadni pregled",
+      "assignee": "Ko pregleda",
+      "note": "Napomena",
+      "submit": "Sačuvaj",
+      "waiting": "Čeka: {name}",
+      "resolved": "Pregledano",
+      "resolve": "Označi kao pregledano",
+      "resolutionNote": "Napomena o pregledu",
+      "resolveSubmit": "Označi kao pregledano"
     }
   },
   "search": {
