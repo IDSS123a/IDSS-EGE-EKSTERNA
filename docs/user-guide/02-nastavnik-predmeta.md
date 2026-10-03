@@ -13,6 +13,9 @@ savladano, tačnost u zadnjih 30 dana, zadnji ocijenjeni probni ispit, šta ček
 pokazatelj IDSS-a, nije službena procjena). Filtere i sortiranje postavljate vi; tabelu možete štampati ili izvesti u CSV.
 - Klik na ime otvara **Profil učenika** za vaš predmet: oblasti kataloga, ponovljene greške, kalendar vježbe iz vašeg
   predmeta i tok probnih ispita. Svako otvaranje profila bilježi se u dnevnik pristupa.
+- **Bilješke nastavnika**: u dijelu svog predmeta na profilu upišite akademsku bilješku (npr. šta treba ponoviti) i
+  kliknite **Sačuvaj bilješku nastavnika**. Vide je nastavnici predmeta, pedagog, psiholog i direktor; učenik je ne
+  vidi. Upisana bilješka se ne mijenja i ne ide u štampu ni u izvoz.
 - Bilješke podrške ne vidite; one pripadaju pedagogu i psihologu.
 - **Analiza grupe** pokazuje zbirne podatke vašeg predmeta, bez imena.
 
@@ -74,4 +77,4 @@ Pretraga postoji, ali njena kvaliteta još nije prihvaćena; vraćamo joj se s u
 Vidite listu naloga. Kreiranje i promjene radi superadministrator.
 
 ## Uskoro
-Zadaci za razred i nastavničke bilješke.
+Zadaci za učenike (prijedlog čeka odluke direktora).

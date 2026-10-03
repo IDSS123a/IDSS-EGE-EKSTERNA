@@ -1083,6 +1083,14 @@
       "byLine": "{name}, vidljivo: {visibility}",
       "followUpOn": "sljedeći korak {date}"
     },
+    "teacherNotes": {
+      "title": "Bilješke nastavnika",
+      "hint": "Akademske bilješke o učenju u ovom predmetu. Vide ih nastavnici ovog predmeta, pedagog, psiholog i direktor; učenik ih ne vidi. Upisane bilješke se ne mijenjaju.",
+      "body": "Bilješka",
+      "submit": "Sačuvaj bilješku nastavnika",
+      "saved": "Bilješka je sačuvana.",
+      "none": "Nema bilješki nastavnika."
+    },
     "analysis": {
       "title": "Analiza grupe",
       "subtitle": "Zbirni podaci, aktivnih učenika: {n}",

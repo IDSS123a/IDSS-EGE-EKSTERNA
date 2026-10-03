@@ -26,6 +26,9 @@ export type NoteVisibility = "author" | "support";
 
 export type SupportNote = { id: string; kind: NoteKind | null; body: string; followUpOn: string | null; visibility: NoteVisibility; createdAt: string; author: string; own: boolean };
 
+/** An academic teacher note (migration 028, PDL-034): per subject, append-only, never shown to the student. */
+export type TeacherNote = { id: string; subject: SubjectCode; body: string; createdAt: string; author: string; own: boolean };
+
 export type ProfileExam = { id: string; status: "submitted" | "graded"; submittedAt: string | null; gradedAt: string | null; points: number | null; max: number; auto: boolean; minutesUsed: number | null; minutes: number | null; emptyUnits: number; units: number };
 
 export type ProfileSubject = {
@@ -82,4 +85,4 @@ export type DailySummary = { day: string; today: string; subjects: DailySubject[
 export type FollowUp = { personId: string; student: string; followUpOn: string; kind: NoteKind | null };
 
 export type SupportErrorCode = "UNAUTHENTICATED" | "FORBIDDEN" | "VALIDATION" | "NOT_FOUND" | "UNAVAILABLE";
-export type SupportActionResult = { success: true; data: { message: "NOTE_ADDED" } } | { success: false; code: SupportErrorCode };
+export type SupportActionResult = { success: true; data: { message: "NOTE_ADDED" | "TEACHER_NOTE_ADDED" } } | { success: false; code: SupportErrorCode };

@@ -17,6 +17,9 @@ Date: 2026-10-03 (open)
   `next-server` child whose parent is that PID; never match a pattern that appears in the killing command itself.
 - One connector call applied the whole 22 KB of migration 027 (header comments with `drop` left out, so the
   destructive-statement check does not trigger on the rollback note).
+- Piping `npm run build` into `grep ... | head` ended the build early (head closed the pipe, the build got SIGPIPE),
+  leaving `.next` without `prerender-manifest.json`, so the e2e web server could not start. Run the build with its
+  output in a log file and read the log; never cut a build's output with `head`.
 
 ## Commander Improvement Candidates
 None yet.

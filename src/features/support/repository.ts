@@ -5,7 +5,7 @@ import { listSubjects } from "@/features/knowledge/repository";
 import { SUBJECT_CODES, type SubjectCode } from "@/features/knowledge/types";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { hasSubjectCapability } from "@/lib/permissions";
-import type { DailySummary, FollowUp, GroupPatterns, NoteKind, NoteVisibility, OverviewStudent, ProfileSubject, Readiness, StudentProfile, SupportNote } from "./types";
+import type { DailySummary, FollowUp, GroupPatterns, TeacherNote, NoteKind, NoteVisibility, OverviewStudent, ProfileSubject, Readiness, StudentProfile, SupportNote } from "./types";
 
 /**
  * Support monitoring data (migrations 026, 027, A-3). Service-role client after the page or action has authorised the
@@ -161,4 +161,15 @@ export async function dailySummary(admin: SupabaseClient, actorUserId: string, d
       waitingExams: n(subject.waiting_exams),
     })),
   };
+}
+
+/** teacher_notes_of: academic notes of one student in the caller's subjects (migration 028). */
+export async function teacherNotes(admin: SupabaseClient, actorUserId: string, personId: string): Promise<TeacherNote[]> {
+  const rows = await call<{ id: string; subject: SubjectCode; body: string; created_at: string; author: string; own: boolean }[]>(admin, "teacher_notes_of", { p_actor: actorUserId, p_person: personId });
+  return rows.map((row) => ({ id: row.id, subject: row.subject, body: row.body, createdAt: row.created_at, author: row.author, own: row.own }));
+}
+
+/** teacher_note_add: an append-only academic note; the database checks the subject scope and audits without content. */
+export async function addTeacherNote(admin: SupabaseClient, input: { actorUserId: string; personId: string; subject: SubjectCode; body: string; ipAddress: string | null }): Promise<void> {
+  await call<string>(admin, "teacher_note_add", { p_actor: input.actorUserId, p_person: input.personId, p_subject: input.subject, p_body: input.body, p_ip: input.ipAddress });
 }
