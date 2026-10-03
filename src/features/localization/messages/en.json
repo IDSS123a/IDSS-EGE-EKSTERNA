@@ -914,5 +914,14 @@
       "NO_CONFIG": "There is no blueprint for this subject in the repository.",
       "UNAVAILABLE": "The service is not available right now. Please try again."
     }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "unread": "unread: {n}",
+    "markAll": "Mark all as read",
+    "kinds": {
+      "mock_exam_submitted": "Mock exam submitted: {subject}",
+      "mock_exam_graded": "Your mock exam is graded: {subject}"
+    }
   }
 }

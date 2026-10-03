@@ -914,5 +914,14 @@
       "NO_CONFIG": "Za ovaj predmet u repozitoriju nema plana.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
+  },
+  "notifications": {
+    "title": "Obavijesti",
+    "unread": "nepročitano: {n}",
+    "markAll": "Označi sve kao pročitano",
+    "kinds": {
+      "mock_exam_submitted": "Predan probni ispit: {subject}",
+      "mock_exam_graded": "Tvoj probni ispit je ocijenjen: {subject}"
+    }
   }
 }

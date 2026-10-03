@@ -6,6 +6,8 @@ import { APP_HOME_PATH, GRADING_PATH, REVIEW_TEXT_MAX_LENGTH } from "@/constants
 import { formatDateTime } from "@/features/canon/components/format";
 import { formatPoints } from "@/features/exams/domain/exam";
 import { useI18n } from "@/features/localization/i18n-provider";
+import { NotificationsPanel } from "@/features/notifications/components/notifications-panel";
+import type { AppNotification } from "@/features/notifications/types";
 import { ReviewShell } from "@/features/review/components/review-shell";
 import { loadBlueprintAction, reviewBlueprintAction } from "../actions";
 import { poolRange } from "../domain/blueprint";
@@ -17,13 +19,14 @@ type Props = {
   /** Subject ids the teacher may review blueprints for, and whether they may load blueprints (canon.publish). */
   reviewable: string[];
   canLoad: boolean;
+  notifications: AppNotification[];
 };
 
 /**
  * Teachers' mock exam area (Sprint 07): blueprints per subject (loaded from the repository, confirmed by a reviewer of
  * the subject against the canonical documents, P-15), sets waiting for approval, exams to grade and recent results.
  */
-export function GradingHomeScreen({ blueprints, queue, reviewable, canLoad }: Props): ReactNode {
+export function GradingHomeScreen({ blueprints, queue, reviewable, canLoad, notifications }: Props): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.grading;
   const groups: { key: "approval" | "grading" | "graded"; entries: GradingQueueEntry[] }[] = [
@@ -34,6 +37,7 @@ export function GradingHomeScreen({ blueprints, queue, reviewable, canLoad }: Pr
 
   return (
     <ReviewShell backHref={APP_HOME_PATH} backLabel={labels.back} title={labels.title} subtitle={labels.subtitle}>
+      <NotificationsPanel notifications={notifications} />
       {groups.map((group) => (
         <section key={group.key} className="card" aria-labelledby={`grading-${group.key}`}>
           <h2 id={`grading-${group.key}`}>{labels.queue[group.key]} ({group.entries.length})</h2>

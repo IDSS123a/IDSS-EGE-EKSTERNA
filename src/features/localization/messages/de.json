@@ -914,5 +914,14 @@
       "NO_CONFIG": "Für dieses Fach gibt es im Repository keinen Plan.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
     }
+  },
+  "notifications": {
+    "title": "Mitteilungen",
+    "unread": "ungelesen: {n}",
+    "markAll": "Alle als gelesen markieren",
+    "kinds": {
+      "mock_exam_submitted": "Probeprüfung abgegeben: {subject}",
+      "mock_exam_graded": "Deine Probeprüfung ist bewertet: {subject}"
+    }
   }
 }
