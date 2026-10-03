@@ -80,3 +80,4 @@
 [2026-09-27] [FEATURE] Game Hub for students: practice streak, daily mission (5 tasks), the three subjects with mastery; subject pages with areas; practice screen with choice, true/false and open answers, feedback and catalogue solution; listening transcript labelled (AMB-04)
 [2026-09-27] [FEATURE] Search: query translated into bs/de/en, grounded answer from cited sources with Gemini (PDL-025)
 [2026-09-27] [SPRINT] Sprint 06 closed: DONE checklist, compliance score, handoff note (search carried over)
+[2026-10-03] [DATABASE] Migration 019: mock exams, blueprints with reviewer confirmation, pre-scoring, teacher grading, release, notifications

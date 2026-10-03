@@ -756,3 +756,116 @@ exception when insufficient_privilege then raise notice 'ok - signed-in users ca
 end $$;
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 017');
+
+-- 18. Mock exams (migration 019): confirmed blueprint, generation from trusted tasks, no key before the teacher's
+--     confirmation, pre-scoring by the effective key, grading with allowed points only, release, frozen result.
+set role service_role;
+create function pg_temp.blueprint(p_items integer, p_format text) returns jsonb language sql as $$
+  select jsonb_build_object('distinct_area', false, 'positions', jsonb_build_array(jsonb_build_object(
+    'position', 1, 'format', p_format, 'scoring', 'per_item', 'points', 10, 'item_points', 10.0 / p_items, 'items', p_items,
+    'pool', jsonb_build_array(jsonb_build_object('key', '^DEU-4\.2\.([0-9]+)$', 'from', 1, 'to', 10)))))
+$$;
+select pg_temp.expect_error($$select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000b', 'german', 't1', pg_temp.blueprint(2, 'task'), repeat('a', 64), null)$$,
+  'FORBIDDEN', 'only a publisher loads a blueprint');
+select pg_temp.expect_error($$select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1',
+  jsonb_set(pg_temp.blueprint(2, 'task'), '{positions,0,points}', '9'), repeat('a', 64), null)$$,
+  'POINTS_MISMATCH', 'blueprint points must add up to the confirmed total');
+select pg_temp.expect_error($$select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1',
+  jsonb_set(pg_temp.blueprint(2, 'task'), '{positions,0,scoring}', '"free"'), repeat('a', 64), null)$$,
+  'VALIDATION', 'blueprint positions are validated');
+create temp table t_bp as select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1', pg_temp.blueprint(2, 'task'), repeat('a', 64), null) as id;
+select pg_temp.assert((select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1', pg_temp.blueprint(2, 'task'), repeat('a', 64), null)) = (select id from t_bp),
+  'loading the same blueprint again is idempotent');
+select pg_temp.expect_error($$select public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't1', pg_temp.blueprint(2, 'task'), repeat('b', 64), null)$$,
+  'VERSION_EXISTS', 'a version is never replaced by other content');
+select pg_temp.expect_error($$select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null)$$,
+  'NO_BLUEPRINT', 'no mock exam before a reviewer confirms the blueprint');
+select pg_temp.expect_error($$select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000b', (select id from t_bp), 'confirmed', null, null)$$,
+  'FORBIDDEN', 'a teacher of another subject cannot confirm');
+select pg_temp.expect_error($$select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000a', (select id from t_bp), 'rejected', ' ', null)$$,
+  'VALIDATION', 'a rejection needs a reason');
+select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000a', (select id from t_bp), 'confirmed', null, null);
+select pg_temp.expect_error($$select public.mock_exam_start('00000000-0000-0000-0000-00000000000b', (select id from t_german), null)$$,
+  'FORBIDDEN', 'staff cannot take a mock exam');
+create temp table t_exam as select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null) as id;
+select pg_temp.assert((select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null)) = (select id from t_exam),
+  'starting again returns the mock exam in progress');
+select pg_temp.assert((select deadline_at - started_at from public.mock_exams where id = (select id from t_exam)) = interval '60 minutes',
+  'the deadline is the confirmed duration');
+create temp table t_view as select public.mock_exam_view('00000000-0000-0000-0000-00000000000c', (select id from t_exam)) as v;
+select pg_temp.assert(jsonb_array_length((select v -> 'items' from t_view)) = 2 and (select (v ->> 'max_points')::numeric from t_view) = 10,
+  'a whole task becomes one unit per scored item, worth the blueprint points');
+select pg_temp.assert(not exists (select 1 from t_view, jsonb_array_elements(v -> 'items') i
+  where i ->> 'solution' is not null or i ->> 'proposed_points' is not null or i ->> 'final_points' is not null)
+  and (select v ->> 'total_points' from t_view) is null, 'the student view carries no solution and no points');
+select pg_temp.expect_error($$select public.mock_exam_view('00000000-0000-0000-0000-00000000000d', (select id from t_exam))$$,
+  'NOT_FOUND', 'another student cannot open the mock exam');
+select pg_temp.expect_error($$select public.mock_exam_save('00000000-0000-0000-0000-00000000000c', (select id from t_exam), jsonb_build_array(jsonb_build_object('id', gen_random_uuid()::text, 'response', 'r')))$$,
+  'VALIDATION', 'answers only for units of the exam');
+select public.mock_exam_save('00000000-0000-0000-0000-00000000000c', (select id from t_exam),
+  (select jsonb_agg(jsonb_build_object('id', i ->> 'id', 'response', 'f')) from t_view, jsonb_array_elements(v -> 'items') i));
+select public.mock_exam_submit('00000000-0000-0000-0000-00000000000c', (select id from t_exam),
+  (select jsonb_agg(jsonb_build_object('id', i ->> 'id', 'response', 'r')) from t_view, jsonb_array_elements(v -> 'items') i), null);
+select pg_temp.assert((select array_agg(proposed_points order by item_number) from public.mock_exam_items where mock_exam_id = (select id from t_exam)) = array[5.00, 0.00]::numeric[],
+  'closed units are pre-scored by the key (item 1 r correct, item 2 r wrong)');
+select pg_temp.assert((select status from public.mock_exams where id = (select id from t_exam)) = 'submitted', 'the mock exam is submitted');
+select pg_temp.expect_error($$select public.mock_exam_save('00000000-0000-0000-0000-00000000000c', (select id from t_exam), '[]'::jsonb)$$,
+  'CLOSED', 'answers cannot change after submission');
+select pg_temp.assert((select public.mock_exam_view('00000000-0000-0000-0000-00000000000c', (select id from t_exam)) -> 'items' -> 0 ->> 'solution') is null,
+  'no solution after submission before the teacher confirms');
+select pg_temp.assert(exists (select 1 from public.notifications where kind = 'mock_exam_submitted' and entity_id = (select id from t_exam)),
+  'the subject teachers are notified of the submission');
+select pg_temp.expect_error($$select public.grading_view('00000000-0000-0000-0000-00000000000b', (select id from t_exam))$$,
+  'FORBIDDEN', 'a teacher of another subject cannot grade');
+select pg_temp.assert((select public.grading_view('00000000-0000-0000-0000-00000000000a', (select id from t_exam)) -> 'items' -> 1 ->> 'solution') = 'f',
+  'the grader sees the solution');
+select pg_temp.assert(jsonb_array_length(public.grading_queue('00000000-0000-0000-0000-00000000000a')) = 1, 'the submitted exam is in the grading queue');
+select pg_temp.expect_error($$select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_exam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_exam) and item_number = 2), 'points', 3)), null)$$,
+  'VALIDATION', 'only points the rule allows');
+select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_exam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_exam) and item_number = 2), 'points', 5, 'note', 'Prihvaćeno')), null);
+select pg_temp.assert((select public.grading_confirm('00000000-0000-0000-0000-00000000000a', (select id from t_exam), null)) = 10,
+  'confirmation totals the teacher''s points and accepted proposals');
+select pg_temp.assert(exists (select 1 from public.notifications where kind = 'mock_exam_graded' and recipient_user_id = '00000000-0000-0000-0000-00000000000c'),
+  'the student is notified of the result');
+create temp table t_result as select public.mock_exam_view('00000000-0000-0000-0000-00000000000c', (select id from t_exam)) as v;
+select pg_temp.assert((select (v ->> 'total_points')::numeric from t_result) = 10 and (select v -> 'items' -> 1 ->> 'note' from t_result) = 'Prihvaćeno'
+  and (select v -> 'items' -> 1 ->> 'solution' from t_result) = 'f', 'after confirmation the student sees points, notes and solutions');
+select pg_temp.expect_error($$select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_exam),
+  jsonb_build_array(jsonb_build_object('id', (select id::text from public.mock_exam_items where mock_exam_id = (select id from t_exam) limit 1), 'points', 0)), null)$$,
+  'CLOSED', 'a confirmed result is not graded again');
+-- A blueprint that needs more distinct tasks than exist cannot start a mock exam.
+select public.review_exam_blueprint('00000000-0000-0000-0000-00000000000a',
+  public.load_exam_blueprint('00000000-0000-0000-0000-00000000000a', 'german', 't2', pg_temp.blueprint(2, 'items'), repeat('c', 64), null), 'confirmed', null, null);
+select pg_temp.expect_error($$select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null)$$,
+  'BLUEPRINT_UNFILLABLE', 'a position without enough trusted tasks is reported, not filled with anything else');
+reset role;
+do $$ begin
+  update public.mock_exam_items set final_points = 0 where mock_exam_id = (select id from t_exam);
+  raise exception 'FAIL: graded unit changed';
+exception when others then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - a graded mock exam is frozen';
+end $$;
+do $$ begin
+  update public.exam_blueprints set version = 'x';
+  raise exception 'FAIL: blueprint changed';
+exception when raise_exception then
+  if sqlerrm like 'FAIL%' then raise; end if;
+  raise notice 'ok - blueprints are append-only';
+end $$;
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.mock_exams) = 1 and (select count(*) from public.mock_exam_items) = 2, 'a student reads own graded mock exam');
+select pg_temp.assert((select count(*) from public.exam_blueprints) = 0, 'a student reads no blueprint');
+select pg_temp.assert((select count(*) from public.notifications) = 1, 'a student reads own notifications only');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.mock_exams) = 0 and (select count(*) from public.mock_exam_items) = 0, 'a teacher of another subject reads no mock exam');
+do $$ begin
+  perform public.mock_exam_start('00000000-0000-0000-0000-00000000000c', gen_random_uuid(), null);
+  raise exception 'FAIL: authenticated executed mock_exam_start';
+exception when insufficient_privilege then raise notice 'ok - signed-in users cannot call mock exam functions directly';
+end $$;
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 019');

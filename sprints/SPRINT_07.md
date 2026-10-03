@@ -28,8 +28,10 @@ teacher for a class (later); enrolment points display (AMB-18, when the 2026/27 
 - Only a teacher of the subject (or the superadministrator) grades; every grade and confirmation is audited.
 
 ## Progress
-- [ ] 1. Blueprints: `config/exam-blueprints.json`, evidence `docs/discovery/BLUEPRINT_EVIDENCE.md`
+- [x] 1. Blueprints: `config/exam-blueprints.json`, evidence `docs/discovery/BLUEPRINT_EVIDENCE.md`
       (`tools/blueprint-evidence/match_tests.py`), PDL-026, AMB-22.
-- [ ] 2. Migration 019: blueprints and reviews, mock exams, items, pre-scoring, grading, release, notifications.
+- [x] 2. Migration 019 (applied live 2026-10-03): blueprints and reviews, mock exams, items, pre-scoring, grading, release,
+      notifications; DB tests section 18 (31 assertions). German cannot be generated yet: DEU-4.5.6 to 4.5.10 and 4.4.10
+      were never reviewed (pending in the review queue).
 - [ ] 3. Student screens: start, exam with timer, submission, result.
 - [ ] 4. Teacher screens: blueprint confirmation, grading queue, grading.
