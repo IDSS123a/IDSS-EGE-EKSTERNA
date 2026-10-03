@@ -27,3 +27,11 @@ None yet.
   of the facts.
 - `next dev` reports inline-style CSP errors on every page (33 on the login page too): they come from the dev tooling,
   not from new code; console checks for new screens compare against the login page or run on the production build.
+
+### 2026-10-03 - Writing the user guide finds stale screens
+- Writing the guide against the real labels found two stale texts still shown to users (public home: "Trenutno se
+  gradi Sprint 02"; staff home: workspace "se gradi"). Status texts that name a sprint go stale silently; app texts
+  describe what the user can do, never the project's progress. The guide is updated in the same change as its screen
+  (PDL-031), which keeps catching such drift.
+- Staff analytics must not invent thresholds: "students needing attention" is offered as filters the user sets (N
+  days without practice, a drop against the student's own previous exam), not as a system label (P-4, mandate §11).
