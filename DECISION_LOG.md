@@ -468,6 +468,6 @@ name cannot be confused with the points of a mock exam. Code identifiers (`xp`) 
 - D5 amended: an **internal IDSS readiness indicator** ("Spremnost za ispit") is shown, defined by the Director, always
   labelled "interni pokazatelj IDSS-a, nije službena procjena" (mandate §9). Per subject, from the three most recent
   consecutive graded mock exams: no error in all three = 100 %; 1 to 2 errors in the three = 90 %; 3 errors = 80 %.
-  Open points, proposed until the Director confirms (AMB-24): an error is a scored unit with fewer points than its
-  maximum; with more than 3 errors or fewer than three graded mock exams no percentage is shown ("još nije dostupno" or
-  "ispod 80 %"); the indicator never changes a score and never feeds IDSS points.
+  Confirmed by the Director on 2026-10-03 (AMB-24 resolved): an error is a scored unit with fewer points than its
+  maximum; more than 3 errors shows "ispod 80 %"; fewer than three graded mock exams shows "još nije dostupno"; the
+  scale counts errors only. The indicator never changes a score and never feeds IDSS points.

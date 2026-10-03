@@ -12,7 +12,8 @@ P-7; ROLES_AND_PERMISSIONS §2, §3 · Users: Adnana Agić (pedagogue), Medina K
 3. **Several dimensions, never one percentage** (mandate §9): completion, accuracy, mastery, consistency and exam
    performance are shown side by side. Readiness is the Director's internal IDSS scale (PDL-032), labelled "interni
    pokazatelj IDSS-a, nije službena procjena": per subject, last three consecutive graded mock exams, 0 errors 100 %,
-   1 to 2 errors 90 %, 3 errors 80 % (open points in AMB-24).
+   1 to 2 errors 90 %, 3 errors 80 %, more than 3 "ispod 80 %", fewer than three graded exams "još nije dostupno"; an
+   error is a scored unit below its maximum (AMB-24 resolved).
 4. **Own progress first.** Comparisons are with the student's own earlier performance; cohort figures appear only as
    aggregates, never as a ranking of named students.
 5. **Purpose limitation and audit.** Pedagogue and psychologist see learning data of all students (their institutional
@@ -79,4 +80,4 @@ difference is in the notes: by default the psychologist's notes are "samo ja" an
 - **D2** Does the superadministrator read support notes? Proposal: no (ROLES §3 default); aggregates only.
 - **D3** Neutral note types as listed in D, or free text only.
 - **D4** Persistent error = wrong at least twice and latest still wrong (proposal).
-- **D5** Readiness: the Director's internal scale replaces "not shown" (PDL-032, AMB-24).
+- **D5** Readiness: the Director's internal scale replaces "not shown" (PDL-032, AMB-24 resolved).
