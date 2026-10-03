@@ -969,3 +969,29 @@ select pg_temp.assert((select final_points from public.mock_exam_items where moc
   'three correct pairs give 0.5 points by the rule');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 020');
+
+-- 20. Gamification (migration 025, PDL-029): XP and badges are derived read-only from the student's own events and never
+-- change a score.
+create temp table t_gvalues as select '{"mission_goal": 5, "xp": {"answer_correct": 10, "answer_partly_correct": 5, "answer_incorrect": 2, "mission_completed": 20, "practice_day": 5, "mock_exam_submitted": 30, "mock_exam_point": 10, "mock_exam_points_cap": 100}, "badges": {"streak_days": 7, "answers_in_subject": 50}}'::jsonb as v;
+create temp table t_scores_before as select id, status, total_points from public.mock_exams;
+create temp table t_g as select public.gamification_overview('00000000-0000-0000-0000-00000000000c', (select v from t_gvalues)) as g;
+select pg_temp.assert((select provolatile from pg_proc where proname = 'gamification_overview') = 's', 'the XP function is declared stable (it cannot write)');
+select pg_temp.assert(not exists (
+    select 1 from public.mock_exams e full join t_scores_before b on b.id = e.id
+    where b.id is null or e.id is null or b.status is distinct from e.status or b.total_points is distinct from e.total_points),
+  'reading XP changes no mock exam and no score');
+select pg_temp.assert((select (g -> 'xp' ->> 'answers')::numeric from t_g) = (
+    select coalesce(sum(case private.practice_outcome(pa.id) when 'correct' then 10 when 'partly_correct' then 5 when 'incorrect' then 2 else 0 end), 0)
+    from public.practice_answers pa join public.persons p on p.id = pa.person_id where p.profile_user_id = '00000000-0000-0000-0000-00000000000c'),
+  'answer XP follows the latest outcome of each answer, the teacher''s verdict included');
+select pg_temp.assert((select (g -> 'xp' ->> 'exams_submitted')::numeric from t_g) = 30 * (
+    select count(*) from public.mock_exams e join public.persons p on p.id = e.person_id
+    where p.profile_user_id = '00000000-0000-0000-0000-00000000000c' and e.status in ('submitted', 'graded')),
+  'every submitted mock exam gives the approved XP');
+select pg_temp.assert((select (g -> 'badges' ->> 'first_answer')::boolean from t_g) = exists (
+    select 1 from public.practice_answers pa join public.persons p on p.id = pa.person_id where p.profile_user_id = '00000000-0000-0000-0000-00000000000c'),
+  'the first-answer badge follows the student''s answers');
+select pg_temp.expect_error($$select public.gamification_overview('00000000-0000-0000-0000-00000000000a', (select v from t_gvalues))$$,
+  'FORBIDDEN', 'staff have no XP');
+select pg_temp.expect_error($$select public.gamification_overview('00000000-0000-0000-0000-00000000000c', jsonb_set((select v from t_gvalues), '{xp,answer_correct}', '"ten"'))$$,
+  'VALIDATION', 'XP values must be numbers from the configuration');

@@ -945,5 +945,33 @@
       "mock_exam_submitted": "Probeprüfung abgegeben: {subject}",
       "mock_exam_graded": "Deine Probeprüfung ist bewertet: {subject}"
     }
+  },
+  "gamification": {
+    "title": "XP-Punkte",
+    "total": "{n} XP",
+    "breakdown": "Woher die XP kommen",
+    "sources": {
+      "answers": "Antworten in der Übung: {n} XP",
+      "missions": "Erfüllte Tagesmissionen: {n} XP",
+      "practiceDays": "Übungstage: {n} XP",
+      "examsSubmitted": "Abgegebene Probeprüfungen: {n} XP",
+      "examsGraded": "Bewertete Probeprüfungen: {n} XP"
+    },
+    "badgesTitle": "Abzeichen",
+    "earned": "Erreicht",
+    "notYet": "Noch nicht",
+    "badges": {
+      "firstAnswer": "Erster Schritt",
+      "firstAnswerHint": "Die erste Antwort in der Übung.",
+      "streak": "{n} Tage in Folge",
+      "streakHint": "Übe {n} Tage in Folge.",
+      "answers": "{n} Antworten in einem Fach",
+      "answersHint": "Beantworte {n} Fragen in einem Fach.",
+      "firstExam": "Erste Probeprüfung",
+      "firstExamHint": "Gib deine erste Probeprüfung in einem Fach ab.",
+      "allSubjects": "Alle drei Fächer",
+      "allSubjectsHint": "Gib eine Probeprüfung in allen drei Fächern ab."
+    },
+    "note": "XP und Abzeichen dienen der Motivation. Sie sind keine Note und ändern keine Prüfungspunkte."
   }
 }

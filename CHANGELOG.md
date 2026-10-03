@@ -90,3 +90,4 @@
 [2026-10-03] [SPRINT] Sprint 07 closed: DONE checklist, compliance score, handoff note
 [2026-10-03] [FEATURE] Teacher review of open practice answers (/app/ocjenjivanje/vjezba); migration 024 written (set request notifications, pending Director run)
 [2026-10-03] [SECURITY] Leaked passwords refused in the application (Pwned Passwords range API, PDL-030); migration 024 live
+[2026-10-03] [FEATURE] XP and badges on the Game Hub (migration 025, PDL-029), derived read-only from the student's events

@@ -945,5 +945,33 @@
       "mock_exam_submitted": "Predan probni ispit: {subject}",
       "mock_exam_graded": "Tvoj probni ispit je ocijenjen: {subject}"
     }
+  },
+  "gamification": {
+    "title": "XP bodovi",
+    "total": "{n} XP",
+    "breakdown": "Odakle su XP bodovi",
+    "sources": {
+      "answers": "Odgovori u vježbi: {n} XP",
+      "missions": "Ispunjene dnevne misije: {n} XP",
+      "practiceDays": "Dani vježbanja: {n} XP",
+      "examsSubmitted": "Predani probni ispiti: {n} XP",
+      "examsGraded": "Ocijenjeni probni ispiti: {n} XP"
+    },
+    "badgesTitle": "Značke",
+    "earned": "Osvojeno",
+    "notYet": "Još nije",
+    "badges": {
+      "firstAnswer": "Prvi korak",
+      "firstAnswerHint": "Prvi odgovor u vježbi.",
+      "streak": "{n} dana zaredom",
+      "streakHint": "Vježbaj {n} dana zaredom.",
+      "answers": "{n} odgovora u predmetu",
+      "answersHint": "Odgovori na {n} pitanja u jednom predmetu.",
+      "firstExam": "Prvi probni ispit",
+      "firstExamHint": "Predaj prvi probni ispit u nekom predmetu.",
+      "allSubjects": "Sva tri predmeta",
+      "allSubjectsHint": "Predaj probni ispit iz sva tri predmeta."
+    },
+    "note": "XP bodovi i značke su za motivaciju. Nisu ocjena i ne mijenjaju bodove na ispitu."
   }
 }

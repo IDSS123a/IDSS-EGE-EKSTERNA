@@ -19,3 +19,11 @@ None yet.
   Passwords range API with k-anonymity, PDL-030), and the advisor WARN is recorded as mitigated, not ignored.
 - The build sandbox cannot reach api.pwnedpasswords.com (egress policy); such checks are tested with a fake service
   and fail open with a log entry, so an unreachable service never blocks a password change.
+
+### 2026-10-03 - XP derived, not stored
+- XP computed read-only from the facts it rewards (answers with their latest outcome, days, exams) cannot drift from
+  them and cannot touch a score: a teacher's later verdict changes the XP of that answer automatically, and a
+  `stable` function is proven unable to write (DB test). A separate ledger is only needed once XP must survive a change
+  of the facts.
+- `next dev` reports inline-style CSP errors on every page (33 on the login page too): they come from the dev tooling,
+  not from new code; console checks for new screens compare against the login page or run on the production build.

@@ -945,5 +945,33 @@
       "mock_exam_submitted": "Mock exam submitted: {subject}",
       "mock_exam_graded": "Your mock exam is graded: {subject}"
     }
+  },
+  "gamification": {
+    "title": "XP",
+    "total": "{n} XP",
+    "breakdown": "Where the XP comes from",
+    "sources": {
+      "answers": "Practice answers: {n} XP",
+      "missions": "Daily missions completed: {n} XP",
+      "practiceDays": "Practice days: {n} XP",
+      "examsSubmitted": "Mock exams submitted: {n} XP",
+      "examsGraded": "Mock exams graded: {n} XP"
+    },
+    "badgesTitle": "Badges",
+    "earned": "Earned",
+    "notYet": "Not yet",
+    "badges": {
+      "firstAnswer": "First step",
+      "firstAnswerHint": "Your first practice answer.",
+      "streak": "{n} days in a row",
+      "streakHint": "Practise {n} days in a row.",
+      "answers": "{n} answers in a subject",
+      "answersHint": "Answer {n} questions in one subject.",
+      "firstExam": "First mock exam",
+      "firstExamHint": "Submit your first mock exam in a subject.",
+      "allSubjects": "All three subjects",
+      "allSubjectsHint": "Submit a mock exam in all three subjects."
+    },
+    "note": "XP and badges are for motivation. They are not a grade and never change exam points."
   }
 }

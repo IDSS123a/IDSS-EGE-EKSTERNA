@@ -33,7 +33,9 @@ Levels, challenges and leaderboards (later); search (parked); daily teacher summ
 - [x] 3. Set request notification: migration 024 run by the Director in the SQL editor on 2026-10-03 ("Success. No rows
       returned"), verified live (kind check includes mock_exam_requested), history row 20261003150000 recorded;
       security advisor: only the known Auth WARN.
-- [ ] 4. XP and badges: values approved by the Director (PDL-029); implementation in progress.
+- [x] 4. XP and badges (PDL-029): migration 025 applied live (`gamification_overview`, read-only, derived from the
+      student's own events, values from `config/gamification.json`); Game Hub panel with XP total, sources and five
+      badges, marked as motivation, not a grade; DB tests prove that reading XP changes no score.
 - [x] 5. Leaked-password protection: Supabase offers it only on Pro plans (Director's screenshot), so the application
       checks every new password against the Pwned Passwords range API (PDL-030, k-anonymity) on account creation,
       reset and own change; unit tests with a fake service (the API is not reachable from the build sandbox).
