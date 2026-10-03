@@ -20,8 +20,8 @@
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
     "title": "IDSS - External Graduate Examination",
     "subtitle": "External matura preparation through challenges, missions and practice based exclusively on the official exam catalogues.",
-    "statusTitle": "The platform is under construction",
-    "statusBody": "Sprint 02 is in progress: the canonical document registry with a permanent version history, activation and restoring earlier versions.",
+    "statusTitle": "Preparation phase",
+    "statusBody": "The platform is in its preparation phase and is used by IDSS students and teachers. Sign in with the account the school gave you.",
     "replaySplash": "Show the intro screen again",
     "login": "Sign in"
   },
@@ -50,7 +50,7 @@
       "student": "Student"
     },
     "nextStepsTitle": "What comes next",
-    "nextStepsBody": "Your workspace is being built in the coming sprints. Sign-in, roles and data protection are active.",
+    "nextStepsBody": "Below are the parts of the app your role can use. New parts are added step by step.",
     "logout": "Sign out"
   },
   "accounts": {
@@ -116,7 +116,8 @@
       "USERNAME_TAKEN": "This username already exists.",
       "USERNAME_ROLE_MISMATCH": "Administrators use an e-mail as username; students must not.",
       "NOT_FOUND": "Account not found.",
-      "UNAVAILABLE": "The action failed. Please try again."
+      "UNAVAILABLE": "The action failed. Please try again.",
+      "PWNED_PASSWORD": "This password appears in known data breaches and is not safe. Choose another one."
     },
     "noSubjects": "Subjects are not loaded yet. In the canonical document registry, run \"Load subject and rules\" for each catalogue."
   },
@@ -676,7 +677,8 @@
       "UNCHANGED": "The new password must differ from the current one.",
       "WRONG_PASSWORD": "The current password is not correct.",
       "LOCKED": "Too many failed attempts. Please try again in a few minutes.",
-      "UNAVAILABLE": "The service is not available right now. Please try again."
+      "UNAVAILABLE": "The service is not available right now. Please try again.",
+      "PWNED_PASSWORD": "This password appears in known data breaches and is not safe. Choose another one."
     }
   },
   "hub": {
@@ -943,5 +945,33 @@
       "mock_exam_submitted": "Mock exam submitted: {subject}",
       "mock_exam_graded": "Your mock exam is graded: {subject}"
     }
+  },
+  "gamification": {
+    "title": "IDSS points",
+    "total": "{n}",
+    "breakdown": "Where the IDSS points come from",
+    "sources": {
+      "answers": "Practice answers: {n}",
+      "missions": "Daily missions completed: {n}",
+      "practiceDays": "Practice days: {n}",
+      "examsSubmitted": "Mock exams submitted: {n}",
+      "examsGraded": "Mock exams graded: {n}"
+    },
+    "badgesTitle": "Badges",
+    "earned": "Earned",
+    "notYet": "Not yet",
+    "badges": {
+      "firstAnswer": "First step",
+      "firstAnswerHint": "Your first practice answer.",
+      "streak": "{n} days in a row",
+      "streakHint": "Practise {n} days in a row.",
+      "answers": "{n} answers in a subject",
+      "answersHint": "Answer {n} questions in one subject.",
+      "firstExam": "First mock exam",
+      "firstExamHint": "Submit your first mock exam in a subject.",
+      "allSubjects": "All three subjects",
+      "allSubjectsHint": "Submit a mock exam in all three subjects."
+    },
+    "note": "IDSS points and badges are for motivation. They are not a grade and never change exam points."
   }
 }

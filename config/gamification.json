@@ -1,0 +1,18 @@
+{
+  "_source": "XP and badge values approved by the Director on 2026-10-03 (PDL-029). XP motivates practice and never represents or changes a grade (P-7, mandate 8.3). A change of any value is a new decision.",
+  "version": "2026-10-03.1",
+  "xp": {
+    "answer_correct": 10,
+    "answer_partly_correct": 5,
+    "answer_incorrect": 2,
+    "mission_completed": 20,
+    "practice_day": 5,
+    "mock_exam_submitted": 30,
+    "mock_exam_point": 10,
+    "mock_exam_points_cap": 100
+  },
+  "badges": {
+    "streak_days": 7,
+    "answers_in_subject": 50
+  }
+}

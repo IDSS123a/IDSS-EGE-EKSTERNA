@@ -1151,3 +1151,27 @@ body {
   font-weight: 700;
   color: var(--color-brand);
 }
+
+/* ---------------------------------------------------------------- XP and badges (Sprint 08) */
+.badge-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 12px;
+  margin: 8px 0 12px;
+  padding: 0;
+  list-style: none;
+}
+.badge {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.badge[data-earned="true"] {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+.badge[data-earned="false"] {
+  opacity: 0.75;
+}

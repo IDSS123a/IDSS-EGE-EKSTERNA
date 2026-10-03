@@ -969,3 +969,94 @@ select pg_temp.assert((select final_points from public.mock_exam_items where moc
   'three correct pairs give 0.5 points by the rule');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 020');
+
+-- 20. Gamification (migration 025, PDL-029): XP and badges are derived read-only from the student's own events and never
+-- change a score.
+create temp table t_gvalues as select '{"mission_goal": 5, "xp": {"answer_correct": 10, "answer_partly_correct": 5, "answer_incorrect": 2, "mission_completed": 20, "practice_day": 5, "mock_exam_submitted": 30, "mock_exam_point": 10, "mock_exam_points_cap": 100}, "badges": {"streak_days": 7, "answers_in_subject": 50}}'::jsonb as v;
+create temp table t_scores_before as select id, status, total_points from public.mock_exams;
+create temp table t_g as select public.gamification_overview('00000000-0000-0000-0000-00000000000c', (select v from t_gvalues)) as g;
+select pg_temp.assert((select provolatile from pg_proc where proname = 'gamification_overview') = 's', 'the XP function is declared stable (it cannot write)');
+select pg_temp.assert(not exists (
+    select 1 from public.mock_exams e full join t_scores_before b on b.id = e.id
+    where b.id is null or e.id is null or b.status is distinct from e.status or b.total_points is distinct from e.total_points),
+  'reading XP changes no mock exam and no score');
+select pg_temp.assert((select (g -> 'xp' ->> 'answers')::numeric from t_g) = (
+    select coalesce(sum(case private.practice_outcome(pa.id) when 'correct' then 10 when 'partly_correct' then 5 when 'incorrect' then 2 else 0 end), 0)
+    from public.practice_answers pa join public.persons p on p.id = pa.person_id where p.profile_user_id = '00000000-0000-0000-0000-00000000000c'),
+  'answer XP follows the latest outcome of each answer, the teacher''s verdict included');
+select pg_temp.assert((select (g -> 'xp' ->> 'exams_submitted')::numeric from t_g) = 30 * (
+    select count(*) from public.mock_exams e join public.persons p on p.id = e.person_id
+    where p.profile_user_id = '00000000-0000-0000-0000-00000000000c' and e.status in ('submitted', 'graded')),
+  'every submitted mock exam gives the approved XP');
+select pg_temp.assert((select (g -> 'badges' ->> 'first_answer')::boolean from t_g) = exists (
+    select 1 from public.practice_answers pa join public.persons p on p.id = pa.person_id where p.profile_user_id = '00000000-0000-0000-0000-00000000000c'),
+  'the first-answer badge follows the student''s answers');
+select pg_temp.expect_error($$select public.gamification_overview('00000000-0000-0000-0000-00000000000a', (select v from t_gvalues))$$,
+  'FORBIDDEN', 'staff have no XP');
+select pg_temp.expect_error($$select public.gamification_overview('00000000-0000-0000-0000-00000000000c', jsonb_set((select v from t_gvalues), '{xp,answer_correct}', '"ten"'))$$,
+  'VALIDATION', 'XP values must be numbers from the configuration');
+
+-- 21. Support monitoring (migration 026, PDL-032): pedagogue and psychologist see all students' learning data, notes
+-- follow D1 (visibility) and D2 (not the superadministrator), every profile read is audited, readiness follows the scale.
+insert into auth.users (id, email) values
+  ('00000000-0000-0000-0000-00000000001f', 'pedagog@test.invalid'),
+  ('00000000-0000-0000-0000-00000000002f', 'psiholog@test.invalid');
+insert into public.profiles (user_id, username, display_name, role, account_status) values
+  ('00000000-0000-0000-0000-00000000001f', 'pedagog@test.invalid', 'Test Pedagogue', 'administrator', 'active'),
+  ('00000000-0000-0000-0000-00000000002f', 'psiholog@test.invalid', 'Test Psychologist', 'administrator', 'active');
+insert into public.profile_bundles (profile_user_id, bundle_code) values
+  ('00000000-0000-0000-0000-00000000001f', 'pedagogue'),
+  ('00000000-0000-0000-0000-00000000002f', 'psychologist');
+select pg_temp.expect_error($$select public.support_overview('00000000-0000-0000-0000-00000000000b')$$,
+  'FORBIDDEN', 'a subject teacher (scoped view) cannot open the school-wide overview');
+select pg_temp.expect_error($$select public.support_overview('00000000-0000-0000-0000-00000000000c')$$,
+  'FORBIDDEN', 'a student cannot open the overview');
+select pg_temp.assert(exists (select 1 from jsonb_array_elements(public.support_overview('00000000-0000-0000-0000-00000000001f')) r
+  where r ->> 'person_id' = '22222222-2222-2222-2222-22222222222c' and jsonb_array_length(r -> 'subjects') >= 1),
+  'the pedagogue sees every student with indicators per subject');
+select pg_temp.assert(jsonb_array_length(public.support_overview('00000000-0000-0000-0000-00000000000a')) >= 2,
+  'the superadministrator sees the overview');
+create temp table t_audit_before as select count(*) as n from public.audit_logs where action = 'support.profile_viewed';
+create temp table t_profile as select public.support_student('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c', 5, null) as p;
+select pg_temp.assert((select count(*) from public.audit_logs where action = 'support.profile_viewed') = (select n from t_audit_before) + 1,
+  'opening a student profile writes an access audit row');
+select pg_temp.assert((select (p ->> 'default_visibility') from t_profile) = 'support' and (select (p ->> 'can_write_notes')::boolean from t_profile),
+  'the pedagogue writes notes, shared with the psychologist by default (D1)');
+select pg_temp.assert(not exists (select 1 from t_profile, jsonb_array_elements(p -> 'subjects') s
+  where (s -> 'readiness' ->> 'exams')::integer < 3 and s -> 'readiness' ->> 'state' <> 'not_available'),
+  'readiness is not available with fewer than three graded mock exams (PDL-032)');
+select pg_temp.assert(private.readiness_state(3, 0) = '100' and private.readiness_state(3, 1) = '90' and private.readiness_state(3, 2) = '90'
+  and private.readiness_state(3, 3) = '80' and private.readiness_state(3, 4) = 'below_80' and private.readiness_state(2, 0) = 'not_available',
+  'readiness scale: 0 errors 100, 1 to 2 errors 90, 3 errors 80, more below 80, under three exams not available (PDL-032)');
+select pg_temp.expect_error($$select public.support_student('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c', 0, null)$$,
+  'VALIDATION', 'the mission goal is validated');
+select pg_temp.expect_error($$select public.support_student('00000000-0000-0000-0000-00000000001f', gen_random_uuid(), 5, null)$$,
+  'NOT_FOUND', 'only students have a support profile');
+-- D1: the psychologist's note stays with her by default; the pedagogue's note is shared.
+select public.support_note_add('00000000-0000-0000-0000-00000000002f', '22222222-2222-2222-2222-22222222222c', 'student_talk', 'Test: Gespräch', null, null, null);
+select public.support_note_add('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c', 'agreement', 'Test: dogovor', current_date + 3, null, null);
+select pg_temp.assert((select visibility from public.support_notes where author = '00000000-0000-0000-0000-00000000002f') = 'author'
+  and (select visibility from public.support_notes where author = '00000000-0000-0000-0000-00000000001f') = 'support',
+  'default visibility: psychologist "samo ja", pedagogue "pedagog i psiholog" (D1)');
+select pg_temp.assert(jsonb_array_length(public.support_student('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c', 5, null) -> 'notes') = 1,
+  'the pedagogue does not see the psychologist''s private note');
+select pg_temp.assert(jsonb_array_length(public.support_student('00000000-0000-0000-0000-00000000002f', '22222222-2222-2222-2222-22222222222c', 5, null) -> 'notes') = 2,
+  'the psychologist sees her own note and the shared one');
+select pg_temp.assert(jsonb_array_length(public.support_student('00000000-0000-0000-0000-00000000000a', '22222222-2222-2222-2222-22222222222c', 5, null) -> 'notes') = 0
+  and not (public.support_student('00000000-0000-0000-0000-00000000000a', '22222222-2222-2222-2222-22222222222c', 5, null) ->> 'can_write_notes')::boolean,
+  'the superadministrator reads and writes no support note (D2)');
+select pg_temp.expect_error($$select public.support_note_add('00000000-0000-0000-0000-00000000000a', '22222222-2222-2222-2222-22222222222c', null, 'x', null, null, null)$$,
+  'FORBIDDEN', 'the superadministrator cannot write a support note (D2)');
+select pg_temp.expect_error($$select public.support_note_add('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c', 'diagnosis', 'x', null, null, null)$$,
+  'VALIDATION', 'only neutral note types (D3)');
+select pg_temp.assert(jsonb_array_length(public.support_follow_ups('00000000-0000-0000-0000-00000000002f')) = 1,
+  'shared follow-up dates appear for the other support role');
+select pg_temp.assert(not exists (select 1 from public.audit_logs where action = 'support.note_added' and details::text like '%Test:%'),
+  'audit rows never carry note content');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000001f', false);
+select pg_temp.assert((select count(*) from public.support_notes) = 1, 'RLS: the pedagogue reads only the shared note');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.support_notes) = 0, 'RLS: a teacher reads no support note');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 026');

@@ -78,3 +78,10 @@
 - [2026-10-03] Commander upgrade v1.6.1 to v1.6.2 (diff checked, automation identical)
 - [2026-10-03] Sprint 07 closed (notifications panel and dead-code removal fixed at close-out)
 - [2026-10-03] Sprint 08 started; practice answer review screen; migration 024 written and tested locally
+- [2026-10-03] Migration 024 live (Director), history recorded; PDL-029 to PDL-031; leaked-password check in the app
+- [2026-10-03] Migration 025 live; XP and badges panel
+- [2026-10-03] User guide source written; XP renamed to IDSS bodovi
+- [2026-10-03] PDL-032: D1 to D5 accepted, readiness scale defined by the Director (AMB-24 open)
+- [2026-10-03] AMB-24 resolved (Director accepted proposals a to d)
+- [2026-10-03] Sprint 08 closed; blueprints loaded live by the Director (SHA-256 match)
+- [2026-10-03] Sprint 09 started; migration 026 live (support monitoring)

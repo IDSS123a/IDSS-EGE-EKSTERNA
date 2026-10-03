@@ -6,6 +6,8 @@ import { EXAM_PATH, OWN_ACCOUNT_PATH, PRACTICE_PATH, SUBJECT_PATH } from "@/cons
 import { logoutAction } from "@/features/authentication/actions";
 import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
+import { GamificationPanel } from "@/features/gamification/components/gamification-panel";
+import type { GamificationOverview } from "@/features/gamification/types";
 import { NotificationsPanel } from "@/features/notifications/components/notifications-panel";
 import type { AppNotification } from "@/features/notifications/types";
 import { SiteHeader } from "@/features/shell/components/site-header";
@@ -19,7 +21,7 @@ const SUBJECT_ORDER: SubjectCode[] = ["bhs_language_literature", "mathematics", 
  * Student home (Game Hub, Sprint 06): streak, daily mission and the three subjects with mastery. Everything shown is a
  * learning signal (P-7); grades come from the teacher. Receives only the student's own counts, decided on the server.
  */
-export function GameHub({ displayName, overview, dailyGoal, notifications }: { displayName: string; overview: PracticeOverview; dailyGoal: number; notifications: AppNotification[] }): ReactNode {
+export function GameHub({ displayName, overview, dailyGoal, notifications, gamification, badgeRules }: { displayName: string; overview: PracticeOverview; dailyGoal: number; notifications: AppNotification[]; gamification: GamificationOverview; badgeRules: { streakDays: number; answersInSubject: number } }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.hub;
   const streak = streakDays(overview.days, overview.todayDate);
@@ -59,6 +61,8 @@ export function GameHub({ displayName, overview, dailyGoal, notifications }: { d
             <p className="hub-stat__value">{mission.complete ? labels.missionDone : `${mission.done} / ${mission.goal}`}</p>
           </section>
         </div>
+
+        <GamificationPanel overview={gamification} streakDays={badgeRules.streakDays} answersInSubject={badgeRules.answersInSubject} />
 
         <section className="card hub-exam" aria-labelledby="hub-exam">
           <h2 id="hub-exam">{labels.examTitle}</h2>

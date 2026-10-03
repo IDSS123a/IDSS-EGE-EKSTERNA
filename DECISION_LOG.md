@@ -422,3 +422,52 @@ of the CLAUDE.md template, so nothing installed in `.claude/` or `.github/` chan
 - A-4, permission gating by section, and A-12, sequential calls are invisible to the in-flight cache: no current use;
   the grading area already gates by subject scope per section and per action.
 **Reversibility:** a version stamp; reverting means restoring the three stamps.
+
+## PDL-029: XP and badges, values approved by the Director
+**Date:** 2026-10-03 (Director: "XP bodovi i značke - Odobravam")
+**Decision:** XP is earned from events (mandate §8.4) and stored in its own ledger, apart from every score (P-7, mandate
+§8.3). It is never shown as a grade and never changes points or results.
+| Event | XP |
+|---|---|
+| Practice answer correct (latest outcome, teacher's verdict counts) | 10 |
+| Practice answer partly correct | 5 |
+| Practice answer incorrect (effort) | 2 |
+| Daily mission completed (PDL-024, once per day) | 20 |
+| Each day of the practice streak (once per day) | 5 |
+| Mock exam submitted | 30 |
+| Mock exam result confirmed by the teacher | 10 per point earned, at most 100 |
+Badges: first answer; 7 days in a row; 50 answers in one subject; first mock exam in a subject; a mock exam in all three
+subjects. Values live in configuration with this decision as provenance; a change is a new decision.
+
+## PDL-030: Leaked-password protection in the application (Supabase Free plan)
+**Date:** 2026-10-03 (Director's screenshot: Supabase answers that leaked-password protection is available on Pro plans and up)
+**Decision:** Until the project is on a Pro plan, the application rejects known leaked passwords itself wherever a
+password is set (new account, reset by an administrator, own change): the server sends the first five characters of the
+password's SHA-1 hash to the Pwned Passwords range API (k-anonymity; neither the password nor its full hash leaves the
+server) and refuses a password found there. If the service does not answer, the password is accepted and the event is
+logged (availability over a check that cannot run). The Supabase advisor WARN stays as a known, mitigated item until Pro.
+
+## PDL-031: User guide per participant, printable inside the application
+**Date:** 2026-10-03 (Director: individual user guide for every participant, generally for students and specifically for
+Nizama, Nikolina, Haris, Davor, Medina and Adnana; a comprehensive guide with screenshots, part of the web app, printable)
+**Decision:** `docs/user-guide/` is the source, written alongside the code: one chapter per role (student; subject teacher
+for B/H/S, German, Mathematics; superadministrator; pedagogue; psychologist) with personal start pages for the named staff,
+and a screenshot list per screen. Every sprint that changes a screen updates its chapter in the same change. The in-app,
+printable guide (one page per role, print stylesheet) is built from this source once the screens are stable.
+**Amendment 2026-10-03 (Director):** in every app text the reward is called "IDSS bodovi" (de "IDSS-Punkte", en "IDSS
+points"), never "XP". The panel always states that IDSS points are not a grade and never change exam points, so the
+name cannot be confused with the points of a mock exam. Code identifiers (`xp`) stay internal.
+
+## PDL-032: Support monitoring decisions D1 to D5 and the IDSS exam readiness scale
+**Date:** 2026-10-03 (Director: "prihvatam D1 do D5" with a readiness scale)
+**Decision:** `docs/architecture/SUPPORT_MONITORING.md` is approved with:
+- D1: support notes default to "samo ja" for the psychologist and "pedagog i psiholog" for the pedagogue.
+- D2: the superadministrator does not read support notes; aggregates only.
+- D3: optional neutral note types (razgovor s učenikom, razgovor s roditeljem, dogovor, praćenje) besides free text.
+- D4: a persistent error is a question answered wrongly at least twice whose latest answer is still wrong.
+- D5 amended: an **internal IDSS readiness indicator** ("Spremnost za ispit") is shown, defined by the Director, always
+  labelled "interni pokazatelj IDSS-a, nije službena procjena" (mandate §9). Per subject, from the three most recent
+  consecutive graded mock exams: no error in all three = 100 %; 1 to 2 errors in the three = 90 %; 3 errors = 80 %.
+  Confirmed by the Director on 2026-10-03 (AMB-24 resolved): an error is a scored unit with fewer points than its
+  maximum; more than 3 errors shows "ispod 80 %"; fewer than three graded mock exams shows "još nije dostupno"; the
+  scale counts errors only. The indicator never changes a score and never feeds IDSS points.

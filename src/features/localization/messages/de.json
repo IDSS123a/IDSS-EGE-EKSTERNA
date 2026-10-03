@@ -20,8 +20,8 @@
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
     "title": "IDSS - External Graduate Examination",
     "subtitle": "Vorbereitung auf die externe Matura mit Herausforderungen, Missionen und Übungen, die ausschließlich auf den offiziellen Prüfungskatalogen beruhen.",
-    "statusTitle": "Die Plattform ist im Aufbau",
-    "statusBody": "Derzeit entsteht Sprint 02: das Register der kanonischen Dokumente mit dauerhaftem Versionsverlauf, Aktivierung und Wiederherstellung früherer Versionen.",
+    "statusTitle": "Vorbereitungsphase",
+    "statusBody": "Die Plattform ist in der Vorbereitungsphase und wird von Schülern und Lehrkräften der IDSS genutzt. Melden Sie sich mit dem Konto an, das Ihnen die Schule zugewiesen hat.",
     "replaySplash": "Startbildschirm erneut anzeigen",
     "login": "Anmelden"
   },
@@ -50,7 +50,7 @@
       "student": "Schüler/in"
     },
     "nextStepsTitle": "Wie es weitergeht",
-    "nextStepsBody": "Ihr Arbeitsbereich entsteht in den nächsten Sprints. Anmeldung, Rollen und Datenschutz sind aktiv.",
+    "nextStepsBody": "Unten finden Sie die Bereiche, die Ihre Rolle nutzen kann. Neue Bereiche kommen schrittweise hinzu.",
     "logout": "Abmelden"
   },
   "accounts": {
@@ -116,7 +116,8 @@
       "USERNAME_TAKEN": "Dieser Benutzername existiert bereits.",
       "USERNAME_ROLE_MISMATCH": "Administratoren verwenden eine E-Mail als Benutzernamen, Schüler/innen nicht.",
       "NOT_FOUND": "Konto nicht gefunden.",
-      "UNAVAILABLE": "Die Aktion ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+      "UNAVAILABLE": "Die Aktion ist fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      "PWNED_PASSWORD": "Dieses Passwort ist aus bekannten Datenlecks bekannt und nicht sicher. Bitte ein anderes wählen."
     },
     "noSubjects": "Die Fächer sind noch nicht geladen. Starten Sie im Register der kanonischen Dokumente \"Fach und Regeln laden\" für jeden Katalog."
   },
@@ -676,7 +677,8 @@
       "UNCHANGED": "Das neue Passwort muss sich vom aktuellen unterscheiden.",
       "WRONG_PASSWORD": "Das aktuelle Passwort ist nicht korrekt.",
       "LOCKED": "Zu viele Fehlversuche. Bitte versuchen Sie es in einigen Minuten erneut.",
-      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut.",
+      "PWNED_PASSWORD": "Dieses Passwort ist aus bekannten Datenlecks bekannt und nicht sicher. Bitte ein anderes wählen."
     }
   },
   "hub": {
@@ -943,5 +945,33 @@
       "mock_exam_submitted": "Probeprüfung abgegeben: {subject}",
       "mock_exam_graded": "Deine Probeprüfung ist bewertet: {subject}"
     }
+  },
+  "gamification": {
+    "title": "IDSS-Punkte",
+    "total": "{n}",
+    "breakdown": "Woher die IDSS-Punkte kommen",
+    "sources": {
+      "answers": "Antworten in der Übung: {n}",
+      "missions": "Erfüllte Tagesmissionen: {n}",
+      "practiceDays": "Übungstage: {n}",
+      "examsSubmitted": "Abgegebene Probeprüfungen: {n}",
+      "examsGraded": "Bewertete Probeprüfungen: {n}"
+    },
+    "badgesTitle": "Abzeichen",
+    "earned": "Erreicht",
+    "notYet": "Noch nicht",
+    "badges": {
+      "firstAnswer": "Erster Schritt",
+      "firstAnswerHint": "Die erste Antwort in der Übung.",
+      "streak": "{n} Tage in Folge",
+      "streakHint": "Übe {n} Tage in Folge.",
+      "answers": "{n} Antworten in einem Fach",
+      "answersHint": "Beantworte {n} Fragen in einem Fach.",
+      "firstExam": "Erste Probeprüfung",
+      "firstExamHint": "Gib deine erste Probeprüfung in einem Fach ab.",
+      "allSubjects": "Alle drei Fächer",
+      "allSubjectsHint": "Gib eine Probeprüfung in allen drei Fächern ab."
+    },
+    "note": "IDSS-Punkte und Abzeichen dienen der Motivation. Sie sind keine Note und ändern keine Prüfungspunkte."
   }
 }

@@ -20,8 +20,8 @@
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
     "title": "IDSS - External Graduate Examination",
     "subtitle": "Priprema za eksternu maturu kroz izazove, misije i vježbu zasnovanu isključivo na službenim ispitnim katalozima.",
-    "statusTitle": "Platforma je u izgradnji",
-    "statusBody": "Trenutno se gradi Sprint 02: registar kanonskih dokumenata, s trajnom historijom verzija, aktivacijom i vraćanjem ranijih verzija.",
+    "statusTitle": "Pripremna faza",
+    "statusBody": "Platforma je u pripremnoj fazi i koriste je učenici i nastavnici IDSS-a. Prijavite se nalogom koji vam je dodijelila škola.",
     "replaySplash": "Prikaži uvodni ekran ponovo",
     "login": "Prijava"
   },
@@ -50,7 +50,7 @@
       "student": "Učenik"
     },
     "nextStepsTitle": "Šta slijedi",
-    "nextStepsBody": "Vaš radni prostor se gradi u narednim sprintovima. Prijava, uloge i zaštita podataka su aktivni.",
+    "nextStepsBody": "Ispod su dijelovi aplikacije koje vaša uloga može koristiti. Novi dijelovi se dodaju postepeno.",
     "logout": "Odjava"
   },
   "accounts": {
@@ -116,7 +116,8 @@
       "USERNAME_TAKEN": "To korisničko ime već postoji.",
       "USERNAME_ROLE_MISMATCH": "Administrator mora imati e-mail kao korisničko ime, a učenik ne smije.",
       "NOT_FOUND": "Nalog nije pronađen.",
-      "UNAVAILABLE": "Akcija trenutno nije uspjela. Pokušajte ponovo."
+      "UNAVAILABLE": "Akcija trenutno nije uspjela. Pokušajte ponovo.",
+      "PWNED_PASSWORD": "Ova lozinka se pojavila u poznatim curenjima podataka i nije sigurna. Izaberite drugu."
     },
     "noSubjects": "Predmeti još nisu učitani. Na stranici Registar kanonskih dokumenata pokrenite \"Učitaj predmet i pravila\" za svaki katalog."
   },
@@ -676,7 +677,8 @@
       "UNCHANGED": "Nova lozinka mora biti drugačija od trenutne.",
       "WRONG_PASSWORD": "Trenutna lozinka nije tačna.",
       "LOCKED": "Previše neuspjelih pokušaja. Pokušajte ponovo za nekoliko minuta.",
-      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo.",
+      "PWNED_PASSWORD": "Ova lozinka se pojavila u poznatim curenjima podataka i nije sigurna. Izaberite drugu."
     }
   },
   "hub": {
@@ -943,5 +945,33 @@
       "mock_exam_submitted": "Predan probni ispit: {subject}",
       "mock_exam_graded": "Tvoj probni ispit je ocijenjen: {subject}"
     }
+  },
+  "gamification": {
+    "title": "IDSS bodovi",
+    "total": "{n}",
+    "breakdown": "Odakle su IDSS bodovi",
+    "sources": {
+      "answers": "Odgovori u vježbi: {n}",
+      "missions": "Ispunjene dnevne misije: {n}",
+      "practiceDays": "Dani vježbanja: {n}",
+      "examsSubmitted": "Predani probni ispiti: {n}",
+      "examsGraded": "Ocijenjeni probni ispiti: {n}"
+    },
+    "badgesTitle": "Značke",
+    "earned": "Osvojeno",
+    "notYet": "Još nije",
+    "badges": {
+      "firstAnswer": "Prvi korak",
+      "firstAnswerHint": "Prvi odgovor u vježbi.",
+      "streak": "{n} dana zaredom",
+      "streakHint": "Vježbaj {n} dana zaredom.",
+      "answers": "{n} odgovora u predmetu",
+      "answersHint": "Odgovori na {n} pitanja u jednom predmetu.",
+      "firstExam": "Prvi probni ispit",
+      "firstExamHint": "Predaj prvi probni ispit u nekom predmetu.",
+      "allSubjects": "Sva tri predmeta",
+      "allSubjectsHint": "Predaj probni ispit iz sva tri predmeta."
+    },
+    "note": "IDSS bodovi i značke su za motivaciju. Nisu ocjena i ne mijenjaju bodove na ispitu."
   }
 }
