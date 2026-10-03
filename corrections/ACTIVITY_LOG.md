@@ -100,3 +100,7 @@
 - [2026-10-03] Migrations 029 (assignments) and 031 (push) live; 030 handed to the Director; PDL-037
 - [2026-10-03] PDL-038 clean start before production; dependency install note
 - [2026-10-03] D-A decided: archive export and one audited removal, at the end before deploy
+- [2026-10-03 22:02] Write: migrations/032_special_gifts.sql
+- [2026-10-03 22:14] Write: src/features/gifts/scene/models.ts
+- [2026-10-03 22:14] Write: src/features/gifts/scene/vitrina-scene.ts
+- [2026-10-03] Migration 032 live (special gifts, PDL-039); 030 amended with gift_given before its first run

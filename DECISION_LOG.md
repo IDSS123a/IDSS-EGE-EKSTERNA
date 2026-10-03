@@ -558,3 +558,19 @@ they do not block the sprint.
 **Amendment 2026-10-03 (Director, D-A):** the audit log, security events and retrieval audit of the test phase are
 exported to an archive file for the school and then removed once by a dedicated procedure that records its own run.
 The whole cleanup runs at the very end, right before the production deploy, because testing continues until then.
+
+## PDL-039: Special gifts and the IDSS Vitrina (decisions G1 to G6)
+**Date:** 2026-10-03 (Director, answers to `docs/architecture/SPECIAL_GIFTS.md`)
+**Decision:**
+- G1: subject teachers give gifts (not the pedagogue, the psychologist or the Director).
+- G2: the six gifts as proposed: IDSS Kristal, Zlatni ikosaedar, Pero i knjiga, Schlüssel, Upornost, Iskra.
+- G3: no limit; the teacher rewards whenever they judge it right.
+- G4: a gift carries no IDSS points.
+- G5: no sharing outside the app: no image card, no download, no share button.
+- G6: free models designed and adapted by us: all six are procedural three.js models in the code; no model files,
+  no paid assets.
+**Implementation:** migration 032 (gifts and openings, append-only; gift_give, student_gifts, gift_open,
+gifts_of_person, push_targets_of_gift; notice delivered once migration 030 allows 'gift_given'), `/app/vitrina`
+(3D showcase with unboxing, reduced-motion and no-WebGL fallbacks), "Moja vitrina" on the Game Hub, the teacher's
+form and the gift list on the student profile, Web Push notice; DB tests section 26. Migration 030 (not yet run) now
+also allows 'gift_given'.

@@ -6,6 +6,8 @@ import { formatDateTime } from "@/features/canon/components/format";
 import { formatPoints } from "@/features/exams/domain/exam";
 import { useI18n } from "@/features/localization/i18n-provider";
 import type { PersonAssignment } from "@/features/assignments/types";
+import { ProfileGifts } from "@/features/gifts/components/profile-gifts";
+import type { Gift } from "@/features/gifts/types";
 import { ReviewShell } from "@/features/review/components/review-shell";
 import { addSupportNoteAction, addTeacherNoteAction } from "../actions";
 import { share } from "../domain/indicators";
@@ -19,7 +21,7 @@ const KINDS: NoteKind[] = ["student_talk", "parent_talk", "agreement", "observat
  * activity, mock exam trend against the student's own results, IDSS readiness (PDL-032), and support notes for the
  * pedagogue and the psychologist (D1 to D3). Opening this page is recorded in the access audit.
  */
-export function StudentProfileScreen({ profile, teacherNotes, assignments }: { profile: StudentProfile; teacherNotes: TeacherNote[] | null; assignments: PersonAssignment[] }): ReactNode {
+export function StudentProfileScreen({ profile, teacherNotes, assignments, gifts, canGiveGifts }: { profile: StudentProfile; teacherNotes: TeacherNote[] | null; assignments: PersonAssignment[]; gifts: Gift[]; canGiveGifts: boolean }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.support;
   const activeDays = new Map(profile.days.map((day) => [day.day, day.answers]));
@@ -54,6 +56,7 @@ export function StudentProfileScreen({ profile, teacherNotes, assignments }: { p
       ))}
 
       <Assignments assignments={assignments} />
+      <ProfileGifts personId={profile.personId} gifts={gifts} canGive={canGiveGifts} />
       {profile.canWriteNotes && <Notes profile={profile} />}
       <p className="form__hint">{labels.readiness.label}</p>
     </ReviewShell>

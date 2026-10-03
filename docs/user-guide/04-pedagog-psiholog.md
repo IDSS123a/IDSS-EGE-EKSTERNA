@@ -48,3 +48,7 @@ upisati svoju; učenik ih ne vidi. One su odvojene od bilješki podrške, koje n
 ## Zadaci nastavnika na profilu (Dostupno)
 Na profilu učenika je tabela **Zadaci nastavnika**: koji zadatak, predmet, rok, koliko je odgovoreno i stanje (u toku,
 završen u roku, završen nakon roka, propušten). Zadatke daju nastavnici; vi ih vidite radi praćenja.
+
+## Posebni pokloni na profilu (Dostupno)
+Na profilu učenika vidite posebne poklone koje su mu dali nastavnici: koji poklon, poruku, ko ga je dao i da li ga je
+učenik otvorio. Poklone daju samo nastavnici predmeta.

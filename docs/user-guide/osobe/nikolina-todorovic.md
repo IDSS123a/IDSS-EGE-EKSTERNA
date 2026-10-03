@@ -14,6 +14,8 @@ Prijava: `nikolina.todorovic@idss.ba`. Vaša prava važe samo za Njemački jezik
    učeniku, samo za vaš predmet.
 4. **Zadaci za učenike**: dugme **Zadaci za učenike**; zadajte pitanja iz kataloga svog predmeta svim učenicima ili
    izabranim, s rokom, i pratite ko je završio.
+5. **Poseban poklon**: na profilu učenika pošaljite jedan od šest 3D poklona s ličnom porukom, kad god želite
+   nagraditi trud.
 
 ## Posebno za Njemački
 - DEU-4.3.34: štampano rješenje a) ("Salzburg in Deutschland") je u katalogu označeno kao greška. Službeno rješenje

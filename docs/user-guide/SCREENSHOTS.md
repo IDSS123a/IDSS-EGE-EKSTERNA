@@ -30,3 +30,5 @@ check, not for the final guide); "Live" = to capture from the real app with a re
 | Assignments (teacher) | `/app/zadaci` | teacher, superadmin | new assignment (keys, area, all, chosen), list with states | Fixture 2026-10-03 |
 | Assignment detail | `/app/zadaci/[id]` | teacher, superadmin | questions, students with facts, withdraw, print, CSV | Live pending |
 | Teacher assignments card | `/app` | student | open, done, progress, push switch, phone | Fixture 2026-10-03 |
+| IDSS Vitrina | `/app/vitrina` | student | new gift, unboxing frames, six gifts, phone | Fixture 2026-10-03 |
+| Special gift form | `/app/pracenje/[student]` | teacher | six gifts, message, list | Live pending |

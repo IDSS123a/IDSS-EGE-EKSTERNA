@@ -1268,6 +1268,136 @@ body {
   margin-top: 8px;
 }
 
+/* ---------------------------------------------------------------- IDSS Vitrina, special gifts (PDL-039) */
+.vitrina {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(min(100%, 260px), 1fr);
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .vitrina {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.gift-viewer {
+  position: relative;
+}
+.gift-viewer__canvas {
+  width: 100%;
+  height: clamp(320px, 62vh, 720px);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #0b1220;
+  touch-action: none;
+}
+.gift-viewer__canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+.gift-viewer__skip {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+}
+.vitrina__wrapped {
+  display: grid;
+  place-items: center;
+  gap: 16px;
+  min-height: clamp(260px, 40vh, 480px);
+  border-radius: var(--radius-md);
+  background: radial-gradient(circle at 50% 40%, #13305a, #0b1220 70%);
+  color: #ffffff;
+}
+.vitrina__new {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--idss-yellow, #ffcb29);
+}
+.vitrina__message {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 16px 0 4px;
+}
+@media (max-width: 600px) {
+  .gift-viewer__canvas {
+    height: clamp(300px, 70vw, 420px);
+  }
+}
+.vitrina__shelf ul {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.vitrina__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-raised);
+  text-align: left;
+  cursor: pointer;
+}
+.vitrina__item[aria-pressed="true"] {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 2px var(--color-brand) inset;
+}
+.vitrina__item > span:last-child {
+  display: flex;
+  flex-direction: column;
+}
+.vitrina__swatch {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: conic-gradient(#e8262c 0 25%, #ffcb29 0 50%, #035ea1 0 75%, #08abe6 0);
+}
+.vitrina__swatch[data-gift="icosahedron"] { background: linear-gradient(135deg, #f6d77b, #b8862b); clip-path: polygon(50% 0, 100% 30%, 82% 100%, 18% 100%, 0 30%); border-radius: 0; }
+.vitrina__swatch[data-gift="quill_book"] { background: linear-gradient(160deg, #fbf6e8 55%, #035ea1 55%); }
+.vitrina__swatch[data-gift="key"] { background: radial-gradient(circle at 30% 50%, #c79a3b 28%, transparent 30%), linear-gradient(#c79a3b, #c79a3b) 45% 50% / 55% 18% no-repeat, #7a0f14; }
+.vitrina__swatch[data-gift="persistence"] { background: linear-gradient(135deg, transparent 50%, #3d5a78 50%), linear-gradient(225deg, transparent 50%, #3d5a78 50%), #ffcb29; }
+.vitrina__swatch[data-gift="spark"] { background: radial-gradient(circle, #fff3c4 20%, #ffcb29 35%, #08abe6 60%, #0b1220 75%); border-radius: 50%; }
+.hub-gifts[data-new="true"] {
+  box-shadow: 0 0 0 2px var(--idss-yellow, #ffcb29), var(--shadow-card, none);
+}
+.hub-gifts__new {
+  color: var(--color-brand);
+}
+.gift-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  gap: 8px;
+}
+.gift-choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.gift-choice input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
+.gift-choice > span:last-child {
+  display: flex;
+  flex-direction: column;
+}
+.gift-choice:has(input:checked) {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 2px var(--color-brand) inset;
+}
+
 /* ---------------------------------------------------------------- Uniform IDSS print format (PDL-036) */
 .print-only {
   display: none;

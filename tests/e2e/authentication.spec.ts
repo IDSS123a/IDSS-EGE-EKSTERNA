@@ -15,7 +15,7 @@ test("signed-out visitor is redirected from /app to /prijava", async ({ page }) 
 });
 
 test("signed-out visitor cannot open the new staff pages or exports", async ({ page, request }) => {
-  for (const path of ["/app/zadaci", "/app/pracenje/dan"]) {
+  for (const path of ["/app/zadaci", "/app/pracenje/dan", "/app/vitrina"]) {
     await page.goto(path);
     await expect(page).toHaveURL(/\/prijava$/);
   }

@@ -944,7 +944,8 @@
       "mock_exam_requested": "Set čeka odobrenje: {subject}",
       "mock_exam_submitted": "Predan probni ispit: {subject}",
       "mock_exam_graded": "Tvoj probni ispit je ocijenjen: {subject}",
-      "assignment_given": "Novi zadatak nastavnika: {subject}"
+      "assignment_given": "Novi zadatak nastavnika: {subject}",
+      "gift_given": "Imaš poseban poklon od nastavnika"
     }
   },
   "gamification": {
@@ -1269,6 +1270,66 @@
       "NO_STUDENTS": "Nema aktivnih učenika kojima se zadatak može dati.",
       "NOT_FOUND": "Zadatak ne postoji.",
       "ALREADY_WITHDRAWN": "Zadatak je već povučen.",
+      "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    }
+  },
+  "gifts": {
+    "names": {
+      "crystal": "IDSS Kristal",
+      "icosahedron": "Zlatni ikosaedar",
+      "quill_book": "Pero i knjiga",
+      "key": "Schlüssel",
+      "persistence": "Upornost",
+      "spark": "Iskra"
+    },
+    "meanings": {
+      "crystal": "Za izuzetan trud, u bilo kom predmetu.",
+      "icosahedron": "Za matematiku.",
+      "quill_book": "Za B/H/S jezik i književnost.",
+      "key": "Za njemački jezik.",
+      "persistence": "Za redovnost i upornost.",
+      "spark": "Za prvi veliki korak ili povratak."
+    },
+    "send": {
+      "title": "Pošalji poseban poklon",
+      "hint": "Poklon je priznanje od Vas lično: ne mijenja ocjenu, spremnost ni IDSS bodove. Učenik ga otvara u svojoj vitrini; vide ga još pedagog, psiholog i direktor.",
+      "gift": "Poklon",
+      "message": "Poruka na postolju (do 200 znakova)",
+      "submit": "Pošalji poklon",
+      "sent": "Poklon je poslan."
+    },
+    "list": {
+      "title": "Posebni pokloni",
+      "none": "Učenik još nema posebnih poklona.",
+      "from": "Od: {name}, {date}",
+      "opened": "otvoren",
+      "notOpened": "još nije otvoren"
+    },
+    "vitrina": {
+      "title": "Moja vitrina",
+      "subtitle": "Posebni pokloni tvojih nastavnika",
+      "empty": "Tvoja vitrina još je prazna. Kad ti nastavnik pošalje poseban poklon, ovdje ga otvaraš.",
+      "new": "Novi poklon!",
+      "open": "Otvori poklon",
+      "skip": "Preskoči",
+      "from": "Od: {name}",
+      "date": "Dobijeno: {date}",
+      "note": "Poklon je priznanje, ne ocjena. Pripada samo tebi i ne dijeli se izvan aplikacije.",
+      "noWebgl": "Ovaj uređaj ne prikazuje 3D. Tvoj poklon je ovdje u riječima.",
+      "drag": "Povuci da okreneš poklon.",
+      "back": "Nazad na početnu"
+    },
+    "hub": {
+      "title": "Moja vitrina",
+      "count": "Poklona: {n}",
+      "unopened": "Novih poklona: {n}",
+      "open": "Otvori vitrinu"
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
+      "FORBIDDEN": "Poklone šalju nastavnici predmeta.",
+      "VALIDATION": "Izaberite poklon i napišite poruku do 200 znakova.",
+      "NOT_FOUND": "Učenik nije aktivan.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
   }
