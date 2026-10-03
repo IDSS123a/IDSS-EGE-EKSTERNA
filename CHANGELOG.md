@@ -101,3 +101,4 @@
 [2026-10-03] [FEATURE] Teacher assignments (migration 029, PDL-035): /app/zadaci (group or chosen students, picked keys or area draw, required due date, withdraw, IDSS print and CSV), "Zadaci nastavnika" on the Game Hub, assignment practice, assignments on the student profile; migration 030 (in-app notification) handed to the Director
 [2026-10-03] [FEATURE] Web Push notices (migration 031, PDL-037): free browser push, per-device switch, service worker; VAPID keys in .env.local
 [2026-10-03] [FEATURE] Special gifts and the IDSS Vitrina (migration 032, PDL-039): six procedural 3D gifts (three.js, PBR, bloom), unboxing animation, teacher form on the student profile, "Moja vitrina" on the Game Hub, Web Push notice
+[2026-10-04] [SPRINT] Sprint 09 closed: DONE checklist, compliance score, handoff note
