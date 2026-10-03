@@ -35,3 +35,8 @@ None yet.
   (PDL-031), which keeps catching such drift.
 - Staff analytics must not invent thresholds: "students needing attention" is offered as filters the user sets (N
   days without practice, a drop against the student's own previous exam), not as a system label (P-4, mandate §11).
+
+### 2026-10-03 - Ambiguity table format
+- A new row appended to `docs/discovery/AMBIGUITIES.md` first had 4 cells in a 6-column table (it rendered broken);
+  fixed by writing the row with all six columns. Before appending to a Markdown table, read its header and count the
+  cells of the new row.
