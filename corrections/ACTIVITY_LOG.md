@@ -104,3 +104,4 @@
 - [2026-10-03 22:14] Write: src/features/gifts/scene/models.ts
 - [2026-10-03 22:14] Write: src/features/gifts/scene/vitrina-scene.ts
 - [2026-10-03] Migration 032 live (special gifts, PDL-039); 030 amended with gift_given before its first run
+- [2026-10-04] Privacy boundaries verified live (RLS impersonation of every account, rolled back)
