@@ -555,3 +555,6 @@ migration run by the Director, verified by the ACA) and the open decision D-A (a
 in `docs/PRODUCTION_READINESS.md`. The cleanup is a release gate: no production deploy without it (M-23).
 Also recorded: the teachers' blueprint confirmations and the erratum DEU-4.3.34 wait until the teachers have time;
 they do not block the sprint.
+**Amendment 2026-10-03 (Director, D-A):** the audit log, security events and retrieval audit of the test phase are
+exported to an archive file for the school and then removed once by a dedicated procedure that records its own run.
+The whole cleanup runs at the very end, right before the production deploy, because testing continues until then.

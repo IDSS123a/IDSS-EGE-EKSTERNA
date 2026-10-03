@@ -99,3 +99,4 @@
 - [2026-10-03 21:16] Write: src/features/assignments/components/assignment-detail-screen.tsx
 - [2026-10-03] Migrations 029 (assignments) and 031 (push) live; 030 handed to the Director; PDL-037
 - [2026-10-03] PDL-038 clean start before production; dependency install note
+- [2026-10-03] D-A decided: archive export and one audited removal, at the end before deploy

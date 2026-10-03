@@ -17,14 +17,16 @@ system forbids deletion (append-only audit), handled as the Director decides bel
 | IDSS points and badges | derived, not stored | nothing (they follow the answers) |
 | Mock exams, notifications, support notes, teacher notes, assignments, push subscriptions | 0 each | check again; remove trial rows |
 | Exam blueprints (Math, B/H/S, German) | 3 | **keep** (real data, waiting for the teachers' confirmation) |
-| Audit log | 681 rows | decision D-A below (append-only by design) |
-| Security events (failed logins during tests) | 6 | decision D-A below |
-| Retrieval audit of test searches | 13 | decision D-A below |
+| Audit log | 681 rows | D-A decided: export to the school archive, then one audited removal |
+| Security events (failed logins during tests) | 6 | D-A decided (same procedure) |
+| Retrieval audit of test searches | 13 | D-A decided (same procedure) |
 | Staff accounts and their passwords | 6 | keep the accounts; every staff member sets a new password at first real use |
 
 The inventory is re-run right before the cleanup; anything created after this date is added.
 
 ## 2. How the cleanup runs (M-4, M-23)
+Timing: the last step before the production deploy, after all testing is finished (Director, 2026-10-03).
+
 1. The ACA prepares one reviewed cleanup migration (`migrations/9xx_production_clean_start.sql`) that removes exactly
    the rows listed in the inventory by their trial account, never by date or pattern alone, inside one transaction,
    and prints the counts before and after.
@@ -32,7 +34,10 @@ The inventory is re-run right before the cleanup; anything created after this da
 3. The ACA verifies: counts are zero, canon and staff are intact, security advisor clean, DB tests and e2e green.
 4. Only then the production deploy (M-23).
 
-## 3. Decision for the Director
+## 3. Decision D-A (decided by the Director, 2026-10-03)
+The Director chose the first option: export, then one audited removal. **When:** at the very end, right before the
+production deploy, because testing continues until then. Not earlier.
+
 - **D-A Audit history of the test phase.** The audit log, security events and retrieval audit are append-only; the
   database refuses to change them. Proposal: export the test-phase rows to a signed file for the school archive, then
   remove them once with a dedicated, audited procedure that briefly lifts the append-only guard and records its own
