@@ -81,3 +81,4 @@
 - [2026-10-03] Migration 024 live (Director), history recorded; PDL-029 to PDL-031; leaked-password check in the app
 - [2026-10-03] Migration 025 live; XP and badges panel
 - [2026-10-03] User guide source written; XP renamed to IDSS bodovi
+- [2026-10-03] PDL-032: D1 to D5 accepted, readiness scale defined by the Director (AMB-24 open)
