@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { csvCell, daysSince, droppedAgainstOwnPrevious, readinessPercent, share, toCsv, withoutPracticeFor } from "@/features/support/domain/indicators";
+import { csvCell, daysSince, droppedAgainstOwnPrevious, previousDay, readinessPercent, share, summaryDay, toCsv, withoutPracticeFor } from "@/features/support/domain/indicators";
 import type { OverviewStudent } from "@/features/support/types";
 
 const student = (lastActivity: string | null, exams: number[] = []): OverviewStudent => ({
@@ -52,5 +52,17 @@ describe("CSV export", () => {
 
   it("writes a UTF-8 BOM, semicolons and CRLF", () => {
     expect(toCsv([["Učenik", 5], ["A.B.", null]])).toBe("﻿\"Učenik\";\"5\"\r\n\"A.B.\";\"\"\r\n");
+  });
+
+  it("picks the daily summary day: yesterday by default, a real day up to 30 days back (migration 027)", () => {
+    expect(previousDay("2026-10-01")).toBe("2026-09-30");
+    expect(previousDay("2026-03-01")).toBe("2026-02-28");
+    expect(summaryDay(undefined, "2026-10-03")).toBe("2026-10-02");
+    expect(summaryDay("2026-10-03", "2026-10-03")).toBe("2026-10-03");
+    expect(summaryDay("2026-09-03", "2026-10-03")).toBe("2026-09-03");
+    expect(summaryDay("2026-09-02", "2026-10-03")).toBe("2026-10-02");
+    expect(summaryDay("2026-10-04", "2026-10-03")).toBe("2026-10-02");
+    expect(summaryDay("2026-02-30", "2026-03-05")).toBe("2026-03-04");
+    expect(summaryDay("x", "2026-10-03")).toBe("2026-10-02");
   });
 });

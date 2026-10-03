@@ -1007,8 +1007,6 @@ insert into public.profiles (user_id, username, display_name, role, account_stat
 insert into public.profile_bundles (profile_user_id, bundle_code) values
   ('00000000-0000-0000-0000-00000000001f', 'pedagogue'),
   ('00000000-0000-0000-0000-00000000002f', 'psychologist');
-select pg_temp.expect_error($$select public.support_overview('00000000-0000-0000-0000-00000000000b')$$,
-  'FORBIDDEN', 'a subject teacher (scoped view) cannot open the school-wide overview');
 select pg_temp.expect_error($$select public.support_overview('00000000-0000-0000-0000-00000000000c')$$,
   'FORBIDDEN', 'a student cannot open the overview');
 select pg_temp.assert(exists (select 1 from jsonb_array_elements(public.support_overview('00000000-0000-0000-0000-00000000001f')) r
@@ -1060,3 +1058,37 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b
 select pg_temp.assert((select count(*) from public.support_notes) = 0, 'RLS: a teacher reads no support note');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 026');
+
+-- 22. Subject teacher view and daily summary (migration 027, PDL-033): a subject-scoped students.view_progress sees only
+-- its subject, never a support note or the all-subject mission; the daily summary follows the same scope.
+create temp table t_teacher_subject as select code from public.subjects where id = '11111111-1111-1111-1111-111111111111';
+select pg_temp.assert(jsonb_array_length(public.support_overview('00000000-0000-0000-0000-00000000000b')) >= 1
+  and not exists (select 1 from jsonb_array_elements(public.support_overview('00000000-0000-0000-0000-00000000000b')) r, jsonb_array_elements(r -> 'subjects') s
+                  where s ->> 'code' <> (select code from t_teacher_subject)),
+  'the subject teacher sees every student, only in the own subject');
+create temp table t_teacher_profile as select public.support_student('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c', 5, null) as p;
+select pg_temp.assert((select jsonb_array_length(p -> 'subjects') from t_teacher_profile) = 1
+  and (select p -> 'subjects' -> 0 ->> 'code' from t_teacher_profile) = (select code from t_teacher_subject),
+  'the teacher''s student profile shows only the own subject');
+select pg_temp.assert((select jsonb_array_length(p -> 'notes') = 0 and not (p ->> 'can_write_notes')::boolean and p -> 'missions_30' = 'null'::jsonb from t_teacher_profile),
+  'the teacher sees no support note and no all-subject mission count');
+select pg_temp.assert((select details ->> 'scope' from public.audit_logs where action = 'support.profile_viewed' and actor_user_id = '00000000-0000-0000-0000-00000000000b' order by id desc limit 1) = 'subject',
+  'the teacher''s profile read is audited as a subject-scoped read');
+select pg_temp.assert(not exists (select 1 from jsonb_array_elements(public.support_patterns('00000000-0000-0000-0000-00000000000b') -> 'areas') a
+                  where a ->> 'subject' <> (select code from t_teacher_subject)),
+  'the teacher''s group analysis covers only the own subject');
+select pg_temp.expect_error($$select public.daily_summary('00000000-0000-0000-0000-00000000000c', current_date)$$,
+  'FORBIDDEN', 'a student has no daily summary');
+select pg_temp.expect_error($$select public.daily_summary('00000000-0000-0000-0000-00000000000b', (now() at time zone 'Europe/Sarajevo')::date + 1)$$,
+  'VALIDATION', 'the daily summary has no future day');
+select pg_temp.expect_error($$select public.daily_summary('00000000-0000-0000-0000-00000000000b', (now() at time zone 'Europe/Sarajevo')::date - 31)$$,
+  'VALIDATION', 'the daily summary reaches back 30 days at most');
+create temp table t_daily as select public.daily_summary('00000000-0000-0000-0000-00000000000b', (now() at time zone 'Europe/Sarajevo')::date) as d;
+select pg_temp.assert((select jsonb_array_length(d -> 'subjects') from t_daily) = 1
+  and (select d -> 'subjects' -> 0 ->> 'code' from t_daily) = (select code from t_teacher_subject),
+  'the teacher''s daily summary covers only the own subject');
+select pg_temp.assert((select count(*) from t_daily, jsonb_array_elements(d -> 'subjects' -> 0 -> 'practised') x where x ->> 'person_id' = '22222222-2222-2222-2222-22222222222c')
+  + (select count(*) from t_daily, jsonb_array_elements(d -> 'subjects' -> 0 -> 'not_practised') x where x ->> 'person_id' = '22222222-2222-2222-2222-22222222222c') = 1,
+  'every active student is either among those who practised that day or those who did not');
+select pg_temp.assert(jsonb_array_length(public.daily_summary('00000000-0000-0000-0000-00000000001f', (now() at time zone 'Europe/Sarajevo')::date) -> 'subjects') = (select count(*) from public.subjects),
+  'the pedagogue''s daily summary covers every subject');

@@ -1,12 +1,16 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { RegistryFunctionError } from "@/features/canon/repository";
-import type { FollowUp, GroupPatterns, NoteKind, NoteVisibility, OverviewStudent, ProfileSubject, Readiness, StudentProfile, SupportNote } from "./types";
+import { listSubjects } from "@/features/knowledge/repository";
+import { SUBJECT_CODES, type SubjectCode } from "@/features/knowledge/types";
+import type { CurrentAccount } from "@/features/authentication/types";
+import { hasSubjectCapability } from "@/lib/permissions";
+import type { DailySummary, FollowUp, GroupPatterns, NoteKind, NoteVisibility, OverviewStudent, ProfileSubject, Readiness, StudentProfile, SupportNote } from "./types";
 
 /**
- * Support monitoring data (migration 026, A-3). Service-role client after the page or action has authorised the caller;
- * the database functions re-check unscoped students.view_progress (or support_notes.read_write) and write the access
- * audit row for a profile.
+ * Support monitoring data (migrations 026, 027, A-3). Service-role client after the page or action has authorised the
+ * caller; the database functions re-check students.view_progress, narrow every read to the caller's subjects, re-check
+ * support_notes.read_write and write the access audit row for a profile.
  */
 
 async function call<T>(admin: SupabaseClient, fn: string, args: Record<string, unknown>): Promise<T> {
@@ -60,7 +64,7 @@ type RawSubject = {
   readiness: RawReadiness;
 };
 type RawProfile = {
-  person_id: string; name: string; last_activity: string | null; days: { day: string; answers: number }[]; missions_30: number; today: string;
+  person_id: string; name: string; last_activity: string | null; days: { day: string; answers: number }[]; missions_30: number | null; today: string;
   subjects: RawSubject[];
   notes: { id: string; kind: NoteKind | null; body: string; follow_up_on: string | null; visibility: NoteVisibility; created_at: string; author: string; own: boolean }[];
   can_write_notes: boolean; default_visibility: NoteVisibility;
@@ -75,7 +79,7 @@ export async function studentProfile(admin: SupabaseClient, input: { actorUserId
     name: raw.name,
     lastActivity: raw.last_activity,
     days: raw.days.map((day) => ({ day: day.day, answers: n(day.answers) })),
-    missions30: n(raw.missions_30),
+    missions30: raw.missions_30 === null ? null : n(raw.missions_30),
     today: raw.today,
     subjects: raw.subjects.map((subject) => ({
       code: subject.code,
@@ -123,4 +127,38 @@ export async function followUps(admin: SupabaseClient, actorUserId: string): Pro
 /** support_note_add: an append-only note; visibility null takes the role's default (D1). */
 export async function addNote(admin: SupabaseClient, input: { actorUserId: string; personId: string; kind: NoteKind | null; body: string; followUpOn: string | null; visibility: NoteVisibility | null; ipAddress: string | null }): Promise<void> {
   await call<string>(admin, "support_note_add", { p_actor: input.actorUserId, p_person: input.personId, p_kind: input.kind, p_body: input.body, p_follow_up: input.followUpOn, p_visibility: input.visibility, p_ip: input.ipAddress });
+}
+
+/** Subject codes whose progress the account may read, in catalogue order (ROLES §2: all, or the own subjects). */
+export async function visibleSubjectCodes(admin: SupabaseClient, account: CurrentAccount): Promise<SubjectCode[]> {
+  const subjects = await listSubjects(admin);
+  const visible = new Set(subjects.filter((subject) => hasSubjectCapability(account, "students.view_progress", subject.id)).map((subject) => subject.code));
+  return SUBJECT_CODES.filter((code) => visible.has(code));
+}
+
+/** daily_summary: one day per subject in the caller's scope (PDL-018 item 3). */
+export async function dailySummary(admin: SupabaseClient, actorUserId: string, day: string): Promise<DailySummary> {
+  const raw = await call<{
+    day: string; today: string;
+    subjects: {
+      code: SubjectCode;
+      practised: { person_id: string; name: string; answers: number; checked: number; correct: number }[];
+      not_practised: { person_id: string; name: string; last_practice: string | null }[];
+      areas: { area: string; ordinal: number; checked: number; correct: number }[];
+      exams_submitted: number; waiting_answers: number; waiting_exams: number;
+    }[];
+  }>(admin, "daily_summary", { p_actor: actorUserId, p_day: day });
+  return {
+    day: raw.day,
+    today: raw.today,
+    subjects: raw.subjects.map((subject) => ({
+      code: subject.code,
+      practised: subject.practised.map((row) => ({ personId: row.person_id, name: row.name, answers: n(row.answers), checked: n(row.checked), correct: n(row.correct) })),
+      notPractised: subject.not_practised.map((row) => ({ personId: row.person_id, name: row.name, lastPractice: row.last_practice })),
+      areas: subject.areas.map((area) => ({ area: area.area, ordinal: n(area.ordinal), checked: n(area.checked), correct: n(area.correct) })),
+      examsSubmitted: n(subject.exams_submitted),
+      waitingAnswers: n(subject.waiting_answers),
+      waitingExams: n(subject.waiting_exams),
+    })),
+  };
 }

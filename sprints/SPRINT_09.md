@@ -16,9 +16,11 @@ P-14), mandate §7A.3, §9, §11 to §13, ROLES_AND_PERMISSIONS §2 and §3.
 3. **Carried over (Director):** blueprint confirmation by the three subject teachers, erratum DEU-4.3.34, first live
    mock exam.
 4. **User guide:** chapter 04 and the personal pages of Adnana Agić and Medina Karaga describe the new screens.
+5. **Added 2026-10-03 (Director: "idi dalje po planu", plan row 09, PDL-033):** subject teacher view of student
+   progress scoped to the own subject, and the daily summary (PDL-018 item 3) as a page (migration 027).
 
 ## OUT
-Subject teacher view of their students (later, same functions scoped by subject); class assignments; leaderboards.
+Class assignments and teacher (academic) notes (next sprint candidates); leaderboards.
 
 ## Acceptance criteria
 - Only accounts with unscoped `students.view_progress` (pedagogue, psychologist, superadministrator) open the screens;
@@ -36,3 +38,7 @@ Subject teacher view of their students (later, same functions scoped by subject)
       link "Praćenje učenika"; unit tests for filters, readiness mapping and CSV.
 - [x] 4. User guide: chapter 04, superadministrator chapter, personal pages of Adnana Agić and Medina Karaga,
       screenshot list.
+- [x] 5. Migration 027 applied live (one call): monitoring narrowed to the reader's subjects, daily summary; DB tests
+      section 22 (11 assertions); live check: Haris Hamzić sees only Mathematics; screens `/app/pracenje` (subject
+      filter only with more than one subject), `/app/pracenje/dan` (day picker, print); staff home links for teachers;
+      unit tests for the summary day; guide chapter 02 and the teachers' personal pages.

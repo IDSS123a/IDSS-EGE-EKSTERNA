@@ -9,6 +9,9 @@ Prijava: `nikolina.todorovic@idss.ba`. Vaša prava važe samo za Njemački jezik
 2. **Potvrdite plan ispita za Njemački**: pet dijelova kao u testovima 1A do 1D (Hörverstehen, Leseverstehen, četiri
    stavke Wortschatz, četiri stavke Grammatik iz različitih zadataka 4.4.1 do 4.4.9, Kommunikation), svaka stavka 0,5
    boda.
+3. **Dnevni sažetak**: na početnoj stranici kliknite **Dnevni sažetak**; vidite ko je jučer vježbao vaš predmet, ko
+   nije i od kada, oblasti od najniže tačnosti i šta čeka vašu ocjenu. **Praćenje učenika** daje isti pregled po
+   učeniku, samo za vaš predmet.
 
 ## Posebno za Njemački
 - DEU-4.3.34: štampano rješenje a) ("Salzburg in Deutschland") je u katalogu označeno kao greška. Službeno rješenje

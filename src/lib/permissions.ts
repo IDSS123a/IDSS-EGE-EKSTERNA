@@ -94,9 +94,12 @@ export function canGradeSubject(account: CurrentAccount, subjectId: string): boo
   return hasSubjectCapability(account, "exams.grade", subjectId);
 }
 
-/** School-wide student monitoring (pedagogue, psychologist, superadministrator): unscoped students.view_progress (Sprint 09). */
-export function canMonitorStudents(account: CurrentAccount): boolean {
-  return account.subjectScopes.get("students.view_progress") === "all";
+/**
+ * Student monitoring at all: unscoped (pedagogue, psychologist, superadministrator) or scoped to the own subjects
+ * (subject teacher, ROLES §2); the database narrows every read to the scope (migration 027).
+ */
+export function canViewStudentProgress(account: CurrentAccount): boolean {
+  return hasCapability(account, "students.view_progress");
 }
 
 /** Write and read support notes (pedagogue and psychologist only, D2). */

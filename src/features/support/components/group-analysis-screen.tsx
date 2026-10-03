@@ -9,10 +9,9 @@ import { share } from "../domain/indicators";
 import type { GroupPatterns } from "../types";
 
 /** Analiza grupe (Sprint 09, SUPPORT_MONITORING.md C): aggregates only, no student named, no ranking. */
-export function GroupAnalysisScreen({ patterns }: { patterns: GroupPatterns }): ReactNode {
+export function GroupAnalysisScreen({ patterns, codes }: { patterns: GroupPatterns; codes: SubjectCode[] }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.support.analysis;
-  const codes: SubjectCode[] = ["bhs_language_literature", "mathematics", "german"];
   const percent = (part: number, whole: number) => {
     const value = share(part, whole);
     return value === null ? dictionary.support.cell.noData : `${value} %`;
