@@ -29,7 +29,7 @@ export function AccountHome({
   canOpenReview: boolean;
   /** Mock exam approval and grading (Sprint 07). */
   canGrade: boolean;
-  /** School-wide student monitoring (Sprint 09). */
+  /** Student monitoring and the daily summary: all subjects or the own subjects (Sprint 09). */
   canMonitor: boolean;
   /** Decided on the server (lib/permissions.ts). */
   canManageSettings: boolean;
@@ -57,6 +57,7 @@ export function AccountHome({
             {canViewAccounts && <Link href={ACCOUNTS_PATH} className="button-primary">{dictionary.accounts.navLink}</Link>}
             {canViewCanon && <Link href={CANON_PATH} className="button-primary">{dictionary.canon.navLink}</Link>}
             {canMonitor && <Link href={SUPPORT_PATH} className="button-primary">{dictionary.support.navLink}</Link>}
+            {canMonitor && <Link href={`${SUPPORT_PATH}/dan`} className="button-primary">{dictionary.support.dailyLink}</Link>}
             {canGrade && <Link href={GRADING_PATH} className="button-primary">{dictionary.grading.navLink}</Link>}
             {canOpenReview && <Link href={REVIEW_PATH} className="button-primary">{dictionary.review.navLink}</Link>}
             {canOpenReview && <Link href={SEARCH_PATH} className="button-primary">{dictionary.search.navLink}</Link>}

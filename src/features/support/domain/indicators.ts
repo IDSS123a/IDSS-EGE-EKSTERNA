@@ -18,6 +18,23 @@ export function daysSince(lastActivity: string | null, today: string): number | 
   return Number.isNaN(last) || Number.isNaN(now) ? null : Math.max(0, Math.round((now - last) / 86_400_000));
 }
 
+/** The calendar day before a YYYY-MM-DD day (the default day of the daily summary). */
+export function previousDay(day: string): string {
+  const date = new Date(`${day.slice(0, 10)}T12:00:00Z`);
+  date.setUTCDate(date.getUTCDate() - 1);
+  return date.toISOString().slice(0, 10);
+}
+
+/** The day a daily summary may show: a real YYYY-MM-DD from 30 days back to today (twin of daily_summary, 027). */
+export function summaryDay(requested: string | undefined, today: string): string {
+  const fallback = previousDay(today);
+  if (!requested || !/^\d{4}-\d{2}-\d{2}$/.test(requested)) return fallback;
+  const parsed = new Date(`${requested}T12:00:00Z`);
+  if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== requested) return fallback;
+  const back = daysSince(requested, today);
+  return requested <= today && back !== null && back <= 30 ? requested : fallback;
+}
+
 /** User-set filter: no practice in the last N days (N chosen by the user; students without any activity included). */
 export function withoutPracticeFor(student: OverviewStudent, days: number, today: string): boolean {
   const since = daysSince(student.lastActivity, today);

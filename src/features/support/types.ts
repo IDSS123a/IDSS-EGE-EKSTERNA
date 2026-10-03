@@ -49,7 +49,8 @@ export type StudentProfile = {
   name: string;
   lastActivity: string | null;
   days: { day: string; answers: number }[];
-  missions30: number;
+  /** Null for a subject-scoped reader: the daily mission counts every subject (migration 027). */
+  missions30: number | null;
   today: string;
   subjects: ProfileSubject[];
   notes: SupportNote[];
@@ -65,6 +66,18 @@ export type GroupPatterns = {
   examPoints: { subject: SubjectCode; points: number; exams: number }[];
   missedQuestions: { subject: SubjectCode; recordKey: string; wrong: number; students: number }[];
 };
+
+/** Daily summary of one subject (PDL-018 item 3, migration 027): facts of one day, no threshold, no label. */
+export type DailySubject = {
+  code: SubjectCode;
+  practised: { personId: string; name: string; answers: number; checked: number; correct: number }[];
+  notPractised: { personId: string; name: string; lastPractice: string | null }[];
+  areas: { area: string; ordinal: number; checked: number; correct: number }[];
+  examsSubmitted: number;
+  waitingAnswers: number;
+  waitingExams: number;
+};
+export type DailySummary = { day: string; today: string; subjects: DailySubject[] };
 
 export type FollowUp = { personId: string; student: string; followUpOn: string; kind: NoteKind | null };
 

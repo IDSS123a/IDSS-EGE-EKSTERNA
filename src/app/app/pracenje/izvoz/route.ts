@@ -5,27 +5,26 @@ import { insertAuditLog } from "@/features/authentication/repository";
 import { getCurrentAccount } from "@/features/authentication/session";
 import { getDictionary, getRequestLocale } from "@/features/localization/server";
 import { share, toCsv } from "@/features/support/domain/indicators";
-import { supportOverview } from "@/features/support/repository";
+import { supportOverview, visibleSubjectCodes } from "@/features/support/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
-import { canMonitorStudents, hasCapability } from "@/lib/permissions";
+import { canViewStudentProgress, hasCapability } from "@/lib/permissions";
 
 /**
- * GET /app/pracenje/izvoz — CSV of the student overview (Sprint 09). Role required: unscoped students.view_progress and
- * reports.export. Contains learning facts only, never a support note; cells are safe against formula injection;
+ * GET /app/pracenje/izvoz — CSV of the student overview (Sprint 09). Role required: students.view_progress (own subjects
+ * for a teacher) and reports.export. Contains learning facts only, never a support note; cells are safe against formula injection;
  * every export is audited.
  */
 export async function GET(): Promise<Response> {
   const account = await getCurrentAccount();
   if (!account) return new NextResponse("Unauthorized", { status: 401 });
-  if (!canMonitorStudents(account) || !hasCapability(account, "reports.export")) return new NextResponse("Forbidden", { status: 403 });
+  if (!canViewStudentProgress(account) || !hasCapability(account, "reports.export")) return new NextResponse("Forbidden", { status: 403 });
   try {
     const admin = createSupabaseAdminClient();
-    const students = await supportOverview(admin, account.userId);
+    const [students, codes] = await Promise.all([supportOverview(admin, account.userId), visibleSubjectCodes(admin, account)]);
     const dictionary = getDictionary(await getRequestLocale());
     const labels = dictionary.support.csv;
     const header = [labels.student, labels.lastActivity, labels.days7, labels.days30];
-    const codes = ["bhs_language_literature", "mathematics", "german"] as const;
     for (const code of codes) {
       const name = dictionary.subjects[code];
       header.push(`${name}: ${labels.mastered}`, `${name}: ${labels.accuracy}`, `${name}: ${labels.latestExam}`, `${name}: ${labels.readiness}`);

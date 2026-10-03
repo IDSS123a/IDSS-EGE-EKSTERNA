@@ -35,7 +35,7 @@ export function StudentProfileScreen({ profile }: { profile: StudentProfile }): 
         <dl className="canon-version__meta">
           <div><dt>{labels.columns.lastActivity}</dt><dd>{profile.lastActivity ? formatDateTime(profile.lastActivity, locale) : labels.never}</dd></div>
           <div><dt>{labels.profile.practiceDays}</dt><dd>{profile.days.length}</dd></div>
-          <div><dt>{labels.profile.missions}</dt><dd>{profile.missions30}</dd></div>
+          {profile.missions30 !== null && <div><dt>{labels.profile.missions}</dt><dd>{profile.missions30}</dd></div>}
         </dl>
         <h2>{labels.profile.calendar}</h2>
         <div className="activity-calendar" role="img" aria-label={labels.profile.calendarHint}>

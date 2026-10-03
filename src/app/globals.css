@@ -1186,6 +1186,12 @@ body {
 .support-filters .form__field {
   min-width: min(100%, 220px);
 }
+.daily-subject h3 {
+  margin: 28px 0 8px;
+}
+.daily-subject .link-row {
+  margin-top: 12px;
+}
 .support-cell {
   display: block;
   white-space: nowrap;

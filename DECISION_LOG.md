@@ -471,3 +471,20 @@ name cannot be confused with the points of a mock exam. Code identifiers (`xp`) 
   Confirmed by the Director on 2026-10-03 (AMB-24 resolved): an error is a scored unit with fewer points than its
   maximum; more than 3 errors shows "ispod 80 %"; fewer than three graded mock exams shows "još nije dostupno"; the
   scale counts errors only. The indicator never changes a score and never feeds IDSS points.
+
+## PDL-033: Subject teacher view of student progress and the daily summary
+**Date:** 2026-10-03 (Director: "uredu. idi dalje po planu"; implementation plan row 09, ROLES §2, PDL-018 item 3)
+**Decision:**
+1. **Teacher view:** the monitoring screens of Sprint 09 also open for a subject-scoped `students.view_progress`
+   (subject teacher). The database narrows every read to the subjects of the scope: overview, student profile
+   (activity and calendar of the own subjects only, no all-subject daily mission), group analysis. Support notes stay
+   with the pedagogue and the psychologist (D2, ROLES §3). A teacher's profile read is audited with scope "subject".
+2. **Daily summary as a page, not a stored notification:** `/app/pracenje/dan` shows one Europe/Sarajevo day (default
+   yesterday, at most 30 days back) per subject in the reader's scope: who practised (answers, accuracy), who did not
+   and when each last practised, the areas of that day from the lowest accuracy, mock exams submitted that day and
+   open work. The project has no scheduler (pg_cron is not installed), and a new notification kind would need a DROP
+   CONSTRAINT run by the Director; an on-demand page gives the same facts at the moment the teacher opens it.
+3. **No inactivity threshold (P-4):** PDL-018 names "who is inactive"; the summary shows who did not practise that day
+   and the days since the last practice. Nobody is labelled inactive; the reader decides.
+**Implementation:** migration 027 (`private.actor_progress_subjects`, scoped `support_overview`, `support_student`,
+`support_patterns`, new `daily_summary`), `canViewStudentProgress`, `/app/pracenje/dan`; DB tests section 22.

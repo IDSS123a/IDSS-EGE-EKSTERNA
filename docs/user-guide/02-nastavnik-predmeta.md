@@ -3,8 +3,27 @@
 Vrijedi za nastavnike B/H/S jezika i književnosti, Matematike i Njemačkog jezika. Svaki nastavnik vidi i mijenja samo
 svoj predmet; to provjerava server i baza, ne samo ekran.
 
-Na početnoj stranici su dugmad: **Probni ispiti: ocjenjivanje**, **Pregled pitanja i pravila**, **Pretraga službenih
-materijala**, **Registar kanonskih dokumenata**, **Upravljanje nalozima** (samo pregled) i **Moj nalog**.
+Na početnoj stranici su dugmad: **Praćenje učenika**, **Dnevni sažetak**, **Probni ispiti: ocjenjivanje**, **Pregled
+pitanja i pravila**, **Pretraga službenih materijala**, **Registar kanonskih dokumenata**, **Upravljanje nalozima**
+(samo pregled) i **Moj nalog**.
+
+## Praćenje učenika (Dostupno)
+Isti ekran koji koriste pedagog i psiholog, ali samo za vaš predmet: zadnja vježba iz vašeg predmeta, dani vježbe,
+savladano, tačnost u zadnjih 30 dana, zadnji ocijenjeni probni ispit, šta čeka vas i spremnost za ispit (interni
+pokazatelj IDSS-a, nije službena procjena). Filtere i sortiranje postavljate vi; tabelu možete štampati ili izvesti u CSV.
+- Klik na ime otvara **Profil učenika** za vaš predmet: oblasti kataloga, ponovljene greške, kalendar vježbe iz vašeg
+  predmeta i tok probnih ispita. Svako otvaranje profila bilježi se u dnevnik pristupa.
+- Bilješke podrške ne vidite; one pripadaju pedagogu i psihologu.
+- **Analiza grupe** pokazuje zbirne podatke vašeg predmeta, bez imena.
+
+## Dnevni sažetak (Dostupno)
+Otvara se dugmetom **Dnevni sažetak** i prikazuje jučerašnji dan; drugi dan (do 30 dana unazad) birate poljem **Dan** i
+dugmetom **Prikaži**, a **Danas** prikazuje tekući dan.
+- **Vježbali tog dana**: učenik, broj odgovora i tačnost.
+- **Nisu vježbali tog dana**: učenik, zadnja vježba prije tog dana i broj dana od nje. Aplikacija nikoga ne označava
+  kao neaktivnog; zaključak donosite vi.
+- **Oblasti tog dana**: od najniže tačnosti.
+- Gore: predani probni ispiti tog dana i šta čeka vas, s dugmetom **Otvori ocjenjivanje**.
 
 ## Planovi ispita (Dostupno)
 Plan ispita kaže koje zadatke iz kataloga aplikacija smije staviti na koju poziciju probnog ispita i koliko bodova
@@ -55,4 +74,4 @@ Pretraga postoji, ali njena kvaliteta još nije prihvaćena; vraćamo joj se s u
 Vidite listu naloga. Kreiranje i promjene radi superadministrator.
 
 ## Uskoro
-Pregled napretka učenika vašeg predmeta, zadaci za razred i izvještaji (Sprint 09).
+Zadaci za razred i nastavničke bilješke.

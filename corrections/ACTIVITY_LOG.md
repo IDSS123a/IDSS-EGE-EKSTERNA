@@ -86,3 +86,5 @@
 - [2026-10-03] Sprint 08 closed; blueprints loaded live by the Director (SHA-256 match)
 - [2026-10-03] Sprint 09 started; migration 026 live (support monitoring)
 - [2026-10-03] Support monitoring screens; e2e expectation of the home status text fixed (Sprint 08 regression)
+- [2026-10-03 15:04] Write: src/features/support/components/daily-summary-screen.tsx
+- [2026-10-03] Migration 027 live; subject teacher view and daily summary (PDL-033)

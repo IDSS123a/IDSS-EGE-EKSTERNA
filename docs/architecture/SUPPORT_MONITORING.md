@@ -81,3 +81,12 @@ difference is in the notes: by default the psychologist's notes are "samo ja" an
 - **D3** Neutral note types as listed in D, or free text only.
 - **D4** Persistent error = wrong at least twice and latest still wrong (proposal).
 - **D5** Readiness: the Director's internal scale replaces "not shown" (PDL-032, AMB-24 resolved).
+
+## 7. Subject teacher view and daily summary (PDL-033, migration 027)
+- The same screens open for a subject-scoped `students.view_progress` (ROLES §2, scoped). The database narrows every
+  read to the reader's subjects: overview, profile (activity of the own subjects, no all-subject mission), group
+  analysis. No support note is ever returned to a teacher (D2, ROLES §3); the profile read is audited with scope
+  "subject".
+- Daily summary `/app/pracenje/dan` (PDL-018 item 3): one day per subject in scope, default yesterday, at most 30 days
+  back: who practised (answers, accuracy), who did not and the last practice before that day, areas of that day from
+  the lowest accuracy, mock exams submitted that day, open work. No inactivity threshold; shown on demand (no scheduler).

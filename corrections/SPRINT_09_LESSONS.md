@@ -10,6 +10,13 @@ Date: 2026-10-03 (open)
 ## Gotchas Discovered
 - A Supabase migration of 22 KB is applied through the connector in parts (helpers and table, profile functions,
   analysis) to stay below the connector's time limit; every part is idempotent (`create or replace`).
+- `audit_logs` orders by `id` or `occurred_at`; it has no `created_at` (the DB test for migration 027 first used
+  `created_at` and failed). Check a table's columns before writing a test query against it.
+- Stopping the dev server by matching `/proc/*/cmdline` against a pattern also matched the running shell, whose own
+  command line contained the same text, and killed it (exit 144). Kill only the PID written to the pid file and the
+  `next-server` child whose parent is that PID; never match a pattern that appears in the killing command itself.
+- One connector call applied the whole 22 KB of migration 027 (header comments with `drop` left out, so the
+  destructive-statement check does not trigger on the rollback note).
 
 ## Commander Improvement Candidates
 None yet.

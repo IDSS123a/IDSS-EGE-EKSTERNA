@@ -19,14 +19,13 @@ type SortKey = "name" | "lastActivity" | "days30" | "mastered" | "accuracy";
  * user (subject, N days without practice, a drop against the student's own previous mock exam); the app sets no
  * threshold and gives no label (P-4, mandate §11).
  */
-export function SupportOverviewScreen({ students, today, followUps, canExport }: { students: OverviewStudent[]; today: string; followUps: FollowUp[] | null; canExport: boolean }): ReactNode {
+export function SupportOverviewScreen({ students, codes, today, followUps, canExport }: { students: OverviewStudent[]; codes: SubjectCode[]; today: string; followUps: FollowUp[] | null; canExport: boolean }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.support;
   const [subject, setSubject] = useState<SubjectCode | "all">("all");
   const [inactiveDays, setInactiveDays] = useState("");
   const [dropOnly, setDropOnly] = useState(false);
   const [sort, setSort] = useState<SortKey>("name");
-  const codes: SubjectCode[] = ["bhs_language_literature", "mathematics", "german"];
 
   const rows = useMemo(() => {
     const days = Number(inactiveDays);
@@ -69,13 +68,15 @@ export function SupportOverviewScreen({ students, today, followUps, canExport }:
       )}
 
       <section className="card support-filters no-print" aria-label={labels.filters.title}>
-        <div className="form__field">
-          <label htmlFor="support-subject">{labels.filters.subject}</label>
-          <select id="support-subject" value={subject} onChange={(event) => setSubject(event.target.value as SubjectCode | "all")}>
-            <option value="all">{labels.filters.allSubjects}</option>
-            {codes.map((code) => <option key={code} value={code}>{dictionary.subjects[code]}</option>)}
-          </select>
-        </div>
+        {codes.length > 1 && (
+          <div className="form__field">
+            <label htmlFor="support-subject">{labels.filters.subject}</label>
+            <select id="support-subject" value={subject} onChange={(event) => setSubject(event.target.value as SubjectCode | "all")}>
+              <option value="all">{labels.filters.allSubjects}</option>
+              {codes.map((code) => <option key={code} value={code}>{dictionary.subjects[code]}</option>)}
+            </select>
+          </div>
+        )}
         <div className="form__field">
           <label htmlFor="support-inactive">{labels.filters.inactive}</label>
           <input id="support-inactive" type="number" min={1} max={365} inputMode="numeric" value={inactiveDays} onChange={(event) => setInactiveDays(event.target.value)} placeholder={labels.filters.inactivePlaceholder} />
@@ -94,6 +95,7 @@ export function SupportOverviewScreen({ students, today, followUps, canExport }:
           <button type="button" className="button-secondary" onClick={() => window.print()}>{labels.print}</button>
           {canExport && <a className="button-secondary" href={`${SUPPORT_PATH}/izvoz`}>{labels.export}</a>}
           <Link className="button-secondary" href={`${SUPPORT_PATH}/analiza`}>{labels.analysisLink}</Link>
+          <Link className="button-secondary" href={`${SUPPORT_PATH}/dan`}>{labels.dailyLink}</Link>
         </div>
       </section>
 

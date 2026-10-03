@@ -7,6 +7,9 @@ Prijava: `haris.hamzic@idss.ba`. Vaša prava važe samo za Matematiku.
    do 5 svake oblasti), 5 do 8 srednji (6 do 15), 9 i 10 napredni (16 do 20). Katalog ne propisuje oblast po poziciji, pa
    je aplikacija ne propisuje.
 2. **Odgovori iz vježbe**: otvoreni zadaci Matematike čekaju vašu ocjenu.
+3. **Dnevni sažetak**: na početnoj stranici kliknite **Dnevni sažetak**; vidite ko je jučer vježbao vaš predmet, ko
+   nije i od kada, oblasti od najniže tačnosti i šta čeka vašu ocjenu. **Praćenje učenika** daje isti pregled po
+   učeniku, samo za vaš predmet.
 
 ## Posebno za Matematiku
 - Zadaci su prikazani kao isječak stranice kataloga, jer razlomci, eksponenti i indeksi u čistom tekstu nisu tačni.

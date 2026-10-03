@@ -35,3 +35,8 @@ sljedećeg koraka**, **Ko vidi** (**Samo ja** ili **Pedagog i psiholog**) i teks
 ## Analiza grupe (Dostupno)
 **Analiza grupe** na stranici praćenja: aktivnost po sedmicama, tačnost po oblastima, raspodjela bodova probnih ispita i
 najčešće pogrešna pitanja. Samo zbirni podaci, bez imena i bez rangiranja učenika.
+
+## Dnevni sažetak (Dostupno)
+Dugme **Dnevni sažetak** na početnoj stranici (i na ekranu Praćenje učenika) pokazuje za jedan dan i svaki predmet ko je
+vježbao, ko nije i od kada, oblasti tog dana od najniže tačnosti i otvoreni rad. Zadano je jučer; do 30 dana unazad.
+Nastavnici predmeta vide isti sažetak samo za svoj predmet i nikad ne vide bilješke podrške.

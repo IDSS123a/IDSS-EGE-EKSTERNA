@@ -23,6 +23,7 @@ check, not for the final guide); "Live" = to capture from the real app with a re
 | Accounts | `/app/nalozi` | superadmin, view for others | create, status, rights, reset | Live pending |
 | Canon registry | `/app/kanon` | superadmin, reviewers | upload, versions, history | Live pending |
 | Settings | `/app/postavke` | superadmin | splash colours | Live pending |
-| Student monitoring | `/app/pracenje` | pedagogue, psychologist, superadmin | follow-ups, filters, table, phone | Fixture 2026-10-03 |
+| Student monitoring | `/app/pracenje` | pedagogue, psychologist, superadmin, teacher (own subject) | follow-ups, filters, table, phone | Fixture 2026-10-03 |
 | Student profile | `/app/pracenje/[student]` | pedagogue, psychologist | dimensions, areas, persistent errors, exams, notes | Fixture 2026-10-03 |
 | Group analysis | `/app/pracenje/analiza` | pedagogue, psychologist, superadmin | weeks, areas, points, missed questions | Fixture 2026-10-03 |
+| Daily summary | `/app/pracenje/dan` | teacher (own subject), pedagogue, psychologist, superadmin | day picker, practised, not practised, areas, open work, phone | Fixture 2026-10-03 |
