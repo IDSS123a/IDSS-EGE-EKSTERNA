@@ -12,7 +12,16 @@ Date: 2026-09-27 (open)
    autocomplete off, password-manager ignore attributes. Forms that create credentials for someone else never use
    sign-in field names.
 
+3. The first submission test expected a teacher notification, but a subject without a teacher would leave a submitted
+   mock exam unseen (caught by the DB test) → the superadministrators are notified when the subject has no teacher.
+   Every notification path names who receives it when the expected recipient does not exist yet.
+
 ## Gotchas Discovered
+- Six German records (DEU-4.4.10, 4.5.6 to 4.5.10) were never reviewed: their task type was "unclassified", so the Sprint
+  04 bulk acceptance skipped them silently. The gap appeared only when the mock exam pool for "Kommunikation" came up
+  empty. Pools are now checked against live trusted counts before a blueprint is declared usable.
+- The official German key for DEU-4.3.34 is factually wrong (Salzburg "in Deutschland"); a printed key is evidence, not
+  truth. Keys are read for plausibility when a task enters auto-checking (AMB-23).
 - Chrome ignores `autocomplete="off"` on a field it classifies as a username beside a password field; the
   classification uses the field name and id, so renaming is what works.
 
