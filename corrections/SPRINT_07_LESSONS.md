@@ -38,5 +38,9 @@ Date: 2026-09-27 (open)
   confirmation; unanswered, apply_migration and execute_sql time out after 60 s and nothing is applied (the request
   never reaches the database). Migrations with DROP are announced to the Director before they are sent.
 
+- The Director's approval in chat does not answer the Supabase connector's destructive-statement confirmation: in this
+  remote session the confirmation never surfaces, so DROP migrations time out even after approval. Such migrations are
+  handed to the Director as SQL files for the Supabase SQL editor, and the history row is recorded afterwards.
+
 ## Commander Improvement Candidates
 None yet.
