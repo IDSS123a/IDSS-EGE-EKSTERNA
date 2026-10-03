@@ -1,6 +1,6 @@
 # SPRINT 08 — Mock exams live, teacher review of practice answers, motivation
 
-Status: **in progress** · Started 2026-10-03 (Director: "uredu. nastavi po planu" after the Sprint 07 handoff)
+Status: **closed 2026-10-03** · Started 2026-10-03 (Director: "uredu. nastavi po planu" after the Sprint 07 handoff)
 Prerequisites met: Sprint 07 closed; PR #39 merged; migrations 019 to 023 live; 500/500 trusted questions.
 Required reading (Tier 2): Commander M-1…M-5, ENGINEERING_RULES, ARCHITECTURE_PATTERNS, `CONSTITUTION.md` (P-4, P-7, P-13,
 P-14, P-15), PDL-018, PDL-024, PDL-027, mandate §8.3 and §8.4.
@@ -44,6 +44,50 @@ Levels, challenges and leaderboards (later); search (parked); daily teacher summ
       Todorović, Haris Hamzić, Davor Mulalić, Medina Karaga and Adnana Agić, and the screenshot list; stale status
       texts on the public and staff home pages replaced.
 - [x] 7. Director: "IDSS bodovi" instead of "XP" in every app text (bs, de, en) and in the guide.
-- [ ] 8. Pedagogue and psychologist screens (Director 2026-10-03): indicators of student success and tools for
-      assessment and analysis; design in `docs/architecture/SUPPORT_MONITORING.md`.
-- [ ] 1. Live walk-through (Director).
+- [x] 8. Pedagogue and psychologist screens: design approved (PDL-032, D1 to D5, readiness scale, AMB-24 resolved);
+      implementation is Sprint 09.
+- [x] 1. Live walk-through, first part (Director, 2026-10-03): the three blueprints loaded live through the grading
+      screen (version 2026-10-03.1, SHA-256 identical to the repository). Confirmation by the subject teachers,
+      erratum DEU-4.3.34 and the first live mock exam move to Sprint 09.
+
+## DONE_CHECKLIST (Commander 1.6.2) - 2026-10-03
+
+Evidence: typecheck PASS, lint PASS, `check:text` PASS (75 files), project guard scan clean, Vitest 145/145,
+`npm run test:db` PASS (024 and 025 applied, sections 18 and 20), build PASS, Playwright 68/68, security advisor: only the
+Auth WARN (leaked-password protection, Pro plan only, mitigated in the app by PDL-030); live: migration 024 (Director) and
+025 applied, IDSS points of the trial student checked (114 answer points = 9 x 10 + 12 x 2), blueprints loaded by the
+Director with matching SHA-256.
+
+| Area | Item | Result |
+|---|---|---|
+| Code quality | tsc zero errors; no `any` / `@ts-ignore` / `console.log` / TODO in new code; no unused code | PASS |
+| | No hard-coded values (IDSS point values in `config/gamification.json`, HIBP URL and timeout, notification limit are constants) | PASS |
+| | Browser console on changed screens | PASS on the production build; dev-mode CSP noise equal to the login page |
+| Architecture | Queries in repositories (`grading`, `gamification`, `notifications`); permissions in `lib/permissions.ts`; domain logic framework-free (`xp.ts`) | PASS |
+| | IDSS points never touch scoring (read-only stable function, DB test) | PASS |
+| Security | Server Actions: authenticate, authorise, Zod; new database functions service_role only | PASS |
+| | Leaked-password check on every password set (create, reset, own change); only a 5-character hash prefix leaves the server | PASS |
+| | Teacher sees only practice answers of graded subjects (database scope) | PASS |
+| Error handling | try/catch; failed writes audited; HIBP fails open with a log | PASS |
+| UX | Loading, empty and error states in bs/de/en; "IDSS bodovi" everywhere; motivation never shown as a grade | PASS |
+| Documentation | JSDoc; schema-audit 024, 025; CHANGELOG; PDL-029 to PDL-032; AMB-24; user guide source (PDL-031) | PASS |
+| Build/deploy | Build green; no new dependency | PASS |
+| | Test data | PASS (no live probe left data; the blueprints are the Director's real action) |
+| Post-deploy | Production URL | N/A (not deployed) |
+| Learning | `corrections/SPRINT_08_LESSONS.md` consolidated | PASS |
+
+COMMANDER COMPLIANCE - Sprint 08
+──────────────────────────────────
+Rules followed without reminder:        26/30 (M-2, M-3, M-4, M-5, M-13, M-18, M-21, M-23, P-4, P-7, P-13, P-14, P-15, E-1, E-2, E-3, E-4, E-5, E-6, E-9, E-11, E-13, A-2, A-3, A-4, A-5)
+Rules violated, caught by ACA:          3 (E-10: test file braces cut by rstrip; E-10: stale status texts found while writing the guide; E-10: ambiguity row with missing columns)
+Rules violated, caught by Director:     1 (product vocabulary: "XP" replaced by "IDSS bodovi")
+Rules that slowed work or felt wrong:   none
+New rules suggested by this sprint:     2 (see Commander Improvement Candidates)
+
+HANDOFF NOTE - Sprint 08
+Completed: teacher review of practice answers; set request notifications (migration 024, live); leaked-password check in the application (PDL-030); IDSS points and badges on the Game Hub (migration 025, live, PDL-029, renamed from XP by the Director); user guide source per participant (PDL-031); support monitoring design approved with the IDSS readiness scale (PDL-032, AMB-24 resolved); blueprints loaded live by the Director.
+Not completed: blueprint confirmation by Nizama Memija, Haris Hamzić and Nikolina Todorović; erratum DEU-4.3.34; first live mock exam from request to released result.
+Open risks: no mock exam has run live yet; six German records still wait for Nikolina Todorović; the HIBP check has not run against the live service from this sandbox (it runs from the Director's machine and the server).
+Technical debt: shadcn/ui deviation (PDL-010); Sentry deferred; Vercel deployment postponed; in-app printable guide waits for stable screens.
+Lessons captured: 8 entries in corrections/SPRINT_08_LESSONS.md.
+Next sprint: Sprint 09 - Support monitoring for the pedagogue and the psychologist (SUPPORT_MONITORING.md, PDL-032): student overview with user-set filters, student profile with the five dimensions, persistent errors, activity calendar, mock exam trend and the IDSS readiness indicator, group analysis (aggregates only), support notes with visibility and audit, print and CSV export; plus the carried-over live walk-through.

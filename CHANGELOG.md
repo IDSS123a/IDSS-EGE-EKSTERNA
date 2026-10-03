@@ -92,3 +92,4 @@
 [2026-10-03] [SECURITY] Leaked passwords refused in the application (Pwned Passwords range API, PDL-030); migration 024 live
 [2026-10-03] [FEATURE] XP and badges on the Game Hub (migration 025, PDL-029), derived read-only from the student's events
 [2026-10-03] [DOCS] User guide source per participant (docs/user-guide, PDL-031); "IDSS bodovi" replaces "XP" in app texts
+[2026-10-03] [SPRINT] Sprint 08 closed: DONE checklist, compliance score, handoff note
