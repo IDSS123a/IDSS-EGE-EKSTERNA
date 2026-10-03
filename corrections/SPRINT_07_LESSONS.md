@@ -64,3 +64,9 @@ None yet.
   never with a name-wide pkill.
 - A write probe against the live database runs inside a DO block that ends with `raise exception`, so the whole block
   rolls back even when the SQL tool does not keep an explicit transaction open; check afterwards that nothing stayed.
+
+### 2026-10-03 - Commander upgrade check
+- Before upgrading Commander, diff the two tags of the Commander repository (`git diff vA vB --stat`): when
+  `automation/` is unchanged apart from the template's version line, the upgrade is a version stamp plus a decision
+  entry, and nothing installed under `.claude/` or `.github/` needs replacing.
+- The project guard's `--ci` mode waits for hook input on stdin; run `--scan` locally to reproduce the CI step.
