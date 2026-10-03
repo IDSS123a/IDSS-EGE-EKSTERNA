@@ -5,7 +5,7 @@
 - **Upravljanje nalozima**: pregled liste naloga (bez promjena).
 - Obavijesti i zajedničke funkcije iz poglavlja "Zajedničko za sve korisnike".
 
-## Uskoro (Sprint 09)
+## Uskoro (Sprint 09, dizajn: docs/architecture/SUPPORT_MONITORING.md)
 - Pregled napretka učenika (vježba, probni ispiti nakon ocjene nastavnika), po učeniku i zbirno.
 - Bilješke podrške: vidljive samo pedagogu i psihologu, odvojeno zaštićene. Aplikacija ne računa psihološke, medicinske
   ili slične oznake.
