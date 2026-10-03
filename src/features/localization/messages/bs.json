@@ -1107,7 +1107,12 @@
       "pointsRow": "{p} bodova: {n} ispita",
       "missed": "Najčešće pogrešna pitanja",
       "missedRow": "{key}: pogrešno {n} puta, učenika {s}",
-      "empty": "Nema podataka."
+      "empty": "Nema podataka.",
+      "points": "Bodovi",
+      "exams": "Ispita",
+      "key": "Pitanje",
+      "wrong": "Pogrešno",
+      "students": "Učenika"
     },
     "daily": {
       "title": "Dnevni sažetak",
@@ -1150,5 +1155,12 @@
       "NOT_FOUND": "Učenik ne postoji.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     }
+  },
+  "print": {
+    "button": "Štampaj ili sačuvaj PDF",
+    "export": "Izvoz CSV",
+    "printedAt": "Odštampano: {date}.",
+    "exportedAt": "Izvezeno: {date}",
+    "confidential": "Povjerljivo: sadrži podatke o učenicima, samo za ovlaštene zaposlenike IDSS-a."
   }
 }

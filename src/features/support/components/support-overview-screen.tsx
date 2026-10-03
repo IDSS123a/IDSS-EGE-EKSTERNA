@@ -48,7 +48,7 @@ export function SupportOverviewScreen({ students, codes, today, followUps, canEx
   }, [students, subject, inactiveDays, dropOnly, sort, today, locale]);
 
   return (
-    <ReviewShell backHref={APP_HOME_PATH} backLabel={labels.back} title={labels.title} subtitle={labels.subtitle}>
+    <ReviewShell backHref={APP_HOME_PATH} backLabel={labels.back} title={labels.title} subtitle={labels.subtitle} print={{ confidential: true, exportHref: canExport ? `${SUPPORT_PATH}/izvoz` : undefined }}>
       <p className="notice">{labels.principle}</p>
       {followUps && followUps.length > 0 && (
         <section className="card" aria-labelledby="support-follow-ups">
@@ -92,8 +92,6 @@ export function SupportOverviewScreen({ students, codes, today, followUps, canEx
           </select>
         </div>
         <div className="link-row">
-          <button type="button" className="button-secondary" onClick={() => window.print()}>{labels.print}</button>
-          {canExport && <a className="button-secondary" href={`${SUPPORT_PATH}/izvoz`}>{labels.export}</a>}
           <Link className="button-secondary" href={`${SUPPORT_PATH}/analiza`}>{labels.analysisLink}</Link>
           <Link className="button-secondary" href={`${SUPPORT_PATH}/dan`}>{labels.dailyLink}</Link>
         </div>

@@ -6,7 +6,7 @@ import { summaryDay } from "@/features/support/domain/indicators";
 import { dailySummary } from "@/features/support/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
-import { canGrade, canViewStudentProgress } from "@/lib/permissions";
+import { canGrade, canViewStudentProgress, hasCapability } from "@/lib/permissions";
 
 /**
  * GET /app/pracenje/dan?d=YYYY-MM-DD — daily summary (PDL-018 item 3, Sprint 09). Role required: students.view_progress;
@@ -25,5 +25,5 @@ export default async function DailySummaryPage({ searchParams }: { searchParams:
     logError("app/pracenje/dan/page", error);
     throw error;
   }
-  return <DailySummaryScreen summary={summary} canGrade={canGrade(account)} />;
+  return <DailySummaryScreen summary={summary} canGrade={canGrade(account)} canExport={hasCapability(account, "reports.export")} />;
 }

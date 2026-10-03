@@ -499,3 +499,33 @@ left out of print and of every export; the audit row records the note's id and s
 **Implementation:** migration 028 (`teacher_notes` with RLS by subject capability, `teacher_notes_of`,
 `teacher_note_add`), `addTeacherNoteAction`; DB tests section 23. Assignments wait for decisions Z1 to Z6
 (`docs/architecture/ASSIGNMENTS.md`).
+
+## PDL-035: Teacher assignments (decisions Z1 to Z6)
+**Date:** 2026-10-03 (Director, answers to `docs/architecture/ASSIGNMENTS.md`)
+**Decision:**
+- Z1: the teacher gives an assignment to a group or to single students, as the teacher judges ("grupno i pojedinačno").
+- Z2: both kinds of content: questions picked by the teacher and "N questions from area X" drawn by the app; trusted
+  questions of the teacher's own subject only.
+- Z3: complete for a student when every assigned question has an answer, whether correct or not.
+- Z4: the teacher sets the due date for the student or the students (required).
+- Z5: no extra IDSS points for an assignment; answers already earn points (PDL-029).
+- Z6: the card "Zadaci nastavnika" on the student's start page plus a notice. Channel: in-app notification and Web
+  Push (free and permanent: browser standard, no provider, no per-message cost; on iPhone only after the app is added
+  to the home screen, iOS 16.4 or later). E-mail needs an SMTP provider and SMS always costs per message; both stay
+  out until the Director chooses a provider.
+- Added by the Director: a teacher may reward a student with a **special gift** for motivation (design proposal
+  `docs/architecture/SPECIAL_GIFTS.md`, decisions G1 to G6).
+
+## PDL-036: Uniform IDSS print and export format for every analysis and result
+**Date:** 2026-10-03 (Director: "Za sve analize i sve rezultate moraju biti dostupni izvoz podataka tj. Štampaj u
+prepoznatljivom uniformnom formatu IDSS")
+**Decision:** every analysis and result screen has one **Štampaj ili sačuvaj PDF** button and, where it is a table and
+the reader holds `reports.export`, **Izvoz CSV**. Paper and PDF: A4, IDSS letterhead (official logo, "IDSS - External
+Graduate Examination", "Internationale Deutsche Schule Sarajevo", the IDSS colour stripe, document title, print time,
+confidentiality line for personal data), product name and page number on every page; notes and buttons never print.
+CSV: product, title, export time, confidentiality line, an empty row, then the table; file name
+`idss-<document>-<day>.csv`; cells safe against formula injection; exports of personal data are audited.
+**Implementation:** `PrintHeader`, `PrintButton` (`src/features/shell/components/print-frame.tsx`), `ReviewShell`
+option `print`, `src/lib/idss-export.ts`, print CSS; applied to Praćenje učenika, Profil učenika, Analiza grupe,
+Dnevni sažetak, probni ispiti (overview and released result) and the teacher's grading view; CSV for the overview,
+the daily summary and the group analysis.

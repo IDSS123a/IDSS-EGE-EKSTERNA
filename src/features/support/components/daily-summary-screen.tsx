@@ -14,7 +14,7 @@ import type { DailySubject, DailySummary } from "../types";
  * accuracy), who did not and when each last practised, the areas of that day from the lowest accuracy, and open work.
  * No threshold marks a student inactive (P-4); the reader draws the conclusion.
  */
-export function DailySummaryScreen({ summary, canGrade }: { summary: DailySummary; canGrade: boolean }): ReactNode {
+export function DailySummaryScreen({ summary, canGrade, canExport }: { summary: DailySummary; canGrade: boolean; canExport: boolean }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.support.daily;
   const minDay = (() => {
@@ -24,7 +24,7 @@ export function DailySummaryScreen({ summary, canGrade }: { summary: DailySummar
   })();
 
   return (
-    <ReviewShell backHref={SUPPORT_PATH} backLabel={dictionary.support.backToOverview} title={labels.title} subtitle={labels.subtitle.replace("{day}", summary.day)}>
+    <ReviewShell backHref={SUPPORT_PATH} backLabel={dictionary.support.backToOverview} title={labels.title} subtitle={labels.subtitle.replace("{day}", summary.day)} print={{ confidential: true, exportHref: canExport ? `${SUPPORT_PATH}/dan/izvoz?d=${summary.day}` : undefined }}>
       <p className="notice">{labels.hint}</p>
       <section className="card no-print">
         <form method="get" className="support-filters">
@@ -35,7 +35,6 @@ export function DailySummaryScreen({ summary, canGrade }: { summary: DailySummar
           <div className="link-row">
             <button type="submit" className="button-primary">{labels.show}</button>
             <Link className="button-secondary" href={`${SUPPORT_PATH}/dan?d=${summary.today}`}>{labels.today}</Link>
-            <button type="button" className="button-secondary" onClick={() => window.print()}>{dictionary.support.print}</button>
           </div>
         </form>
       </section>

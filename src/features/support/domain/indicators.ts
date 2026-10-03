@@ -51,17 +51,4 @@ export function readinessPercent(readiness: Readiness): number | null {
   return readiness.state === "100" ? 100 : readiness.state === "90" ? 90 : readiness.state === "80" ? 80 : null;
 }
 
-/**
- * One CSV cell, safe against formula injection (DONE_CHECKLIST): text starting with =, +, -, @, tab or carriage return
- * is prefixed with an apostrophe; quotes are doubled and every cell is quoted.
- */
-export function csvCell(value: string | number | null): string {
-  const text = value === null ? "" : String(value);
-  const safe = /^[=+\-@\t\r]/.test(text) ? `'${text}` : text;
-  return `"${safe.replace(/"/g, '""')}"`;
-}
-
-/** A CSV document (semicolon separated for local spreadsheet programs, CRLF line ends, BOM for UTF-8). */
-export function toCsv(rows: readonly (readonly (string | number | null)[])[]): string {
-  return "﻿" + rows.map((row) => row.map(csvCell).join(";")).join("\r\n") + "\r\n";
-}
+export { csvCell, toCsv } from "@/lib/idss-export";

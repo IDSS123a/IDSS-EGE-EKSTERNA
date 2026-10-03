@@ -5,7 +5,7 @@ import { GroupAnalysisScreen } from "@/features/support/components/group-analysi
 import { groupPatterns, visibleSubjectCodes } from "@/features/support/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
-import { canViewStudentProgress } from "@/lib/permissions";
+import { canViewStudentProgress, hasCapability } from "@/lib/permissions";
 
 /** GET /app/pracenje/analiza — group analysis, aggregates only (Sprint 09). Role required: students.view_progress (own subjects for a teacher). */
 export default async function GroupAnalysisPage(): Promise<ReactNode> {
@@ -19,5 +19,5 @@ export default async function GroupAnalysisPage(): Promise<ReactNode> {
     logError("app/pracenje/analiza/page", error);
     throw error;
   }
-  return <GroupAnalysisScreen patterns={patterns} codes={codes} />;
+  return <GroupAnalysisScreen patterns={patterns} codes={codes} canExport={hasCapability(account, "reports.export")} />;
 }

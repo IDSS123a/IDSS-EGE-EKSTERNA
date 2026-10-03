@@ -34,6 +34,14 @@ curenjima podataka se odbija; izaberite drugu.
 Na početnoj stranici (učenici) i na stranici **Probni ispiti** (nastavnici) prikazuju se obavijesti, nepročitane prve.
 Klik na obavijest otvara ispit i označava je kao pročitanu; **Označi sve kao pročitano** označava sve.
 
+## Štampa i izvoz u IDSS formatu (Dostupno)
+Svaka analiza i svaki rezultat ima ispod naslova dugme **Štampaj ili sačuvaj PDF**; u prozoru za štampu birate
+štampač ili "Sačuvaj kao PDF". Odštampani dokument uvijek ima isto IDSS zaglavlje: službeni logo, naziv aplikacije i
+škole, traku u IDSS bojama, naslov, vrijeme štampe i, kad sadrži podatke o učenicima, napomenu o povjerljivosti; na dnu
+svake stranice su naziv aplikacije i broj stranice. Dugmad i bilješke se ne štampaju.
+Gdje je sadržaj tabela, a vi imate pravo izvoza, uz njega je **Izvoz CSV**: datoteka `idss-<dokument>-<datum>.csv` za
+tabelarni program, s istim zaglavljem u prvim redovima.
+
 ## Odjava (Dostupno)
 Kliknite **Odjava** u gornjem desnom uglu. Na zajedničkom računaru se uvijek odjavite.
 

@@ -30,7 +30,7 @@ export function StudentProfileScreen({ profile, teacherNotes }: { profile: Stude
   });
 
   return (
-    <ReviewShell backHref={SUPPORT_PATH} backLabel={labels.backToOverview} title={profile.name} subtitle={labels.profile.subtitle}>
+    <ReviewShell backHref={SUPPORT_PATH} backLabel={labels.backToOverview} title={profile.name} subtitle={labels.profile.subtitle} print={{ confidential: true }}>
       <section className="card">
         <dl className="canon-version__meta">
           <div><dt>{labels.columns.lastActivity}</dt><dd>{profile.lastActivity ? formatDateTime(profile.lastActivity, locale) : labels.never}</dd></div>
@@ -44,9 +44,6 @@ export function StudentProfileScreen({ profile, teacherNotes }: { profile: Stude
           ))}
         </div>
         <p className="form__hint">{labels.profile.calendarHint}</p>
-        <div className="link-row no-print">
-          <button type="button" className="button-secondary" onClick={() => window.print()}>{labels.print}</button>
-        </div>
       </section>
 
       {profile.subjects.map((subject) => (

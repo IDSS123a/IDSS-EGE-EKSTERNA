@@ -96,3 +96,5 @@
 [2026-10-03] [FEATURE] Student monitoring for the pedagogue and the psychologist (/app/pracenje): overview with user-set filters, student profile, support notes (D1 to D3), group analysis, IDSS readiness (PDL-032), print and CSV export
 [2026-10-03] [FEATURE] Subject teacher view of student progress (own subject only) and the daily summary /app/pracenje/dan (migration 027, PDL-033)
 [2026-10-03] [FEATURE] Academic teacher notes per student and subject on the student profile (migration 028, PDL-034); assignments design proposal (ASSIGNMENTS.md, decisions Z1 to Z6)
+[2026-10-03] [FEATURE] Uniform IDSS print and export format for every analysis and result (PDL-036): letterhead, page footer, IDSS CSV with heading rows; CSV for the daily summary and the group analysis
+[2026-10-03] [DOCS] Assignments approved (PDL-035, Z1 to Z6); special gifts design proposal (SPECIAL_GIFTS.md, G1 to G6)

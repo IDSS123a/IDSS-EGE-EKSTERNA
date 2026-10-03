@@ -9,7 +9,7 @@ import { share } from "../domain/indicators";
 import type { GroupPatterns } from "../types";
 
 /** Analiza grupe (Sprint 09, SUPPORT_MONITORING.md C): aggregates only, no student named, no ranking. */
-export function GroupAnalysisScreen({ patterns, codes }: { patterns: GroupPatterns; codes: SubjectCode[] }): ReactNode {
+export function GroupAnalysisScreen({ patterns, codes, canExport }: { patterns: GroupPatterns; codes: SubjectCode[]; canExport: boolean }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.support.analysis;
   const percent = (part: number, whole: number) => {
@@ -18,7 +18,7 @@ export function GroupAnalysisScreen({ patterns, codes }: { patterns: GroupPatter
   };
 
   return (
-    <ReviewShell backHref={SUPPORT_PATH} backLabel={dictionary.support.backToOverview} title={labels.title} subtitle={labels.subtitle.replace("{n}", String(patterns.students))}>
+    <ReviewShell backHref={SUPPORT_PATH} backLabel={dictionary.support.backToOverview} title={labels.title} subtitle={labels.subtitle.replace("{n}", String(patterns.students))} print={{ confidential: false, exportHref: canExport ? `${SUPPORT_PATH}/analiza/izvoz` : undefined }}>
       <p className="notice">{labels.hint}</p>
 
       <section className="card" aria-labelledby="analysis-weeks">
