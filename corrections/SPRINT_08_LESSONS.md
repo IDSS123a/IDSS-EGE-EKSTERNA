@@ -1,42 +1,29 @@
 # Sprint 08 — Lessons Learned
-Date: 2026-10-03 (open)
+Date: 2026-10-03 (closed)
 
 ## Corrections Applied
-None yet.
+1. A Python `rstrip("});")` strips any of those characters, not the suffix, and cut a test file's closing braces
+   (Vitest: "no tests"; caught by the ACA at once) → file endings are edited by exact string replacement.
+2. Writing the user guide against real labels found two stale texts shown to users (public home "Trenutno se gradi
+   Sprint 02"; staff home workspace "se gradi") → replaced; app texts describe what the user can do, never the
+   project's progress, and the guide is updated in the same change as its screen (PDL-031).
+3. A new AMBIGUITIES row had 4 cells in a 6-column table → rewritten with all columns; count header cells before
+   appending to a Markdown table.
 
 ## Gotchas Discovered
-- A Python `rstrip("});")` strips any of those characters, not the suffix, and cut a test file's closing braces
-  (Vitest: "no tests"). Edit file endings by exact string replacement, never by character-set strip.
-- Gamification values (XP per event, badge thresholds) are not in the mandate; like the daily mission (PDL-024) they
-  are a Director decision recorded before implementation, not a developer default.
+- Gamification values and readiness scales are not in the mandate; they are Director decisions recorded before
+  implementation (PDL-029, PDL-032), never developer defaults.
+- Supabase leaked-password protection is Pro-only; the dashboard switch fails on Free. Rebuilt in the app with the
+  Pwned Passwords range API (k-anonymity, PDL-030); the advisor WARN is recorded as mitigated. The build sandbox cannot
+  reach the API, so the check is tested with a fake service and fails open with a log entry.
+- IDSS points derived read-only from the facts they reward cannot drift and cannot touch a score; a `stable` function
+  is proven unable to write (DB test). A ledger is only needed once points must survive a change of the facts.
+- `next dev` reports inline-style CSP errors on every page (33 on the login page too); console checks of new screens
+  compare against the login page or run on the production build.
+- Staff analytics offer filters the user sets (N days without practice, a drop against the student's own previous
+  exam), never a system "risk" label (P-4, mandate §11).
 
 ## Commander Improvement Candidates
-None yet.
-
-### 2026-10-03 - Plan-gated platform features
-- Supabase leaked-password protection is a Pro-plan feature; the dashboard switch fails on Free. A security control
-  the platform gates behind a plan is rebuilt in the application when it is cheap and privacy-safe (here: Pwned
-  Passwords range API with k-anonymity, PDL-030), and the advisor WARN is recorded as mitigated, not ignored.
-- The build sandbox cannot reach api.pwnedpasswords.com (egress policy); such checks are tested with a fake service
-  and fail open with a log entry, so an unreachable service never blocks a password change.
-
-### 2026-10-03 - XP derived, not stored
-- XP computed read-only from the facts it rewards (answers with their latest outcome, days, exams) cannot drift from
-  them and cannot touch a score: a teacher's later verdict changes the XP of that answer automatically, and a
-  `stable` function is proven unable to write (DB test). A separate ledger is only needed once XP must survive a change
-  of the facts.
-- `next dev` reports inline-style CSP errors on every page (33 on the login page too): they come from the dev tooling,
-  not from new code; console checks for new screens compare against the login page or run on the production build.
-
-### 2026-10-03 - Writing the user guide finds stale screens
-- Writing the guide against the real labels found two stale texts still shown to users (public home: "Trenutno se
-  gradi Sprint 02"; staff home: workspace "se gradi"). Status texts that name a sprint go stale silently; app texts
-  describe what the user can do, never the project's progress. The guide is updated in the same change as its screen
-  (PDL-031), which keeps catching such drift.
-- Staff analytics must not invent thresholds: "students needing attention" is offered as filters the user sets (N
-  days without practice, a drop against the student's own previous exam), not as a system label (P-4, mandate §11).
-
-### 2026-10-03 - Ambiguity table format
-- A new row appended to `docs/discovery/AMBIGUITIES.md` first had 4 cells in a 6-column table (it rendered broken);
-  fixed by writing the row with all six columns. Before appending to a Markdown table, read its header and count the
-  cells of the new row.
+- ENGINEERING_RULES: "a security control the platform gates behind a paid plan is rebuilt in the application when it is
+  cheap and privacy-safe, and the advisor finding is recorded as mitigated" (PDL-030).
+- DONE_CHECKLIST Documentation: "the user guide chapter of every changed screen is updated in the same change" (PDL-031).
