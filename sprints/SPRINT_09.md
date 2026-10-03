@@ -61,3 +61,17 @@ Building assignments before decisions Z1 to Z6; leaderboards.
 - [x] 9. Special gifts (migration 032 live, PDL-039 G1 to G6): `/app/vitrina` with six procedural 3D gifts and the
       unboxing, teacher form and list on the profile, hub card, push notice; DB tests section 26; unit tests; renders
       checked in headless Chromium (desktop and phone).
+- [x] 10. Exit criterion of plan row 09, "privacy boundaries verified live" (2026-10-04): every live account was
+      impersonated through RLS (role `authenticated`, its own JWT `sub`) in one rolled-back transaction; direct reads:
+
+      | Account | Profiles | Practice answers | Support notes | Teacher notes | Gifts | Assignments | Audit | Answer keys | Bundles |
+      |---|---|---|---|---|---|---|---|---|---|
+      | a.b. (student) | 1 (own) | 28 (own) | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+      | Haris Hamzić (Math) | 7 (accounts.view) | 0 (no Math answers) | 0 | 0 | 0 | 0 | 0 | 200 (Math) | 2 (own) |
+      | Nikolina Todorović (German) | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 200 (German) | 2 |
+      | Nizama Memija (B/H/S) | 7 | 28 (B/H/S) | 0 | 0 | 1 (given by her) | 1 (B/H/S) | 0 | 200 (B/H/S) | 2 |
+      | Pedagogue, psychologist | 7 | 28 (all subjects) | 0 | 0 | 0 (functions only) | 1 | 0 | 0 | 2 |
+      | Director (superadmin) | 7 | 28 | 0 (D2) | 0 | 0 (functions only) | 1 | 704 | 600 | 10 |
+
+      Result: no account reads data outside its role; the student reads no key, note, audit row or other student;
+      teachers read keys and answers of their own subject only; support notes stay with their authors (none exist yet).
