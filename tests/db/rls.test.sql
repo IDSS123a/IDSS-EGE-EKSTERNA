@@ -791,6 +791,11 @@ select pg_temp.expect_error($$select public.mock_exam_start('00000000-0000-0000-
 create temp table t_exam as select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null) as id;
 select pg_temp.assert((select public.mock_exam_start('00000000-0000-0000-0000-00000000000c', (select id from t_german), null)) = (select id from t_exam),
   'starting again returns the mock exam in progress');
+-- Migration 024: a requested set notifies the subject's teachers once, so it never waits for approval unseen.
+select pg_temp.assert((select count(*) from public.notifications where kind = 'mock_exam_requested' and entity_id = (select id from t_exam)) >= 1
+  and (select count(distinct recipient_user_id) from public.notifications where kind = 'mock_exam_requested' and entity_id = (select id from t_exam))
+    = (select count(*) from public.notifications where kind = 'mock_exam_requested' and entity_id = (select id from t_exam)),
+  'a requested set notifies each teacher of the subject once, also when the student asks again');
 -- P-15 (migration 020): the set waits for a teacher; the student sees no question before approval and start.
 select pg_temp.assert((select status from public.mock_exams where id = (select id from t_exam)) = 'awaiting_approval'
   and (select deadline_at from public.mock_exams where id = (select id from t_exam)) is null, 'a generated set waits for a teacher, no time runs');

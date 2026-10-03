@@ -10,10 +10,10 @@ import { RegistryFunctionError } from "@/features/canon/repository";
 import type { SubjectCode } from "@/features/knowledge/types";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError, logInfo } from "@/lib/logger";
-import { canGradeSubject, canPublishCanon, canReviewSubject } from "@/lib/permissions";
-import { BlueprintReviewSchema, GradesSchema, SetDiscardSchema } from "@/lib/validation/schemas";
+import { canGrade, canGradeSubject, canPublishCanon, canReviewSubject } from "@/lib/permissions";
+import { BlueprintReviewSchema, GradesSchema, PracticeVerdictSchema, SetDiscardSchema } from "@/lib/validation/schemas";
 import { blueprintConfig } from "./blueprint-config";
-import { approveSet, confirmGrades, discardSet, loadBlueprint, reviewBlueprint, saveGrades } from "./repository";
+import { approveSet, confirmGrades, discardSet, loadBlueprint, reviewBlueprint, reviewPracticeAnswer, saveGrades } from "./repository";
 import type { GradingActionResult, GradingErrorCode } from "./types";
 
 /**
@@ -219,4 +219,31 @@ async function confirm(formData: FormData): Promise<GradingActionResult> {
   }
   revalidatePath(GRADING_PATH, "layout");
   return { success: true, data: { message: "RESULT_CONFIRMED" } };
+}
+
+/**
+ * POST (Server Action) reviewPracticeAnswerAction
+ * Role required: exams.grade (the database checks the answer's own subject).
+ * Body: FormData { answerId, verdict: correct|partly_correct|incorrect, note? }.
+ * The verdict counts for the student's practice progress only, never for a mock exam score.
+ * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NOT_FOUND, UNAVAILABLE.
+ */
+export async function reviewPracticeAnswerAction(_previous: GradingActionResult | null, formData: FormData): Promise<GradingActionResult> {
+  const result = await reviewAnswer(formData);
+  return auditIfFailed(result, { action: "practice.answer_review", entityType: "practice_answer", entityId: formId(formData, "answerId") });
+}
+
+async function reviewAnswer(formData: FormData): Promise<GradingActionResult> {
+  const actor = await getCurrentAccount();
+  if (!actor) return { success: false, code: "UNAUTHENTICATED" };
+  if (!canGrade(actor)) return { success: false, code: "FORBIDDEN" };
+  const parsed = PracticeVerdictSchema.safeParse({ answerId: formData.get("answerId"), verdict: formData.get("verdict"), note: formData.get("note") ?? undefined });
+  if (!parsed.success) return { success: false, code: "VALIDATION" };
+  try {
+    await reviewPracticeAnswer(createSupabaseAdminClient(), { actorUserId: actor.userId, answerId: parsed.data.answerId, verdict: parsed.data.verdict, note: parsed.data.note ?? null, ipAddress: await requestIp() });
+  } catch (error) {
+    return failure(error, "grading/actions.reviewPracticeAnswerAction");
+  }
+  revalidatePath(GRADING_PATH, "layout");
+  return { success: true, data: { message: "ANSWER_REVIEWED" } };
 }

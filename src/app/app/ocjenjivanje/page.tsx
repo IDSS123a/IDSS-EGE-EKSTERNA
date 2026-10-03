@@ -3,7 +3,7 @@ import { NOTIFICATIONS_LIMIT } from "@/constants";
 import { ForbiddenScreen } from "@/features/accounts/components/forbidden-screen";
 import { requireAccount } from "@/features/authentication/session";
 import { GradingHomeScreen } from "@/features/grading/components/grading-home-screen";
-import { gradingQueue, subjectBlueprints } from "@/features/grading/repository";
+import { gradingQueue, practiceReviewQueue, subjectBlueprints } from "@/features/grading/repository";
 import { displayNames, listSubjects } from "@/features/knowledge/repository";
 import { listNotifications } from "@/features/notifications/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
@@ -25,15 +25,16 @@ export default async function GradingPage(): Promise<ReactNode> {
     const admin = createSupabaseAdminClient();
     const all = await listSubjects(client);
     const subjects = all.filter((subject) => canGradeSubject(account, subject.id) || canReviewSubject(account, subject.id));
-    const [blueprints, queue, notifications] = await Promise.all([
+    const [blueprints, queue, notifications, practiceAnswers] = await Promise.all([
       subjectBlueprints(client, subjects, (ids) => displayNames(admin, ids)),
       gradingQueue(admin, account.userId),
       listNotifications(client, all, NOTIFICATIONS_LIMIT),
+      practiceReviewQueue(admin, account.userId),
     ]);
-    view = { blueprints, queue, notifications, reviewable: subjects.filter((subject) => canReviewSubject(account, subject.id)).map((subject) => subject.id) };
+    view = { blueprints, queue, notifications, practiceWaiting: practiceAnswers.length, reviewable: subjects.filter((subject) => canReviewSubject(account, subject.id)).map((subject) => subject.id) };
   } catch (error) {
     logError("app/ocjenjivanje/page", error);
     throw error;
   }
-  return <GradingHomeScreen blueprints={view.blueprints} queue={view.queue} reviewable={view.reviewable} canLoad={canPublishCanon(account)} notifications={view.notifications} />;
+  return <GradingHomeScreen blueprints={view.blueprints} queue={view.queue} reviewable={view.reviewable} canLoad={canPublishCanon(account)} notifications={view.notifications} practiceWaiting={view.practiceWaiting} />;
 }

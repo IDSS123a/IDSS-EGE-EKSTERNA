@@ -20,13 +20,15 @@ type Props = {
   reviewable: string[];
   canLoad: boolean;
   notifications: AppNotification[];
+  /** Practice answers waiting for the teacher (migration 021). */
+  practiceWaiting: number;
 };
 
 /**
  * Teachers' mock exam area (Sprint 07): blueprints per subject (loaded from the repository, confirmed by a reviewer of
  * the subject against the canonical documents, P-15), sets waiting for approval, exams to grade and recent results.
  */
-export function GradingHomeScreen({ blueprints, queue, reviewable, canLoad, notifications }: Props): ReactNode {
+export function GradingHomeScreen({ blueprints, queue, reviewable, canLoad, notifications, practiceWaiting }: Props): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.grading;
   const groups: { key: "approval" | "grading" | "graded"; entries: GradingQueueEntry[] }[] = [
@@ -38,6 +40,9 @@ export function GradingHomeScreen({ blueprints, queue, reviewable, canLoad, noti
   return (
     <ReviewShell backHref={APP_HOME_PATH} backLabel={labels.back} title={labels.title} subtitle={labels.subtitle}>
       <NotificationsPanel notifications={notifications} />
+      <div className="link-row">
+        <Link href={`${GRADING_PATH}/vjezba`} className={practiceWaiting > 0 ? "button-primary" : "button-secondary"}>{labels.practice.link.replace("{n}", String(practiceWaiting))}</Link>
+      </div>
       {groups.map((group) => (
         <section key={group.key} className="card" aria-labelledby={`grading-${group.key}`}>
           <h2 id={`grading-${group.key}`}>{labels.queue[group.key]} ({group.entries.length})</h2>

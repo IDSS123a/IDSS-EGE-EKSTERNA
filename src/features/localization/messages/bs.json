@@ -897,7 +897,8 @@
       "SET_DISCARDED": "Set je odbačen.",
       "SET_REPLACED": "Set je odbačen i sastavljen je novi set.",
       "GRADES_SAVED": "Bodovi su sačuvani.",
-      "RESULT_CONFIRMED": "Rezultat je potvrđen i učenik ga vidi."
+      "RESULT_CONFIRMED": "Rezultat je potvrđen i učenik ga vidi.",
+      "ANSWER_REVIEWED": "Ocjena odgovora je sačuvana."
     },
     "errors": {
       "UNAUTHENTICATED": "Sesija je istekla. Prijavite se ponovo.",
@@ -913,6 +914,24 @@
       "VERSION_EXISTS": "Ova verzija plana je već učitana s drugačijim sadržajem.",
       "NO_CONFIG": "Za ovaj predmet u repozitoriju nema plana.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
+    },
+    "practice": {
+      "link": "Odgovori iz vježbe koji čekaju nastavnika ({n})",
+      "title": "Odgovori iz vježbe",
+      "subtitle": "Otvoreni zadaci koje učenici vježbaju",
+      "hint": "Ovo je vježba: ocjena se računa samo u napretku učenika, nikad u probnom ispitu. Uz odgovor je službeno rješenje iz kataloga.",
+      "empty": "Nema odgovora koji čekaju.",
+      "student": "Učenik",
+      "answer": "Odgovor",
+      "printedKey": "Službeno rješenje",
+      "verdict": "Ocjena",
+      "verdicts": {
+        "correct": "Tačno",
+        "partly_correct": "Djelimično tačno",
+        "incorrect": "Netačno"
+      },
+      "note": "Napomena za učenika (nije obavezna)",
+      "submit": "Sačuvaj ocjenu"
     }
   },
   "notifications": {
@@ -920,6 +939,7 @@
     "unread": "nepročitano: {n}",
     "markAll": "Označi sve kao pročitano",
     "kinds": {
+      "mock_exam_requested": "Set čeka odobrenje: {subject}",
       "mock_exam_submitted": "Predan probni ispit: {subject}",
       "mock_exam_graded": "Tvoj probni ispit je ocijenjen: {subject}"
     }

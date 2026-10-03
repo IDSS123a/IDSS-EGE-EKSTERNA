@@ -88,3 +88,4 @@
 [2026-10-03] [GOVERNANCE] Commander upgraded to v1.6.2 (PDL-028): stamps only, automation unchanged
 [2026-10-03] [FEATURE] In-app notifications (submitted mock exams for teachers, released results for students) on the Game Hub and in the grading area
 [2026-10-03] [SPRINT] Sprint 07 closed: DONE checklist, compliance score, handoff note
+[2026-10-03] [FEATURE] Teacher review of open practice answers (/app/ocjenjivanje/vjezba); migration 024 written (set request notifications, pending Director run)

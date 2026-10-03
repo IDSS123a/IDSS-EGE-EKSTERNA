@@ -61,6 +61,18 @@ export type GradingView = ExamView & {
   pairsRule: Record<string, number> | null;
 };
 
+/** A practice answer waiting for the teacher (migration 021): the question as printed, the answer, printed keys, errata. */
+export type PracticeReviewEntry = {
+  id: string;
+  submittedAt: string;
+  student: string;
+  subjectCode: SubjectCode;
+  question: import("@/features/practice/types").PracticeQuestion;
+  responses: { item: number | null; response: string }[];
+  keys: { item: number | null; key: string }[];
+  errata: { item: number | null; description: string; evidence: string }[];
+};
+
 export type GradingErrorCode =
   | "UNAUTHENTICATED"
   | "FORBIDDEN"
@@ -77,5 +89,5 @@ export type GradingErrorCode =
   | "UNAVAILABLE";
 
 export type GradingActionResult =
-  | { success: true; data: { message: "BLUEPRINT_LOADED" | "BLUEPRINT_CONFIRMED" | "BLUEPRINT_REJECTED" | "SET_APPROVED" | "SET_DISCARDED" | "SET_REPLACED" | "GRADES_SAVED" | "RESULT_CONFIRMED" } }
+  | { success: true; data: { message: "BLUEPRINT_LOADED" | "BLUEPRINT_CONFIRMED" | "BLUEPRINT_REJECTED" | "SET_APPROVED" | "SET_DISCARDED" | "SET_REPLACED" | "GRADES_SAVED" | "RESULT_CONFIRMED" | "ANSWER_REVIEWED" } }
   | { success: false; code: GradingErrorCode };
