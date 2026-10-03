@@ -1,0 +1,25 @@
+# Screenshots for the user guide
+
+Every screen of the guide with role and state. "Fixture" = captured with sample data in the build sandbox (layout
+check, not for the final guide); "Live" = to capture from the real app with a real sign-in for the final guide.
+
+| Screen | Path | Role | States to capture | Status |
+|---|---|---|---|---|
+| Splash and public home | `/` | everyone | splash, home | Fixture 2026-10-03 |
+| Sign-in | `/prijava` | everyone | empty, wrong password | Fixture 2026-10-03 |
+| Own account | `/app/nalog` | everyone | password change, leaked password refused | Live pending |
+| Game Hub | `/app` | student | notifications, streak, mission, IDSS points and badges, subjects | Fixture 2026-10-03 |
+| Subject areas | `/app/predmet/[code]` | student | three subjects | Live pending |
+| Practice | `/app/vjezba` | student | choice, true/false, open, erratum notice, after answer | Fixture 2026-10-03 |
+| Mock exams overview | `/app/ispit` | student | available, waiting, unavailable, history | Fixture 2026-10-03 |
+| Mock exam | `/app/ispit/[id]` | student | waiting, before start, writing (desktop and phone), submitted, result | Fixture 2026-10-03 |
+| Staff home | `/app` | each staff role | links per role | Live pending |
+| Grading area | `/app/ocjenjivanje` | teacher, superadmin | queues, blueprints (load, confirm), notifications | Fixture 2026-10-03 |
+| Set approval | `/app/ocjenjivanje/[id]` | teacher | printed keys, errata, follow-ups, approve, discard | Live pending |
+| Grading | `/app/ocjenjivanje/[id]` | teacher | proposals, points, pairs, confirm | Fixture 2026-10-03 |
+| Practice answers | `/app/ocjenjivanje/vjezba` | teacher | answer beside key, verdict | Live pending |
+| Review queue | `/app/pregled` | teacher, superadmin | filters, open notices, key search | Live pending |
+| Review record | `/app/pregled/[id]` | teacher, superadmin | source region, errata form, follow-ups | Live pending |
+| Accounts | `/app/nalozi` | superadmin, view for others | create, status, rights, reset | Live pending |
+| Canon registry | `/app/kanon` | superadmin, reviewers | upload, versions, history | Live pending |
+| Settings | `/app/postavke` | superadmin | splash colours | Live pending |

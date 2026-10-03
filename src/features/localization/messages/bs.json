@@ -20,8 +20,8 @@
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
     "title": "IDSS - External Graduate Examination",
     "subtitle": "Priprema za eksternu maturu kroz izazove, misije i vježbu zasnovanu isključivo na službenim ispitnim katalozima.",
-    "statusTitle": "Platforma je u izgradnji",
-    "statusBody": "Trenutno se gradi Sprint 02: registar kanonskih dokumenata, s trajnom historijom verzija, aktivacijom i vraćanjem ranijih verzija.",
+    "statusTitle": "Pripremna faza",
+    "statusBody": "Platforma je u pripremnoj fazi i koriste je učenici i nastavnici IDSS-a. Prijavite se nalogom koji vam je dodijelila škola.",
     "replaySplash": "Prikaži uvodni ekran ponovo",
     "login": "Prijava"
   },
@@ -50,7 +50,7 @@
       "student": "Učenik"
     },
     "nextStepsTitle": "Šta slijedi",
-    "nextStepsBody": "Vaš radni prostor se gradi u narednim sprintovima. Prijava, uloge i zaštita podataka su aktivni.",
+    "nextStepsBody": "Ispod su dijelovi aplikacije koje vaša uloga može koristiti. Novi dijelovi se dodaju postepeno.",
     "logout": "Odjava"
   },
   "accounts": {
@@ -947,15 +947,15 @@
     }
   },
   "gamification": {
-    "title": "XP bodovi",
-    "total": "{n} XP",
-    "breakdown": "Odakle su XP bodovi",
+    "title": "IDSS bodovi",
+    "total": "{n}",
+    "breakdown": "Odakle su IDSS bodovi",
     "sources": {
-      "answers": "Odgovori u vježbi: {n} XP",
-      "missions": "Ispunjene dnevne misije: {n} XP",
-      "practiceDays": "Dani vježbanja: {n} XP",
-      "examsSubmitted": "Predani probni ispiti: {n} XP",
-      "examsGraded": "Ocijenjeni probni ispiti: {n} XP"
+      "answers": "Odgovori u vježbi: {n}",
+      "missions": "Ispunjene dnevne misije: {n}",
+      "practiceDays": "Dani vježbanja: {n}",
+      "examsSubmitted": "Predani probni ispiti: {n}",
+      "examsGraded": "Ocijenjeni probni ispiti: {n}"
     },
     "badgesTitle": "Značke",
     "earned": "Osvojeno",
@@ -972,6 +972,6 @@
       "allSubjects": "Sva tri predmeta",
       "allSubjectsHint": "Predaj probni ispit iz sva tri predmeta."
     },
-    "note": "XP bodovi i značke su za motivaciju. Nisu ocjena i ne mijenjaju bodove na ispitu."
+    "note": "IDSS bodovi i značke su za motivaciju. Nisu ocjena i ne mijenjaju bodove na ispitu."
   }
 }

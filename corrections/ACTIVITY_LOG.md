@@ -80,3 +80,4 @@
 - [2026-10-03] Sprint 08 started; practice answer review screen; migration 024 written and tested locally
 - [2026-10-03] Migration 024 live (Director), history recorded; PDL-029 to PDL-031; leaked-password check in the app
 - [2026-10-03] Migration 025 live; XP and badges panel
+- [2026-10-03] User guide source written; XP renamed to IDSS bodovi

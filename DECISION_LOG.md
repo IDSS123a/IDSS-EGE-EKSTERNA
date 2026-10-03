@@ -454,3 +454,6 @@ Nizama, Nikolina, Haris, Davor, Medina and Adnana; a comprehensive guide with sc
 for B/H/S, German, Mathematics; superadministrator; pedagogue; psychologist) with personal start pages for the named staff,
 and a screenshot list per screen. Every sprint that changes a screen updates its chapter in the same change. The in-app,
 printable guide (one page per role, print stylesheet) is built from this source once the screens are stable.
+**Amendment 2026-10-03 (Director):** in every app text the reward is called "IDSS bodovi" (de "IDSS-Punkte", en "IDSS
+points"), never "XP". The panel always states that IDSS points are not a grade and never change exam points, so the
+name cannot be confused with the points of a mock exam. Code identifiers (`xp`) stay internal.

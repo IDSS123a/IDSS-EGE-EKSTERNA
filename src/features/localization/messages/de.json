@@ -20,8 +20,8 @@
     "eyebrow": "Internationale Deutsche Schule Sarajevo",
     "title": "IDSS - External Graduate Examination",
     "subtitle": "Vorbereitung auf die externe Matura mit Herausforderungen, Missionen und Übungen, die ausschließlich auf den offiziellen Prüfungskatalogen beruhen.",
-    "statusTitle": "Die Plattform ist im Aufbau",
-    "statusBody": "Derzeit entsteht Sprint 02: das Register der kanonischen Dokumente mit dauerhaftem Versionsverlauf, Aktivierung und Wiederherstellung früherer Versionen.",
+    "statusTitle": "Vorbereitungsphase",
+    "statusBody": "Die Plattform ist in der Vorbereitungsphase und wird von Schülern und Lehrkräften der IDSS genutzt. Melden Sie sich mit dem Konto an, das Ihnen die Schule zugewiesen hat.",
     "replaySplash": "Startbildschirm erneut anzeigen",
     "login": "Anmelden"
   },
@@ -50,7 +50,7 @@
       "student": "Schüler/in"
     },
     "nextStepsTitle": "Wie es weitergeht",
-    "nextStepsBody": "Ihr Arbeitsbereich entsteht in den nächsten Sprints. Anmeldung, Rollen und Datenschutz sind aktiv.",
+    "nextStepsBody": "Unten finden Sie die Bereiche, die Ihre Rolle nutzen kann. Neue Bereiche kommen schrittweise hinzu.",
     "logout": "Abmelden"
   },
   "accounts": {
@@ -947,15 +947,15 @@
     }
   },
   "gamification": {
-    "title": "XP-Punkte",
-    "total": "{n} XP",
-    "breakdown": "Woher die XP kommen",
+    "title": "IDSS-Punkte",
+    "total": "{n}",
+    "breakdown": "Woher die IDSS-Punkte kommen",
     "sources": {
-      "answers": "Antworten in der Übung: {n} XP",
-      "missions": "Erfüllte Tagesmissionen: {n} XP",
-      "practiceDays": "Übungstage: {n} XP",
-      "examsSubmitted": "Abgegebene Probeprüfungen: {n} XP",
-      "examsGraded": "Bewertete Probeprüfungen: {n} XP"
+      "answers": "Antworten in der Übung: {n}",
+      "missions": "Erfüllte Tagesmissionen: {n}",
+      "practiceDays": "Übungstage: {n}",
+      "examsSubmitted": "Abgegebene Probeprüfungen: {n}",
+      "examsGraded": "Bewertete Probeprüfungen: {n}"
     },
     "badgesTitle": "Abzeichen",
     "earned": "Erreicht",
@@ -972,6 +972,6 @@
       "allSubjects": "Alle drei Fächer",
       "allSubjectsHint": "Gib eine Probeprüfung in allen drei Fächern ab."
     },
-    "note": "XP und Abzeichen dienen der Motivation. Sie sind keine Note und ändern keine Prüfungspunkte."
+    "note": "IDSS-Punkte und Abzeichen dienen der Motivation. Sie sind keine Note und ändern keine Prüfungspunkte."
   }
 }

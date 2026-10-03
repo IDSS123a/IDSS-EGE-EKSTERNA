@@ -39,5 +39,11 @@ Levels, challenges and leaderboards (later); search (parked); daily teacher summ
 - [x] 5. Leaked-password protection: Supabase offers it only on Pro plans (Director's screenshot), so the application
       checks every new password against the Pwned Passwords range API (PDL-030, k-anonymity) on account creation,
       reset and own change; unit tests with a fake service (the API is not reachable from the build sandbox).
-- [ ] 6. User guide source per participant (PDL-031): `docs/user-guide/`, updated with every screen change.
+- [x] 6. User guide source per participant (PDL-031): `docs/user-guide/` with chapters for everyone, students, subject
+      teachers, the superadministrator, pedagogue and psychologist, personal start pages for Nizama Memija, Nikolina
+      Todorović, Haris Hamzić, Davor Mulalić, Medina Karaga and Adnana Agić, and the screenshot list; stale status
+      texts on the public and staff home pages replaced.
+- [x] 7. Director: "IDSS bodovi" instead of "XP" in every app text (bs, de, en) and in the guide.
+- [ ] 8. Pedagogue and psychologist screens (Director 2026-10-03): indicators of student success and tools for
+      assessment and analysis; design in `docs/architecture/SUPPORT_MONITORING.md`.
 - [ ] 1. Live walk-through (Director).
