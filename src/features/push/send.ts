@@ -1,6 +1,6 @@
 import "server-only";
 import webpush from "web-push";
-import { ASSIGNMENTS_PUSH_URL } from "@/constants";
+import { ASSIGNMENTS_PUSH_URL, VITRINA_PATH } from "@/constants";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
 
@@ -10,7 +10,7 @@ import { logError } from "@/lib/logger";
  * in-app notification still arrives. Notices carry no personal data: a fixed sentence and the assignment's title.
  */
 
-type Target = { endpoint: string; p256dh: string; auth: string; title: string; subject: string };
+type Target = { endpoint: string; p256dh: string; auth: string; title?: string; subject?: string };
 
 let configured: boolean | null = null;
 
@@ -25,26 +25,44 @@ export function pushConfigured(): boolean {
   return configured;
 }
 
-/** Sends the "new assignment" notice to every subscribed browser of the recipients; forgets browsers that are gone. */
-export async function notifyAssignment(assignmentId: string): Promise<number> {
-  if (!pushConfigured()) return 0;
+type Subscription = { endpoint: string; p256dh: string; auth: string };
+
+/** Sends one notice to the given browsers; forgets browsers the push service reports gone. */
+async function send(targets: Subscription[], message: { body: string; url: string; tag: string }): Promise<number> {
   const admin = createSupabaseAdminClient();
-  const { data, error } = await admin.rpc("push_targets_of_assignment", { p_assignment: assignmentId });
-  if (error) throw new Error(`push_targets_of_assignment failed: ${error.message}`);
-  const targets = (data ?? []) as Target[];
   let sent = 0;
   await Promise.all(
     targets.map(async (target) => {
-      const payload = JSON.stringify({ title: "IDSS - External Graduate Examination", body: `Novi zadatak nastavnika: ${target.title}`, url: ASSIGNMENTS_PUSH_URL, tag: `assignment-${assignmentId}` });
+      const payload = JSON.stringify({ title: "IDSS - External Graduate Examination", ...message });
       try {
         await webpush.sendNotification({ endpoint: target.endpoint, keys: { p256dh: target.p256dh, auth: target.auth } }, payload, { TTL: 60 * 60 * 24 * 3, urgency: "normal" });
         sent += 1;
       } catch (failure) {
         const status = (failure as { statusCode?: number }).statusCode;
         if (status === 404 || status === 410) await admin.rpc("push_forget", { p_endpoint: target.endpoint });
-        else logError("push/send.notifyAssignment", failure);
+        else logError("push/send", failure);
       }
     }),
   );
   return sent;
+}
+
+async function targets(fn: string, args: Record<string, unknown>): Promise<Target[]> {
+  const { data, error } = await createSupabaseAdminClient().rpc(fn, args);
+  if (error) throw new Error(`${fn} failed: ${error.message}`);
+  return (data ?? []) as Target[];
+}
+
+/** "New assignment" notice to every subscribed browser of the recipients (PDL-035). */
+export async function notifyAssignment(assignmentId: string): Promise<number> {
+  if (!pushConfigured()) return 0;
+  const list = await targets("push_targets_of_assignment", { p_assignment: assignmentId });
+  return send(list, { body: `Novi zadatak nastavnika: ${list[0]?.title ?? ""}`.trim(), url: ASSIGNMENTS_PUSH_URL, tag: `assignment-${assignmentId}` });
+}
+
+/** "Special gift" notice to the student's subscribed browsers (PDL-039); the message itself is never sent. */
+export async function notifyGift(giftId: string): Promise<number> {
+  if (!pushConfigured()) return 0;
+  const list = await targets("push_targets_of_gift", { p_gift: giftId });
+  return send(list, { body: "Imaš poseban poklon od nastavnika. Otvori ga u svojoj vitrini.", url: VITRINA_PATH, tag: `gift-${giftId}` });
 }

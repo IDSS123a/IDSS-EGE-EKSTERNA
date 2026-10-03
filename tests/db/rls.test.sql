@@ -1228,3 +1228,47 @@ select public.push_forget('https://push.example.invalid/sub-1');
 select pg_temp.assert(not public.push_has_subscription('00000000-0000-0000-0000-00000000000d'), 'a subscription the push service reports gone is removed');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 031');
+
+-- 26. Special gifts (migration 032, PDL-039): a subject teacher gives (G1), no limit (G3), no IDSS points (G4); the
+-- student, the giving teacher and unscoped monitoring see them; append-only; the notice waits for migration 030.
+select pg_temp.expect_error($$select public.gift_give('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c', 'crystal', 'Bravo', null)$$,
+  'FORBIDDEN', 'the pedagogue does not give gifts (G1: teachers)');
+select pg_temp.expect_error($$select public.gift_give('00000000-0000-0000-0000-00000000000c', '22222222-2222-2222-2222-22222222222d', 'crystal', 'Bravo', null)$$,
+  'FORBIDDEN', 'a student does not give gifts');
+select pg_temp.expect_error($$select public.gift_give('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c', 'trophy', 'Bravo', null)$$,
+  'VALIDATION', 'only the six gifts of the catalogue (G2)');
+select pg_temp.expect_error($$select public.gift_give('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c', 'crystal', repeat('x', 201), null)$$,
+  'VALIDATION', 'the message has at most 200 characters');
+create temp table t_xp_before as select public.gamification_overview('00000000-0000-0000-0000-00000000000c', (select v from t_gvalues)) -> 'xp' as xp;
+create temp table t_gift as select public.gift_give('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c', 'icosahedron', 'Odličan napredak u geometriji.', null) as id;
+select public.gift_give('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c', 'spark', 'Drugi poklon istog dana.', null);
+select pg_temp.assert((select count(*) from public.gifts where person_id = '22222222-2222-2222-2222-22222222222c') = 2, 'no limit on gifts (G3)');
+select pg_temp.assert((public.gamification_overview('00000000-0000-0000-0000-00000000000c', (select v from t_gvalues)) -> 'xp') = (select xp from t_xp_before),
+  'a gift adds no IDSS points (G4)');
+select pg_temp.assert(not exists (select 1 from public.audit_logs where action = 'gift.given' and details::text like '%geometriji%')
+  and (select count(*) from public.audit_logs where action = 'gift.given') = 2, 'every gift is audited without its message');
+select pg_temp.assert(jsonb_array_length(public.student_gifts('00000000-0000-0000-0000-00000000000c')) = 2
+  and (select public.student_gifts('00000000-0000-0000-0000-00000000000c') -> 1 ->> 'opened_at') is null
+  and jsonb_array_length(public.student_gifts('00000000-0000-0000-0000-00000000000d')) = 0,
+  'the student sees only own gifts, unopened at first');
+select pg_temp.expect_error($$select public.gift_open('00000000-0000-0000-0000-00000000000d', (select id from t_gift))$$,
+  'NOT_FOUND', 'a student cannot open another student''s gift');
+select public.gift_open('00000000-0000-0000-0000-00000000000c', (select id from t_gift));
+select public.gift_open('00000000-0000-0000-0000-00000000000c', (select id from t_gift));
+select pg_temp.assert((select count(*) from public.gift_openings) = 1, 'the first opening is recorded once');
+select pg_temp.assert(jsonb_array_length(public.gifts_of_person('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222c')) = 2
+  and jsonb_array_length(public.gifts_of_person('00000000-0000-0000-0000-00000000000a', '22222222-2222-2222-2222-22222222222c')) = 2
+  and jsonb_array_length(public.gifts_of_person('00000000-0000-0000-0000-00000000000b', '22222222-2222-2222-2222-22222222222c')) = 2,
+  'the pedagogue, the Director and the giving teacher see the gifts');
+select pg_temp.expect_error($$select public.gifts_of_person('00000000-0000-0000-0000-00000000000c', '22222222-2222-2222-2222-22222222222c')$$,
+  'FORBIDDEN', 'a student reads no other list of gifts');
+select pg_temp.assert((select count(*) from public.notifications where kind = 'gift_given') = 2, 'the student is notified of each gift (with migration 030)');
+reset role;
+select pg_temp.expect_error($$update public.gifts set message = 'x'$$, 'audit records are append-only (UPDATE on gifts)', 'gifts are append-only');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.gifts) = 0, 'RLS: the student reads gifts only through the functions');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.gifts) = 2, 'RLS: the giving teacher reads the own gifts');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 032');

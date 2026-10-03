@@ -184,3 +184,6 @@ export const ASSIGNMENTS_PATH = "/app/zadaci";
 
 /** Where a push notice about a new assignment opens: the student's Game Hub with the "Zadaci nastavnika" card. */
 export const ASSIGNMENTS_PUSH_URL = "/app#zadaci";
+
+/** IDSS Vitrina: the student's special gifts in 3D (PDL-039). */
+export const VITRINA_PATH = "/app/vitrina";

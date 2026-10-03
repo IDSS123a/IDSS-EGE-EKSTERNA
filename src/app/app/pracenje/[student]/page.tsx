@@ -8,10 +8,11 @@ import { requireAccount } from "@/features/authentication/session";
 import { RegistryFunctionError } from "@/features/canon/repository";
 import { StudentProfileScreen } from "@/features/support/components/student-profile-screen";
 import { assignmentsOfPerson } from "@/features/assignments/repository";
+import { giftsOfPerson } from "@/features/gifts/repository";
 import { studentProfile, teacherNotes } from "@/features/support/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
-import { canViewStudentProgress, canWriteTeacherNotes } from "@/lib/permissions";
+import { canGiveGifts, canViewStudentProgress, canWriteTeacherNotes } from "@/lib/permissions";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -25,7 +26,7 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
   if (!canViewStudentProgress(account)) return <ForbiddenScreen />;
   const { student } = await params;
   if (!UUID.test(student)) notFound();
-  let profile, notes, assignments;
+  let profile, notes, assignments, gifts;
   try {
     const admin = createSupabaseAdminClient();
     profile = await studentProfile(admin, {
@@ -34,14 +35,16 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
       missionGoal: DAILY_MISSION_GOAL,
       ipAddress: clientIpFrom((await headers()).get("x-forwarded-for")),
     });
-    [notes, assignments] = await Promise.all([
+    [notes, assignments, gifts] = await Promise.all([
       canWriteTeacherNotes(account) ? teacherNotes(admin, account.userId, student) : Promise.resolve(null),
       assignmentsOfPerson(admin, account.userId, student),
+      // Gifts: all of them for unscoped monitoring, the own ones for a teacher (migration 032).
+      giftsOfPerson(admin, account.userId, student),
     ]);
   } catch (error) {
     if (error instanceof RegistryFunctionError && error.databaseMessage === "NOT_FOUND") notFound();
     logError("app/pracenje/[student]/page", error);
     throw error;
   }
-  return <StudentProfileScreen profile={profile} teacherNotes={notes} assignments={assignments} />;
+  return <StudentProfileScreen profile={profile} teacherNotes={notes} assignments={assignments} gifts={gifts} canGiveGifts={canGiveGifts(account)} />;
 }

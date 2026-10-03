@@ -12,6 +12,8 @@ Prijava: `nizama.memija@idss.ba`. Vaša prava važe samo za B/H/S jezik i knjiž
    učeniku, samo za vaš predmet.
 4. **Zadaci za učenike**: dugme **Zadaci za učenike**; zadajte pitanja iz kataloga svog predmeta svim učenicima ili
    izabranim, s rokom, i pratite ko je završio.
+5. **Poseban poklon**: na profilu učenika pošaljite jedan od šest 3D poklona s ličnom porukom, kad god želite
+   nagraditi trud.
 
 ## Posebno za B/H/S
 - Zadaci povezivanja ocjenjuju se brojem tačnih parova; bodove računa službeno pravilo (2 ili 3 para 0,5 boda, 4 para 1

@@ -2,6 +2,8 @@
 
 import { StudentAssignmentsCard } from "@/features/assignments/components/student-assignments-card";
 import type { StudentAssignment } from "@/features/assignments/types";
+import { HubGiftsCard } from "@/features/gifts/components/hub-gifts-card";
+import type { Gift } from "@/features/gifts/types";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { EXAM_PATH, OWN_ACCOUNT_PATH, PRACTICE_PATH, SUBJECT_PATH } from "@/constants";
@@ -23,7 +25,7 @@ const SUBJECT_ORDER: SubjectCode[] = ["bhs_language_literature", "mathematics", 
  * Student home (Game Hub, Sprint 06): streak, daily mission and the three subjects with mastery. Everything shown is a
  * learning signal (P-7); grades come from the teacher. Receives only the student's own counts, decided on the server.
  */
-export function GameHub({ displayName, overview, dailyGoal, notifications, gamification, badgeRules, assignments }: { displayName: string; overview: PracticeOverview; dailyGoal: number; notifications: AppNotification[]; gamification: GamificationOverview; badgeRules: { streakDays: number; answersInSubject: number }; assignments: StudentAssignment[] }): ReactNode {
+export function GameHub({ displayName, overview, dailyGoal, notifications, gamification, badgeRules, assignments, gifts }: { displayName: string; overview: PracticeOverview; dailyGoal: number; notifications: AppNotification[]; gamification: GamificationOverview; badgeRules: { streakDays: number; answersInSubject: number }; assignments: StudentAssignment[]; gifts: Gift[] }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.hub;
   const streak = streakDays(overview.days, overview.todayDate);
@@ -64,6 +66,7 @@ export function GameHub({ displayName, overview, dailyGoal, notifications, gamif
           </section>
         </div>
 
+        <HubGiftsCard gifts={gifts} />
         <StudentAssignmentsCard assignments={assignments} />
 
         <GamificationPanel overview={gamification} streakDays={badgeRules.streakDays} answersInSubject={badgeRules.answersInSubject} />

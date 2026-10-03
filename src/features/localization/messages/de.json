@@ -944,7 +944,8 @@
       "mock_exam_requested": "Ein Satz wartet auf Genehmigung: {subject}",
       "mock_exam_submitted": "Probeprüfung abgegeben: {subject}",
       "mock_exam_graded": "Deine Probeprüfung ist bewertet: {subject}",
-      "assignment_given": "Neue Aufgabe der Lehrkraft: {subject}"
+      "assignment_given": "Neue Aufgabe der Lehrkraft: {subject}",
+      "gift_given": "Du hast ein besonderes Geschenk von einer Lehrkraft"
     }
   },
   "gamification": {
@@ -1269,6 +1270,66 @@
       "NO_STUDENTS": "Es gibt keine aktiven Schüler für diese Aufgabe.",
       "NOT_FOUND": "Die Aufgabe existiert nicht.",
       "ALREADY_WITHDRAWN": "Die Aufgabe ist bereits zurückgezogen.",
+      "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
+    }
+  },
+  "gifts": {
+    "names": {
+      "crystal": "IDSS-Kristall",
+      "icosahedron": "Goldenes Ikosaeder",
+      "quill_book": "Feder und Buch",
+      "key": "Schlüssel",
+      "persistence": "Ausdauer",
+      "spark": "Funke"
+    },
+    "meanings": {
+      "crystal": "Für besonderen Einsatz, in jedem Fach.",
+      "icosahedron": "Für Mathematik.",
+      "quill_book": "Für B/K/S Sprache und Literatur.",
+      "key": "Für Deutsch.",
+      "persistence": "Für Regelmäßigkeit und Ausdauer.",
+      "spark": "Für den ersten großen Schritt oder ein Comeback."
+    },
+    "send": {
+      "title": "Besonderes Geschenk senden",
+      "hint": "Das Geschenk ist Ihre persönliche Anerkennung: es ändert keine Note, keine Bereitschaft und keine IDSS-Punkte. Die Schülerin oder der Schüler öffnet es in der eigenen Vitrine; sehen können es auch Pädagogin, Psychologin und Direktor.",
+      "gift": "Geschenk",
+      "message": "Botschaft auf dem Sockel (bis 200 Zeichen)",
+      "submit": "Geschenk senden",
+      "sent": "Das Geschenk ist gesendet."
+    },
+    "list": {
+      "title": "Besondere Geschenke",
+      "none": "Noch keine besonderen Geschenke.",
+      "from": "Von: {name}, {date}",
+      "opened": "geöffnet",
+      "notOpened": "noch nicht geöffnet"
+    },
+    "vitrina": {
+      "title": "Meine Vitrine",
+      "subtitle": "Besondere Geschenke deiner Lehrkräfte",
+      "empty": "Deine Vitrine ist noch leer. Wenn dir eine Lehrkraft ein besonderes Geschenk sendet, öffnest du es hier.",
+      "new": "Neues Geschenk!",
+      "open": "Geschenk öffnen",
+      "skip": "Überspringen",
+      "from": "Von: {name}",
+      "date": "Erhalten: {date}",
+      "note": "Das Geschenk ist Anerkennung, keine Note. Es gehört nur dir und wird nicht außerhalb der App geteilt.",
+      "noWebgl": "Dieses Gerät zeigt kein 3D. Dein Geschenk steht hier in Worten.",
+      "drag": "Ziehen, um das Geschenk zu drehen.",
+      "back": "Zurück zur Startseite"
+    },
+    "hub": {
+      "title": "Meine Vitrine",
+      "count": "Geschenke: {n}",
+      "unopened": "Neue Geschenke: {n}",
+      "open": "Vitrine öffnen"
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte erneut anmelden.",
+      "FORBIDDEN": "Geschenke senden die Fachlehrkräfte.",
+      "VALIDATION": "Wählen Sie ein Geschenk und schreiben Sie eine Botschaft bis 200 Zeichen.",
+      "NOT_FOUND": "Die Schülerin oder der Schüler ist nicht aktiv.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
     }
   }

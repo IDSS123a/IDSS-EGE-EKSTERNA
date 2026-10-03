@@ -32,6 +32,14 @@ Date: 2026-10-03 (open)
 - A new npm dependency (`web-push`) reached the Director's machine through the merge, but `node_modules` there was not
   updated, so `next dev` failed with "Module not found: Can't resolve 'web-push'". Every report that adds or changes a
   dependency tells the Director to run `npm install` after pulling; README now says so.
+- `private.has_capability(code)` without a subject is true for any scope, so an RLS policy using it would have let a
+  subject teacher read every student's gifts. Policies that must exclude scoped holders cannot use it; gifts allow
+  direct reads only to the giver and serve everyone else through functions.
+- The 3D viewer rebuilt its scene when the unboxing finished (its key and effect depended on the unboxing state), which
+  flashed an empty frame; caught in the frame-by-frame capture. Read one-shot props once at mount.
+- First renders were washed out (room environment too strong, bloom threshold too low); judged from screenshots before
+  the push, tuned to environmentIntensity 0.32 and bloom threshold 0.9. On portrait screens the camera now widens its
+  field of view so the whole gift stays in frame.
 
 ## Commander Improvement Candidates
 None yet.

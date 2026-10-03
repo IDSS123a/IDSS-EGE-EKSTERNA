@@ -58,3 +58,6 @@ Building assignments before decisions Z1 to Z6; leaderboards.
       push needs the Director's VAPID keys in `.env.local`.
 - [ ] 3. Postponed by the Director until the teachers have time (blueprints, DEU-4.3.34, first live mock exam).
 - [x] 8. Clean start before production recorded (PDL-038, `docs/PRODUCTION_READINESS.md`, CLAUDE.md non-negotiable).
+- [x] 9. Special gifts (migration 032 live, PDL-039 G1 to G6): `/app/vitrina` with six procedural 3D gifts and the
+      unboxing, teacher form and list on the profile, hub card, push notice; DB tests section 26; unit tests; renders
+      checked in headless Chromium (desktop and phone).

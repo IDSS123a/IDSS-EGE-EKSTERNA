@@ -89,5 +89,11 @@ Dugme **Zadaci za učenike** na početnoj stranici.
 6. Zadatak povlačite s razlogom (**Povuci zadatak**); kod učenika nestaje, ništa se ne briše.
 Završen znači da je učenik odgovorio na svako pitanje nakon što je zadatak zadan, bez obzira na tačnost.
 
-## Uskoro
-Poseban poklon za učenike (prijedlog čeka odluke direktora G1 do G6).
+## Poseban poklon (Dostupno)
+Na profilu učenika (Praćenje učenika, klik na ime) je dio **Posebni pokloni**.
+1. Izaberite jedan od šest poklona: IDSS Kristal (izuzetan trud), Zlatni ikosaedar (matematika), Pero i knjiga (B/H/S),
+   Schlüssel (njemački), Upornost (redovnost), Iskra (prvi veliki korak ili povratak).
+2. Napišite poruku (do 200 znakova); ona se ugravira na postolje poklona.
+3. Kliknite **Pošalji poklon**. Učenik dobije obavijest i otvara poklon u svojoj vitrini.
+Nema ograničenja broja poklona; poklon ne nosi IDSS bodove i ne mijenja ocjenu ni spremnost. Vidite poklone koje ste
+Vi dali; pedagog, psiholog i direktor vide sve.

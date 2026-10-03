@@ -1,6 +1,6 @@
 # Special gifts from the teacher: "IDSS Vitrina" (design proposal)
 
-Status: **proposal, waiting for the Director (decisions G1 to G6)** · Sources: Director 2026-10-03 ("nastavnik može
+Status: **approved 2026-10-03 (PDL-039)**; the Director's answers to G1 to G6 in section 7 prevail over the proposals · Sources: Director 2026-10-03 ("nastavnik može
 nagraditi učenika sa special gift ... 3D AAA"), PDL-035, mandate §8 (Game Hub, rewards), CONSTITUTION P-4, P-7, P-13,
 P-14 · Builds on the WebGL know-how of the splash (PDL-007, PDL-019).
 
@@ -59,3 +59,8 @@ Only the student, the giving teacher, the pedagogue, the psychologist and the Di
 - **G5 Sharing:** may the student save and share the image card outside the app? Proposal: yes, without surname.
 - **G6 3D models:** a 3D artist for six models (one-off cost, best quality) or CC0 models adapted by us (no cost, less
   unique). The code, the unboxing and the Vitrina are built by us in either case.
+
+## 7. The Director's answers (PDL-039)
+G1 subject teachers give gifts; G2 the six gifts; G3 no limit; G4 no IDSS points; G5 no sharing outside the app (the
+image card and AR placement are therefore not built); G6 free procedural models designed by us (three.js geometry and
+materials in `src/features/gifts/scene/models.ts`, no model files).

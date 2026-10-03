@@ -29,7 +29,8 @@ Supabase project: `dezevstfmfliyasdeflj`. After every migration run the Supabase
 
 ## Non-negotiables (details in CONSTITUTION.md)
 - Clean start before production (Director, 2026-10-03, PDL-038): every trial account, entry and test record is removed
-  before the first real use; inventory and procedure in `docs/PRODUCTION_READINESS.md`.
+  before the first real use; inventory and procedure in `docs/PRODUCTION_READINESS.md`. Runs as the very last step
+  before the deploy (testing continues until then); test-phase audit: export to archive, then one audited removal (D-A).
 - Product name in every app text: "IDSS - External Graduate Examination", never "IDSS EGE" (Director, 2026-09-27).
 - Three subjects only (B/H/S, Matematika, first foreign language = Njemački for IDSS).
 - Canon is data with provenance; never hard-code exam rules, questions or keys.

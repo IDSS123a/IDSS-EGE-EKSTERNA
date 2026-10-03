@@ -272,6 +272,13 @@ export const PushSubscriptionSchema = z.object({
   userAgent: z.string().max(300).nullable(),
 });
 
+/** POST a special gift (PDL-039): one of the six gifts and a message of 1 to 200 characters. */
+export const GiftSchema = z.object({
+  personId: z.uuid(),
+  code: z.enum(["crystal", "icosahedron", "quill_book", "key", "persistence", "spark"]),
+  message: z.string().trim().min(1).max(200),
+});
+
 export const TeacherNoteSchema = z.object({
   personId: z.uuid(),
   subject: z.enum(["bhs_language_literature", "mathematics", "german"]),

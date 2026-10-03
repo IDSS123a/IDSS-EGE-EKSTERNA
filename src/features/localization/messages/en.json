@@ -944,7 +944,8 @@
       "mock_exam_requested": "A set waits for approval: {subject}",
       "mock_exam_submitted": "Mock exam submitted: {subject}",
       "mock_exam_graded": "Your mock exam is graded: {subject}",
-      "assignment_given": "New teacher assignment: {subject}"
+      "assignment_given": "New teacher assignment: {subject}",
+      "gift_given": "You have a special gift from a teacher"
     }
   },
   "gamification": {
@@ -1269,6 +1270,66 @@
       "NO_STUDENTS": "There are no active students to give the assignment to.",
       "NOT_FOUND": "The assignment does not exist.",
       "ALREADY_WITHDRAWN": "The assignment is already withdrawn.",
+      "UNAVAILABLE": "The service is unavailable. Please try again."
+    }
+  },
+  "gifts": {
+    "names": {
+      "crystal": "IDSS Crystal",
+      "icosahedron": "Golden Icosahedron",
+      "quill_book": "Quill and Book",
+      "key": "Schlüssel",
+      "persistence": "Persistence",
+      "spark": "Spark"
+    },
+    "meanings": {
+      "crystal": "For outstanding effort, any subject.",
+      "icosahedron": "For mathematics.",
+      "quill_book": "For B/H/S language and literature.",
+      "key": "For German.",
+      "persistence": "For regularity and persistence.",
+      "spark": "For a first big step or a comeback."
+    },
+    "send": {
+      "title": "Send a special gift",
+      "hint": "The gift is your personal recognition: it changes no grade, no readiness and no IDSS points. The student opens it in their own showcase; the pedagogue, the psychologist and the director can see it too.",
+      "gift": "Gift",
+      "message": "Message on the pedestal (up to 200 characters)",
+      "submit": "Send gift",
+      "sent": "The gift is sent."
+    },
+    "list": {
+      "title": "Special gifts",
+      "none": "No special gifts yet.",
+      "from": "From: {name}, {date}",
+      "opened": "opened",
+      "notOpened": "not opened yet"
+    },
+    "vitrina": {
+      "title": "My showcase",
+      "subtitle": "Special gifts from your teachers",
+      "empty": "Your showcase is still empty. When a teacher sends you a special gift, you open it here.",
+      "new": "New gift!",
+      "open": "Open gift",
+      "skip": "Skip",
+      "from": "From: {name}",
+      "date": "Received: {date}",
+      "note": "A gift is recognition, not a grade. It belongs to you and is not shared outside the app.",
+      "noWebgl": "This device does not show 3D. Your gift is here in words.",
+      "drag": "Drag to turn the gift.",
+      "back": "Back to home"
+    },
+    "hub": {
+      "title": "My showcase",
+      "count": "Gifts: {n}",
+      "unopened": "New gifts: {n}",
+      "open": "Open showcase"
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "Gifts are sent by subject teachers.",
+      "VALIDATION": "Choose a gift and write a message of up to 200 characters.",
+      "NOT_FOUND": "The student is not active.",
       "UNAVAILABLE": "The service is unavailable. Please try again."
     }
   }

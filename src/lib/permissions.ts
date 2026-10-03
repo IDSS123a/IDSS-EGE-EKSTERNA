@@ -107,6 +107,15 @@ export function canManageAssignments(account: CurrentAccount): boolean {
   return hasCapability(account, "assignments.manage");
 }
 
+/**
+ * Give a special gift (PDL-039, G1: subject teachers). A subject teacher holds students.view_progress for the own
+ * subjects only; the database checks the subject_teacher bundle (migration 032).
+ */
+export function canGiveGifts(account: CurrentAccount): boolean {
+  const scope = account.subjectScopes.get("students.view_progress");
+  return scope !== undefined && scope !== "all";
+}
+
 /** Read and write academic teacher notes: in the own subjects for a teacher, all subjects for unscoped holders (PDL-034). */
 export function canWriteTeacherNotes(account: CurrentAccount): boolean {
   return hasCapability(account, "teacher_notes.read_write");

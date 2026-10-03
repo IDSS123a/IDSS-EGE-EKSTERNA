@@ -41,6 +41,12 @@ Za zadatak nema posebnih IDSS bodova; bodove dobijaš za odgovore kao i inače.
 obavijesti. Tada te uređaj obavijesti čim nastavnik zada novi zadatak. Na iPhoneu prvo u Safariju dodirni Dijeli, pa
 "Dodaj na početni ekran", i otvori aplikaciju s početnog ekrana (iOS 16.4 ili noviji).
 
+## Moja vitrina: posebni pokloni (Dostupno)
+Kad ti nastavnik pošalje poseban poklon, na početnoj stranici se pojavi kartica **Moja vitrina** s brojem novih
+poklona. Klikni **Otvori vitrinu**, pa **Otvori poklon**: kutija se otvori, a dijelovi IDSS znaka slete i sklope poklon
+(animaciju možeš preskočiti). Poklon stoji na postolju s porukom nastavnika; povuci prstom ili mišem da ga okreneš.
+Poklon je priznanje, ne ocjena i ne donosi IDSS bodove. Pripada samo tebi i ne dijeli se izvan aplikacije.
+
 ## IDSS bodovi i značke (Dostupno)
 | Aktivnost | IDSS bodovi |
 |---|---|
