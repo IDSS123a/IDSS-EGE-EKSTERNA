@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { OWN_ACCOUNT_PATH, PRACTICE_PATH, SUBJECT_PATH } from "@/constants";
+import { EXAM_PATH, OWN_ACCOUNT_PATH, PRACTICE_PATH, SUBJECT_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -55,6 +55,14 @@ export function GameHub({ displayName, overview, dailyGoal }: { displayName: str
             <p className="hub-stat__value">{mission.complete ? labels.missionDone : `${mission.done} / ${mission.goal}`}</p>
           </section>
         </div>
+
+        <section className="card hub-exam" aria-labelledby="hub-exam">
+          <h2 id="hub-exam">{labels.examTitle}</h2>
+          <p>{labels.examText}</p>
+          <div className="link-row">
+            <Link href={EXAM_PATH} className="button-primary">{labels.examLink}</Link>
+          </div>
+        </section>
 
         <h2 className="hub-section-title">{labels.subjectsTitle}</h2>
         <div className="hub-subjects">

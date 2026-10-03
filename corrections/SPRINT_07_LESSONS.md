@@ -52,3 +52,21 @@ None yet.
   error code (invalid_credentials), and public.security_events stores SHA-256 of the typed username, so matching it
   against profiles.username shows whether a known account was typed. On 2026-10-03 one attempt named
   direktor@idss.ba with a wrong password, two named no account at all; the account itself was active and not locked.
+
+### 2026-10-03 - Locale formatting in client components
+- `Intl.NumberFormat("bs")` gave "14,5" on the server (Node with full ICU) and "14.5" in headless Chromium, which
+  caused a hydration mismatch on the mock exam overview. Numbers shown by client components are formatted by a small
+  deterministic function (`formatPoints`), not by Intl with a locale the browser may lack.
+
+### 2026-10-03 - Stopping a preview dev server
+- The PID saved for `npx next dev` is the npx wrapper; killing it leaves `next-server` serving the port (a 500 after
+  the preview page is deleted). Stop the dev server by the PIDs of both processes found through /proc command lines,
+  never with a name-wide pkill.
+- A write probe against the live database runs inside a DO block that ends with `raise exception`, so the whole block
+  rolls back even when the SQL tool does not keep an explicit transaction open; check afterwards that nothing stayed.
+
+### 2026-10-03 - Commander upgrade check
+- Before upgrading Commander, diff the two tags of the Commander repository (`git diff vA vB --stat`): when
+  `automation/` is unchanged apart from the template's version line, the upgrade is a version stamp plus a decision
+  entry, and nothing installed under `.claude/` or `.github/` needs replacing.
+- The project guard's `--ci` mode waits for hook input on stdin; run `--scan` locally to reproduce the CI step.

@@ -1,7 +1,7 @@
 # IDSS EGE — Target Architecture
 
 Status: proposed (Sprint 00) · Date: 2026-09-27 · Governs: Sprint 01+
-Inputs: `INSTRUCTION-WEB-APP-IDSS-EGE.html` (mandate), Commander v1.6.1,
+Inputs: `INSTRUCTION-WEB-APP-IDSS-EGE.html` (mandate), Commander v1.6.1 (project upgraded to v1.6.2 on 2026-10-03, PDL-028),
 `docs/discovery/*`. Data model: `DATA_MODEL.md`. Roles: `ROLES_AND_PERMISSIONS.md`.
 
 ## 1. Principle: code is the engine, the canon is the content

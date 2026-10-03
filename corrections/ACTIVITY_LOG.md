@@ -73,3 +73,6 @@
 - [2026-10-03] Six German records accepted provisionally (Director), follow-ups to Nikolina Todorović; 500/500 trusted
 - [2026-10-03] Migrations 022, 023 run by the Director; verified live, history recorded
 - [2026-10-03] Review screen: errata form, follow-ups, open notices; revision forms removed (P-15)
+- [2026-10-03] Student mock exam screens (request, approval wait, start, timer, autosave, submit, result)
+- [2026-10-03] Teacher screens: blueprints, set approval, grading; blueprint load probed live (rolled back)
+- [2026-10-03] Commander upgrade v1.6.1 to v1.6.2 (diff checked, automation identical)

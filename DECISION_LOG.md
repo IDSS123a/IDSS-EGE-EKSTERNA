@@ -405,3 +405,20 @@ dokumente"; ten instructions of the same day, analysed in the session report)
 6. **Scoring precision:** B/H/S matching is graded by the number of correct pairs and converted by the confirmed rule;
    Mathematics positions 9 and 10 allow 0.5 steps only for tasks with parts a) and b).
 
+
+## PDL-028: Commander upgraded from v1.6.1 to v1.6.2
+**Date:** 2026-10-03 (Director: "obavezno nadograditi")
+**Decision:** The project follows Commander v1.6.2 (`.commander-version`, `CLAUDE.md`, `CONSTITUTION.md` header).
+**Diff checked** (`COMMANDER_CHANGELOG.md`, `git diff v1.6.1 v1.6.2` of the Commander repository): no new rules, no
+severity changes, no deprecations; four Learned-From additions to rules already in force and version stamps. The
+automation (`automation/` hooks, skills, CI project guard) is byte-identical between the tags except the version line
+of the CLAUDE.md template, so nothing installed in `.claude/` or `.github/` changes.
+**What the additions mean here:**
+- E-12, a push is not an instant deploy: when Vercel deployment starts (postponed, M-23), a new route is confirmed
+  live by polling it, never by the push or a fixed sleep.
+- A-5, extractive versus generative AI calls: search answers (PDL-025, parked) and the planned canonical chatbot are
+  extractive (answers only from cited catalogue text); any generative content would need human review before it is
+  shown. Recorded for the chatbot sprint.
+- A-4, permission gating by section, and A-12, sequential calls are invisible to the in-flight cache: no current use;
+  the grading area already gates by subject scope per section and per action.
+**Reversibility:** a version stamp; reverting means restoring the three stamps.

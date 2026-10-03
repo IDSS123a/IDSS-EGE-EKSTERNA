@@ -3,7 +3,7 @@
 Priprema učenika IX razreda Internationale Deutsche Schule Sarajevo za eksternu maturu —
 platforma zasnovana isključivo na službenim ispitnim katalozima.
 
-Governance: Commander v1.6.1 — start with `CLAUDE.md` and `CONSTITUTION.md`.
+Governance: Commander v1.6.2 — start with `CLAUDE.md` and `CONSTITUTION.md`.
 
 ## Lokalno postavljanje (Windows)
 

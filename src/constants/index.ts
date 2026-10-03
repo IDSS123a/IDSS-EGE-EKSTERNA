@@ -163,3 +163,10 @@ export const SUBJECT_PATH = "/app/predmet";
 export const PRACTICE_RESPONSE_MAX_LENGTH = 4000;
 /** Daily mission v1 (PDL-024): answers per day. A learning goal, never a grade (P-7). */
 export const DAILY_MISSION_GOAL = 5;
+
+/** Mock exams (Sprint 07, migrations 019 to 023). */
+export const EXAM_PATH = "/app/ispit";
+/** Autosave interval while writing; the database accepts answers until the deadline plus 30 s. */
+export const EXAM_AUTOSAVE_MS = 20_000;
+/** Teachers' mock exam area: blueprints, set approval and grading (Sprint 07). */
+export const GRADING_PATH = "/app/ocjenjivanje";

@@ -2,7 +2,7 @@
 
 Project: IDSS - External Graduate Examination (short in code and docs: IDSS EGE), external matura preparation platform (Grade 9), IDSS Sarajevo
 Repository: https://github.com/IDSS123a/IDSS-EGE-EKSTERNA
-Governance: Commander v1.6.1 (https://github.com/IDSS123a/commander) · Mode: FULL
+Governance: Commander v1.6.2 (https://github.com/IDSS123a/commander) · Mode: FULL
 
 ## Every session start
 1. Read this file, `CONSTITUTION.md` and the current sprint document in `sprints/`.

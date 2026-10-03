@@ -6,7 +6,7 @@ import { GameHub } from "@/features/practice/components/game-hub";
 import { practiceOverview } from "@/features/practice/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
-import { canManageSettings, canOpenReview, canPractise, canViewAccounts, canViewCanon } from "@/lib/permissions";
+import { canGrade, canManageSettings, canOpenReview, canPractise, canViewAccounts, canViewCanon } from "@/lib/permissions";
 
 /**
  * GET /app — Role required: any active account. Redirects to /prijava otherwise.
@@ -25,5 +25,5 @@ export default async function AppHomePage(): Promise<ReactNode> {
     }
     return <GameHub displayName={account.displayName} overview={overview} dailyGoal={DAILY_MISSION_GOAL} />;
   }
-  return <AccountHome account={{ displayName: account.displayName, role: account.role }} canViewAccounts={canViewAccounts(account)} canViewCanon={canViewCanon(account)} canOpenReview={canOpenReview(account)} canManageSettings={canManageSettings(account)} />;
+  return <AccountHome account={{ displayName: account.displayName, role: account.role }} canViewAccounts={canViewAccounts(account)} canViewCanon={canViewCanon(account)} canOpenReview={canOpenReview(account)} canManageSettings={canManageSettings(account)} canGrade={canGrade(account)} />;
 }
