@@ -41,6 +41,9 @@ teacher for a class (later); enrolment points display (AMB-18, when the 2026/27 
       approval, grading by pairs) run by the Director in the SQL editor on 2026-10-03 and verified live.
 - [x] 6. Director 03.10.2026: DEU-4.4.10 and 4.5.6 to 4.5.10 accepted provisionally under the Director's account with an
       open follow-up "Nikolina Todorović" each (review before official use); live: 500 of 500 catalogue questions
-      trusted, dialogue tasks answered by choice 1/2/3 and checked by the printed key. Erratum DEU-4.3.34 waits for the
-      erratum form in the review screen (Director: "čekamo formu").
+      trusted, dialogue tasks answered by choice 1/2/3 and checked by the printed key.
+- [x] 7. Review screen per P-15 (2026-10-03): errata form (record and withdraw, optional German statement), follow-ups
+      (request, mark as checked), "Open notices" per subject on the queue (shows the six "Čeka: Nikolina Todorović");
+      text and key revision forms removed, earlier rows shown as history only. Erratum DEU-4.3.34 is entered by the
+      Director in this form.
 

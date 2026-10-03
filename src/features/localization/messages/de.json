@@ -395,16 +395,10 @@
       "by": "{name}, {date}"
     },
     "keys": {
-      "title": "Lösung und Revisionen",
-      "printed": "Gedruckte Lösung",
-      "effective": "Gültige Lösung",
-      "revisions": "Revisionen",
-      "corrected": "Korrigierte Lösung",
-      "reason": "Grund",
-      "evidence": "Nachweis (Lösungsweg oder Quelle)",
-      "submit": "Revision speichern",
-      "hint": "Die gedruckte Lösung wird nie geändert. Die Revision wird daneben gespeichert und wird zur gültigen Lösung.",
-      "noRevisions": "Keine Revisionen."
+      "title": "Offizielle Lösung",
+      "printed": "Gedruckte Lösung (gilt)",
+      "hint": "Die gedruckte Lösung des Katalogs ist immer die offizielle Lösung und wird nie geändert. Ist im Katalog ein Fehler festgestellt, tragen Sie ihn unter \"Fehler im Katalog\" ein.",
+      "historyNote": "Früher eingetragene Revisionen (nur Verlauf, gelten nicht):"
     },
     "source": {
       "page": "Originalseite {page}",
@@ -491,41 +485,28 @@
     "messages": {
       "ACCEPTED": "Der Datensatz wurde angenommen.",
       "RETURNED": "Der Datensatz wurde mit Grund zurückgegeben.",
-      "KEY_REVISED": "Die Revision der Lösung wurde gespeichert.",
       "RULE_CONFIRMED": "Die Regel wurde bestätigt.",
       "RULE_DISPUTED": "Der Regel wurde widersprochen.",
-      "TEXT_REVISED": "Die Textkorrektur wurde gespeichert."
+      "ERRATUM_RECORDED": "Der Fehler ist eingetragen.",
+      "ERRATUM_WITHDRAWN": "Der Fehler ist zurückgezogen.",
+      "FOLLOW_UP_OPENED": "Die Nachprüfung ist angefordert.",
+      "FOLLOW_UP_RESOLVED": "Die Nachprüfung ist abgeschlossen."
     },
     "errors": {
       "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
       "FORBIDDEN": "Sie haben keine Prüfberechtigung für dieses Fach.",
-      "VALIDATION": "Bitte prüfen Sie die Eingabe: zum Annehmen einen Aufgabentyp wählen, zum Zurückgeben einen Grund angeben.",
+      "VALIDATION": "Bitte prüfen Sie die Eingabe: zum Annehmen einen Aufgabentyp wählen, zum Zurückgeben einen Grund angeben, in den anderen Formularen alle Felder ausfüllen.",
       "NOT_FOUND": "Der Datensatz existiert nicht.",
       "SUBJECT_MISSING": "Das Fach dieses Datensatzes ist noch nicht geladen.",
       "STALE_RECORD": "Der Datensatz stammt aus einer älteren Extraktion. Öffnen Sie die Liste erneut.",
       "ALREADY_ACCEPTED": "Der Datensatz wurde bereits angenommen.",
       "NOT_ACCEPTABLE": "Ein strukturell fehlerhafter Datensatz kann nicht angenommen werden.",
-      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut.",
-      "UNCHANGED": "Der Text entspricht dem Text, den Schüler bereits sehen. Die Korrektur wurde nicht gespeichert."
+      "UNAVAILABLE": "Der Dienst ist derzeit nicht verfügbar. Bitte versuchen Sie es erneut."
     },
     "text": {
-      "title": "Aufgabentext für Schüler",
-      "hint": "Schüler sehen die neueste bestätigte Korrektur. Der Katalogtext bleibt unverändert gespeichert; eine Korrektur ändert nur Text, niemals Antwortbezeichnungen oder die Lösung.",
-      "shown": "Text, den Schüler sehen",
-      "original": "Text aus dem Katalog",
-      "noRevision": "Keine Korrekturen: Schüler sehen den Katalogtext.",
-      "proposal": "Ein Korrekturvorschlag ist unten eingetragen: der Fußnotentext vom Seitenende (Quelle der Aufgabe, Link) wurde entfernt. Vergleichen Sie mit der Originalseite links und bestätigen oder passen Sie an.",
-      "proposalEvidence": "Seite {page}, Fußnote {footnotes}",
-      "rawText": "Vollständiger Aufgabentext",
-      "stemText": "Aufgabenstellung (ohne Antwortmöglichkeiten)",
-      "option": "Antwort {label}",
-      "item": "Aussage {n}",
-      "reason": "Grund der Korrektur",
-      "evidence": "Nachweis (Seite, Fußnote)",
-      "submit": "Textkorrektur speichern",
-      "confirm": "Textkorrektur speichern? Schüler sehen diesen Text.",
-      "history": "Textkorrekturen",
-      "open": "Text korrigieren"
+      "title": "Frühere Textkorrekturen",
+      "hint": "Nur Verlauf. Schüler sehen die Aufgabe genau so, wie sie im Katalog gedruckt ist.",
+      "revised": "Korrigierter Text"
     },
     "keySearch": {
       "label": "Aufgabe nach Kennung finden",
@@ -535,12 +516,45 @@
       "results": "Ergebnisse für die Kennung {query}",
       "none": "Keine Aufgabe mit der Kennung {query} in diesem Fach."
     },
-    "proposals": {
-      "title": "Vorschläge für Textkorrekturen",
-      "hint": "In diesen Aufgaben ist Fußnotentext vom Seitenende in den Aufgabentext geraten. Öffnen Sie die Aufgabe, vergleichen Sie den Vorschlag mit der Originalseite und klicken Sie auf \"Textkorrektur speichern\".",
-      "waiting": "Wartet auf Bestätigung",
-      "confirmed": "Bestätigt",
-      "done": "Alle Korrekturen sind bestätigt."
+    "notices": {
+      "title": "Offene Hinweise",
+      "hint": "Fehler im Katalog und Aufgaben, die noch jemand prüfen muss. Öffnen Sie die Aufgabe für Details.",
+      "erratum": "Fehler im Katalog",
+      "followUp": "Wartet auf: {name}"
+    },
+    "errata": {
+      "title": "Fehler im Katalog",
+      "hint": "Aufgabe und offizielle Lösung bleiben genau wie gedruckt. Der eingetragene Fehler wird Schülern angezeigt (vor der Antwort nur, dass es einen Fehler gibt, nach der Antwort auch die Beschreibung) und Lehrkräften bei der Bewertung.",
+      "none": "Für diese Aufgabe ist kein Fehler eingetragen.",
+      "open": "Fehler im Katalog eintragen",
+      "item": "Betrifft",
+      "wholeTask": "Die ganze Aufgabe",
+      "description": "Beschreibung des Fehlers",
+      "descriptionHint": "Diese Beschreibung sehen Schüler nach der Antwort. Kurz und klar schreiben.",
+      "evidence": "Beleg (Quelle, Begründung)",
+      "submit": "Fehler speichern",
+      "confirm": "Fehler speichern? Schüler und Lehrkräfte sehen den Hinweis bei dieser Aufgabe.",
+      "active": "Gilt",
+      "withdrawn": "Zurückgezogen",
+      "evidenceShown": "Beleg: {text}",
+      "withdrawalShown": "Zurückgezogen: {text}",
+      "withdraw": "Fehler zurückziehen",
+      "withdrawReason": "Grund",
+      "withdrawSubmit": "Zurückziehen"
+    },
+    "followUps": {
+      "title": "Nachprüfung",
+      "hint": "Die Aufgabe ist vorläufig angenommen und die genannte Person muss sie noch prüfen.",
+      "none": "Keine Nachprüfung.",
+      "open": "Nachprüfung anfordern",
+      "assignee": "Wer prüft",
+      "note": "Hinweis",
+      "submit": "Speichern",
+      "waiting": "Wartet auf: {name}",
+      "resolved": "Geprüft",
+      "resolve": "Als geprüft markieren",
+      "resolutionNote": "Hinweis zur Prüfung",
+      "resolveSubmit": "Als geprüft markieren"
     }
   },
   "search": {

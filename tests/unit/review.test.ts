@@ -6,8 +6,8 @@ import { reviewErrorFromDatabase } from "@/features/review/domain/errors";
 import { countStates, defaultFilter, filterQueue, findByKey, neighbours, pageOf, parseFilter, regionOnPage, reviewState } from "@/features/review/domain/queue";
 import type { QueueItem } from "@/features/review/types";
 import { buildContentSecurityPolicy } from "@/features/security/csp";
-import { canOpenReview, canReviewSubject, canReviseAnswerKeys, hasSubjectCapability } from "@/lib/permissions";
-import { BundleChangeSchema, KeyRevisionSchema, RecordDecisionSchema, RuleReviewSchema } from "@/lib/validation/schemas";
+import { canOpenReview, canReviewSubject, hasSubjectCapability } from "@/lib/permissions";
+import { BundleChangeSchema, ErratumSchema, ErratumWithdrawalSchema, FollowUpSchema, RecordDecisionSchema, RuleReviewSchema } from "@/lib/validation/schemas";
 
 const MATH = "11111111-1111-4111-8111-111111111111";
 const GERMAN = "22222222-2222-4222-8222-222222222222";
@@ -65,11 +65,9 @@ describe("subject-scoped permissions (twin of private.has_capability with subjec
   const superadmin = account([["canon.publish", "all"], ["canon.review", "all"], ["answer_keys.propose_revision", "all"]], "superadmin");
   const pedagogue = account([["students.view_progress", "all"]]);
 
-  it("scopes review and key revisions to the teacher's subject", () => {
+  it("scopes review, errata and follow-ups to the teacher's subject", () => {
     expect(canReviewSubject(mathTeacher, MATH)).toBe(true);
     expect(canReviewSubject(mathTeacher, GERMAN)).toBe(false);
-    expect(canReviseAnswerKeys(mathTeacher, MATH)).toBe(true);
-    expect(canReviseAnswerKeys(mathTeacher, GERMAN)).toBe(false);
     expect(hasSubjectCapability(mathTeacher, "accounts.view", GERMAN)).toBe(true);
   });
 
@@ -91,11 +89,20 @@ describe("review validation", () => {
     expect(RecordDecisionSchema.safeParse({ recordId: "-1", decision: "returned", reason: "x" }).success).toBe(false);
   });
 
-  it("a dispute needs a note; a key revision needs answer and reason", () => {
+  it("a dispute needs a note", () => {
     expect(RuleReviewSchema.safeParse({ ruleId: MATH, subjectId: MATH, decision: "confirmed" }).success).toBe(true);
     expect(RuleReviewSchema.safeParse({ ruleId: MATH, subjectId: MATH, decision: "disputed", note: "" }).success).toBe(false);
-    expect(KeyRevisionSchema.safeParse({ answerKeyId: MATH, subjectId: MATH, correctedAnswer: "b)", reason: "" }).success).toBe(false);
-    expect(KeyRevisionSchema.safeParse({ answerKeyId: MATH, subjectId: MATH, correctedAnswer: "b)", reason: "Tačno je 891", evidence: "" }).success).toBe(true);
+  });
+
+  it("an erratum needs description and evidence; the item is optional (P-15)", () => {
+    const erratum = { questionVersionId: MATH, subjectId: MATH, description: "Salzburg liegt in Österreich", evidence: "Štampani ključ a)" };
+    expect(ErratumSchema.parse({ ...erratum, itemNumber: "" }).itemNumber).toBeUndefined();
+    expect(ErratumSchema.parse({ ...erratum, itemNumber: "3" }).itemNumber).toBe(3);
+    expect(ErratumSchema.safeParse({ ...erratum, itemNumber: "0" }).success).toBe(false);
+    expect(ErratumSchema.safeParse({ ...erratum, evidence: "  " }).success).toBe(false);
+    expect(ErratumWithdrawalSchema.safeParse({ erratumId: MATH, subjectId: MATH, reason: "" }).success).toBe(false);
+    expect(FollowUpSchema.safeParse({ questionVersionId: MATH, subjectId: MATH, assignee: "Nikolina Todorović", note: "Privremeno prihvaćeno" }).success).toBe(true);
+    expect(FollowUpSchema.safeParse({ questionVersionId: MATH, subjectId: MATH, assignee: " ", note: "x" }).success).toBe(false);
   });
 
   it("a subject-teacher grant always names a subject, other bundles never do", () => {

@@ -6,7 +6,7 @@ import { APP_HOME_PATH, REVIEW_PATH } from "@/constants";
 import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { KEY_QUERY_MAX_LENGTH } from "../domain/queue";
-import type { QueueFilter, QueueItem, ReviewState, TextProposalStatus } from "../types";
+import type { CanonNotice, QueueFilter, QueueItem, ReviewState } from "../types";
 import { ReviewShell } from "./review-shell";
 
 type Props = {
@@ -22,8 +22,8 @@ type Props = {
   noSubjects: boolean;
   /** Record-key search from the URL ("" when none). */
   keyQuery: string;
-  /** Prepared text-revision proposals of this subject (AMB-19). */
-  proposals: TextProposalStatus[];
+  /** Active errata and open follow-ups of this subject (P-15). */
+  notices: CanonNotice[];
 };
 
 const FILTERS: QueueFilter[] = ["pending", "returned", "accepted", "all"];
@@ -36,7 +36,7 @@ export function queueHref(subject: SubjectCode, filter: QueueFilter, page = 1): 
 }
 
 /** Review queue of one subject: filters, progress and one page of records. */
-export function ReviewQueueScreen({ subjects, selected, filter, hasQueue, counts, items, page, pages, noSubjects, keyQuery, proposals }: Props): ReactNode {
+export function ReviewQueueScreen({ subjects, selected, filter, hasQueue, counts, items, page, pages, noSubjects, keyQuery, notices }: Props): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.review;
   const total = counts.pending + counts.returned + counts.accepted;
@@ -49,16 +49,18 @@ export function ReviewQueueScreen({ subjects, selected, filter, hasQueue, counts
       {noSubjects && <p className="notice">{labels.noSubjects}</p>}
       {!noSubjects && subjects.length === 0 && <p className="notice">{labels.noScope}</p>}
 
-      {selected && proposals.length > 0 && (
-        <section className="card" aria-labelledby="review-proposals-title">
-          <h2 id="review-proposals-title">{labels.proposals.title}</h2>
-          <p>{proposals.every((proposal) => proposal.confirmed) ? labels.proposals.done : labels.proposals.hint}</p>
+      {selected && notices.length > 0 && (
+        <section className="card" aria-labelledby="review-notices-title">
+          <h2 id="review-notices-title">{labels.notices.title}</h2>
+          <p>{labels.notices.hint}</p>
           <ul className="review-list">
-            {proposals.map((proposal) => (
-              <li key={proposal.recordId}>
-                <Link href={`${REVIEW_PATH}/${proposal.recordId}?prikaz=all`} className="review-list__item review-list__item--compact" data-state={proposal.confirmed ? "accepted" : "pending"}>
-                  <strong className="review-list__key">{proposal.recordKey}</strong>
-                  <span className="status-pill" data-review={proposal.confirmed ? "accepted" : "pending"}>{proposal.confirmed ? labels.proposals.confirmed : labels.proposals.waiting}</span>
+            {notices.map((notice) => (
+              <li key={`${notice.kind}-${notice.recordId}-${notice.at}`}>
+                <Link href={`${REVIEW_PATH}/${notice.recordId}?prikaz=all`} className="review-list__item review-list__item--compact" data-state={notice.kind === "erratum" ? "returned" : "pending"}>
+                  <strong className="review-list__key">{notice.recordKey}</strong>
+                  <span className="status-pill" data-review={notice.kind === "erratum" ? "returned" : "pending"}>
+                    {notice.kind === "erratum" ? labels.notices.erratum : labels.notices.followUp.replace("{name}", notice.assignee ?? "")}
+                  </span>
                 </Link>
               </li>
             ))}

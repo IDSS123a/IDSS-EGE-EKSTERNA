@@ -54,11 +54,6 @@ export function canReviewSubject(account: CurrentAccount, subjectId: string): bo
   return canPublishCanon(account) || hasSubjectCapability(account, "canon.review", subjectId);
 }
 
-/** Record a reviewed answer-key correction for one subject (CF-03). */
-export function canReviseAnswerKeys(account: CurrentAccount, subjectId: string): boolean {
-  return hasSubjectCapability(account, "answer_keys.propose_revision", subjectId);
-}
-
 /** Open the review area at all (reviewers of any subject and publishers). */
 export function canOpenReview(account: CurrentAccount): boolean {
   return canPublishCanon(account) || hasCapability(account, "canon.review");

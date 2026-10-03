@@ -5,7 +5,7 @@ import { requireAccount } from "@/features/authentication/session";
 import { listSubjects } from "@/features/knowledge/repository";
 import { ReviewQueueScreen } from "@/features/review/components/review-queue-screen";
 import { defaultFilter, filterQueue, findByKey, KEY_QUERY_MAX_LENGTH, pageOf, parseFilter } from "@/features/review/domain/queue";
-import { findSubjectQueue, textProposalStatus } from "@/features/review/repository";
+import { canonNotices, findSubjectQueue } from "@/features/review/repository";
 import { createSupabaseServerClient } from "@/lib/db/supabase-server";
 import { logError } from "@/lib/logger";
 import { canOpenReview, canReviewSubject } from "@/lib/permissions";
@@ -33,8 +33,8 @@ export default async function ReviewPage({ searchParams }: { searchParams: Promi
     const filter = parseFilter(single(params.prikaz), queue ? defaultFilter(queue.counts) : "pending");
     const items = queue ? (keyQuery.trim() ? findByKey(queue.items, keyQuery) : filterQueue(queue.items, filter)) : [];
     const paged = pageOf(items, Number(single(params.stranica) ?? 1), REVIEW_PAGE_SIZE);
-    const proposals = queue ? await textProposalStatus(client, queue.items) : [];
-    view = { all, subjects, selected, queue, paged, filter, proposals };
+    const notices = selected ? await canonNotices(client, selected.id) : [];
+    view = { all, subjects, selected, queue, paged, filter, notices };
   } catch (error) {
     // Logged with location here; the /app error boundary shows the friendly message.
     logError("app/pregled/page", error);
@@ -46,7 +46,7 @@ export default async function ReviewPage({ searchParams }: { searchParams: Promi
       selected={view.selected?.code ?? null}
       filter={view.filter}
       keyQuery={keyQuery}
-      proposals={view.proposals}
+      notices={view.notices}
       hasQueue={Boolean(view.queue?.jobId)}
       counts={view.queue?.counts ?? { pending: 0, returned: 0, accepted: 0 }}
       items={view.paged.items}

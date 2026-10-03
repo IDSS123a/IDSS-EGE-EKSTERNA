@@ -35,7 +35,7 @@ export type ReviewDecision = {
   decidedAt: string;
 };
 
-/** A printed key with its reviewed corrections, newest first (CF-03). */
+/** A printed key with its earlier corrections, newest first (history only: the printed key counts, P-15). */
 export type AnswerKeyView = {
   id: string;
   itemNumber: number | null;
@@ -43,14 +43,35 @@ export type AnswerKeyView = {
   revisions: { correctedAnswer: string; reason: string; evidence: string | null; proposedByName: string | null; createdAt: string }[];
 };
 
-/** A reviewed text revision of a trusted question, newest first (AMB-19, PDL-021). */
+/** An earlier text revision of a trusted question, newest first (history only: students see the printed page, P-15). */
 export type TextRevisionView = { content: QuestionText; reason: string; evidence: string | null; revisedByName: string | null; createdAt: string };
 
 /** The trusted copy of an accepted record: its text as extracted and its reviewed text revisions. */
 export type TrustedQuestionView = { versionId: string; text: QuestionText; revisions: TextRevisionView[] };
 
-/** A prepared text-revision proposal on the queue screen (AMB-19). */
-export type TextProposalStatus = { recordId: number; recordKey: string; confirmed: boolean };
+/** A catalogue erratum (P-15): a notice beside the printed task, withdrawn by a later row, never deleted. */
+export type ErratumView = {
+  id: string;
+  itemNumber: number | null;
+  description: string;
+  evidence: string;
+  recordedByName: string | null;
+  recordedAt: string;
+  withdrawal: { reason: string; byName: string | null; at: string } | null;
+};
+
+/** A follow-up of a provisional acceptance: a named person must still check the question. */
+export type FollowUpView = {
+  id: string;
+  assignee: string;
+  note: string;
+  openedByName: string | null;
+  openedAt: string;
+  resolution: { note: string; byName: string | null; at: string } | null;
+};
+
+/** An open item of a subject on the queue screen: an active erratum or an open follow-up. */
+export type CanonNotice = { recordId: number; recordKey: string; kind: "erratum" | "follow_up"; assignee: string | null; at: string };
 
 /** Everything the record screen shows. */
 export type RecordForReview = {
@@ -66,6 +87,10 @@ export type RecordForReview = {
   answerKeys: AnswerKeyView[];
   /** The trusted copy with its text revisions, once accepted. */
   question: TrustedQuestionView | null;
+  /** Errata of the trusted copy, newest first (active and withdrawn). */
+  errata: ErratumView[];
+  /** Follow-ups of the trusted copy, newest first (open and resolved). */
+  followUps: FollowUpView[];
   /** False when the record belongs to an older job or version (read only). */
   current: boolean;
 };
@@ -80,10 +105,9 @@ export type ReviewErrorCode =
   | "STALE_RECORD"
   | "ALREADY_ACCEPTED"
   | "NOT_ACCEPTABLE"
-  | "UNCHANGED"
   | "UNAVAILABLE";
 
 /** Standard action result (E-5). */
 export type ReviewActionResult =
-  | { success: true; data: { message: "ACCEPTED" | "RETURNED" | "KEY_REVISED" | "TEXT_REVISED" } }
+  | { success: true; data: { message: "ACCEPTED" | "RETURNED" | "ERRATUM_RECORDED" | "ERRATUM_WITHDRAWN" | "FOLLOW_UP_OPENED" | "FOLLOW_UP_RESOLVED" } }
   | { success: false; code: ReviewErrorCode };

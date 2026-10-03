@@ -46,3 +46,9 @@ Date: 2026-09-27 (open)
 None yet.
 
 ### 2026-10-03 — No lessons this session (routine changes only: migrations 022/023 verified live, history rows recorded)
+
+### 2026-10-03 - Sign-in failure diagnosis
+- When a staff member cannot sign in, the cause is found without asking for the password: Supabase auth logs give the
+  error code (invalid_credentials), and public.security_events stores SHA-256 of the typed username, so matching it
+  against profiles.username shows whether a known account was typed. On 2026-10-03 one attempt named
+  direktor@idss.ba with a wrong password, two named no account at all; the account itself was active and not locked.

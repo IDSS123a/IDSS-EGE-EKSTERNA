@@ -395,16 +395,10 @@
       "by": "{name}, {date}"
     },
     "keys": {
-      "title": "Answer key and revisions",
-      "printed": "Printed answer",
-      "effective": "Effective answer",
-      "revisions": "Revisions",
-      "corrected": "Corrected answer",
-      "reason": "Reason",
-      "evidence": "Evidence (working or source)",
-      "submit": "Save revision",
-      "hint": "The printed answer is never changed. The revision is stored beside it and becomes the effective answer.",
-      "noRevisions": "No revisions."
+      "title": "Official answer key",
+      "printed": "Printed key (valid)",
+      "hint": "The printed key of the catalogue is always the official key and never changes. If an error in the catalogue is found, record it under \"Catalogue errors\".",
+      "historyNote": "Earlier revisions (history only, not valid):"
     },
     "source": {
       "page": "Original page {page}",
@@ -491,41 +485,28 @@
     "messages": {
       "ACCEPTED": "The record was accepted.",
       "RETURNED": "The record was returned with a reason.",
-      "KEY_REVISED": "The answer revision was saved.",
       "RULE_CONFIRMED": "The rule was confirmed.",
       "RULE_DISPUTED": "The rule was disputed.",
-      "TEXT_REVISED": "The text correction was saved."
+      "ERRATUM_RECORDED": "The error is recorded.",
+      "ERRATUM_WITHDRAWN": "The error is withdrawn.",
+      "FOLLOW_UP_OPENED": "The follow-up check is requested.",
+      "FOLLOW_UP_RESOLVED": "The follow-up check is done."
     },
     "errors": {
       "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
       "FORBIDDEN": "You may not review this subject.",
-      "VALIDATION": "Check your input: choose a task type to accept, enter a reason to return.",
+      "VALIDATION": "Check your input: choose a task type to accept, enter a reason to return, and fill in all fields in the other forms.",
       "NOT_FOUND": "The record does not exist.",
       "SUBJECT_MISSING": "The subject of this record is not loaded yet.",
       "STALE_RECORD": "The record comes from an older extraction. Open the list again.",
       "ALREADY_ACCEPTED": "The record is already accepted.",
       "NOT_ACCEPTABLE": "A structurally invalid record cannot be accepted.",
-      "UNAVAILABLE": "The service is not available right now. Please try again.",
-      "UNCHANGED": "The text is the same as the text students already see. The correction was not saved."
+      "UNAVAILABLE": "The service is not available right now. Please try again."
     },
     "text": {
-      "title": "Question text for students",
-      "hint": "Students see the newest confirmed correction. The catalogue text stays stored unchanged; a correction changes text only, never answer labels or the answer key.",
-      "shown": "Text students see",
-      "original": "Catalogue text",
-      "noRevision": "No corrections: students see the catalogue text.",
-      "proposal": "A proposed correction is filled in below: the footnote text from the bottom of the page (source of the task, link) was removed. Compare with the source page on the left, then confirm or adjust.",
-      "proposalEvidence": "Page {page}, footnote {footnotes}",
-      "rawText": "Full question text",
-      "stemText": "Task text (without answer options)",
-      "option": "Answer {label}",
-      "item": "Statement {n}",
-      "reason": "Reason for the correction",
-      "evidence": "Evidence (page, footnote)",
-      "submit": "Save text correction",
-      "confirm": "Save the text correction? Students will see this text.",
-      "history": "Text corrections",
-      "open": "Correct the text"
+      "title": "Earlier text corrections",
+      "hint": "History only. Students see the task exactly as printed in the catalogue.",
+      "revised": "Corrected text"
     },
     "keySearch": {
       "label": "Find a question by its code",
@@ -535,12 +516,45 @@
       "results": "Results for the code {query}",
       "none": "No question with the code {query} in this subject."
     },
-    "proposals": {
-      "title": "Proposed text corrections",
-      "hint": "In these questions footnote text from the bottom of the page ended up in the question text. Open the question, compare the proposal with the source page and click \"Save text correction\".",
-      "waiting": "Waiting for confirmation",
-      "confirmed": "Confirmed",
-      "done": "All corrections are confirmed."
+    "notices": {
+      "title": "Open notices",
+      "hint": "Catalogue errors and questions someone still has to check. Open the question for details.",
+      "erratum": "Catalogue error",
+      "followUp": "Waiting for: {name}"
+    },
+    "errata": {
+      "title": "Catalogue errors",
+      "hint": "The task and the official key stay exactly as printed. A recorded error is shown to students (before answering only that an error exists, after answering also the description) and to teachers when grading.",
+      "none": "No error is recorded for this task.",
+      "open": "Record a catalogue error",
+      "item": "Concerns",
+      "wholeTask": "The whole task",
+      "description": "Description of the error",
+      "descriptionHint": "Students see this description after answering. Keep it short and clear.",
+      "evidence": "Evidence (source, reasoning)",
+      "submit": "Save error",
+      "confirm": "Save the error? Students and teachers will see the notice with this task.",
+      "active": "Valid",
+      "withdrawn": "Withdrawn",
+      "evidenceShown": "Evidence: {text}",
+      "withdrawalShown": "Withdrawn: {text}",
+      "withdraw": "Withdraw error",
+      "withdrawReason": "Reason",
+      "withdrawSubmit": "Withdraw"
+    },
+    "followUps": {
+      "title": "Follow-up check",
+      "hint": "The question is accepted provisionally and the named person still has to check it.",
+      "none": "No follow-up check.",
+      "open": "Request a follow-up check",
+      "assignee": "Who checks",
+      "note": "Note",
+      "submit": "Save",
+      "waiting": "Waiting for: {name}",
+      "resolved": "Checked",
+      "resolve": "Mark as checked",
+      "resolutionNote": "Note on the check",
+      "resolveSubmit": "Mark as checked"
     }
   },
   "search": {

@@ -4,8 +4,8 @@ import { RegistryFunctionError } from "@/features/canon/repository";
 import type { CatalogueRecord } from "@/features/ingestion/types";
 import type { Subject } from "@/features/knowledge/types";
 import { countStates, reviewState } from "./domain/queue";
-import { allTextProposals, normalizeLineBreaks, type QuestionText } from "./domain/text-revision";
-import type { AnswerKeyView, QueueItem, RecordForReview, ReviewDecision, SubjectQueue, TextProposalStatus } from "./types";
+import { normalizeLineBreaks, type QuestionText } from "./domain/text-revision";
+import type { AnswerKeyView, CanonNotice, ErratumView, FollowUpView, QueueItem, RecordForReview, ReviewDecision, SubjectQueue } from "./types";
 
 /**
  * Database access for the review queue (A-3). Reads use the caller's client (RLS); names of
@@ -125,6 +125,8 @@ export async function findRecordForReview(client: SupabaseClient, recordId: numb
   let revisions: RevisionRow[] = [];
   let versionRow: VersionRow | null = null;
   let textRevisions: TextRevisionRow[] = [];
+  let errata: ErratumRow[] = [];
+  let followUps: FollowUpRow[] = [];
   if (accepted) {
     const version = await client.from("question_versions").select("id, raw_text, stem_text, options, scored_items").eq("record_id", accepted.record_id).maybeSingle<VersionRow>();
     if (version.error) throw new Error(`findRecordForReview(version) failed: ${version.error.message}`);
@@ -138,6 +140,7 @@ export async function findRecordForReview(client: SupabaseClient, recordId: numb
         .returns<TextRevisionRow[]>();
       if (textResult.error) throw new Error(`findRecordForReview(text revisions) failed: ${textResult.error.message}`);
       textRevisions = textResult.data ?? [];
+      [errata, followUps] = await Promise.all([errataOf(client, version.data.id), followUpsOf(client, version.data.id)]);
       const keyResult = await client.from("answer_keys").select("id, item_number, printed_answer").eq("question_version_id", version.data.id).order("item_number", { ascending: true, nullsFirst: true }).returns<KeyRow[]>();
       if (keyResult.error) throw new Error(`findRecordForReview(keys) failed: ${keyResult.error.message}`);
       keys = keyResult.data ?? [];
@@ -154,7 +157,15 @@ export async function findRecordForReview(client: SupabaseClient, recordId: numb
     }
   }
 
-  const nameMap = await names([...new Set([...decisions.map((row) => row.reviewer), ...revisions.map((row) => row.proposed_by), ...textRevisions.map((row) => row.revised_by)])]);
+  const nameMap = await names([
+    ...new Set([
+      ...decisions.map((row) => row.reviewer),
+      ...revisions.map((row) => row.proposed_by),
+      ...textRevisions.map((row) => row.revised_by),
+      ...errata.map((row) => row.recorded_by),
+      ...followUps.flatMap((row) => [row.opened_by, ...(row.canon_follow_up_resolutions ? [row.canon_follow_up_resolutions.resolved_by] : [])]),
+    ]),
+  ]);
   const history: ReviewDecision[] = decisions.map((row) => ({ decision: row.decision, taskType: row.task_type, reason: row.reason, reviewerName: nameMap.get(row.reviewer) ?? null, decidedAt: row.decided_at }));
   const answerKeys: AnswerKeyView[] = keys.map((key) => ({
     id: key.id,
@@ -181,6 +192,8 @@ export async function findRecordForReview(client: SupabaseClient, recordId: numb
           revisions: textRevisions.map((row) => ({ content: questionText(row.content), reason: row.reason, evidence: row.evidence, revisedByName: nameMap.get(row.revised_by) ?? null, createdAt: row.created_at })),
         }
       : null,
+    errata: erratumViews(errata, nameMap),
+    followUps: followUpViews(followUps, nameMap),
     current,
   };
 }
@@ -213,36 +226,15 @@ export async function decideRecord(admin: SupabaseClient, input: { actorUserId: 
 }
 
 /**
- * propose_answer_key_revision (migration 008): the printed key never changes; the revision is a new row.
+ * record_catalogue_erratum (migration 020): a notice beside the printed task; the task and key never change (P-15).
  * @throws RegistryFunctionError with the database's machine message
  */
-export async function proposeKeyRevision(admin: SupabaseClient, input: { actorUserId: string; answerKeyId: string; correctedAnswer: string; reason: string; evidence: string | null; ipAddress: string | null }): Promise<void> {
-  const { error } = await admin.rpc("propose_answer_key_revision", {
-    p_actor: input.actorUserId,
-    p_answer_key_id: input.answerKeyId,
-    p_corrected: input.correctedAnswer,
-    p_reason: input.reason,
-    p_evidence: input.evidence,
-    p_ip: input.ipAddress,
-  });
-  if (error) throw new RegistryFunctionError(error.message);
-}
-
-/**
- * revise_question_text (migration 013): the trusted version never changes; the revision is a new row.
- * @throws RegistryFunctionError with the database's machine message
- */
-export async function reviseQuestionText(admin: SupabaseClient, input: { actorUserId: string; questionVersionId: string; text: QuestionText; reason: string; evidence: string | null; ipAddress: string | null }): Promise<void> {
-  const { error } = await admin.rpc("revise_question_text", {
+export async function recordErratum(admin: SupabaseClient, input: { actorUserId: string; questionVersionId: string; itemNumber: number | null; description: string; evidence: string; ipAddress: string | null }): Promise<void> {
+  const { error } = await admin.rpc("record_catalogue_erratum", {
     p_actor: input.actorUserId,
     p_question_version_id: input.questionVersionId,
-    p_content: {
-      raw_text: input.text.rawText,
-      stem_text: input.text.stemText,
-      options: input.text.options.map((option) => ({ label: option.label, text: option.text })),
-      scored_items: input.text.scoredItems.map((item) => ({ item_number: item.itemNumber, raw_text: item.rawText })),
-    },
-    p_reason: input.reason,
+    p_item: input.itemNumber,
+    p_description: input.description,
     p_evidence: input.evidence,
     p_ip: input.ipAddress,
   });
@@ -250,34 +242,111 @@ export async function reviseQuestionText(admin: SupabaseClient, input: { actorUs
 }
 
 /**
- * Prepared text-revision proposals (AMB-19) among the accepted records of a queue, with whether a
- * reviewer already saved a text revision for the question (caller's client, RLS).
+ * withdraw_catalogue_erratum (migration 020): a new row that cancels the erratum.
+ * @throws RegistryFunctionError with the database's machine message
  */
-export async function textProposalStatus(client: SupabaseClient, items: readonly QueueItem[]): Promise<TextProposalStatus[]> {
-  const keys = new Set(allTextProposals().map((proposal) => proposal.record_key));
-  const candidates = items.filter((item) => keys.has(item.recordKey) && item.state === "accepted");
-  if (candidates.length === 0) return [];
-  const versions = await client
-    .from("question_versions")
-    .select("id, record_id")
-    .in("record_id", candidates.map((item) => item.recordId))
-    .returns<{ id: string; record_id: number }[]>();
-  if (versions.error) throw new Error(`textProposalStatus(versions) failed: ${versions.error.message}`);
-  const versionOf = new Map((versions.data ?? []).map((row) => [row.record_id, row.id]));
-  const revised = new Set<string>();
-  if (versionOf.size > 0) {
-    const revisions = await client
-      .from("question_text_revisions")
-      .select("question_version_id")
-      .in("question_version_id", [...versionOf.values()])
-      .returns<{ question_version_id: string }[]>();
-    if (revisions.error) throw new Error(`textProposalStatus(revisions) failed: ${revisions.error.message}`);
-    for (const row of revisions.data ?? []) revised.add(row.question_version_id);
-  }
-  return candidates
-    .sort((a, b) => a.ordinal - b.ordinal)
-    .map((item) => {
-      const versionId = versionOf.get(item.recordId);
-      return { recordId: item.recordId, recordKey: item.recordKey, confirmed: versionId !== undefined && revised.has(versionId) };
+export async function withdrawErratum(admin: SupabaseClient, input: { actorUserId: string; erratumId: string; reason: string; ipAddress: string | null }): Promise<void> {
+  const { error } = await admin.rpc("withdraw_catalogue_erratum", { p_actor: input.actorUserId, p_erratum_id: input.erratumId, p_reason: input.reason, p_ip: input.ipAddress });
+  if (error) throw new RegistryFunctionError(error.message);
+}
+
+/**
+ * open_canon_follow_up (migration 020): a named person must still check the question.
+ * @throws RegistryFunctionError with the database's machine message
+ */
+export async function openFollowUp(admin: SupabaseClient, input: { actorUserId: string; questionVersionId: string; assignee: string; note: string; ipAddress: string | null }): Promise<void> {
+  const { error } = await admin.rpc("open_canon_follow_up", { p_actor: input.actorUserId, p_question_version_id: input.questionVersionId, p_assignee: input.assignee, p_note: input.note, p_ip: input.ipAddress });
+  if (error) throw new RegistryFunctionError(error.message);
+}
+
+/**
+ * resolve_canon_follow_up (migration 020).
+ * @throws RegistryFunctionError with the database's machine message
+ */
+export async function resolveFollowUp(admin: SupabaseClient, input: { actorUserId: string; followUpId: string; note: string; ipAddress: string | null }): Promise<void> {
+  const { error } = await admin.rpc("resolve_canon_follow_up", { p_actor: input.actorUserId, p_follow_up_id: input.followUpId, p_note: input.note, p_ip: input.ipAddress });
+  if (error) throw new RegistryFunctionError(error.message);
+}
+
+type ErratumRow = { id: string; item_number: number | null; description: string; evidence: string; withdraws: string | null; recorded_by: string; recorded_at: string };
+type FollowUpRow = { id: string; assignee: string; note: string; opened_by: string; opened_at: string; canon_follow_up_resolutions: { note: string; resolved_by: string; resolved_at: string } | null };
+
+async function errataOf(client: SupabaseClient, versionId: string): Promise<ErratumRow[]> {
+  const { data, error } = await client
+    .from("catalogue_errata")
+    .select("id, item_number, description, evidence, withdraws, recorded_by, recorded_at")
+    .eq("question_version_id", versionId)
+    .order("recorded_at", { ascending: false })
+    .returns<ErratumRow[]>();
+  if (error) throw new Error(`errataOf failed: ${error.message}`);
+  return data ?? [];
+}
+
+async function followUpsOf(client: SupabaseClient, versionId: string): Promise<FollowUpRow[]> {
+  const { data, error } = await client
+    .from("canon_follow_ups")
+    .select("id, assignee, note, opened_by, opened_at, canon_follow_up_resolutions(note, resolved_by, resolved_at)")
+    .eq("question_version_id", versionId)
+    .order("opened_at", { ascending: false })
+    .returns<FollowUpRow[]>();
+  if (error) throw new Error(`followUpsOf failed: ${error.message}`);
+  return data ?? [];
+}
+
+/** Errata rows as views: withdrawal rows are folded into the erratum they cancel. */
+function erratumViews(rows: readonly ErratumRow[], names: Map<string, string>): ErratumView[] {
+  const withdrawals = new Map(rows.filter((row) => row.withdraws).map((row) => [row.withdraws as string, row]));
+  return rows
+    .filter((row) => !row.withdraws)
+    .map((row) => {
+      const withdrawal = withdrawals.get(row.id);
+      return {
+        id: row.id,
+        itemNumber: row.item_number,
+        description: row.description,
+        evidence: row.evidence,
+        recordedByName: names.get(row.recorded_by) ?? null,
+        recordedAt: row.recorded_at,
+        withdrawal: withdrawal ? { reason: withdrawal.description, byName: names.get(withdrawal.recorded_by) ?? null, at: withdrawal.recorded_at } : null,
+      };
     });
+}
+
+function followUpViews(rows: readonly FollowUpRow[], names: Map<string, string>): FollowUpView[] {
+  return rows.map((row) => {
+    const resolution = row.canon_follow_up_resolutions;
+    return {
+      id: row.id,
+      assignee: row.assignee,
+      note: row.note,
+      openedByName: names.get(row.opened_by) ?? null,
+      openedAt: row.opened_at,
+      resolution: resolution ? { note: resolution.note, byName: names.get(resolution.resolved_by) ?? null, at: resolution.resolved_at } : null,
+    };
+  });
+}
+
+type NoticeErratumRow = { id: string; withdraws: string | null; recorded_at: string; question_versions: { record_id: number; ingested_records: { record_key: string } } };
+type NoticeFollowUpRow = { assignee: string; opened_at: string; canon_follow_up_resolutions: { follow_up_id: string } | null; question_versions: { record_id: number; ingested_records: { record_key: string } } };
+
+/**
+ * Open items of one subject for the queue screen: active errata and open follow-ups, by record key
+ * (caller's client, RLS: reviewers of the subject, graders and publishers).
+ */
+export async function canonNotices(client: SupabaseClient, subjectId: string): Promise<CanonNotice[]> {
+  const relation = "question_versions!inner(record_id, ingested_records!inner(record_key))";
+  const errata = await client.from("catalogue_errata").select(`id, withdraws, recorded_at, ${relation}`).eq("subject_id", subjectId).returns<NoticeErratumRow[]>();
+  if (errata.error) throw new Error(`canonNotices(errata) failed: ${errata.error.message}`);
+  const followUps = await client.from("canon_follow_ups").select(`assignee, opened_at, canon_follow_up_resolutions(follow_up_id), ${relation}`).eq("subject_id", subjectId).returns<NoticeFollowUpRow[]>();
+  if (followUps.error) throw new Error(`canonNotices(follow-ups) failed: ${followUps.error.message}`);
+  const withdrawn = new Set((errata.data ?? []).map((row) => row.withdraws).filter((id): id is string => id !== null));
+  const notices: CanonNotice[] = [
+    ...(errata.data ?? [])
+      .filter((row) => row.withdraws === null && !withdrawn.has(row.id))
+      .map((row) => ({ recordId: row.question_versions.record_id, recordKey: row.question_versions.ingested_records.record_key, kind: "erratum" as const, assignee: null, at: row.recorded_at })),
+    ...(followUps.data ?? [])
+      .filter((row) => row.canon_follow_up_resolutions === null)
+      .map((row) => ({ recordId: row.question_versions.record_id, recordKey: row.question_versions.ingested_records.record_key, kind: "follow_up" as const, assignee: row.assignee, at: row.opened_at })),
+  ];
+  return notices.sort((a, b) => a.recordKey.localeCompare(b.recordKey, "bs", { numeric: true }) || a.kind.localeCompare(b.kind));
 }

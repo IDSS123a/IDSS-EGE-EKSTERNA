@@ -10,7 +10,7 @@ import { findRecordForReview, findSubjectQueue } from "@/features/review/reposit
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { createSupabaseServerClient } from "@/lib/db/supabase-server";
 import { logError } from "@/lib/logger";
-import { canOpenReview, canReviewSubject, canReviseAnswerKeys } from "@/lib/permissions";
+import { canOpenReview, canReviewSubject } from "@/lib/permissions";
 
 /**
  * GET /app/pregled/[recordId]?prikaz= — one record beside its source region (Sprint 04).
@@ -47,7 +47,6 @@ export default async function RecordReviewPage({ params, searchParams }: { param
       subjectCode={view.subject.code}
       sourceUrl={`${REVIEW_PATH}/izvor/${view.review.versionId}`}
       canDecide={view.review.current}
-      canRevise={canReviseAnswerKeys(account, view.review.subjectId)}
       filter={filter}
       previous={view.previous}
       next={view.next}

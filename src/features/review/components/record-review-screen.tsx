@@ -2,16 +2,15 @@
 
 import Link from "next/link";
 import { useActionState, type FormEvent, type ReactNode } from "react";
-import { QUESTION_TEXT_MAX_LENGTH, REVIEW_PATH, REVIEW_REGION_MARGIN_POINTS, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
+import { REVIEW_PATH, REVIEW_REGION_MARGIN_POINTS, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
 import { flagKey } from "@/features/ingestion/domain/report";
 import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { REVIEW_TASK_TYPES } from "@/lib/validation/schemas";
-import { decideRecordAction, proposeKeyRevisionAction, reviseQuestionTextAction } from "../actions";
+import { decideRecordAction, openFollowUpAction, recordErratumAction, resolveFollowUpAction, withdrawErratumAction } from "../actions";
 import { regionOnPage } from "../domain/queue";
-import { allTextProposals, PROPOSAL_REASON, proposedText, sameText, type QuestionText } from "../domain/text-revision";
-import type { AnswerKeyView, QueueFilter, RecordForReview, ReviewActionResult, TrustedQuestionView } from "../types";
+import type { AnswerKeyView, ErratumView, FollowUpView, QueueFilter, RecordForReview, ReviewActionResult, TrustedQuestionView } from "../types";
 import { queueHref } from "./review-queue-screen";
 import { ReviewShell } from "./review-shell";
 import { SourceRegion } from "./source-region";
@@ -21,14 +20,13 @@ type Props = {
   subjectCode: SubjectCode;
   sourceUrl: string;
   canDecide: boolean;
-  canRevise: boolean;
   filter: QueueFilter;
   previous: number | null;
   next: number | null;
 };
 
-/** One record beside its original page region, with the decision and, once accepted, key revisions. */
-export function RecordReviewScreen({ review, subjectCode, sourceUrl, canDecide, canRevise, filter, previous, next }: Props): ReactNode {
+/** One record beside its original page region, with the decision and, once accepted, errata and follow-ups (P-15). */
+export function RecordReviewScreen({ review, subjectCode, sourceUrl, canDecide, filter, previous, next }: Props): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.review;
   const { record } = review;
@@ -104,7 +102,10 @@ export function RecordReviewScreen({ review, subjectCode, sourceUrl, canDecide, 
 
       {canDecide && review.state !== "accepted" && <DecisionForm review={review} />}
       {review.state === "accepted" && review.question && (
-        <QuestionTextSection question={review.question} recordKey={review.recordKey} subjectId={review.subjectId} language={subjectCode === "german" ? "de" : "bs"} canRevise={canDecide && review.current} />
+        <>
+          <ErrataSection review={review} versionId={review.question.versionId} canEdit={review.current} />
+          <FollowUpsSection review={review} versionId={review.question.versionId} canEdit={review.current} />
+        </>
       )}
       {review.state === "accepted" && (
         <section className="card" aria-labelledby="keys-title">
@@ -112,8 +113,11 @@ export function RecordReviewScreen({ review, subjectCode, sourceUrl, canDecide, 
           <p>{labels.decision.acceptedNote}</p>
           <p>{labels.keys.hint}</p>
           {review.answerKeys.length === 0 && <p>{labels.record.noKey}</p>}
-          {review.answerKeys.map((key) => <KeyRevisions key={key.id} answerKey={key} subjectId={review.subjectId} canRevise={canRevise} />)}
+          {review.answerKeys.map((key) => <KeyHistory key={key.id} answerKey={key} />)}
         </section>
+      )}
+      {review.state === "accepted" && review.question && review.question.revisions.length > 0 && (
+        <TextHistory question={review.question} language={subjectCode === "german" ? "de" : "bs"} />
       )}
     </ReviewShell>
   );
@@ -183,176 +187,245 @@ function DecisionForm({ review }: { review: RecordForReview }): ReactNode {
   );
 }
 
-function KeyRevisions({ answerKey, subjectId, canRevise }: { answerKey: AnswerKeyView; subjectId: string; canRevise: boolean }): ReactNode {
-  const { dictionary, locale } = useI18n();
+/** Shared result line of the small forms on this screen. */
+function Feedback({ result }: { result: ReviewActionResult | null }): ReactNode {
+  const { dictionary } = useI18n();
   const labels = dictionary.review;
-  const [result, formAction, pending] = useActionState<ReviewActionResult | null, FormData>(proposeKeyRevisionAction, null);
-  const effective = answerKey.revisions[0]?.correctedAnswer ?? answerKey.printedAnswer;
-  const fieldId = (name: string) => `${name}-${answerKey.id}`;
-
   return (
-    <div className="ingestion-panel">
-      {answerKey.itemNumber !== null && <h4>{labels.record.item.replace("{n}", String(answerKey.itemNumber))}</h4>}
-      <dl className="canon-version__meta">
-        <div><dt>{labels.keys.printed}</dt><dd><pre className="review-record__key">{answerKey.printedAnswer}</pre></dd></div>
-        <div><dt>{labels.keys.effective}</dt><dd><pre className="review-record__key">{effective}</pre></dd></div>
-      </dl>
-      {answerKey.revisions.length > 0 && (
-        <ul className="canon-history__list">
-          {answerKey.revisions.map((revision) => (
-            <li key={revision.createdAt}>
-              <span className="canon-history__event">{revision.correctedAnswer}</span>
-              <span>{revision.reason}</span>
-              {revision.evidence && <span>{revision.evidence}</span>}
-              <span>{labels.decision.by.replace("{name}", revision.proposedByName ?? "").replace("{date}", formatDateTime(revision.createdAt, locale))}</span>
-            </li>
-          ))}
-        </ul>
-      )}
-      {canRevise && (
-        <form action={formAction} className="form form--grid">
-          <input type="hidden" name="answerKeyId" value={answerKey.id} />
-          <input type="hidden" name="subjectId" value={subjectId} />
-          <div className="form__field">
-            <label htmlFor={fieldId("corrected")}>{labels.keys.corrected}</label>
-            <input id={fieldId("corrected")} name="correctedAnswer" required maxLength={REVIEW_TEXT_MAX_LENGTH} />
-          </div>
-          <div className="form__field">
-            <label htmlFor={fieldId("reason")}>{labels.keys.reason}</label>
-            <input id={fieldId("reason")} name="reason" required maxLength={REVIEW_TEXT_MAX_LENGTH} />
-          </div>
-          <div className="form__field">
-            <label htmlFor={fieldId("evidence")}>{labels.keys.evidence}</label>
-            <input id={fieldId("evidence")} name="evidence" maxLength={REVIEW_TEXT_MAX_LENGTH} />
-          </div>
-          <div className="form__actions">
-            <button type="submit" className="button-secondary" disabled={pending}>{labels.keys.submit}</button>
-            <p className="action-feedback" aria-live="polite">
-              {result?.success && <span className="action-feedback--ok">{labels.messages[result.data.message]}</span>}
-              {result && !result.success && <span className="action-feedback--error">{labels.errors[result.code]}</span>}
-            </p>
-          </div>
-        </form>
-      )}
-    </div>
+    <p className="action-feedback" aria-live="polite">
+      {result?.success && <span className="action-feedback--ok">{labels.messages[result.data.message]}</span>}
+      {result && !result.success && <span className="action-feedback--error">{labels.errors[result.code]}</span>}
+    </p>
   );
 }
 
-/** The text students see, its correction history and, for reviewers, the correction form (AMB-19, PDL-021). */
-function QuestionTextSection({ question, recordKey, subjectId, language, canRevise }: { question: TrustedQuestionView; recordKey: string; subjectId: string; language: string; canRevise: boolean }): ReactNode {
-  const { dictionary, locale } = useI18n();
+/** Errata of the question (P-15): the printed task and key stay; students and teachers see the notice. */
+function ErrataSection({ review, versionId, canEdit }: { review: RecordForReview; versionId: string; canEdit: boolean }): ReactNode {
+  const { dictionary } = useI18n();
   const labels = dictionary.review;
-  const shown = question.revisions[0]?.content ?? question.text;
-  const candidate = proposedText(recordKey, shown);
-  const proposal = candidate && !sameText(candidate, shown) ? candidate : null;
-  const prepared = proposal ? allTextProposals().find((entry) => entry.record_key === recordKey) : undefined;
+  const [result, formAction, pending] = useActionState<ReviewActionResult | null, FormData>(recordErratumAction, null);
+  const items = review.answerKeys.map((key) => key.itemNumber).filter((item): item is number => item !== null);
+  const confirmSave = (event: FormEvent<HTMLFormElement>): void => {
+    if (!window.confirm(labels.errata.confirm)) event.preventDefault();
+  };
 
   return (
-    <section className="card" aria-labelledby="text-title">
-      <h2 id="text-title">{labels.text.title}</h2>
-      <p>{labels.text.hint}</p>
-      <h3>{labels.text.shown}</h3>
-      {/* Canonical text stays in its source language (AMB-13, P-13 exempt). */}
-      <pre className="review-record__text" lang={language}>{shown.rawText}</pre>
-      {question.revisions.length === 0 ? (
-        <p>{labels.text.noRevision}</p>
+    <section className="card" aria-labelledby="errata-title">
+      <h2 id="errata-title">{labels.errata.title}</h2>
+      <p>{labels.errata.hint}</p>
+      {review.errata.length === 0 ? (
+        <p>{labels.errata.none}</p>
       ) : (
-        <>
-          <details>
-            <summary>{labels.text.original}</summary>
-            <pre className="review-record__text" lang={language}>{question.text.rawText}</pre>
-          </details>
-          <h3>{labels.text.history}</h3>
-          <ul className="canon-history__list">
-            {question.revisions.map((revision) => (
-              <li key={revision.createdAt}>
-                <span lang="bs">{revision.reason}</span>
-                {revision.evidence && <span lang="bs">{revision.evidence}</span>}
-                <span>{labels.decision.by.replace("{name}", revision.revisedByName ?? "").replace("{date}", formatDateTime(revision.createdAt, locale))}</span>
-              </li>
-            ))}
-          </ul>
-        </>
+        <ul className="canon-history__list">
+          {review.errata.map((erratum) => (
+            <ErratumEntry key={erratum.id} erratum={erratum} subjectId={review.subjectId} canEdit={canEdit} />
+          ))}
+        </ul>
       )}
-      {canRevise && proposal !== null && (
-        <TextRevisionForm
-          key={question.revisions.length}
-          versionId={question.versionId}
-          subjectId={subjectId}
-          language={language}
-          initial={proposal}
-          reason={PROPOSAL_REASON}
-          evidence={prepared ? labels.text.proposalEvidence.replace("{page}", String(prepared.page)).replace("{footnotes}", prepared.footnotes.join(", ")) : ""}
-          proposed
-        />
-      )}
-      {/* Without a prepared proposal the form stays folded: a correction is an exception, not a step. */}
-      {canRevise && proposal === null && (
+      {canEdit && (
         <details className="review-text-details">
-          <summary>{labels.text.open}</summary>
-          <TextRevisionForm key={question.revisions.length} versionId={question.versionId} subjectId={subjectId} language={language} initial={shown} reason="" evidence="" proposed={false} />
+          <summary>{labels.errata.open}</summary>
+          <form key={review.errata.length} action={formAction} onSubmit={confirmSave} className="form form--grid">
+            <input type="hidden" name="questionVersionId" value={versionId} />
+            <input type="hidden" name="subjectId" value={review.subjectId} />
+            {items.length > 0 && (
+              <div className="form__field">
+                <label htmlFor="erratum-item">{labels.errata.item}</label>
+                <select id="erratum-item" name="itemNumber" defaultValue="">
+                  <option value="">{labels.errata.wholeTask}</option>
+                  {items.map((item) => <option key={item} value={item}>{labels.record.item.replace("{n}", String(item))}</option>)}
+                </select>
+              </div>
+            )}
+            <div className="form__field">
+              <label htmlFor="erratum-description">{labels.errata.description}</label>
+              <textarea id="erratum-description" name="description" required maxLength={REVIEW_TEXT_MAX_LENGTH} rows={3} aria-describedby="erratum-description-hint" />
+              <p id="erratum-description-hint" className="form__hint">{labels.errata.descriptionHint}</p>
+            </div>
+            <div className="form__field">
+              <label htmlFor="erratum-evidence">{labels.errata.evidence}</label>
+              <textarea id="erratum-evidence" name="evidence" required maxLength={REVIEW_TEXT_MAX_LENGTH} rows={2} />
+            </div>
+            <div className="form__actions">
+              <button type="submit" className="button-primary" disabled={pending}>{labels.errata.submit}</button>
+              <Feedback result={result} />
+            </div>
+          </form>
         </details>
       )}
     </section>
   );
 }
 
-type FormProps = { versionId: string; subjectId: string; language: string; initial: QuestionText; reason: string; evidence: string; proposed: boolean };
-
-function TextRevisionForm({ versionId, subjectId, language, initial, reason, evidence, proposed }: FormProps): ReactNode {
-  const { dictionary } = useI18n();
-  const labels = dictionary.review.text;
-  const messages = dictionary.review;
-  const [result, formAction, pending] = useActionState<ReviewActionResult | null, FormData>(reviseQuestionTextAction, null);
-  const confirmSave = (event: FormEvent<HTMLFormElement>): void => {
-    if (!window.confirm(labels.confirm)) event.preventDefault();
-  };
-  const rows = (text: string) => Math.min(16, text.split("\n").length + 1);
+function ErratumEntry({ erratum, subjectId, canEdit }: { erratum: ErratumView; subjectId: string; canEdit: boolean }): ReactNode {
+  const { dictionary, locale } = useI18n();
+  const labels = dictionary.review;
+  const [result, formAction, pending] = useActionState<ReviewActionResult | null, FormData>(withdrawErratumAction, null);
+  const by = (name: string | null, at: string) => labels.decision.by.replace("{name}", name ?? "").replace("{date}", formatDateTime(at, locale));
 
   return (
-    <form action={formAction} onSubmit={confirmSave} className="form review-text-form">
-      {proposed && <p className="notice">{labels.proposal}</p>}
-      <input type="hidden" name="questionVersionId" value={versionId} />
-      <input type="hidden" name="subjectId" value={subjectId} />
-      <div className="form__field">
-        <label htmlFor="text-raw">{labels.rawText}</label>
-        <textarea id="text-raw" name="rawText" lang={language} required maxLength={QUESTION_TEXT_MAX_LENGTH} rows={rows(initial.rawText)} defaultValue={initial.rawText} />
-      </div>
-      {initial.stemText !== null && (
-        <div className="form__field">
-          <label htmlFor="text-stem">{labels.stemText}</label>
-          <textarea id="text-stem" name="stemText" lang={language} required maxLength={QUESTION_TEXT_MAX_LENGTH} rows={rows(initial.stemText)} defaultValue={initial.stemText} />
-        </div>
+    <li>
+      <span className="canon-history__event">
+        {erratum.withdrawal ? labels.errata.withdrawn : labels.errata.active}
+        {erratum.itemNumber !== null && `, ${labels.record.item.replace("{n}", String(erratum.itemNumber))}`}
+      </span>
+      <span lang="bs">{erratum.description}</span>
+      <span lang="bs">{labels.errata.evidenceShown.replace("{text}", erratum.evidence)}</span>
+      <span>{by(erratum.recordedByName, erratum.recordedAt)}</span>
+      {erratum.withdrawal && (
+        <span lang="bs">{labels.errata.withdrawalShown.replace("{text}", erratum.withdrawal.reason)} ({by(erratum.withdrawal.byName, erratum.withdrawal.at)})</span>
       )}
-      {initial.options.map((option) => (
-        <div className="form__field" key={option.label}>
-          <input type="hidden" name="optionLabel" value={option.label} />
-          <label htmlFor={`text-option-${option.label}`}>{labels.option.replace("{label}", option.label)}</label>
-          <textarea id={`text-option-${option.label}`} name="optionText" lang={language} required maxLength={REVIEW_TEXT_MAX_LENGTH} rows={rows(option.text)} defaultValue={option.text} />
-        </div>
-      ))}
-      {initial.scoredItems.map((item) => (
-        <div className="form__field" key={item.itemNumber}>
-          <input type="hidden" name="itemNumber" value={item.itemNumber} />
-          <label htmlFor={`text-item-${item.itemNumber}`}>{labels.item.replace("{n}", String(item.itemNumber))}</label>
-          <textarea id={`text-item-${item.itemNumber}`} name="itemText" lang={language} required maxLength={REVIEW_TEXT_MAX_LENGTH} rows={rows(item.rawText)} defaultValue={item.rawText} />
-        </div>
-      ))}
-      <div className="form__field">
-        <label htmlFor="text-reason">{labels.reason}</label>
-        <input id="text-reason" name="reason" required maxLength={REVIEW_TEXT_MAX_LENGTH} defaultValue={reason} />
-      </div>
-      <div className="form__field">
-        <label htmlFor="text-evidence">{labels.evidence}</label>
-        <input id="text-evidence" name="evidence" maxLength={REVIEW_TEXT_MAX_LENGTH} defaultValue={evidence} />
-      </div>
-      <div className="form__actions">
-        <button type="submit" className={proposed ? "button-primary" : "button-secondary"} disabled={pending}>{labels.submit}</button>
-        <p className="action-feedback" aria-live="polite">
-          {result?.success && <span className="action-feedback--ok">{messages.messages[result.data.message]}</span>}
-          {result && !result.success && <span className="action-feedback--error">{messages.errors[result.code]}</span>}
-        </p>
-      </div>
-    </form>
+      {canEdit && !erratum.withdrawal && (
+        <details className="review-text-details">
+          <summary>{labels.errata.withdraw}</summary>
+          <form action={formAction} className="form form--grid">
+            <input type="hidden" name="erratumId" value={erratum.id} />
+            <input type="hidden" name="subjectId" value={subjectId} />
+            <div className="form__field">
+              <label htmlFor={`withdraw-${erratum.id}`}>{labels.errata.withdrawReason}</label>
+              <input id={`withdraw-${erratum.id}`} name="reason" required maxLength={REVIEW_TEXT_MAX_LENGTH} />
+            </div>
+            <div className="form__actions">
+              <button type="submit" className="button-secondary" disabled={pending}>{labels.errata.withdrawSubmit}</button>
+              <Feedback result={result} />
+            </div>
+          </form>
+        </details>
+      )}
+    </li>
+  );
+}
+
+/** Follow-ups: a provisional acceptance waits for a named person to check the question. */
+function FollowUpsSection({ review, versionId, canEdit }: { review: RecordForReview; versionId: string; canEdit: boolean }): ReactNode {
+  const { dictionary } = useI18n();
+  const labels = dictionary.review;
+  const [result, formAction, pending] = useActionState<ReviewActionResult | null, FormData>(openFollowUpAction, null);
+
+  return (
+    <section className="card" aria-labelledby="follow-ups-title">
+      <h2 id="follow-ups-title">{labels.followUps.title}</h2>
+      <p>{labels.followUps.hint}</p>
+      {review.followUps.length === 0 ? (
+        <p>{labels.followUps.none}</p>
+      ) : (
+        <ul className="canon-history__list">
+          {review.followUps.map((followUp) => <FollowUpEntry key={followUp.id} followUp={followUp} subjectId={review.subjectId} canEdit={canEdit} />)}
+        </ul>
+      )}
+      {canEdit && (
+        <details className="review-text-details">
+          <summary>{labels.followUps.open}</summary>
+          <form key={review.followUps.length} action={formAction} className="form form--grid">
+            <input type="hidden" name="questionVersionId" value={versionId} />
+            <input type="hidden" name="subjectId" value={review.subjectId} />
+            <div className="form__field">
+              <label htmlFor="follow-up-assignee">{labels.followUps.assignee}</label>
+              <input id="follow-up-assignee" name="assignee" required maxLength={200} />
+            </div>
+            <div className="form__field">
+              <label htmlFor="follow-up-note">{labels.followUps.note}</label>
+              <input id="follow-up-note" name="note" required maxLength={REVIEW_TEXT_MAX_LENGTH} />
+            </div>
+            <div className="form__actions">
+              <button type="submit" className="button-secondary" disabled={pending}>{labels.followUps.submit}</button>
+              <Feedback result={result} />
+            </div>
+          </form>
+        </details>
+      )}
+    </section>
+  );
+}
+
+function FollowUpEntry({ followUp, subjectId, canEdit }: { followUp: FollowUpView; subjectId: string; canEdit: boolean }): ReactNode {
+  const { dictionary, locale } = useI18n();
+  const labels = dictionary.review;
+  const [result, formAction, pending] = useActionState<ReviewActionResult | null, FormData>(resolveFollowUpAction, null);
+  const by = (name: string | null, at: string) => labels.decision.by.replace("{name}", name ?? "").replace("{date}", formatDateTime(at, locale));
+
+  return (
+    <li>
+      <span className="canon-history__event">
+        {followUp.resolution ? labels.followUps.resolved : labels.followUps.waiting.replace("{name}", followUp.assignee)}
+      </span>
+      <span lang="bs">{followUp.note}</span>
+      <span>{by(followUp.openedByName, followUp.openedAt)}</span>
+      {followUp.resolution && <span lang="bs">{followUp.resolution.note} ({by(followUp.resolution.byName, followUp.resolution.at)})</span>}
+      {canEdit && !followUp.resolution && (
+        <details className="review-text-details">
+          <summary>{labels.followUps.resolve}</summary>
+          <form action={formAction} className="form form--grid">
+            <input type="hidden" name="followUpId" value={followUp.id} />
+            <input type="hidden" name="subjectId" value={subjectId} />
+            <div className="form__field">
+              <label htmlFor={`resolve-${followUp.id}`}>{labels.followUps.resolutionNote}</label>
+              <input id={`resolve-${followUp.id}`} name="note" required maxLength={REVIEW_TEXT_MAX_LENGTH} />
+            </div>
+            <div className="form__actions">
+              <button type="submit" className="button-secondary" disabled={pending}>{labels.followUps.resolveSubmit}</button>
+              <Feedback result={result} />
+            </div>
+          </form>
+        </details>
+      )}
+    </li>
+  );
+}
+
+/** The printed key (always the key, P-15) and earlier corrections, kept as history only. */
+function KeyHistory({ answerKey }: { answerKey: AnswerKeyView }): ReactNode {
+  const { dictionary, locale } = useI18n();
+  const labels = dictionary.review;
+
+  return (
+    <div className="ingestion-panel">
+      {answerKey.itemNumber !== null && <h4>{labels.record.item.replace("{n}", String(answerKey.itemNumber))}</h4>}
+      <dl className="canon-version__meta">
+        <div><dt>{labels.keys.printed}</dt><dd><pre className="review-record__key">{answerKey.printedAnswer}</pre></dd></div>
+      </dl>
+      {answerKey.revisions.length > 0 && (
+        <>
+          <p>{labels.keys.historyNote}</p>
+          <ul className="canon-history__list">
+            {answerKey.revisions.map((revision) => (
+              <li key={revision.createdAt}>
+                <span className="canon-history__event">{revision.correctedAnswer}</span>
+                <span>{revision.reason}</span>
+                {revision.evidence && <span>{revision.evidence}</span>}
+                <span>{labels.decision.by.replace("{name}", revision.proposedByName ?? "").replace("{date}", formatDateTime(revision.createdAt, locale))}</span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+}
+
+/** Earlier text revisions (Sprint 06), history only: students see the printed catalogue page (P-15). */
+function TextHistory({ question, language }: { question: TrustedQuestionView; language: string }): ReactNode {
+  const { dictionary, locale } = useI18n();
+  const labels = dictionary.review.text;
+  const decision = dictionary.review.decision;
+
+  return (
+    <section className="card" aria-labelledby="text-title">
+      <h2 id="text-title">{labels.title}</h2>
+      <p>{labels.hint}</p>
+      <ul className="canon-history__list">
+        {question.revisions.map((revision) => (
+          <li key={revision.createdAt}>
+            <span lang="bs">{revision.reason}</span>
+            {revision.evidence && <span lang="bs">{revision.evidence}</span>}
+            <span>{decision.by.replace("{name}", revision.revisedByName ?? "").replace("{date}", formatDateTime(revision.createdAt, locale))}</span>
+            <details>
+              <summary>{labels.revised}</summary>
+              <pre className="review-record__text" lang={language}>{revision.content.rawText}</pre>
+            </details>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
