@@ -40,6 +40,10 @@ Date: 2026-10-03 (open)
 - First renders were washed out (room environment too strong, bloom threshold too low); judged from screenshots before
   the push, tuned to environmentIntensity 0.32 and bloom threshold 0.9. On portrait screens the camera now widens its
   field of view so the whole gift stays in frame.
+- Live privacy check: the Supabase connector returns only the last statement's result, so impersonating several
+  accounts needs one transaction that loops over them (`set_config('request.jwt.claims', ...)`, `set local role
+  authenticated`), writes each account's counts into a temp table granted to `authenticated`, selects it at the end and
+  never commits. One call checks every live account without leaving data behind.
 
 ## Commander Improvement Candidates
 None yet.
