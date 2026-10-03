@@ -529,3 +529,19 @@ CSV: product, title, export time, confidentiality line, an empty row, then the t
 option `print`, `src/lib/idss-export.ts`, print CSS; applied to Praćenje učenika, Profil učenika, Analiza grupe,
 Dnevni sažetak, probni ispiti (overview and released result) and the teacher's grading view; CSV for the overview,
 the daily summary and the group analysis.
+
+## PDL-037: Web Push as the free, permanent notice channel
+**Date:** 2026-10-03 (Director, Z6: "push ili e-mail ili SMS, šta se već može jednostavno implementirati kao trajno
+rješenje i bez troška")
+**Decision:** Web Push (W3C Push API with VAPID keys). It is part of every modern browser, needs no provider account,
+costs nothing per message and stays under IDSS control. The student switches it on per device ("Uključi obavijesti na
+ovom uređaju"); nothing is asked without a click. Android, Windows, macOS and Linux browsers work directly; on iPhone and
+iPad only after "Dodaj na početni ekran" (iOS 16.4 or later). The notice carries no personal data: the product name and
+"Novi zadatak nastavnika: <title>"; a tap opens the "Zadaci nastavnika" card. Browsers reported gone (404, 410) are
+removed. The in-app notification (migration 030) is always created as well. E-mail (needs an SMTP provider) and SMS
+(always paid per message) stay out until the Director chooses a provider.
+**Setup (Director, once):** `npx web-push generate-vapid-keys`; put `NEXT_PUBLIC_VAPID_PUBLIC_KEY`,
+`VAPID_PRIVATE_KEY` and `VAPID_SUBJECT=mailto:ai@idss.ba` into `.env.local` (and later into the hosting settings);
+never into the repository. Without them push stays off and nothing else changes.
+**Implementation:** migration 031 (`push_subscriptions`, own rows only), `public/sw.js` (push and click only, no cache),
+`src/features/push` (sender with `web-push`, actions, `PushToggle`); DB tests section 25.

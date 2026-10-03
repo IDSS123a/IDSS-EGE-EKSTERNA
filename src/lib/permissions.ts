@@ -102,6 +102,11 @@ export function canViewStudentProgress(account: CurrentAccount): boolean {
   return hasCapability(account, "students.view_progress");
 }
 
+/** Give and withdraw assignments: in the own subjects for a teacher, all subjects for the superadministrator (PDL-035). */
+export function canManageAssignments(account: CurrentAccount): boolean {
+  return hasCapability(account, "assignments.manage");
+}
+
 /** Read and write academic teacher notes: in the own subjects for a teacher, all subjects for unscoped holders (PDL-034). */
 export function canWriteTeacherNotes(account: CurrentAccount): boolean {
   return hasCapability(account, "teacher_notes.read_write");

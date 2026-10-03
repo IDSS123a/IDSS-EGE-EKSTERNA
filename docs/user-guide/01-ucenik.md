@@ -32,6 +32,15 @@ bodovanje.
 6. Rezultat vidiš kad ga nastavnik ocijeni: bodove po zadatku, službeno rješenje, napomene nastavnika i opis greške u
    katalogu ako postoji. Dobiješ i obavijest.
 
+## Zadaci nastavnika (Dostupno)
+Na početnoj stranici je kartica **Zadaci nastavnika**: naziv, predmet, rok, ko je zadao zadatak i koliko si pitanja
+uradio. Dugme **Radi zadatak** (ili **Nastavi zadatak**) otvara pitanja zadatka jedno po jedno, u običnoj vježbi:
+rješenje vidiš tek nakon odgovora. Zadatak je završen kad odgovoriš na svako pitanje, bez obzira na tačnost.
+Za zadatak nema posebnih IDSS bodova; bodove dobijaš za odgovore kao i inače.
+**Obavijesti na telefonu ili računaru:** u istoj kartici klikni **Uključi obavijesti na ovom uređaju** i dozvoli
+obavijesti. Tada te uređaj obavijesti čim nastavnik zada novi zadatak. Na iPhoneu prvo u Safariju dodirni Dijeli, pa
+"Dodaj na početni ekran", i otvori aplikaciju s početnog ekrana (iOS 16.4 ili noviji).
+
 ## IDSS bodovi i značke (Dostupno)
 | Aktivnost | IDSS bodovi |
 |---|---|

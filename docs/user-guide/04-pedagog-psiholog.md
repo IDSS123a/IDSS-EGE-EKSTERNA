@@ -44,3 +44,7 @@ Nastavnici predmeta vide isti sažetak samo za svoj predmet i nikad ne vide bilj
 ## Bilješke nastavnika (Dostupno)
 Na profilu učenika, u dijelu svakog predmeta, su akademske bilješke nastavnika tog predmeta. Vi ih čitate i možete
 upisati svoju; učenik ih ne vidi. One su odvojene od bilješki podrške, koje nastavnici nikad ne vide.
+
+## Zadaci nastavnika na profilu (Dostupno)
+Na profilu učenika je tabela **Zadaci nastavnika**: koji zadatak, predmet, rok, koliko je odgovoreno i stanje (u toku,
+završen u roku, završen nakon roka, propušten). Zadatke daju nastavnici; vi ih vidite radi praćenja.

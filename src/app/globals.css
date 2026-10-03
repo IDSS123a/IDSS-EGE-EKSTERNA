@@ -1220,6 +1220,54 @@ body {
 }
 .activity-day[data-level="1"] { background: color-mix(in srgb, var(--color-brand) 45%, transparent); }
 .activity-day[data-level="2"] { background: var(--color-brand); }
+/* ---------------------------------------------------------------- Teacher assignments (PDL-035) */
+.hub-assignment-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.hub-assignment {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+.hub-assignment > div:first-child {
+  flex: 1 1 280px;
+}
+.hub-assignment p {
+  margin: 4px 0;
+}
+.status-pill[data-assignment="complete"] { color: var(--color-brand); }
+.status-pill[data-assignment="missed"] { color: #b42318; }
+.practice-choice input[type="radio"],
+.practice-choice input[type="checkbox"] {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+}
+.hub-assignment .status-pill {
+  margin-left: 6px;
+}
+.assignment-students {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  gap: 4px 16px;
+}
+.push-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 8px;
+}
+
 /* ---------------------------------------------------------------- Uniform IDSS print format (PDL-036) */
 .print-only {
   display: none;

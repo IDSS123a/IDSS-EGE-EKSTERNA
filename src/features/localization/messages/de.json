@@ -943,7 +943,8 @@
     "kinds": {
       "mock_exam_requested": "Ein Satz wartet auf Genehmigung: {subject}",
       "mock_exam_submitted": "Probeprüfung abgegeben: {subject}",
-      "mock_exam_graded": "Deine Probeprüfung ist bewertet: {subject}"
+      "mock_exam_graded": "Deine Probeprüfung ist bewertet: {subject}",
+      "assignment_given": "Neue Aufgabe der Lehrkraft: {subject}"
     }
   },
   "gamification": {
@@ -1162,5 +1163,113 @@
     "printedAt": "Gedruckt: {date}.",
     "exportedAt": "Exportiert: {date}",
     "confidential": "Vertraulich: enthält Schülerdaten, nur für berechtigte Mitarbeitende der IDSS."
+  },
+  "push": {
+    "turnOn": "Benachrichtigungen auf diesem Gerät einschalten",
+    "turnOff": "Benachrichtigungen auf diesem Gerät ausschalten",
+    "working": "Bitte warten",
+    "states": {
+      "unsupported": "Dieser Browser unterstützt keine Benachrichtigungen; neue Aufgaben erscheinen hier und in den App-Benachrichtigungen.",
+      "ios-install": "Auf dem iPhone: in Safari auf Teilen tippen, dann \"Zum Home-Bildschirm\", die App vom Home-Bildschirm öffnen und hier Benachrichtigungen einschalten (iOS 16.4 oder neuer).",
+      "denied": "Benachrichtigungen sind in den Browsereinstellungen blockiert. Erlauben Sie sie für diese Seite, wenn Sie sie wünschen.",
+      "off": "Benachrichtigungen auf diesem Gerät sind aus. Schalten Sie sie ein, um neue Aufgaben sofort zu sehen.",
+      "on": "Benachrichtigungen auf diesem Gerät sind eingeschaltet.",
+      "error": "Das Einschalten hat nicht funktioniert. Bitte erneut versuchen.",
+      "checking": ""
+    }
+  },
+  "assignments": {
+    "navLink": "Aufgaben für Schüler",
+    "title": "Aufgaben für Schüler",
+    "subtitle": "Aufgaben aus dem Katalog Ihres Fachs, mit Frist",
+    "back": "Zurück zur Startseite",
+    "backToList": "Zurück zu den Aufgaben",
+    "newTitle": "Neue Aufgabe",
+    "subject": "Fach",
+    "name": "Titel der Aufgabe",
+    "instruction": "Hinweis für die Schüler (optional)",
+    "due": "Frist (Zeit in Sarajevo)",
+    "content": "Inhalt",
+    "contentKeys": "Fragen, die ich auswähle",
+    "contentArea": "Fragen aus einem Bereich, ausgewählt von der App",
+    "keys": "Kennungen der Katalogfragen",
+    "keysHint": "Z. B. DEU-4.3.12, DEU-4.4.2; mit Komma oder neuer Zeile trennen. Nur geprüfte Fragen Ihres Fachs, höchstens 50.",
+    "area": "Bereich",
+    "count": "Anzahl der Fragen",
+    "audience": "Für wen",
+    "audienceAll": "Alle aktiven Schüler",
+    "audienceChosen": "Ausgewählte Schüler",
+    "students": "Schüler",
+    "noStudents": "Keine aktiven Schüler.",
+    "create": "Aufgabe stellen",
+    "created": "Die Aufgabe ist gestellt.",
+    "open": "Öffnen",
+    "list": "Gestellte Aufgaben",
+    "none": "Noch keine Aufgaben.",
+    "withdrawn": "zurückgezogen",
+    "columns": {
+      "title": "Aufgabe",
+      "subject": "Fach",
+      "due": "Frist",
+      "questions": "Fragen",
+      "states": "Stand der Schüler",
+      "author": "Gestellt von"
+    },
+    "states": {
+      "open": "offen",
+      "complete": "fristgerecht erledigt",
+      "late": "nach der Frist erledigt",
+      "missed": "versäumt",
+      "withdrawn": "zurückgezogen"
+    },
+    "statesHint": "Erledigt heißt: jede Frage der Aufgabe wurde nach dem Stellen beantwortet, unabhängig von der Richtigkeit (PDL-035).",
+    "detail": {
+      "questions": "Fragen",
+      "recipients": "Schüler",
+      "answered": "Beantwortet",
+      "correct": "Richtig",
+      "completedAt": "Erledigt",
+      "state": "Stand",
+      "instruction": "Hinweis",
+      "author": "Gestellt von",
+      "created": "Gestellt",
+      "due": "Frist",
+      "audienceAll": "alle aktiven Schüler",
+      "audienceChosen": "ausgewählte Schüler",
+      "withdrawal": "Zurückgezogen: {reason}"
+    },
+    "withdraw": {
+      "title": "Aufgabe zurückziehen",
+      "reason": "Grund",
+      "submit": "Aufgabe zurückziehen",
+      "done": "Die Aufgabe ist zurückgezogen.",
+      "hint": "Eine zurückgezogene Aufgabe verschwindet bei den Schülern; nichts wird gelöscht."
+    },
+    "student": {
+      "title": "Aufgaben der Lehrkräfte",
+      "none": "Du hast gerade keine Aufgaben der Lehrkräfte.",
+      "progress": "{a} von {t} beantwortet",
+      "due": "Frist: {date}",
+      "teacher": "Gestellt von: {name}",
+      "start": "Aufgabe beginnen",
+      "continue": "Aufgabe fortsetzen",
+      "done": "Aufgabe erledigt. Sehr gut!",
+      "allDone": "Die Aufgabe ist erledigt. Alle Fragen sind beantwortet.",
+      "back": "Zurück zur Startseite"
+    },
+    "profile": {
+      "title": "Aufgaben der Lehrkräfte",
+      "none": "Keine Aufgaben in den Fächern, die Sie verfolgen."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Die Sitzung ist abgelaufen. Bitte erneut anmelden.",
+      "FORBIDDEN": "Sie haben keine Berechtigung für diese Aktion.",
+      "VALIDATION": "Bitte Eingaben prüfen: Titel, Frist in der Zukunft, Fragen oder Bereich mit Anzahl, Schüler.",
+      "UNKNOWN_KEYS": "Eine Kennung ist keine geprüfte Frage Ihres Fachs. Bitte prüfen.",
+      "NO_STUDENTS": "Es gibt keine aktiven Schüler für diese Aufgabe.",
+      "NOT_FOUND": "Die Aufgabe existiert nicht.",
+      "ALREADY_WITHDRAWN": "Die Aufgabe ist bereits zurückgezogen.",
+      "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
+    }
   }
 }

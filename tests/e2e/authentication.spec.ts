@@ -14,6 +14,23 @@ test("signed-out visitor is redirected from /app to /prijava", async ({ page }) 
   await expect(page).toHaveURL(/\/prijava$/);
 });
 
+test("signed-out visitor cannot open the new staff pages or exports", async ({ page, request }) => {
+  for (const path of ["/app/zadaci", "/app/pracenje/dan"]) {
+    await page.goto(path);
+    await expect(page).toHaveURL(/\/prijava$/);
+  }
+  for (const path of ["/app/pracenje/dan/izvoz", "/app/pracenje/analiza/izvoz", "/app/zadaci/00000000-0000-4000-8000-000000000000/izvoz"]) {
+    const response = await request.get(path, { maxRedirects: 0 });
+    expect([302, 303, 307, 401]).toContain(response.status());
+  }
+});
+
+test("the push service worker is served from the site root", async ({ request }) => {
+  const response = await request.get("/sw.js");
+  expect(response.status()).toBe(200);
+  expect(await response.text()).toContain("showNotification");
+});
+
 test("a forged Supabase session cookie does not open /app", async ({ page, context, baseURL }) => {
   await context.addCookies([
     { name: "sb-dezevstfmfliyasdeflj-auth-token", value: "base64-eyJmb3JnZWQiOnRydWV9", url: baseURL ?? "http://localhost:3100" },

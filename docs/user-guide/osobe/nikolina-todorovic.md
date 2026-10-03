@@ -12,6 +12,8 @@ Prijava: `nikolina.todorovic@idss.ba`. Vaša prava važe samo za Njemački jezik
 3. **Dnevni sažetak**: na početnoj stranici kliknite **Dnevni sažetak**; vidite ko je jučer vježbao vaš predmet, ko
    nije i od kada, oblasti od najniže tačnosti i šta čeka vašu ocjenu. **Praćenje učenika** daje isti pregled po
    učeniku, samo za vaš predmet.
+4. **Zadaci za učenike**: dugme **Zadaci za učenike**; zadajte pitanja iz kataloga svog predmeta svim učenicima ili
+   izabranim, s rokom, i pratite ko je završio.
 
 ## Posebno za Njemački
 - DEU-4.3.34: štampano rješenje a) ("Salzburg in Deutschland") je u katalogu označeno kao greška. Službeno rješenje

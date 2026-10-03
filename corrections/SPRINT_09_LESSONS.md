@@ -23,6 +23,12 @@ Date: 2026-10-03 (open)
 - `/proc/<pid>/task/*/children` of the `npx next dev` wrapper did not list the `next-server` process, so killing the
   PID tree left the server running (port still answered 200). Confirm the port is closed after stopping, and stop
   `next-server` and the `next dev` node process by their own PIDs, excluding the current shell.
+- Reusing `.practice-choice` for radio buttons inside a `.form__field` stretched each choice and its input across the
+  full width (form inputs are `width: 100%`); the screenshot showed it before the push. Wrap choices in
+  `.practice-choices` and give radio and checkbox inputs `width: auto`. Look at every new form in a screenshot.
+- The fixture math catalogue in the DB tests has only one trusted question (MAT-5.1.1); a test that assumed MAT-5.1.2
+  was trusted failed with UNKNOWN_KEYS, which was the function working correctly. Check fixture state before writing
+  expectations.
 
 ## Commander Improvement Candidates
 None yet.

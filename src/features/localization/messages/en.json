@@ -943,7 +943,8 @@
     "kinds": {
       "mock_exam_requested": "A set waits for approval: {subject}",
       "mock_exam_submitted": "Mock exam submitted: {subject}",
-      "mock_exam_graded": "Your mock exam is graded: {subject}"
+      "mock_exam_graded": "Your mock exam is graded: {subject}",
+      "assignment_given": "New teacher assignment: {subject}"
     }
   },
   "gamification": {
@@ -1162,5 +1163,113 @@
     "printedAt": "Printed: {date}.",
     "exportedAt": "Exported: {date}",
     "confidential": "Confidential: contains student data, for authorised IDSS staff only."
+  },
+  "push": {
+    "turnOn": "Turn on notifications on this device",
+    "turnOff": "Turn off notifications on this device",
+    "working": "Please wait",
+    "states": {
+      "unsupported": "This browser does not support notifications; new assignments appear here and in the in-app notifications.",
+      "ios-install": "On iPhone: in Safari tap Share, then \"Add to Home Screen\", open the app from the home screen and turn on notifications here (iOS 16.4 or later).",
+      "denied": "Notifications are blocked in the browser settings. Allow them for this site if you want them.",
+      "off": "Notifications on this device are off. Turn them on to hear about a new assignment right away.",
+      "on": "Notifications on this device are on.",
+      "error": "Turning on did not work. Please try again.",
+      "checking": ""
+    }
+  },
+  "assignments": {
+    "navLink": "Assignments for students",
+    "title": "Assignments for students",
+    "subtitle": "Catalogue assignments of your subject, with a due date",
+    "back": "Back to home",
+    "backToList": "Back to assignments",
+    "newTitle": "New assignment",
+    "subject": "Subject",
+    "name": "Assignment title",
+    "instruction": "Note to students (optional)",
+    "due": "Due (Sarajevo time)",
+    "content": "Content",
+    "contentKeys": "Questions I pick",
+    "contentArea": "Questions from an area, picked by the app",
+    "keys": "Catalogue question keys",
+    "keysHint": "E.g. MAT-5.3.7, MAT-5.4.2; separate with commas or new lines. Trusted questions of your subject only, at most 50.",
+    "area": "Area",
+    "count": "Number of questions",
+    "audience": "For whom",
+    "audienceAll": "All active students",
+    "audienceChosen": "Chosen students",
+    "students": "Students",
+    "noStudents": "No active students.",
+    "create": "Give assignment",
+    "created": "The assignment is given.",
+    "open": "Open",
+    "list": "Given assignments",
+    "none": "No assignments yet.",
+    "withdrawn": "withdrawn",
+    "columns": {
+      "title": "Assignment",
+      "subject": "Subject",
+      "due": "Due",
+      "questions": "Questions",
+      "states": "Students by state",
+      "author": "Given by"
+    },
+    "states": {
+      "open": "in progress",
+      "complete": "done on time",
+      "late": "done after the due date",
+      "missed": "missed",
+      "withdrawn": "withdrawn"
+    },
+    "statesHint": "Done means the student answered every question of the assignment after it was given, whatever the result (PDL-035).",
+    "detail": {
+      "questions": "Questions",
+      "recipients": "Students",
+      "answered": "Answered",
+      "correct": "Correct",
+      "completedAt": "Done",
+      "state": "State",
+      "instruction": "Note",
+      "author": "Given by",
+      "created": "Given",
+      "due": "Due",
+      "audienceAll": "all active students",
+      "audienceChosen": "chosen students",
+      "withdrawal": "Withdrawn: {reason}"
+    },
+    "withdraw": {
+      "title": "Withdraw assignment",
+      "reason": "Reason",
+      "submit": "Withdraw assignment",
+      "done": "The assignment is withdrawn.",
+      "hint": "A withdrawn assignment disappears for the students; nothing is deleted."
+    },
+    "student": {
+      "title": "Teacher assignments",
+      "none": "You have no teacher assignments right now.",
+      "progress": "{a} of {t} answered",
+      "due": "Due: {date}",
+      "teacher": "Given by: {name}",
+      "start": "Start assignment",
+      "continue": "Continue assignment",
+      "done": "Assignment done. Well done!",
+      "allDone": "The assignment is done. Every question is answered.",
+      "back": "Back to home"
+    },
+    "profile": {
+      "title": "Teacher assignments",
+      "none": "No assignments in the subjects you follow."
+    },
+    "errors": {
+      "UNAUTHENTICATED": "Your session has expired. Please sign in again.",
+      "FORBIDDEN": "You are not allowed to do this.",
+      "VALIDATION": "Check the input: title, a future due date, questions or an area with a number, students.",
+      "UNKNOWN_KEYS": "A key is not a trusted question of your subject. Check the keys.",
+      "NO_STUDENTS": "There are no active students to give the assignment to.",
+      "NOT_FOUND": "The assignment does not exist.",
+      "ALREADY_WITHDRAWN": "The assignment is already withdrawn.",
+      "UNAVAILABLE": "The service is unavailable. Please try again."
+    }
   }
 }

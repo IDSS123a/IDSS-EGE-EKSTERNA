@@ -27,3 +27,6 @@ check, not for the final guide); "Live" = to capture from the real app with a re
 | Student profile | `/app/pracenje/[student]` | pedagogue, psychologist | dimensions, areas, persistent errors, exams, notes | Fixture 2026-10-03 |
 | Group analysis | `/app/pracenje/analiza` | pedagogue, psychologist, superadmin | weeks, areas, points, missed questions | Fixture 2026-10-03 |
 | Daily summary | `/app/pracenje/dan` | teacher (own subject), pedagogue, psychologist, superadmin | day picker, practised, not practised, areas, open work, phone | Fixture 2026-10-03 |
+| Assignments (teacher) | `/app/zadaci` | teacher, superadmin | new assignment (keys, area, all, chosen), list with states | Fixture 2026-10-03 |
+| Assignment detail | `/app/zadaci/[id]` | teacher, superadmin | questions, students with facts, withdraw, print, CSV | Live pending |
+| Teacher assignments card | `/app` | student | open, done, progress, push switch, phone | Fixture 2026-10-03 |

@@ -1127,3 +1127,104 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c
 select pg_temp.assert((select count(*) from public.teacher_notes) = 0, 'RLS: a student reads no teacher note');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 028');
+
+-- 24. Teacher assignments (migrations 029, 030, PDL-035): own subject only, group or chosen students, required future
+-- due date, trusted questions by key or drawn from an area, completion by answering every question, append-only.
+set role service_role;
+select pg_temp.expect_error($$select public.assignment_create('00000000-0000-0000-0000-00000000000b', 'german', 'T', null, now() + interval '2 days', array['MAT-5.1.1'], null, null, null, null)$$,
+  'FORBIDDEN', 'a teacher gives assignments only in the own subject');
+select pg_temp.expect_error($$select public.assignment_create('00000000-0000-0000-0000-00000000000c', 'mathematics', 'T', null, now() + interval '2 days', array['MAT-5.1.1'], null, null, null, null)$$,
+  'FORBIDDEN', 'a student gives no assignment');
+select pg_temp.expect_error($$select public.assignment_create('00000000-0000-0000-0000-00000000000b', 'mathematics', 'T', null, now() - interval '1 hour', array['MAT-5.1.1'], null, null, null, null)$$,
+  'VALIDATION', 'the due date lies in the future (Z4)');
+select pg_temp.expect_error($$select public.assignment_create('00000000-0000-0000-0000-00000000000b', 'mathematics', 'T', null, null, array['MAT-5.1.1'], null, null, null, null)$$,
+  'VALIDATION', 'the due date is required (Z4)');
+select pg_temp.expect_error($$select public.assignment_create('00000000-0000-0000-0000-00000000000b', 'mathematics', 'T', null, now() + interval '2 days', array['MAT-5.1.1', 'MAT-9.9.9'], null, null, null, null)$$,
+  'UNKNOWN_KEYS', 'every picked key must be a trusted question of the subject (Z2)');
+select pg_temp.expect_error($$select public.assignment_create('00000000-0000-0000-0000-00000000000b', 'mathematics', 'T', null, now() + interval '2 days', null, null, null, array['00000000-0000-0000-0000-00000000000a'::uuid], null)$$,
+  'VALIDATION', 'content is required: keys or an area with a count');
+select pg_temp.expect_error($$select public.assignment_create('00000000-0000-0000-0000-00000000000b', 'mathematics', 'T', null, now() + interval '2 days', array['MAT-5.1.1'], null, null, array[gen_random_uuid()], null)$$,
+  'VALIDATION', 'chosen recipients are active students');
+create temp table t_as_group as select public.assignment_create('00000000-0000-0000-0000-00000000000b', 'mathematics', 'Ponavljanje', 'Uradi oba zadatka.',
+  now() + interval '3 days', array['mat-5.1.1', 'MAT-5.1.1 '], null, null, null, null) as id;
+create temp table t_as_one as select public.assignment_create('00000000-0000-0000-0000-00000000000b', 'mathematics', 'Samo za tebe', null,
+  now() + interval '3 days', null, (select area_id from public.question_versions where record_id = pg_temp.rid('MAT-5.1.1')), 1,
+  array['22222222-2222-2222-2222-22222222222d'::uuid], null) as id;
+select pg_temp.assert((select count(*) from public.assignment_recipients where assignment_id = (select id from t_as_group)) = 2
+  and (select audience from public.assignments where id = (select id from t_as_group)) = 'all',
+  'a group assignment reaches every active student (Z1)');
+select pg_temp.assert((select count(*) from public.assignment_recipients where assignment_id = (select id from t_as_one)) = 1
+  and (select count(*) from public.assignment_questions where assignment_id = (select id from t_as_one)) = 1,
+  'a single-student assignment with one question drawn from an area (Z1, Z2)');
+select pg_temp.assert((select count(*) from public.audit_logs where action = 'assignment.created') = 2, 'creating an assignment is audited');
+select pg_temp.assert(jsonb_array_length(public.student_assignments('00000000-0000-0000-0000-00000000000c')) = 1
+  and (select public.student_assignments('00000000-0000-0000-0000-00000000000c') -> 0 ->> 'state') = 'open'
+  and (select (public.student_assignments('00000000-0000-0000-0000-00000000000c') -> 0 ->> 'total')::int) = 1,
+  'the student sees only own assignments, open, with the number of questions (a repeated key counts once)');
+select pg_temp.expect_error($$select public.assignment_next('00000000-0000-0000-0000-00000000000c', (select id from t_as_one))$$,
+  'NOT_FOUND', 'a student cannot open another student''s assignment');
+select pg_temp.assert((select public.assignment_next('00000000-0000-0000-0000-00000000000c', (select id from t_as_group)) ->> 'question_version_id')::uuid
+  = (select id from public.question_versions where record_id = pg_temp.rid('MAT-5.1.1')), 'the assignment starts with its first question');
+select pg_temp.assert((private.assignment_status((select id from t_as_group), '22222222-2222-2222-2222-22222222222c') ->> 'answered')::int = 0,
+  'answers given before the assignment do not count');
+select public.practice_submit('00000000-0000-0000-0000-00000000000c', (select id from public.question_versions where record_id = pg_temp.rid('MAT-5.1.1')), '[{"item": null, "response": "a"}]'::jsonb);
+select pg_temp.assert(public.assignment_next('00000000-0000-0000-0000-00000000000c', (select id from t_as_group)) is null
+  and (private.assignment_status((select id from t_as_group), '22222222-2222-2222-2222-22222222222c') ->> 'state') = 'complete'
+  and (private.assignment_status((select id from t_as_group), '22222222-2222-2222-2222-22222222222c') ->> 'answered')::int = 1,
+  'every question answered, right or wrong, completes the assignment (Z3)');
+select pg_temp.assert((private.assignment_status((select id from t_as_group), '22222222-2222-2222-2222-22222222222d') ->> 'state') = 'open',
+  'the other student''s assignment stays open');
+select pg_temp.assert(jsonb_array_length(public.assignments_overview('00000000-0000-0000-0000-00000000000b')) = 2
+  and (select (a -> 'states' ->> 'complete')::int from jsonb_array_elements(public.assignments_overview('00000000-0000-0000-0000-00000000000b')) a
+       where a ->> 'id' = (select id::text from t_as_group)) = 1,
+  'the teacher sees own-subject assignments with counts per state');
+select pg_temp.assert(jsonb_array_length(public.assignment_detail('00000000-0000-0000-0000-00000000000b', (select id from t_as_group)) -> 'recipients') = 2
+  and (select public.assignment_detail('00000000-0000-0000-0000-00000000000b', (select id from t_as_group)) -> 'questions' -> 0 ->> 'key') = 'MAT-5.1.1'
+  and jsonb_array_length(public.assignment_detail('00000000-0000-0000-0000-00000000000b', (select id from t_as_group)) -> 'questions') = 1,
+  'the detail lists the questions by key and every recipient');
+select pg_temp.assert(jsonb_array_length(public.assignments_of_person('00000000-0000-0000-0000-00000000001f', '22222222-2222-2222-2222-22222222222d')) = 2,
+  'the pedagogue sees a student''s assignments on the profile (mandate §11)');
+select pg_temp.expect_error($$select public.assignment_detail('00000000-0000-0000-0000-00000000001f', (select id from t_as_group))$$,
+  'FORBIDDEN', 'the pedagogue does not manage assignments (ROLES §2)');
+select pg_temp.expect_error($$select public.assignment_withdraw('00000000-0000-0000-0000-00000000000b', (select id from t_as_one), ' ', null)$$,
+  'VALIDATION', 'a withdrawal needs a reason');
+select public.assignment_withdraw('00000000-0000-0000-0000-00000000000b', (select id from t_as_one), 'Zadano greškom', null);
+select pg_temp.expect_error($$select public.assignment_withdraw('00000000-0000-0000-0000-00000000000b', (select id from t_as_one), 'again', null)$$,
+  'ALREADY_WITHDRAWN', 'an assignment is withdrawn once');
+select pg_temp.assert(jsonb_array_length(public.student_assignments('00000000-0000-0000-0000-00000000000d')) = 1,
+  'a withdrawn assignment disappears for the student');
+select pg_temp.expect_error($$select public.assignment_next('00000000-0000-0000-0000-00000000000d', (select id from t_as_one))$$,
+  'NOT_FOUND', 'a withdrawn assignment cannot be practised');
+reset role;
+select pg_temp.expect_error($$update public.assignments set title = 'x'$$, 'audit records are append-only (UPDATE on assignments)', 'assignments are append-only');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000c', false);
+select pg_temp.assert((select count(*) from public.assignments) = 0 and (select count(*) from public.assignment_recipients) = 0,
+  'RLS: a student reads no assignment table directly');
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
+select pg_temp.assert((select count(*) from public.assignments) = 2, 'RLS: the teacher reads the own subject''s assignments');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 029');
+select pg_temp.assert((select count(*) from public.notifications where kind = 'assignment_given') = 3,
+  'every recipient of a new assignment gets a notification (migration 030, Z6)');
+
+-- 25. Web Push subscriptions (migration 031, PDL-037): own browser only, validated, removed when gone.
+set role service_role;
+select public.push_subscribe('00000000-0000-0000-0000-00000000000c', 'https://push.example.invalid/sub-1', repeat('p', 87), repeat('a', 22), 'Test browser');
+select pg_temp.expect_error($$select public.push_subscribe('00000000-0000-0000-0000-00000000000c', 'http://push.example.invalid/x', repeat('p', 87), repeat('a', 22), null)$$,
+  'VALIDATION', 'a push endpoint is https');
+select pg_temp.expect_error($$select public.push_subscribe('00000000-0000-0000-0000-00000000000e', 'https://push.example.invalid/sub-2', repeat('p', 87), repeat('a', 22), null)$$,
+  'FORBIDDEN', 'a blocked account cannot subscribe');
+select pg_temp.assert(public.push_has_subscription('00000000-0000-0000-0000-00000000000c')
+  and jsonb_array_length(public.push_targets_of_assignment((select id from t_as_group))) = 1,
+  'the recipients'' subscribed browsers are the targets of an assignment notice');
+select public.push_subscribe('00000000-0000-0000-0000-00000000000d', 'https://push.example.invalid/sub-1', repeat('q', 87), repeat('b', 22), null);
+select pg_temp.assert((select user_id from public.push_subscriptions where endpoint = 'https://push.example.invalid/sub-1') = '00000000-0000-0000-0000-00000000000d'
+  and not public.push_has_subscription('00000000-0000-0000-0000-00000000000c'),
+  'a browser belongs to the account that subscribed last');
+select public.push_unsubscribe('00000000-0000-0000-0000-00000000000c', 'https://push.example.invalid/sub-1');
+select pg_temp.assert(public.push_has_subscription('00000000-0000-0000-0000-00000000000d'), 'another account cannot remove a subscription');
+select public.push_forget('https://push.example.invalid/sub-1');
+select pg_temp.assert(not public.push_has_subscription('00000000-0000-0000-0000-00000000000d'), 'a subscription the push service reports gone is removed');
+reset role;
+select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 031');
