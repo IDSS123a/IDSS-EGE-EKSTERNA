@@ -71,3 +71,4 @@
 - [2026-10-03 08:03] Write: migrations/020_canon_fidelity.sql
 - [2026-10-03] Migrations 020, 021 applied live; 022/023 wait for Director confirmation (DROP)
 - [2026-10-03] Six German records accepted provisionally (Director), follow-ups to Nikolina Todorović; 500/500 trusted
+- [2026-10-03] Migrations 022, 023 run by the Director; verified live, history recorded
