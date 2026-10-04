@@ -26,6 +26,33 @@ Bez ključa pretraga radi po riječima.
 
 Ako mapa već postoji: `cd C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027`, pa `git pull`, pa **uvijek `npm install`** (nova verzija može donijeti nove biblioteke; bez toga se pojavi greška "Module not found").
 
+### Push obavijesti (VAPID ključevi, PDL-037)
+Besplatne push obavijesti na mobitel i računar. Ključeve se pravi jednom, na Vašem računaru:
+
+```powershell
+cd C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027
+npx web-push generate-vapid-keys
+```
+
+Ispis ima dva reda: `Public Key` i `Private Key`. U datoteku
+`C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027\.env.local` (otvoriti npr. `notepad .env.local`) upisati:
+
+```
+NEXT_PUBLIC_VAPID_PUBLIC_KEY=<Public Key>
+VAPID_PRIVATE_KEY=<Private Key>
+VAPID_SUBJECT=mailto:ai@idss.ba
+```
+
+Zatim zaustaviti server (Ctrl+C) i ponovo `npm run dev`. Privatni ključ se nikome ne šalje i ne ide u repozitorij;
+ako procuri, napravi se novi par, a korisnici ponovo uključe obavijesti. Isti par se kasnije upisuje i u postavke
+hostinga (Vercel) pri objavi. Provjera: Direktorski pregled, kartica Sistem, "Push obavijesti su podešene".
+
+### Migracija koju pokreće Direktor (030)
+Datoteka: `C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027\migrations\030_assignment_notifications.sql`.
+Otvoriti je u Notepadu, kopirati cijeli sadržaj, u Supabase (projekt `dezevstfmfliyasdeflj`) otvoriti SQL Editor,
+New query, zalijepiti, Run, i potvrditi upozorenje o brisanju (briše se samo stara provjera vrste obavijesti, ne podaci).
+Provjera: Direktorski pregled, kartica Sistem, "Obavijesti o zadacima i poklonima su uključene".
+
 ## Prvi nalog (Superadministrator)
 
 Jednom, na vlastitom računaru, nakon što su ključevi upisani u `.env.local`:
