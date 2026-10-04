@@ -24,8 +24,12 @@ Date: 2026-10-04 (open)
 - A large adversarial DO block through the Supabase connector timed out after 60 s without leaving a session open;
   split probes into small statements with `set local statement_timeout`.
 
+- An open risk recorded in a sprint (PDL-016: re-review of 492 bulk-accepted questions "proposal for Sprint 06") was
+  never scheduled and surfaced only at the release gate. Open risks in a handoff note need an owner and a sprint, or
+  they reach launch silently.
+
 ## Commander Improvement Candidates
-None yet.
+- Every "open risk" in a sprint handoff gets a tracked follow-up item in the next sprint plan, checked at sprint start.
 
 ### 2026-10-04 — No lessons this session (routine changes only)
 Migration 030 verified and recorded; PDL-041 L2 refined; README deployment steps.
