@@ -14,3 +14,6 @@ None yet.
 
 ## Commander Improvement Candidates
 None yet.
+
+### 2026-10-04 — No lessons this session (routine changes only)
+README steps for VAPID keys and migration 030, Sprint 11 draft plan.
