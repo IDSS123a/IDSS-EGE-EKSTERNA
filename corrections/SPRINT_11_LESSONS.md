@@ -50,3 +50,6 @@ Migration 030 verified and recorded; PDL-041 L2 refined; README deployment steps
 - A part of a test mixed into the profile trend compared points of different maxima; trends compare only exams of the
   same kind and positions.
 
+
+### 2026-10-04 — No lessons this session (routine changes only)
+Migration 036 verified live and recorded; rolled-back end-to-end check of a teacher-sent part of a test.
