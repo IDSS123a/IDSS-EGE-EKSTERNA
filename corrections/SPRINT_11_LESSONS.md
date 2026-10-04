@@ -82,3 +82,13 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
   deferred "until the screens are stable" without a sprint item or a date, and the Director had to ask. A deferral of a
   Director request always gets a tracked item with a date in the current sprint plan, and is raised before launch.
 - Screenshots need realistic data: they must be taken before the clean start (PDL-038), not after.
+
+### 2026-10-04 — Screenshots from the real components
+- Screenshots of signed-in screens need no database rows: the real screen components rendered with fixture props in a
+  temporary route give true pictures and leave the clean start untouched. Keep the fixture source outside `src/app`
+  (tools/guide-screens) and copy it in only while capturing.
+- Playwright `boundingBox()` is relative to the viewport, a full-page clip to the page: add `window.scrollY` or the
+  crop shows the wrong part. The app's CSP blocks injected styles; the capture browser uses `bypassCSP`.
+- Fixtures copied from one subject leaked into others (Mathematics titles in German screens); give every
+  subject-specific value its own table and review each subject's screenshots.
+

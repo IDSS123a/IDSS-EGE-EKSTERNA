@@ -124,3 +124,5 @@
 [2026-10-04] [DATABASE] Migration 035 (PDL-043): teacher sends a whole test or a part (blueprint positions, own minutes) to a group or chosen students; 036 handed to the Director
 [2026-10-04] [FEATURE] Pošalji test (PDL-043): teacher sends a whole test or chosen positions with own minutes to all or chosen students; sent tests overview; push on approval
 [2026-10-04] [FEATURE] Test labels (whole, part, from the teacher) on the grading queue, student exam screens and the student profile; weak-area shortcuts to assignments and Pošalji test
+[2026-10-04] [FEATURE] Personal user guide /app/uputstvo (PDL-031): own guide per account (student, teacher per subject, pedagogue, psychologist, Director), 113 screenshots from the real screens with trial data, print in IDSS format
+[2026-10-04] [UX] Pošalji test: a position drawing from every catalogue area says "sve oblasti kataloga"

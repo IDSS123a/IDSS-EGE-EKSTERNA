@@ -458,6 +458,15 @@ printable guide (one page per role, print stylesheet) is built from this source 
 points"), never "XP". The panel always states that IDSS points are not a grade and never change exam points, so the
 name cannot be confused with the points of a mock exam. Code identifiers (`xp`) stay internal.
 
+**Addendum 2026-10-04 (Director: "kreni s uputstvima"; every step with a screenshot taken in the application on trial
+data, before the clean start; create trial data where none exists):** the in-app guide is built. `/app/uputstvo` shows
+each account its own guide (student; teacher per own subjects; pedagogue; psychologist; Director), with the own
+username and name; the Director opens and prints every participant's guide. 113 screenshots in `public/guide/` are
+rendered by the real screen components with realistic trial data (`tools/guide-screens`: invented students, real
+catalogue questions, official solutions, areas and blueprints), each with the element of the step highlighted;
+`node tools/guide-screens/capture.mjs` takes them again after a screen changes. No trial row is written to the
+database, so the clean start (PDL-038) is unaffected. Guide text is Bosnian; de/en readers see a note.
+
 ## PDL-032: Support monitoring decisions D1 to D5 and the IDSS exam readiness scale
 **Date:** 2026-10-03 (Director: "prihvatam D1 do D5" with a readiness scale)
 **Decision:** `docs/architecture/SUPPORT_MONITORING.md` is approved with:

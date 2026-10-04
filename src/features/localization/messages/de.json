@@ -996,6 +996,7 @@
       "position": "Position {n}",
       "points": "Punkte: {points}",
       "areas": "Bereiche: {areas}",
+      "allAreas": "alle Bereiche des Katalogs",
       "selected": "Ausgewählte Positionen: {n}, Punkte gesamt: {points}.",
       "minutes": "Bearbeitungszeit (Minuten)",
       "minutesHint": "Der ganze Test dauert laut Katalog {n} Minuten. Für einen Testteil bestimmen Sie die Zeit.",
@@ -1562,5 +1563,15 @@
       "page": "Seite {p} von {n}",
       "hint": "Das Protokoll kann nicht geändert werden. Ein Export enthält höchstens 5000 Einträge und wird selbst protokolliert."
     }
+  },
+  "guide": {
+    "navLink": "Anleitung",
+    "back": "Zurück zur Startseite",
+    "subtitle": "Persönliche Anleitung, Schritt für Schritt, mit Bildschirmfotos",
+    "languageNote": "Diese Anleitung ist derzeit auf Bosnisch verfügbar.",
+    "choose": "Anleitung für",
+    "contents": "Inhalt",
+    "trialData": "Die Bildschirmfotos stammen aus der Anwendung mit Testdaten; die Namen der Schüler sind erfunden.",
+    "screenshot": "Bildschirmfoto"
   }
 }

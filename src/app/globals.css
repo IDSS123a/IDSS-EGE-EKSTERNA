@@ -1635,3 +1635,55 @@ body {
     display: none;
   }
 }
+
+/* Personal user guide (PDL-031): numbered steps, each with a screenshot of the real screen. */
+.guide-toc {
+  columns: 2 18rem;
+  margin: 0;
+}
+.guide-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2rem;
+}
+.guide-step h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.4rem;
+}
+.guide-step__number {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-brand);
+  color: #fff;
+  font-size: 0.95rem;
+}
+.guide-step__figure {
+  margin: 0.8rem 0 0;
+}
+.guide-step__figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-raised);
+}
+@media print {
+  .guide-step {
+    break-inside: avoid;
+  }
+  .guide-step__figure img {
+    box-shadow: none;
+    max-height: 15cm;
+    width: auto;
+    max-width: 100%;
+  }
+}

@@ -140,3 +140,8 @@
 - [2026-10-04 17:46] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/1639a183-b9a3-577d-b64a-6553cba7a517/scratchpad/skripta/template.html
 - [2026-10-04] SKRIPTA.html (standalone visual script, embedded logo, mockups); send form shows translated position formats and no longer preselects all positions when every position covers the area
 - [2026-10-04] Director asked why individual guides (PDL-031) were not delivered; gap acknowledged, plan proposed
+- [2026-10-04 18:10] Write: tools/guide-screens/page.tsx
+- [2026-10-04 18:21] Write: src/features/guide/content.ts
+- [2026-10-04 18:22] Write: tools/guide-screens/shots.mjs
+- [2026-10-04 18:22] Write: tools/guide-screens/capture.mjs
+- [2026-10-04] In-app personal user guides with 113 screenshots (tools/guide-screens, public/guide); typecheck, lint, check:text, unit 186, build, e2e 86 green

@@ -54,6 +54,8 @@ function SendForm({ options, students, preset }: Omit<Props, "sent">): ReactNode
   const [kind, setKind] = useState<"full" | "part">(covering.length > 0 ? "part" : "full");
   const [audience, setAudience] = useState<"all" | "chosen">(preset.student ? "chosen" : "all");
   const subject = options.find((entry) => entry.subjectId === subjectId) ?? initial;
+  // A position drawing from every area of the catalogue (Mathematics) says so instead of listing them all.
+  const allAreas = new Set(subject.positions.flatMap((position) => position.areas.map((area) => area.id))).size;
   const chosenPoints = subject.positions.filter((position) => chosen.includes(position.position)).reduce((sum, position) => sum + position.points, 0);
 
   function changeSubject(id: string): void {
@@ -103,7 +105,7 @@ function SendForm({ options, students, preset }: Omit<Props, "sent">): ReactNode
                       <input type="checkbox" name="position" value={position.position} checked={chosen.includes(position.position)} onChange={(event) => toggle(position.position, event.target.checked)} />{" "}
                       <span>
                         <strong>{labels.position.replace("{n}", String(position.position))}</strong>, {formats[position.format as keyof typeof formats] ?? position.format}, {labels.points.replace("{points}", formatPoints(position.points, locale))}
-                        {position.areas.length > 0 && <span className="form__hint"> {labels.areas.replace("{areas}", position.areas.map((area) => area.name).join(", "))}</span>}
+                        {position.areas.length > 0 && <span className="form__hint"> {labels.areas.replace("{areas}", allAreas > 1 && position.areas.length === allAreas ? labels.allAreas : position.areas.map((area) => area.name).join(", "))}</span>}
                       </span>
                     </label>
                   ))}

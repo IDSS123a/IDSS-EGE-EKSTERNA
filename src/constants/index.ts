@@ -128,6 +128,8 @@ export const LEGAL_DOCUMENTS = [
 
 /** Own account page: every signed-in user changes their own password here (Sprint 06). */
 export const OWN_ACCOUNT_PATH = "/app/nalog";
+/** Personal user guide of every participant (PDL-031). */
+export const GUIDE_PATH = "/app/uputstvo";
 
 /** Application settings for the Superadmin (PDL-020). */
 export const SETTINGS_PATH = "/app/postavke";

@@ -81,3 +81,4 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
   shortcuts per weak area (assignment and part of a test, prefilled), profile trend compares like with like.
   Unit tests `teacher-sent-tests.test.ts`; e2e guard for the new route. Live check after 036 (rolled back): part of a test, positions 6 and 7, 20 minutes, sent by a Mathematics teacher; set composed, approved, student notice created, student view shows part, positions, minutes and sender.
 - [x] 4a. Backup (audit F-04): free plan has no backups; the Director's own pg_dump copy verified 2026-10-04 (3.26 MB, 1544 entries). Repeated right before the clean start.
+- [x] 7c. Personal user guides in the app (PDL-031 addendum): `/app/uputstvo`, seven guides, 113 screenshots with highlighted steps from the real screens with trial data (tools/guide-screens), Director view and print; unit tests `guide.test.ts`; e2e guard.

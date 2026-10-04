@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ACCOUNTS_PATH, ASSIGNMENTS_PATH, CANON_PATH, DIRECTOR_PATH, GRADING_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH, SUPPORT_PATH } from "@/constants";
+import { ACCOUNTS_PATH, ASSIGNMENTS_PATH, CANON_PATH, DIRECTOR_PATH, GRADING_PATH, GUIDE_PATH, OWN_ACCOUNT_PATH, REVIEW_PATH, SEARCH_PATH, SETTINGS_PATH, SUPPORT_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { CurrentAccount } from "@/features/authentication/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -71,6 +71,7 @@ export function AccountHome({
             {canOpenReview && <Link href={SEARCH_PATH} className="button-primary">{dictionary.search.navLink}</Link>}
             {canManageSettings && <Link href={SETTINGS_PATH} className="button-primary">{dictionary.settings.navLink}</Link>}
             <Link href={OWN_ACCOUNT_PATH} className="button-primary">{dictionary.ownAccount.navLink}</Link>
+            <Link href={GUIDE_PATH} className="button-primary">{dictionary.guide.navLink}</Link>
           </div>
         </section>
       </main>
