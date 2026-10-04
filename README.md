@@ -66,14 +66,17 @@ Provjera: Direktorski pregled, kartica Sistem, "Obavijesti o zadacima i poklonim
    - u Supabase kliknite **Connect**, izaberite **Session pooler** i kopirajte adresu oblika
      `postgresql://postgres.dezevstfmfliyasdeflj:[YOUR-PASSWORD]@aws-....pooler.supabase.com:5432/postgres`;
      iz nje obrišite dio `:[YOUR-PASSWORD]` (lozinku će komanda tražiti sama, ne upisuje se u adresu ni u razgovor);
-   - u PowerShellu (adresu zalijepiti između navodnika):
+   - u **PowerShellu** (ne u cmd), tri kratka reda, Enter nakon svakog; tako se adresa ne prelomi pri lijepljenju:
      ```
-     & "C:\Program Files\PostgreSQL\17\bin\pg_dump.exe" "postgresql://postgres.dezevstfmfliyasdeflj@aws-....pooler.supabase.com:5432/postgres" -Fc -f C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-07.dump
+     $db = "postgresql://postgres.dezevstfmfliyasdeflj@aws-0-eu-central-1.pooler.supabase.com:5432/postgres"
+     $pg = "C:\Program Files\PostgreSQL\17\bin"
+     & "$pg\pg_dump.exe" -d $db -Fc -f C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-07.dump
      ```
      Na pitanje `Password:` upišite lozinku baze (ne vidi se dok kucate) i Enter. Ako lozinku ne znate: Supabase,
      **Project Settings**, **Database**, **Reset database password** (aplikacija koristi API ključeve, ne ovu lozinku);
-   - provjera: `& "C:\Program Files\PostgreSQL\17\bin\pg_restore.exe" --list C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-07.dump | Select-Object -First 15`
-     ispiše popis sadržaja; veličina datoteke je nekoliko MB;
+   - provjera: `& "$pg\pg_restore.exe" --list C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-07.dump | Select-Object -First 15`
+     ispiše popis sadržaja, a `(Get-Item C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-07.dump).Length / 1MB` veličinu
+     (prva kopija 2026-10-04: 3,26 MB);
    - datoteka se čuva van repozitorija (sadrži lične podatke) i ne dijeli se.
 3. Katalozi (PDF) nisu dio kopije baze, ali su u repozitoriju i u pohrani; ne brišu se.
 

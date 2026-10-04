@@ -59,3 +59,8 @@ Presentation script written from the user guide; facts checked against the live 
 
 ### 2026-10-04 — No lessons this session (routine changes only)
 F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the cleanup.
+
+### 2026-10-04 — Windows command instructions for the Director
+- A long command pasted from chat into PowerShell or cmd got a line break inside the quoted connection string
+  (database "postgres<newline>" does not exist), and `&` failed in cmd. Give Windows commands as short variable
+  assignments (`$db = "..."`, then `& "$pg\tool.exe" -d $db`), name the shell explicitly, and say "one line".
