@@ -136,3 +136,4 @@
 - [2026-10-04] Presentation script docs/user-guide/SKRIPTA.md for the external matura board meeting
 - [2026-10-04] F-04: Supabase free plan has no backups (Director screenshot); own pg_dump 17 steps refined in README (password prompted, never in the URL or chat)
 - [2026-10-04] F-04 resolved: Director pg_dump copy verified (3.26 MB, 1544 TOC entries); audit addendum, readiness, README updated
+- [2026-10-04] PR #58 found merged before the docs commits; opened PR #59 for SKRIPTA.md, 036 record and F-04

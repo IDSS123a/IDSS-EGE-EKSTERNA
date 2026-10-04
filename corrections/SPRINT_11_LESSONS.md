@@ -64,3 +64,8 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
 - A long command pasted from chat into PowerShell or cmd got a line break inside the quoted connection string
   (database "postgres<newline>" does not exist), and `&` failed in cmd. Give Windows commands as short variable
   assignments (`$db = "..."`, then `& "$pg\tool.exe" -d $db`), name the shell explicitly, and say "one line".
+
+### 2026-10-04 — Pushing to a branch whose PR was already merged
+- After #58 was merged, four doc commits (SKRIPTA.md, 036 record, F-04) were pushed to the session branch and reported
+  to the Director as "in PR #58"; they never reached main. Before reporting where a change is, check the PR state
+  (`gh api repos/.../pulls/N --jq .merged`) and open a new PR when the previous one is merged.
