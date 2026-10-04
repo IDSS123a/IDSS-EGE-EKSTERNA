@@ -69,3 +69,8 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
   interface dictionaries (kept: the instant language switch is a Director requirement); three.js loads only on the
   Vitrina. No change needed. Database query plans of the command centers are not meaningful on test-sized data;
   re-check after the first weeks of real use.
+- [x] 4. Deployment preparation: README "Objava na Vercel" (import, environment variables, redeploy after a
+  NEXT_PUBLIC_ change); launch-day order and post-deploy verification in `docs/PRODUCTION_READINESS.md` section 4
+  (no trial data created in production). No project for this repository exists yet in team `idsssarajevo`.
+- [ ] 5. Clean start: cleanup migration and archive export prepared on 2026-10-05, reviewed and run by the Director.
+- [ ] 6. Production deploy on the Director's go, then the post-deploy verification.
