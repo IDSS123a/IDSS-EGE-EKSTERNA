@@ -596,7 +596,9 @@ history; Game Hub and profile read the settings with code defaults as fallback. 
 **Date:** 2026-10-04 (Director, answers to `sprints/SPRINT_11.md`)
 **Decision:**
 - L1: hosting on Vercel, under the school's own account; the Director enters the keys in the hosting settings himself.
-- L2: production address `matura.idss.ba` (DNS entry by whoever manages idss.ba); the free Vercel address until then.
+- L2 (refined by the Director the same day): the app is published in the school's Vercel team `idsssarajevo`
+  (https://vercel.com/idsssarajevo) on its free Vercel address; a custom domain such as `matura.idss.ba` may follow
+  later at the Director's choice.
 - L3: accessibility level WCAG 2.2 AA.
 - L4: target launch Tuesday 2026-10-06; the clean start (PDL-038) runs the day before. The deploy itself still needs
   the Director's explicit go (M-23) once testing and the teachers' confirmations are done; the date moves if they are

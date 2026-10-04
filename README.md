@@ -53,6 +53,25 @@ Otvoriti je u Notepadu, kopirati cijeli sadržaj, u Supabase (projekt `dezevstfm
 New query, zalijepiti, Run, i potvrditi upozorenje o brisanju (briše se samo stara provjera vrste obavijesti, ne podaci).
 Provjera: Direktorski pregled, kartica Sistem, "Obavijesti o zadacima i poklonima su uključene".
 
+## Objava na Vercel (Sprint 11, PDL-041)
+Objava se radi tek kad Direktor kaže "kreni" (M-23), a dan ranije ide čišćenje probnih podataka (PDL-038).
+Tim: https://vercel.com/idsssarajevo
+
+1. Vercel, tim **idsssarajevo**, **Add New**, **Project**, **Import** repozitorija `IDSS123a/IDSS-EGE-EKSTERNA`
+   (grana `main`). Framework: Next.js (prepozna se sam); ostale postavke ostaju kakve jesu.
+2. Prije prvog **Deploy** otvoriti **Environment Variables** i upisati iste vrijednosti kao u `.env.local`
+   (kopirati iz Notepada, nikad u razgovor):
+   - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
+   - `GEMINI_API_KEY_1` (i ostali `GEMINI_API_KEY_n` koje imate); `GEMINI_ANSWER_MODEL` samo ako ga imate
+   - `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT`
+3. **Deploy**. Vercel da adresu oblika `https://<ime-projekta>.vercel.app`; javite je ACA-u radi provjere nakon objave.
+4. Svaka sljedeća promjena na `main` objavi se sama.
+5. Kasnije, po želji, vlastita adresa (npr. `matura.idss.ba`): projekat, **Settings**, **Domains**, dodati adresu i
+   upisati DNS zapis koji Vercel pokaže kod onoga ko upravlja domenom idss.ba.
+
+Napomena: varijable koje počinju sa `NEXT_PUBLIC_` ugrađuju se pri izgradnji; nakon njihove promjene na Vercelu
+treba **Redeploy**.
+
 ## Prvi nalog (Superadministrator)
 
 Jednom, na vlastitom računaru, nakon što su ključevi upisani u `.env.local`:

@@ -7,6 +7,7 @@ import { formatDateTime } from "@/features/canon/components/format";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { ReviewShell } from "@/features/review/components/review-shell";
 import { DIRECTOR_TABS, percentOf, PERIOD_CHOICES } from "../domain/period";
+import type { PushStatus } from "@/features/push/send";
 import type { AuditFilter, AuditPage, ContentHealth, DirectorTab, Overview, PeriodChoice, SubjectAggregate, SystemHealth, TeacherActivity } from "../types";
 
 export type DirectorData =
@@ -14,7 +15,7 @@ export type DirectorData =
   | { tab: "predmeti"; subjects: SubjectAggregate[]; minGroup: number }
   | { tab: "nastavnici"; teachers: TeacherActivity[] }
   | { tab: "sadrzaj"; content: ContentHealth[]; minGroup: number }
-  | { tab: "sistem"; system: SystemHealth; pushConfigured: boolean }
+  | { tab: "sistem"; system: SystemHealth; push: PushStatus }
   | { tab: "dnevnik"; audit: AuditPage; filter: AuditFilter; pageSize: number };
 
 /**
@@ -55,7 +56,7 @@ export function DirectorScreen({ data, period, hasSchoolYear, canAudit }: { data
       {data.tab === "predmeti" && <SubjectsTab subjects={data.subjects} minGroup={data.minGroup} />}
       {data.tab === "nastavnici" && <TeachersTab teachers={data.teachers} />}
       {data.tab === "sadrzaj" && <ContentTab content={data.content} minGroup={data.minGroup} />}
-      {data.tab === "sistem" && <SystemTab system={data.system} pushConfigured={data.pushConfigured} />}
+      {data.tab === "sistem" && <SystemTab system={data.system} push={data.push} />}
       {data.tab === "dnevnik" && <AuditTab audit={data.audit} filter={data.filter} pageSize={data.pageSize} />}
     </ReviewShell>
   );
@@ -217,7 +218,7 @@ function ContentTab({ content, minGroup }: { content: ContentHealth[]; minGroup:
   );
 }
 
-function SystemTab({ system, pushConfigured }: { system: SystemHealth; pushConfigured: boolean }): ReactNode {
+function SystemTab({ system, push }: { system: SystemHealth; push: PushStatus }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.director.system;
   const notices030 = system.notificationKinds?.includes("gift_given") ?? false;
@@ -227,7 +228,7 @@ function SystemTab({ system, pushConfigured }: { system: SystemHealth; pushConfi
         <h2 id="system-waiting">{labels.waitingTitle}</h2>
         <ul>
           <li>{notices030 ? labels.m030done : labels.m030waiting}</li>
-          <li>{pushConfigured ? labels.pushOn : labels.pushOff}</li>
+          <li>{push.state === "on" ? labels.pushOn : push.state === "off" ? labels.pushOff : labels.pushInvalid.replace("{field}", labels.pushFields[push.field])}</li>
         </ul>
       </section>
       <section className="card" aria-labelledby="system-security">
