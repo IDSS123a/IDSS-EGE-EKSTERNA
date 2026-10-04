@@ -574,3 +574,20 @@ gifts_of_person, push_targets_of_gift; notice delivered once migration 030 allow
 (3D showcase with unboxing, reduced-motion and no-WebGL fallbacks), "Moja vitrina" on the Game Hub, the teacher's
 form and the gift list on the student profile, Web Push notice; DB tests section 26. Migration 030 (not yet run) now
 also allows 'gift_given'.
+
+## PDL-040: Director Command Center (decisions K1 to K6)
+**Date:** 2026-10-04 (Director: "prihvatam. K2 3", answers to `docs/architecture/DIRECTOR_COMMAND_CENTER.md`)
+**Decision:**
+- K1: teacher activity by name, as counts of completed work only (no times, no logins, no rankings).
+- K2: small-group protection; any figure built from fewer students than the minimum group shows "premalo učenika".
+  Minimum group = **3** (setting `privacy.min_group`, the Director may change it).
+- K3: periods: last 7, 30 and 90 days and the active school year (from its first day; offered only when one is active).
+- K4: audit log: read, filter (action, person, dates), page, export; nothing editable; retention per PDL-038 D-A.
+- K5: settings the Director owns move into the database with audit and history: the daily mission goal, the IDSS
+  points values and badge rules, the minimum group. Exam rules and scoring stay canon and are never settings (P-15).
+- K6: the existing daily summary (all subjects) is linked from the command center; no e-mail.
+**Implementation:** migration 033 (`private.min_group`, `set_setting`, `settings_history`, `director_overview`,
+`director_subjects`, `director_teachers`, `director_content`, `director_system`, `director_audit`; service_role only,
+each re-checks `analytics.view_institution`, the log `audit.view`); `/app/direktor` with six tabs, IDSS print on every
+tab, IDSS CSV for Nastavnici and Dnevnik (`/app/direktor/izvoz`, audited, at most 5000 log rows); Postavke forms with
+history; Game Hub and profile read the settings with code defaults as fallback. DB tests section 27.

@@ -187,3 +187,13 @@ export const ASSIGNMENTS_PUSH_URL = "/app#zadaci";
 
 /** IDSS Vitrina: the student's special gifts in 3D (PDL-039). */
 export const VITRINA_PATH = "/app/vitrina";
+
+/** Default minimum group for aggregates (Director, PDL-040 K2); the live value is the setting privacy.min_group. */
+export const MIN_GROUP_DEFAULT = 3;
+
+/** Director Command Center (PDL-040). */
+export const DIRECTOR_PATH = "/app/direktor";
+
+/** Rows per page of the audit log in the Director Command Center, and the most an export takes. */
+export const AUDIT_PAGE_SIZE = 50;
+export const AUDIT_EXPORT_MAX = 5000;

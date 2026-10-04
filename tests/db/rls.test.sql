@@ -552,7 +552,7 @@ set role authenticated;
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b', false);
 select pg_temp.assert((select count(*) from public.system_settings) = 0, 'settings are hidden without settings.manage');
 select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a', false);
-select pg_temp.assert((select count(*) from public.system_settings) = 1, 'the superadmin reads settings');
+select pg_temp.assert((select count(*) from public.system_settings where key = 'splash.palette') = 1 and (select count(*) from public.system_settings) = 4, 'the superadmin reads settings (splash palette and the three settings of migration 033)');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 012');
 
@@ -1272,3 +1272,50 @@ select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000b
 select pg_temp.assert((select count(*) from public.gifts) = 2, 'RLS: the giving teacher reads the own gifts');
 reset role;
 select pg_temp.assert(not exists (select 1 from pg_tables where schemaname = 'public' and not rowsecurity), 'RLS enabled on every public table after 032');
+
+-- 27. Director Command Center (migration 033, PDL-040): institution views only for analytics.view_institution, the
+-- audit log only for audit.view, figures from fewer students than the minimum group are null (K2), settings validated
+-- and audited (K5).
+select pg_temp.expect_error($$select public.director_overview('00000000-0000-0000-0000-00000000000b', now() - interval '30 days')$$,
+  'FORBIDDEN', 'a subject teacher has no institution view');
+select pg_temp.expect_error($$select public.director_overview('00000000-0000-0000-0000-00000000001f', now() - interval '30 days')$$,
+  'FORBIDDEN', 'the pedagogue has no institution view');
+select pg_temp.expect_error($$select public.director_audit('00000000-0000-0000-0000-00000000000c', null, null, null, null, 50, 0)$$,
+  'FORBIDDEN', 'a student reads no audit log');
+select pg_temp.expect_error($$select public.director_overview('00000000-0000-0000-0000-00000000000a', now() + interval '1 day')$$,
+  'VALIDATION', 'the period starts in the past');
+create temp table t_dir as select public.director_overview('00000000-0000-0000-0000-00000000000a', now() - interval '30 days') as o;
+select pg_temp.assert((select (o ->> 'min_group')::int from t_dir) = 3 and (select (o ->> 'students_active')::int from t_dir) >= 2,
+  'the overview reports the minimum group and the active students');
+select pg_temp.assert((select o ->> 'answers' from t_dir) is null = ((select (o ->> 'students_practised')::int from t_dir) < 3),
+  'answers are hidden when fewer than three students practised (K2)');
+select pg_temp.assert(not exists (select 1 from jsonb_array_elements(public.director_subjects('00000000-0000-0000-0000-00000000000a', now() - interval '30 days')) s
+  where (s ->> 'students')::int < 3 and (s ->> 'checked') is not null), 'subject accuracy is hidden below the minimum group (K2)');
+select pg_temp.assert(exists (select 1 from jsonb_array_elements(public.director_teachers('00000000-0000-0000-0000-00000000000a', now() - interval '30 days')) t
+  where t ->> 'name' = 'Test Teacher' and (t ->> 'assignments_given')::int = 2 and (t ->> 'gifts_given')::int = 2),
+  'teacher activity counts completed work by name (K1)');
+select pg_temp.assert(not exists (select 1 from jsonb_array_elements(public.director_teachers('00000000-0000-0000-0000-00000000000a', now() - interval '30 days')) t
+  where t ? 'last_login' or t ? 'time'), 'teacher activity shows no times or logins (K1)');
+select pg_temp.assert(jsonb_array_length(public.director_content('00000000-0000-0000-0000-00000000000a')) = (select count(*) from public.subjects),
+  'content health lists every subject');
+select pg_temp.assert((public.director_system('00000000-0000-0000-0000-00000000000a') ->> 'notification_kinds') like '%gift_given%',
+  'the system view shows which notification kinds the database allows');
+create temp table t_aud as select public.director_audit('00000000-0000-0000-0000-00000000000a', 'gift.given', null, null, null, 50, 0) as a;
+select pg_temp.assert((select (a ->> 'total')::int from t_aud) = 2 and not exists (select 1 from t_aud, jsonb_array_elements(a -> 'rows') r where r::text like '%geometriji%'),
+  'the audit log filters by action and never shows a gift message (K4)');
+select pg_temp.expect_error($$select public.set_setting('00000000-0000-0000-0000-00000000000b', 'mission.daily_goal', '{"value": 6}', null)$$,
+  'FORBIDDEN', 'only the Director changes settings');
+select pg_temp.expect_error($$select public.set_setting('00000000-0000-0000-0000-00000000000a', 'mission.daily_goal', '{"value": 0}', null)$$,
+  'VALIDATION', 'the mission goal is 1 to 100');
+select pg_temp.expect_error($$select public.set_setting('00000000-0000-0000-0000-00000000000a', 'exam.duration', '{"value": 90}', null)$$,
+  'VALIDATION', 'exam rules are canon, never settings (P-15)');
+select pg_temp.expect_error($$select public.set_setting('00000000-0000-0000-0000-00000000000a', 'gamification.values', '{"xp": {"answer_correct": 10}, "badges": {"streak_days": 7, "answers_in_subject": 50}}', null)$$,
+  'VALIDATION', 'IDSS points values come complete');
+select public.set_setting('00000000-0000-0000-0000-00000000000a', 'privacy.min_group', '{"value": 1}', null);
+select pg_temp.assert(private.min_group() = 1
+  and (select details -> 'before' ->> 'value' from public.audit_logs where action = 'settings.changed' and entity_id = 'privacy.min_group' order by id desc limit 1) = '3'
+  and jsonb_array_length(public.settings_history('00000000-0000-0000-0000-00000000000a', 'privacy.min_group')) = 1,
+  'a setting change is applied and audited with the value before and after (K5)');
+select pg_temp.assert((public.director_overview('00000000-0000-0000-0000-00000000000a', now() - interval '30 days') ->> 'answers') is not null,
+  'with a minimum group of one every figure shows');
+select public.set_setting('00000000-0000-0000-0000-00000000000a', 'privacy.min_group', '{"value": 3}', null);

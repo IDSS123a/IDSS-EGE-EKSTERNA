@@ -1,7 +1,6 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { DAILY_MISSION_GOAL } from "@/constants";
 import { ForbiddenScreen } from "@/features/accounts/components/forbidden-screen";
 import { clientIpFrom } from "@/features/authentication/domain";
 import { requireAccount } from "@/features/authentication/session";
@@ -9,6 +8,7 @@ import { RegistryFunctionError } from "@/features/canon/repository";
 import { StudentProfileScreen } from "@/features/support/components/student-profile-screen";
 import { assignmentsOfPerson } from "@/features/assignments/repository";
 import { giftsOfPerson } from "@/features/gifts/repository";
+import { readAppSettings } from "@/features/settings/app-settings";
 import { studentProfile, teacherNotes } from "@/features/support/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
@@ -32,7 +32,7 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
     profile = await studentProfile(admin, {
       actorUserId: account.userId,
       personId: student,
-      missionGoal: DAILY_MISSION_GOAL,
+      missionGoal: (await readAppSettings(admin)).missionGoal,
       ipAddress: clientIpFrom((await headers()).get("x-forwarded-for")),
     });
     [notes, assignments, gifts] = await Promise.all([

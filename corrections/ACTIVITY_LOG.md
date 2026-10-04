@@ -106,3 +106,8 @@
 - [2026-10-03] Migration 032 live (special gifts, PDL-039); 030 amended with gift_given before its first run
 - [2026-10-04] Privacy boundaries verified live (RLS impersonation of every account, rolled back)
 - [2026-10-04] Sprint 09 closed: DONE checklist, compliance score, handoff note
+- [2026-10-04] Sprint 10 started: Director Command Center design proposal (K1 to K6)
+- [2026-10-03 23:06] Write: migrations/033_director_command_center.sql
+- [2026-10-03 23:12] Write: src/features/settings/components/app-settings-forms.tsx
+- [2026-10-03 23:14] Write: src/features/director/components/director-screen.tsx
+- [2026-10-04] Director Command Center screens, export route, i18n, home link, docs (PDL-040)

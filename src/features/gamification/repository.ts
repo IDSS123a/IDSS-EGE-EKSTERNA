@@ -2,6 +2,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { RegistryFunctionError } from "@/features/canon/repository";
 import type { SubjectCode } from "@/features/knowledge/types";
+import type { AppSettings } from "@/features/settings/app-settings";
 import { gamificationValues } from "./config";
 import type { GamificationOverview } from "./types";
 
@@ -15,8 +16,8 @@ type Row = {
  * Service-role client after the page has authorised the student; the function re-checks practice.participate.
  * @throws RegistryFunctionError with the database's machine message
  */
-export async function gamificationOverview(admin: SupabaseClient, actorUserId: string): Promise<GamificationOverview> {
-  const { data, error } = await admin.rpc("gamification_overview", { p_actor: actorUserId, p_values: gamificationValues() });
+export async function gamificationOverview(admin: SupabaseClient, actorUserId: string, settings: AppSettings): Promise<GamificationOverview> {
+  const { data, error } = await admin.rpc("gamification_overview", { p_actor: actorUserId, p_values: gamificationValues(settings) });
   if (error) throw new RegistryFunctionError(error.message);
   const row = data as Row;
   return {

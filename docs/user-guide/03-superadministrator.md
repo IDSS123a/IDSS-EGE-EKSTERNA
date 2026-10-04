@@ -24,8 +24,27 @@ Kao nastavnik, za sve predmete; uključuje greške u katalogu i naknadne pregled
 Pregled, profil učenika, analiza grupe i izvoz kao u uputstvu za pedagoga i psihologa, bez bilješki podrške: njih
 superadministrator ne čita ni ne piše (odluka D2).
 
+## Direktorski pregled (Dostupno)
+Na početnoj stranici kliknite **Direktorski pregled**. Pregled škole u brojkama, bez praćenja pojedinaca:
+- **Pregled**: aktivni učenici, ko je vježbao, odgovori po sedmicama, probni ispiti, zadaci i pokloni.
+- **Predmeti**: provjerena pitanja, pokrivenost, tačnost, spremnost za ispit i bodovi na probnim ispitima po predmetu.
+- **Nastavnici**: urađeni posao po nastavniku (pregledi, ocjenjivanje, zadaci, pokloni, bilješke) i šta čeka. Ovo je
+  pregled rada, ne ocjena nastavnika.
+- **Sadržaj**: stanje kataloga po predmetu, plan ispita, otvorene ispravke i najčešće netačna pitanja.
+- **Sistem**: šta čeka na vas (migracija 030, push ključevi), sigurnosni događaji, indeks pretrage, migracije.
+- **Dnevnik**: sve zabilježene radnje, filter po radnji, osobi i datumu; ne može se mijenjati.
+
+Razdoblje birate gore: zadnjih 7, 30 ili 90 dana, ili školska godina (kad je aktivna). Brojka izračunata iz manje od 3
+učenika prikazuje se kao "premalo učenika" (zaštita privatnosti). Svaku karticu možete štampati ili sačuvati kao PDF;
+Nastavnici i Dnevnik imaju i **Izvoz CSV**. Svaki izvoz se bilježi.
+
 ## Postavke (Dostupno)
-**Boje uvodnog ekrana**: udio svake IDSS boje u procentima, zbir 100 %.
+- **Boje uvodnog ekrana**: udio svake IDSS boje u procentima, zbir 100 %.
+- **Dnevni cilj misije**: broj odgovora dnevno (sada 5).
+- **Najmanja grupa**: ispod ovog broja učenika brojke se ne prikazuju (sada 3).
+- **IDSS bodovi i značke**: bodovi za odgovore, misiju, dan vježbe i probni ispit; pravila značaka.
+Svaka promjena se bilježi i vidi se u **Historija promjena**. Pravila ispita i bodovanje ispita nisu postavke: dolaze iz
+kataloga.
 
 ## Šta radi samo superadministrator izvan aplikacije
 - Migracije baze koje traže potvrdu brisanja pokreću se u Supabase SQL editoru (uputstvo dobijete uz svaku takvu
