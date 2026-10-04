@@ -67,7 +67,7 @@ function SubjectDay({ subject, day, canGrade }: { subject: DailySubject; day: st
 
       <h3>{labels.practised}</h3>
       {subject.practised.length === 0 ? <p>{labels.nobody}</p> : (
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead><tr><th>{dictionary.support.columns.student}</th><th>{labels.answers}</th><th>{labels.accuracy}</th></tr></thead>
             <tbody>
@@ -85,7 +85,7 @@ function SubjectDay({ subject, day, canGrade }: { subject: DailySubject; day: st
 
       <h3>{labels.notPractised}</h3>
       {subject.notPractised.length === 0 ? <p>{labels.everybody}</p> : (
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead><tr><th>{dictionary.support.columns.student}</th><th>{labels.lastPractice}</th><th>{labels.daysWithout}</th></tr></thead>
             <tbody>
@@ -103,7 +103,7 @@ function SubjectDay({ subject, day, canGrade }: { subject: DailySubject; day: st
 
       <h3>{labels.areas}</h3>
       {areas.length === 0 ? <p>{dictionary.support.analysis.empty}</p> : (
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead><tr><th>{dictionary.support.analysis.area}</th><th>{dictionary.support.analysis.checked}</th><th>{dictionary.support.analysis.correctShare}</th></tr></thead>
             <tbody>

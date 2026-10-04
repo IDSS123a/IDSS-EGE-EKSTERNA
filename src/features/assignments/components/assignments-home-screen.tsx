@@ -30,7 +30,7 @@ export function AssignmentsHomeScreen({ assignments, options }: { assignments: A
         {assignments.length === 0 ? (
           <p>{labels.none}</p>
         ) : (
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
             <table className="data-table">
               <thead>
                 <tr>

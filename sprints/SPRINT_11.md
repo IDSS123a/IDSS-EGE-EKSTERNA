@@ -46,3 +46,6 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
 - [x] 0a. Decisions L1 to L4 recorded (PDL-041).
 - [x] 0b. Migration 030 run by the Director, verified live; every migration 001 to 034 is in the database.
 - [x] 0c. Director: VAPID keys are in `.env.local`; hosting team `idsssarajevo` (no project for this repository yet, checked 2026-10-04); deployment steps in README.
+- [x] 1. Accessibility (WCAG 2.2 AA): `tests/e2e/accessibility.spec.ts` (axe, public pages, bs/de/en, desktop and phone,
+  stable over 4 repeats); signed-in screens checked with fixtures (Game Hub, practice, staff home, Postavke, Director
+  tabs): two findings fixed (badge contrast, keyboard access to scroll tables); keyboard focus visible globally.

@@ -14,6 +14,13 @@ Date: 2026-10-04 (open)
   `.env.local` and made both VAPID keys invalid. Instructions show a shortened real-looking value and say explicitly
   "no brackets, quotes or spaces".
 
+- axe measures colours mid-transition right after a click (the language switcher), which reports a false contrast
+  violation now and then; the accessibility spec waits for `document.getAnimations()` to finish first.
+- A horizontally scrolling table wrapper is unreachable by keyboard (`scrollable-region-focusable`); every
+  `.table-scroll` now has `tabIndex={0}`, `role="region"` and a label.
+- Opacity on a muted text lowers contrast below 4.5:1 (unearned badges, 4.35:1); muted state uses the muted ink
+  colour and a dashed border instead.
+
 ## Commander Improvement Candidates
 None yet.
 

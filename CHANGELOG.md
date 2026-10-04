@@ -113,3 +113,5 @@
 [2026-10-04] [DATABASE] Migration 030 run by the Director: in-app notices for assignments and gifts are on
 [2026-10-04] [DOCS] PDL-041 L2 refined: Vercel team idsssarajevo on the Vercel address; README deployment steps
 [2026-10-04] [FIX] Sistem tab: malformed VAPID values are reported (which field) instead of crashing the page
+[2026-10-04] [A11Y] WCAG 2.2 AA: axe checks in e2e for public pages; scroll tables reachable by keyboard; unearned badge contrast
+[2026-10-04] [DEPENDENCY] @axe-core/playwright (devDependency): run npm install after git pull

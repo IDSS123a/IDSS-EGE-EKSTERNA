@@ -86,7 +86,7 @@ function SubjectSection({ subject, children }: { subject: ProfileSubject; childr
 
       <details open={weakest.length > 0}>
         <summary>{labels.profile.areas}</summary>
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead><tr><th>{labels.profile.area}</th><th>{labels.profile.answered}</th><th>{labels.profile.correctShare}</th></tr></thead>
             <tbody>
@@ -119,7 +119,7 @@ function SubjectSection({ subject, children }: { subject: ProfileSubject; childr
       {subject.exams.length === 0 ? (
         <p>{labels.cell.noExam}</p>
       ) : (
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead><tr><th>{labels.profile.examDate}</th><th>{labels.profile.examPoints}</th><th>{labels.profile.examTime}</th><th>{labels.profile.examEmpty}</th></tr></thead>
             <tbody>
@@ -199,7 +199,7 @@ function Assignments({ assignments }: { assignments: PersonAssignment[] }): Reac
       {assignments.length === 0 ? (
         <p>{labels.profile.none}</p>
       ) : (
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead>
               <tr>

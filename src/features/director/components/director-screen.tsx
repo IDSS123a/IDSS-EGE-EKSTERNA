@@ -98,7 +98,7 @@ function OverviewTab({ overview }: { overview: Overview }): ReactNode {
       <section className="card" aria-labelledby="director-weeks">
         <h2 id="director-weeks">{labels.weeks}</h2>
         {overview.weeks.length === 0 ? <p>{dictionary.director.empty}</p> : (
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
             <table className="data-table">
               <thead><tr><th>{labels.week}</th><th>{labels.studentsPractised}</th><th>{labels.answers}</th></tr></thead>
               <tbody>{overview.weeks.map((week) => <tr key={week.week}><td>{week.week}</td><td>{week.students}</td><td><Figure value={week.answers} /></td></tr>)}</tbody>
@@ -157,7 +157,7 @@ function TeachersTab({ teachers }: { teachers: TeacherActivity[] }): ReactNode {
       <h2 id="director-teachers">{labels.title}</h2>
       <p className="form__hint">{labels.hint}</p>
       {teachers.length === 0 ? <p>{dictionary.director.empty}</p> : (
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead>
               <tr>
@@ -284,7 +284,7 @@ function AuditTab({ audit, filter, pageSize }: { audit: AuditPage; filter: Audit
         <div className="link-row"><button type="submit" className="button-primary">{labels.apply}</button><Link className="button-secondary" href={`${DIRECTOR_PATH}?tab=dnevnik`}>{labels.reset}</Link></div>
       </form>
       {audit.rows.length === 0 ? <p>{dictionary.director.empty}</p> : (
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead><tr><th>{labels.at}</th><th>{labels.action}</th><th>{labels.person}</th><th>{labels.entity}</th><th>{labels.details}</th></tr></thead>
             <tbody>

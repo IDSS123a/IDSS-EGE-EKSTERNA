@@ -102,7 +102,7 @@ export function SupportOverviewScreen({ students, codes, today, followUps, canEx
         {rows.length === 0 ? (
           <p>{labels.empty}</p>
         ) : (
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
             <table className="data-table">
               <thead>
                 <tr>
