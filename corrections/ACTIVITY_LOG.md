@@ -122,3 +122,4 @@
 - [2026-10-04] Sprint 11 item 1: accessibility audit, axe spec, two fixes
 - [2026-10-04] Sprint 11 item 2: security adversarial pass, DB section 28
 - [2026-10-04] PDL-041 L4 addendum recorded
+- [2026-10-04] Sprint 11 item 3: performance measured, no change needed

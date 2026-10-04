@@ -63,3 +63,9 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
   - Direct calls to the public API from this environment are blocked by its network policy; the same checks ran inside
     the database under the API roles.
 - [x] 0d. Director: launch 2026-10-06 goes ahead without the teachers' blueprint confirmations and erratum DEU-4.3.34 (done after launch).
+- [x] 3. Performance (E-15), production build on a phone profile (390 px, 150 ms latency, 1.6 Mbit/s, CPU 4x slower):
+  home FCP 1.9 s, LCP 2.3 s; sign-in FCP 1.4 s, LCP 2.3 s; Game Hub (fixture) FCP 1.5 s, LCP 2.3 s; Vitrina (fixture,
+  3D) FCP 1.1 s, LCP 2.6 s. Shared JavaScript about 175 KB compressed per page, of which about 55 KB are the three
+  interface dictionaries (kept: the instant language switch is a Director requirement); three.js loads only on the
+  Vitrina. No change needed. Database query plans of the command centers are not meaningful on test-sized data;
+  re-check after the first weeks of real use.
