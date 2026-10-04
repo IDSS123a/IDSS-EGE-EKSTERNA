@@ -19,6 +19,7 @@ system forbids deletion (append-only audit), handled as the Director decides bel
 | Trial gift from Nizama Memija to a.b. and its opening | 1 + 1 (2026-10-04) | remove |
 | Mock exams, notifications, support notes, teacher notes, push subscriptions | 0 each (2026-10-04) | check again; remove trial rows |
 | Exam blueprints (Math, B/H/S, German) | 3 | **keep** (real data, waiting for the teachers' confirmation) |
+| Blueprint confirmations made with the Director's account (B/H/S 2026-10-03, Mathematics 2026-10-04) | 2 | **open question to the Director**: keep (mock exams open at launch for B/H/S and Mathematics) or treat as trial and remove (teachers confirm after launch, PDL-041 L4 addendum) |
 | Audit log | 704 rows (2026-10-04) | D-A decided: export to the school archive, then one audited removal |
 | Security events (failed logins during tests) | 6 | D-A decided (same procedure) |
 | Retrieval audit of test searches | 13 | D-A decided (same procedure) |

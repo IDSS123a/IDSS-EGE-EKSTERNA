@@ -603,3 +603,7 @@ history; Game Hub and profile read the settings with code defaults as fallback. 
 - L4: target launch Tuesday 2026-10-06; the clean start (PDL-038) runs the day before. The deploy itself still needs
   the Director's explicit go (M-23) once testing and the teachers' confirmations are done; the date moves if they are
   not.
+- L4 addendum (Director, 2026-10-04): the launch goes ahead on 2026-10-06 without the teachers' confirmations. The
+  teachers confirm the exam blueprints and enter erratum DEU-4.3.34 after the launch; until a blueprint is confirmed,
+  students of that subject cannot request a mock exam (practice, assignments and gifts work). The clean start keeps
+  the blueprints.

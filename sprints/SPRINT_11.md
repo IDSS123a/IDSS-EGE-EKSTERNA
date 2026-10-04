@@ -62,3 +62,4 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
     CSP injection covered by e2e; CSV formula injection covered by unit tests.
   - Direct calls to the public API from this environment are blocked by its network policy; the same checks ran inside
     the database under the API roles.
+- [x] 0d. Director: launch 2026-10-06 goes ahead without the teachers' blueprint confirmations and erratum DEU-4.3.34 (done after launch).
