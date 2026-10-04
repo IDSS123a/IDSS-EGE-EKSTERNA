@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="bs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IDSS - External Graduate Examination: prezentacija</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root {
+  --idss-blue: #035ea1;
+  --idss-sky: #08abe6;
+  --idss-yellow: #ffcb29;
+  --idss-red: #e8262c;
+  --surface: #f5f8fc;
+  --raised: #ffffff;
+  --ink: #0b1b33;
+  --muted: #3d4d66;
+  --border: #d7e1ee;
+  --brand: #035ea1;
+  --brand-strong: #024a80;
+  --ok: #17734a;
+  --ok-bg: #e5f5ec;
+  --warn-bg: #fff6d6;
+  --warn-ink: #6b4e00;
+  --danger-bg: #fde7e8;
+  --gradient: linear-gradient(90deg, var(--idss-red), var(--idss-yellow), var(--idss-sky), var(--idss-blue));
+  --radius: 14px;
+  --radius-lg: 24px;
+  --shadow: 0 18px 50px -24px rgba(3, 30, 70, 0.35);
+  --page-x: clamp(16px, 4vw, 72px);
+  --display: "Sora", system-ui, sans-serif;
+  --body: "Inter", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--surface); color: var(--ink); font: 16px/1.6 var(--body); overflow-wrap: break-word; }
+img { max-width: 100%; }
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1.2; margin: 0 0 .5em; }
+h2 { font-size: clamp(1.5rem, 2.4vw, 2.1rem); }
+h3 { font-size: 1.15rem; }
+p { margin: 0 0 .9em; }
+a { color: var(--brand); }
+:focus-visible { outline: 3px solid var(--idss-sky); outline-offset: 2px; }
+.wrap { padding: 0 var(--page-x); }
+.bar { height: 6px; background: var(--gradient); }
+
+/* Header */
+.hero { background: var(--raised); border-bottom: 1px solid var(--border); }
+.hero__inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: center; padding-top: 36px; padding-bottom: 36px; }
+.hero__logo { height: 64px; width: auto; display: block; margin-bottom: 20px; }
+.eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; font-weight: 700; color: var(--brand); margin-bottom: 8px; }
+.hero h1 { font-size: clamp(2rem, 4.2vw, 3.4rem); margin-bottom: 12px; }
+.hero__lead { font-size: 1.15rem; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); font-size: .9rem; font-weight: 600; }
+.chip i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.address { background: var(--ink); color: #fff; border-radius: var(--radius-lg); padding: 22px 26px; min-width: min(380px, 100%); }
+.address small { display: block; opacity: .75; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.address strong { font-family: var(--display); font-size: 1.35rem; display: block; word-break: break-all; }
+.address p { margin: 10px 0 0; font-size: .85rem; opacity: .8; }
+
+/* Navigation */
+.toc { position: sticky; top: 0; z-index: 10; background: rgba(245, 248, 252, .94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.toc ol { list-style: none; margin: 0; padding: 10px 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: thin; }
+.toc a { display: block; white-space: nowrap; padding: 6px 12px; border-radius: 999px; text-decoration: none; color: var(--ink); font-size: .9rem; font-weight: 600; }
+.toc a:hover { background: var(--raised); box-shadow: 0 0 0 1px var(--border); }
+.toc b { color: var(--brand); margin-right: 4px; }
+
+/* Sections */
+section.block { padding-top: 56px; padding-bottom: 8px; scroll-margin-top: 60px; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 22px; }
+.section-head h2 { margin: 0; }
+.time { font-size: .85rem; font-weight: 700; color: var(--brand); background: #e6f1fa; padding: 4px 12px; border-radius: 999px; }
+.num { display: inline-grid; place-items: center; width: 2.1em; height: 2.1em; border-radius: 50%; background: var(--brand); color: #fff; font-size: .8em; margin-right: 10px; vertical-align: middle; }
+.card { background: var(--raised); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); }
+.grid-3 { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.grid-2 { display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); align-items: start; }
+.speech { font-size: clamp(1.1rem, 1.6vw, 1.3rem); line-height: 1.65; border-left: 6px solid var(--idss-yellow); padding: 6px 0 6px 22px; }
+.speech strong { color: var(--brand); }
+.pill-icon { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 14px; }
+.pill-icon svg { width: 26px; height: 26px; }
+.muted { color: var(--muted); }
+.small { font-size: .88rem; }
+.tag { display: inline-block; font-size: .75rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); color: var(--muted); }
+
+/* Steps */
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; gap: 14px; }
+.steps > li { counter-increment: s; position: relative; padding: 16px 18px 16px 64px; background: var(--raised); border: 1px solid var(--border); border-radius: var(--radius); }
+.steps > li::before { content: counter(s); position: absolute; left: 16px; top: 14px; width: 34px; height: 34px; border-radius: 50%; background: var(--brand); color: #fff; font: 700 1rem/34px var(--display); text-align: center; }
+.steps > li h4 { margin: 0 0 4px; font-size: 1.02rem; }
+.steps > li p { margin: 0; color: var(--muted); }
+.verb { color: var(--idss-red); font-weight: 700; }
+.ui { display: inline; font-weight: 600; font-size: .9em; padding: 1px 9px; border-radius: 8px; background: #e6f1fa; color: var(--brand-strong); border: 1px solid #c4dcef; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+code { font-family: ui-monospace, Consolas, monospace; font-size: .9em; background: #eef3f9; padding: 1px 6px; border-radius: 6px; }
+
+/* Mock browser */
+.mock { background: var(--raised); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+.mock + .mock { margin-top: 22px; }
+.mock__top { display: flex; align-items: center; gap: 10px; padding: 9px 14px; background: #eaf0f7; border-bottom: 1px solid var(--border); }
+.mock__dots { display: flex; gap: 6px; }
+.mock__dots i { width: 10px; height: 10px; border-radius: 50%; background: #c9d4e2; }
+.mock__url { flex: 1; min-width: 0; background: #fff; border-radius: 8px; padding: 3px 12px; font-size: .78rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mock__bar { height: 4px; background: var(--gradient); }
+.mock__body { padding: 18px; }
+.mock__title { font-family: var(--display); font-weight: 700; font-size: 1.15rem; margin-bottom: 2px; }
+.mock__sub { color: var(--muted); font-size: .85rem; margin-bottom: 14px; }
+.mock__caption { font-size: .78rem; color: var(--muted); padding: 8px 14px; border-top: 1px dashed var(--border); background: #fafcfe; }
+.btn { display: inline-block; font-weight: 600; font-size: .85rem; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--brand); color: var(--brand); background: #fff; }
+.btn--primary { background: var(--brand); color: #fff; }
+.btn--hl { box-shadow: 0 0 0 4px rgba(255, 203, 41, .65); }
+.btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+.btn-grid .btn { text-align: center; border-radius: 12px; padding: 12px; }
+.field { margin-bottom: 12px; }
+.field label, .legend { display: block; font-size: .8rem; font-weight: 600; margin-bottom: 4px; }
+.input { border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: .88rem; background: #fff; color: var(--ink); min-height: 38px; }
+.input--hl { border-color: var(--idss-sky); box-shadow: 0 0 0 3px rgba(8, 171, 230, .2); }
+.choice { display: flex; align-items: flex-start; gap: 8px; font-size: .86rem; padding: 6px 0; }
+.box, .radio { flex: none; width: 17px; height: 17px; border: 2px solid #8fa3bd; border-radius: 4px; margin-top: 2px; background: #fff; position: relative; }
+.radio { border-radius: 50%; }
+.box.on { background: var(--brand); border-color: var(--brand); }
+.box.on::after { content: ""; position: absolute; left: 4px; top: 0; width: 5px; height: 9px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.radio.on::after { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--brand); }
+.row { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.status { display: inline-block; font-size: .75rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
+.st-wait { background: var(--warn-bg); color: var(--warn-ink); }
+.st-ok { background: var(--ok-bg); color: var(--ok); }
+.st-blue { background: #e6f1fa; color: var(--brand-strong); }
+.st-red { background: var(--danger-bg); color: #a3161b; }
+table.t { width: 100%; border-collapse: collapse; font-size: .84rem; }
+table.t th { text-align: left; font-weight: 600; color: var(--muted); border-bottom: 2px solid var(--border); padding: 6px 8px; white-space: nowrap; }
+table.t td { border-bottom: 1px solid var(--border); padding: 7px 8px; vertical-align: top; }
+table.t a { font-weight: 600; text-decoration: none; }
+.scroll { overflow-x: auto; }
+.meter { height: 8px; border-radius: 999px; background: #e7edf5; overflow: hidden; margin-top: 4px; }
+.meter i { display: block; height: 100%; background: var(--brand); border-radius: inherit; }
+.dims { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.dims div { background: var(--surface); border-radius: 12px; padding: 10px 12px; }
+.dims strong { display: block; font-size: .78rem; color: var(--muted); }
+.dims span { font-family: var(--display); font-weight: 700; font-size: 1.05rem; }
+.cal { display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; margin: 8px 0 4px; }
+.cal i { aspect-ratio: 1; border-radius: 3px; background: #e7edf5; }
+.cal i.l1 { background: #9cc9ea; }
+.cal i.l2 { background: var(--brand); }
+.link-sm { font-size: .78rem; font-weight: 600; color: var(--brand); white-space: nowrap; border-bottom: 1px dashed var(--brand); }
+
+/* Flow */
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; margin-top: 8px; }
+.flow__step { position: relative; padding: 16px 22px 16px 16px; background: var(--raised); border: 1px solid var(--border); margin-right: 14px; margin-bottom: 14px; border-radius: 14px; }
+.flow__step::after { content: ""; position: absolute; right: -11px; top: 50%; width: 16px; height: 16px; background: var(--raised); border-top: 1px solid var(--border); border-right: 1px solid var(--border); transform: translateY(-50%) rotate(45deg); z-index: 1; }
+.flow__step:last-child::after { display: none; }
+.flow__who { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.flow__what { font-family: var(--display); font-weight: 600; margin: 4px 0; }
+.flow__step.teacher { border-top: 5px solid var(--brand); }
+.flow__step.student { border-top: 5px solid var(--idss-sky); }
+.flow__step.system { border-top: 5px solid var(--idss-yellow); }
+
+/* Matrix */
+table.matrix { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .92rem; background: var(--raised); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+table.matrix th, table.matrix td { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: left; }
+table.matrix thead th { background: var(--ink); color: #fff; font-family: var(--display); font-weight: 600; }
+table.matrix tbody tr:last-child td { border-bottom: none; }
+.yes, .no, .part { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.yes::before, .no::before, .part::before { content: ""; width: 12px; height: 12px; border-radius: 50%; }
+.yes::before { background: var(--ok); }
+.no::before { background: #c1cad6; }
+.part::before { background: var(--idss-yellow); }
+
+/* Callouts and timeline */
+.note { border-radius: var(--radius); padding: 14px 18px; background: var(--warn-bg); color: var(--warn-ink); border: 1px solid #f1dc8c; }
+.note--info { background: #e6f1fa; color: var(--brand-strong); border-color: #c4dcef; }
+.tiles { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.tile { background: var(--raised); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; border-top: 5px solid var(--brand); }
+.tile h4 { margin-bottom: 6px; }
+.timeline { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.tl { background: var(--raised); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+.tl strong { font-family: var(--display); font-size: 1.4rem; color: var(--brand); display: block; }
+.tl.go { background: var(--ink); color: #fff; }
+.tl.go strong { color: var(--idss-yellow); }
+.presenter { margin-top: 56px; background: #0b1b33; color: #e8eef6; border-radius: var(--radius-lg); padding: 26px; }
+.presenter h3 { color: #fff; }
+.presenter li { margin-bottom: 6px; }
+.presenter code { background: rgba(255, 255, 255, .12); color: #fff; }
+footer { margin-top: 56px; padding: 22px 0 40px; border-top: 1px solid var(--border); color: var(--muted); font-size: .85rem; }
+
+@media (max-width: 860px) {
+  .hero__inner, .grid-2 { grid-template-columns: minmax(0, 1fr); }
+  .flow__step { margin-right: 0; }
+  .flow__step::after { right: 50%; top: auto; bottom: -11px; transform: translateX(50%) rotate(135deg); }
+}
+@media print {
+  .toc { display: none; }
+  body { background: #fff; font-size: 11pt; }
+  section.block { break-inside: avoid-page; padding-top: 24px; }
+  .card, .mock, .steps > li { box-shadow: none; }
+  .mock, .card, .tile, .flow__step { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="bar" aria-hidden="true"></div>
+<header class="hero">
+  <div class="wrap hero__inner">
+    <div>
+      <img class="hero__logo" src="data:image/png;base64,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" alt="IDSS Internationale Deutsche Schule Sarajevo">
+      <div class="eyebrow">Prezentacija za odbor za eksternu maturu</div>
+      <h1>IDSS - External Graduate Examination</h1>
+      <p class="hero__lead">Sistem za pripremu učenika IX razreda IDSS-a za eksternu maturu. Kratko uputstvo za nastavnike, pedagoga i psihologa, sa izgledom ekrana iz aplikacije.</p>
+      <div class="chips">
+        <span class="chip"><i style="background:var(--idss-blue)"></i>B/H/S jezik i književnost</span>
+        <span class="chip"><i style="background:var(--idss-sky)"></i>Matematika</span>
+        <span class="chip"><i style="background:var(--idss-yellow)"></i>Njemački jezik</span>
+        <span class="chip"><i style="background:var(--idss-red)"></i>Objava 08.10.2026.</span>
+      </div>
+    </div>
+    <div class="address">
+      <small>Adresa aplikacije</small>
+      <strong>ADRESA_APLIKACIJE</strong>
+      <p>Prijava: službena e-mail adresa i lozinka koju je dodijelila škola. Jezik: BS, DE ili EN, gore desno.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sadržaj">
+  <div class="wrap">
+    <ol>
+      <li><a href="#uvod"><b>1</b>Uvod</a></li>
+      <li><a href="#uloge"><b>2</b>Uloge</a></li>
+      <li><a href="#prijava"><b>3</b>Prijava</a></li>
+      <li><a href="#nastavnik"><b>4</b>Nastavnik</a></li>
+      <li><a href="#pedagog"><b>5</b>Pedagog</a></li>
+      <li><a href="#psiholog"><b>6</b>Psiholog</a></li>
+      <li><a href="#zastita"><b>7</b>Zaštita podataka</a></li>
+      <li><a href="#kraj"><b>8</b>Završetak</a></li>
+    </ol>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- 1 -->
+<section class="block" id="uvod" aria-labelledby="h-uvod">
+  <div class="section-head"><h2 id="h-uvod"><span class="num">1</span>Uvod</h2><span class="time">1 minuta</span></div>
+  <div class="card">
+    <p class="speech">Dragi nastavnici, pedagozi i psiholozi, pred vama je <strong>IDSS - External Graduate Examination</strong>, sistem za pripremu učenika IX razreda IDSS-a za eksternu maturu iz tri predmeta.<br>
+    Sistem je osmišljen tako da <strong>nastavnik ima sve poluge za pripremu učenika u svojim rukama</strong>, a <strong>pedagog i psiholog imaju alate za praćenje učenika</strong>.</p>
+  </div>
+  <div class="grid-3" style="margin-top:20px">
+    <div class="card">
+      <div class="pill-icon" style="background:#e6f1fa"><svg viewBox="0 0 24 24" fill="none" stroke="#035ea1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M4 17a3 3 0 0 1 3-3h11"/></svg></div>
+      <h3>Službeni katalog je jedini izvor</h3>
+      <p class="muted">Zadaci, službena rješenja, bodovi i trajanje ispita preuzeti su iz službenih ispitnih kataloga, tačno kako su štampani. Aplikacija ništa ne izmišlja i ništa ne mijenja.</p>
+    </div>
+    <div class="card">
+      <div class="pill-icon" style="background:#fff6d6"><svg viewBox="0 0 24 24" fill="none" stroke="#6b4e00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+      <h3>Nastavnik vodi pripremu</h3>
+      <p class="muted">Zadaje vježbu, šalje cijeli test ili dio testa, odobrava svaki test prije nego što ga učenik vidi i ocjenjuje.</p>
+    </div>
+    <div class="card">
+      <div class="pill-icon" style="background:#e5f5ec"><svg viewBox="0 0 24 24" fill="none" stroke="#17734a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3 7 4-14 3 7h4"/></svg></div>
+      <h3>Podrška prati i bilježi</h3>
+      <p class="muted">Pedagog i psiholog vide činjenice o radu svakog učenika, analizu grupe i vode povjerljive bilješke podrške.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="block" id="uloge" aria-labelledby="h-uloge">
+  <div class="section-head"><h2 id="h-uloge"><span class="num">2</span>Kako sistem vidi svakog od nas</h2><span class="time">1 minuta</span></div>
+  <div class="grid-3">
+    <div class="card" style="border-top:6px solid var(--idss-sky)">
+      <span class="tag">Učenik</span>
+      <h3 style="margin-top:10px">Igrač koji svaki dan vježba</h3>
+      <p class="muted">Dnevna misija, IDSS bodovi i značke, probni ispit pod istim uslovima kao na maturi i rezultat sa službenim rješenjem.</p>
+    </div>
+    <div class="card" style="border-top:6px solid var(--idss-blue)">
+      <span class="tag">Nastavnik</span>
+      <h3 style="margin-top:10px">Vlasnik procesa pripreme u svom predmetu</h3>
+      <p class="muted">Vidi napredak svakog učenika, zadaje vježbu grupi ili pojedincu, šalje cijeli test ili dio testa gdje je učenik slabiji, odobrava i ocjenjuje.</p>
+    </div>
+    <div class="card" style="border-top:6px solid var(--ok)">
+      <span class="tag">Pedagog i psiholog</span>
+      <h3 style="margin-top:10px">Podrška učeniku i nastavniku</h3>
+      <p class="muted">Vide činjenice o radu svih učenika u sva tri predmeta, prate ko je zastao i bilježe razgovore i dogovore. Sistem nikoga ne etiketira; zaključke donosite vi.</p>
+    </div>
+  </div>
+  <h3 style="margin-top:32px">Ko šta vidi i radi</h3>
+  <div class="scroll">
+  <table class="matrix">
+    <thead><tr><th scope="col"></th><th scope="col">Nastavnik</th><th scope="col">Pedagog</th><th scope="col">Psiholog</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Praćenje učenika i profil</th><td><span class="part">samo svoj predmet</span></td><td><span class="yes">sva tri predmeta</span></td><td><span class="yes">sva tri predmeta</span></td></tr>
+      <tr><th scope="row">Zadaci za učenike i Pošalji test</th><td><span class="yes">da</span></td><td><span class="no">ne (vidi stanje)</span></td><td><span class="no">ne (vidi stanje)</span></td></tr>
+      <tr><th scope="row">Odobravanje i ocjenjivanje probnog ispita</th><td><span class="yes">da</span></td><td><span class="no">ne</span></td><td><span class="no">ne</span></td></tr>
+      <tr><th scope="row">Bilješke nastavnika (akademske)</th><td><span class="yes">piše i čita</span></td><td><span class="yes">čita i piše</span></td><td><span class="yes">čita i piše</span></td></tr>
+      <tr><th scope="row">Bilješke podrške (povjerljive)</th><td><span class="no">nikad ne vidi</span></td><td><span class="yes">piše i čita</span></td><td><span class="yes">piše i čita</span></td></tr>
+      <tr><th scope="row">Analiza grupe i Dnevni sažetak</th><td><span class="part">svoj predmet</span></td><td><span class="yes">da</span></td><td><span class="yes">da</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="block" id="prijava" aria-labelledby="h-prijava">
+  <div class="section-head"><h2 id="h-prijava"><span class="num">3</span>Prijava, isto za sve</h2><span class="time">1 minuta</span></div>
+  <div class="grid-2">
+    <ol class="steps">
+      <li><h4><span class="verb">Otvorite</span> adresu aplikacije</h4><p>ADRESA_APLIKACIJE. Pri prvom učitavanju kratko se prikazuje uvodni ekran.</p></li>
+      <li><h4><span class="verb">Kliknite</span> <span class="ui">Prijava</span></h4><p>Dugme je na početnoj stranici.</p></li>
+      <li><h4><span class="verb">Unesite</span> korisničko ime i lozinku</h4><p>Korisničko ime je vaša službena adresa, npr. <code>ime.prezime@idss.ba</code>. Lozinku ste dobili od škole. Zatim <span class="ui">Prijavi se</span>.</p></li>
+      <li><h4><span class="verb">Promijenite</span> lozinku odmah</h4><p><span class="ui">Moj nalog</span>, dio <span class="ui">Promjena lozinke</span>, pa <span class="ui">Promijeni lozinku</span>. Lozinka iz poznatih curenja podataka se odbija.</p></li>
+    </ol>
+    <div class="mock" role="img" aria-label="Izgled ekrana za prijavu">
+      <div class="mock__top"><div class="mock__dots"><i></i><i></i><i></i></div><div class="mock__url">ADRESA_APLIKACIJE/prijava</div></div>
+      <div class="mock__bar"></div>
+      <div class="mock__body">
+        <div class="mock__title">Prijava</div>
+        <div class="mock__sub">Prijavite se korisničkim imenom i lozinkom.</div>
+        <div class="field"><label>Korisničko ime</label><div class="input input--hl">ime.prezime@idss.ba</div><div class="small muted" style="margin-top:4px">Osoblje: službena e-mail adresa. Učenici: korisničko ime koje je dodijelila škola.</div></div>
+        <div class="field"><label>Lozinka</label><div class="input">&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;</div></div>
+        <span class="btn btn--primary btn--hl">Prijavi se</span>
+      </div>
+      <div class="mock__caption">Nakon pet neuspješnih pokušaja u 15 minuta prijava se privremeno blokira.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="block" id="nastavnik" aria-labelledby="h-nastavnik">
+  <div class="section-head"><h2 id="h-nastavnik"><span class="num">4</span>Nastavnik: prvi koraci</h2><span class="time">5 minuta</span></div>
+  <p class="note note--info">Prvi korak je da odete na <strong>ADRESA_APLIKACIJE</strong>, kliknete <span class="ui">Prijava</span> i prijavite se svojom službenom adresom. Svaki nastavnik vidi i mijenja samo svoj predmet.</p>
+
+  <div class="grid-2" style="margin-top:22px">
+    <ol class="steps">
+      <li><h4><span class="verb">Otvorite</span> <span class="ui">Probni ispiti: ocjenjivanje</span> i <span class="verb">potvrdite</span> plan ispita</h4><p>Dio <span class="ui">Planovi ispita</span>: provjerite pozicije i bodove svog predmeta prema službenim testovima i kliknite <span class="ui">Potvrdi plan</span>. Dok plan nije potvrđen, probni ispit iz predmeta nije dostupan.</p></li>
+      <li><h4><span class="verb">Otvorite</span> <span class="ui">Praćenje učenika</span></h4><p>Za svakog učenika zadnja vježba, tačnost, probni ispiti i spremnost. Klik na ime otvara profil s oblastima od najslabije prema najjačoj.</p></li>
+      <li><h4><span class="verb">Zadajte</span> vježbu: <span class="ui">Zadaci za učenike</span></h4><p>Pitanja iz kataloga ili oblast i broj pitanja, <span class="verb">unesite</span> rok i pošaljite svim učenicima ili izabranim.</p></li>
+    </ol>
+    <div>
+      <div class="mock" role="img" aria-label="Početna stranica nastavnika">
+        <div class="mock__top"><div class="mock__dots"><i></i><i></i><i></i></div><div class="mock__url">ADRESA_APLIKACIJE/app</div></div>
+        <div class="mock__bar"></div>
+        <div class="mock__body">
+          <div class="mock__title">Početna stranica nastavnika</div>
+          <div class="mock__sub">Dugmad koja nastavnik vidi</div>
+          <div class="btn-grid">
+            <span class="btn btn--primary btn--hl">Praćenje učenika</span>
+            <span class="btn">Dnevni sažetak</span>
+            <span class="btn btn--primary btn--hl">Probni ispiti: ocjenjivanje</span>
+            <span class="btn btn--primary btn--hl">Zadaci za učenike</span>
+            <span class="btn">Pregled pitanja i pravila</span>
+            <span class="btn">Pretraga službenih materijala</span>
+            <span class="btn">Registar kanonskih dokumenata</span>
+            <span class="btn">Moj nalog</span>
+          </div>
+        </div>
+        <div class="mock__caption">Istaknuta su dugmad iz prvih koraka.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top:28px">
+    <div class="mock" role="img" aria-label="Profil učenika sa prečicama kod slabih oblasti">
+      <div class="mock__top"><div class="mock__dots"><i></i><i></i><i></i></div><div class="mock__url">ADRESA_APLIKACIJE/app/pracenje/ucenik</div></div>
+      <div class="mock__bar"></div>
+      <div class="mock__body">
+        <div class="mock__title">Učenik 1</div>
+        <div class="mock__sub">Matematika <span class="status st-blue">Spremnost: 90 %</span></div>
+        <div class="dims">
+          <div><strong>Obuhvat</strong><span>142 od 200</span></div>
+          <div><strong>Tačnost (30 dana)</strong><span>68 %</span></div>
+          <div><strong>Savladanost</strong><span>97 od 200</span></div>
+          <div><strong>Probni ispiti</strong><span>7, 8 / 10</span></div>
+        </div>
+        <div class="legend">Oblasti kataloga, od najniže tačnosti</div>
+        <div class="scroll">
+        <table class="t">
+          <thead><tr><th>Oblast</th><th>Tačno</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Algebarski razlomci<div class="meter"><i style="width:41%"></i></div></td><td>41 %</td><td><span class="link-sm">Zadaj vježbu iz ove oblasti</span><br><span class="link-sm">Pošalji dio testa</span></td></tr>
+            <tr><td>Linearne nejednačine sa jednom nepoznatom<div class="meter"><i style="width:55%"></i></div></td><td>55 %</td><td><span class="link-sm">Zadaj vježbu iz ove oblasti</span><br><span class="link-sm">Pošalji dio testa</span></td></tr>
+            <tr><td>Stepeni sa prirodnim eksponentom<div class="meter"><i style="width:82%"></i></div></td><td>82 %</td><td><span class="link-sm">Zadaj vježbu iz ove oblasti</span><br><span class="link-sm">Pošalji dio testa</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="mock__caption">Primjer prikaza s izmišljenim podacima. Prečice otvaraju formu s već izabranim učenikom i oblasti.</div>
+    </div>
+    <ol class="steps" start="4" style="counter-reset:s 3">
+      <li><h4><span class="verb">Pošaljite</span> test: <span class="ui">Pošalji test</span></h4><p>U <span class="ui">Probni ispiti: ocjenjivanje</span>. Cijeli test (vrijeme i bodovi po katalogu) ili samo pozicije službenog testa gdje su učenici slabiji, s vremenom koje vi <span class="verb">unesete</span>. Grupi ili pojedinim učenicima, uz poruku po želji.</p></li>
+      <li><h4><span class="verb">Odobrite</span> svaki set</h4><p>Lista <span class="ui">Setovi koji čekaju odobrenje</span>: vidite svaki zadatak i službeno rješenje. Tek kad odobrite, učenik vidi test i dobije obavijest.</p></li>
+      <li><h4><span class="verb">Ocijenite</span> predani ispit</h4><p>Uz svaki odgovor službeno rješenje i prijedlog bodova. <span class="ui">Sačuvaj bodove</span>, pa <span class="ui">Potvrdi rezultat</span>; tada učenik vidi rezultat.</p></li>
+      <li><h4>Svako jutro: <span class="ui">Dnevni sažetak</span></h4><p>Ko je jučer vježbao, ko nije i od kada, oblasti dana i šta čeka vašu ocjenu.</p></li>
+    </ol>
+  </div>
+
+  <div class="mock" style="margin-top:28px" role="img" aria-label="Forma Pošalji test">
+    <div class="mock__top"><div class="mock__dots"><i></i><i></i><i></i></div><div class="mock__url">ADRESA_APLIKACIJE/app/ocjenjivanje/posalji</div></div>
+    <div class="mock__bar"></div>
+    <div class="mock__body">
+      <div class="mock__title">Pošalji test učenicima</div>
+      <div class="mock__sub">Cijeli test ili dio testa, grupi ili pojedinim učenicima</div>
+      <div class="grid-2" style="gap:22px">
+        <div>
+          <div class="field"><label>Predmet</label><div class="input">Matematika</div></div>
+          <div class="legend">Šta šaljete</div>
+          <div class="choice"><span class="radio"></span>Cijeli test</div>
+          <div class="choice"><span class="radio on"></span>Dio testa (izabrane pozicije službenog testa)</div>
+          <div class="legend" style="margin-top:10px">Pozicije službenog testa</div>
+          <div class="choice"><span class="box"></span><span><strong>Pozicija 4</strong>, Izbor odgovora, bodova: 1</span></div>
+          <div class="choice"><span class="box on"></span><span><strong>Pozicija 5</strong>, Zadatak s postupkom, bodova: 1</span></div>
+          <div class="choice"><span class="box on"></span><span><strong>Pozicija 6</strong>, Zadatak s postupkom, bodova: 1</span></div>
+          <div class="choice"><span class="box on"></span><span><strong>Pozicija 7</strong>, Zadatak s postupkom, bodova: 1</span></div>
+          <div class="small muted">Izabrano pozicija: 3, ukupno bodova: 3.</div>
+        </div>
+        <div>
+          <div class="field"><label>Vrijeme za izradu (minute)</label><div class="input input--hl">20</div><div class="small muted" style="margin-top:4px">Cijeli test po katalogu traje 60 minuta. Za dio testa vrijeme određujete vi.</div></div>
+          <div class="legend">Kome</div>
+          <div class="choice"><span class="radio"></span>Svim učenicima predmeta</div>
+          <div class="choice"><span class="radio on"></span>Izabranim učenicima</div>
+          <div class="row small" style="margin:4px 0 10px 25px"><span class="choice"><span class="box on"></span>Učenik 1</span><span class="choice"><span class="box"></span>Učenik 2</span><span class="choice"><span class="box on"></span>Učenik 3</span></div>
+          <div class="field"><label>Poruka učenicima (nije obavezno)</label><div class="input">Ponovite postupak rješavanja jednačina.</div></div>
+          <span class="btn btn--primary btn--hl">Složi setove</span>
+        </div>
+      </div>
+    </div>
+    <div class="mock__caption">Primjer prikaza. Dio testa ne daje pokazatelj spremnosti ni značku za cijeli probni ispit; IDSS bodovi za odgovore ostaju. Učenik i dalje može sam zatražiti probni ispit.</div>
+  </div>
+
+  <h3 style="margin-top:32px">Put jednog testa</h3>
+  <div class="flow">
+    <div class="flow__step teacher"><div class="flow__who">Nastavnik</div><div class="flow__what">Pošalji test</div><div class="small muted">Cijeli test ili pozicije, grupi ili učeniku.</div></div>
+    <div class="flow__step system"><div class="flow__who">Sistem</div><div class="flow__what">Složi set po katalogu</div><div class="small muted">Svaki učenik dobije vlastiti set.</div></div>
+    <div class="flow__step teacher"><div class="flow__who">Nastavnik</div><div class="flow__what">Odobri set</div><div class="small muted">Učenik dobije obavijest.</div></div>
+    <div class="flow__step student"><div class="flow__who">Učenik</div><div class="flow__what">Piše i predaje</div><div class="small muted">Vrijeme teče, odgovori se spremaju sami.</div></div>
+    <div class="flow__step teacher"><div class="flow__who">Nastavnik</div><div class="flow__what">Ocijeni i potvrdi</div><div class="small muted">Učenik vidi bodove i službeno rješenje.</div></div>
+  </div>
+
+  <div class="mock" style="margin-top:14px" role="img" aria-label="Red za ocjenjivanje">
+    <div class="mock__top"><div class="mock__dots"><i></i><i></i><i></i></div><div class="mock__url">ADRESA_APLIKACIJE/app/ocjenjivanje</div></div>
+    <div class="mock__bar"></div>
+    <div class="mock__body">
+      <div class="row" style="margin-bottom:12px"><span class="btn btn--primary btn--hl">Pošalji test</span><span class="btn">Odgovori iz vježbe koji čekaju nastavnika (2)</span></div>
+      <div class="legend">Setovi koji čekaju odobrenje (2)</div>
+      <div class="scroll">
+      <table class="t">
+        <tbody>
+          <tr><td><strong>Učenik 1</strong></td><td>Matematika</td><td>Dio testa (pozicije 5, 6, 7), test nastavnika</td><td><span class="status st-wait">Čeka odobrenje</span></td></tr>
+          <tr><td><strong>Učenik 3</strong></td><td>Matematika</td><td>Dio testa (pozicije 5, 6, 7), test nastavnika</td><td><span class="status st-wait">Čeka odobrenje</span></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="legend" style="margin-top:14px">Predani ispiti za ocjenjivanje (1)</div>
+      <div class="scroll">
+      <table class="t"><tbody><tr><td><strong>Učenik 2</strong></td><td>Matematika</td><td>Cijeli test</td><td><span class="status st-blue">neocijenjeno 3 od 10</span></td></tr></tbody></table>
+      </div>
+    </div>
+    <div class="mock__caption">Primjer prikaza s izmišljenim podacima.</div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="block" id="pedagog" aria-labelledby="h-pedagog">
+  <div class="section-head"><h2 id="h-pedagog"><span class="num">5</span>Pedagog: prvi koraci</h2><span class="time">2 minute</span></div>
+  <p class="note note--info">Prvi korak je da odete na <strong>ADRESA_APLIKACIJE</strong>, kliknete <span class="ui">Prijava</span> i prijavite se sa <code>pedagog@idss.ba</code>.</p>
+  <div class="grid-2" style="margin-top:22px">
+    <ol class="steps">
+      <li><h4><span class="verb">Otvorite</span> <span class="ui">Praćenje učenika</span></h4><p>Tabela svih učenika: zadnja aktivnost, dani vježbe i po predmetu savladano, tačnost, zadnji probni ispit i spremnost.</p></li>
+      <li><h4><span class="verb">Provjerite</span> ko je zastao</h4><p>U filteru <span class="ui">Bez vježbe zadnjih N dana</span> <span class="verb">unesite</span> broj dana, npr. 7. Filter <span class="ui">Zadnji probni ispit slabiji od prethodnog</span> pokazuje kome treba podrška.</p></li>
+      <li><h4><span class="verb">Kliknite</span> ime učenika</h4><p>Kalendar aktivnosti, pokazatelji po predmetu, ponovljene greške, zadaci nastavnika i probni ispiti.</p></li>
+      <li><h4><span class="verb">Unesite</span> bilješku podrške</h4><p>Na dnu profila: vrsta, datum sljedećeg koraka i tekst. Vaše bilješke po zadanom vidi i psiholog.</p></li>
+      <li><h4><span class="ui">Analiza grupe</span> za sastanke</h4><p>Zbirna slika bez imena; <span class="ui">Štampaj ili sačuvaj PDF</span> i <span class="ui">Izvoz CSV</span>.</p></li>
+    </ol>
+    <div class="mock" role="img" aria-label="Praćenje učenika s filterima">
+      <div class="mock__top"><div class="mock__dots"><i></i><i></i><i></i></div><div class="mock__url">ADRESA_APLIKACIJE/app/pracenje</div></div>
+      <div class="mock__bar"></div>
+      <div class="mock__body">
+        <div class="mock__title">Praćenje učenika</div>
+        <div class="mock__sub">Napredak svakog učenika po predmetu</div>
+        <div class="row" style="margin-bottom:12px">
+          <div class="field"><label>Predmet</label><div class="input">Svi predmeti</div></div>
+          <div class="field"><label>Bez vježbe zadnjih N dana</label><div class="input input--hl">7</div></div>
+          <div class="field"><label>&nbsp;</label><div class="choice"><span class="box on"></span>Zadnji probni ispit slabiji od prethodnog</div></div>
+        </div>
+        <div class="scroll">
+        <table class="t">
+          <thead><tr><th>Učenik</th><th>Zadnja aktivnost</th><th>Dani vježbe (7 / 30)</th><th>Matematika</th></tr></thead>
+          <tbody>
+            <tr><td><a>Učenik 4</a></td><td>25.09.2026.</td><td>0 / 6</td><td>tačnost 52 %, <span class="status st-red">ispit 6 / 10, prije 8</span></td></tr>
+            <tr><td><a>Učenik 7</a></td><td>22.09.2026.</td><td>0 / 3</td><td>tačnost 61 %, <span class="status st-wait">još nije dostupno</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="mock__caption">Primjer prikaza s izmišljenim podacima. Sistem pokazuje činjenice, bez oznaka o učeniku.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="block" id="psiholog" aria-labelledby="h-psiholog">
+  <div class="section-head"><h2 id="h-psiholog"><span class="num">6</span>Psiholog: prvi koraci</h2><span class="time">2 minute</span></div>
+  <p class="note note--info">Prvi korak je da odete na <strong>ADRESA_APLIKACIJE</strong>, kliknete <span class="ui">Prijava</span> i prijavite se sa <code>psiholog@idss.ba</code>.</p>
+  <div class="grid-2" style="margin-top:22px">
+    <div class="mock" role="img" aria-label="Profil učenika: kalendar i bilješka podrške">
+      <div class="mock__top"><div class="mock__dots"><i></i><i></i><i></i></div><div class="mock__url">ADRESA_APLIKACIJE/app/pracenje/ucenik</div></div>
+      <div class="mock__bar"></div>
+      <div class="mock__body">
+        <div class="legend">Kalendar aktivnosti (60 dana)</div>
+        <div class="cal" aria-hidden="true"><i></i><i></i><i class="l1"></i><i></i><i class="l1"></i><i class="l1"></i><i></i><i class="l1"></i><i></i><i class="l1"></i><i></i><i></i><i class="l1"></i><i class="l2"></i><i></i><i></i><i class="l1"></i><i class="l2"></i><i class="l1"></i><i class="l1"></i><i class="l2"></i><i></i><i class="l2"></i><i></i><i></i><i></i><i></i><i class="l2"></i><i></i><i class="l1"></i><i class="l1"></i><i class="l1"></i><i class="l1"></i><i></i><i></i><i></i><i class="l1"></i><i class="l1"></i><i></i><i class="l1"></i><i class="l1"></i><i></i><i class="l2"></i><i class="l1"></i><i></i><i class="l1"></i><i class="l1"></i><i class="l2"></i><i class="l1"></i><i></i><i class="l2"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="small muted" style="margin-bottom:14px">Tamnije polje znači više odgovora tog dana.</div>
+        <div class="mock__title" style="font-size:1rem">Bilješke podrške</div>
+        <div class="row">
+          <div class="field"><label>Vrsta</label><div class="input">Razgovor s učenikom</div></div>
+          <div class="field"><label>Datum sljedećeg koraka</label><div class="input input--hl">14.10.2026.</div></div>
+        </div>
+        <div class="legend">Ko vidi</div>
+        <div class="row"><span class="choice"><span class="radio on"></span>Samo ja</span><span class="choice"><span class="radio"></span>Pedagog i psiholog</span></div>
+        <div class="field" style="margin-top:8px"><label>Bilješka</label><div class="input" style="min-height:56px">Dogovor: 15 minuta vježbe dnevno, provjera za sedmicu dana.</div></div>
+        <span class="btn btn--primary btn--hl">Sačuvaj bilješku</span>
+      </div>
+      <div class="mock__caption">Primjer prikaza. Bilješke podrške ne vide nastavnici, učenici ni direktor; ne idu u štampu ni u izvoz.</div>
+    </div>
+    <ol class="steps">
+      <li><h4><span class="verb">Otvorite</span> <span class="ui">Praćenje učenika</span></h4><p>Ista tabela kao kod pedagoga, za sva tri predmeta.</p></li>
+      <li><h4><span class="verb">Provjerite</span> aktivnost</h4><p>Filter <span class="ui">Bez vježbe zadnjih N dana</span>, pa <span class="verb">unesite</span> broj dana.</p></li>
+      <li><h4><span class="verb">Kliknite</span> ime učenika</h4><p>Kalendar aktivnosti i tok probnih ispita, poređenje s vlastitim prethodnim ispitom učenika.</p></li>
+      <li><h4><span class="verb">Unesite</span> bilješku podrške</h4><p>S datumom sljedećeg koraka. Vaše bilješke su po zadanom <span class="ui">Samo ja</span>; možete izabrati i <span class="ui">Pedagog i psiholog</span>. Upisana bilješka se ne mijenja; ispravka je nova bilješka.</p></li>
+      <li><h4><span class="ui">Dogovoreni sljedeći koraci</span></h4><p>Na vrhu stranice praćenja podsjeća vas na datume iz bilješki, od jučer nadalje.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="block" id="zastita" aria-labelledby="h-zastita">
+  <div class="section-head"><h2 id="h-zastita"><span class="num">7</span>Zaštita podataka</h2><span class="time">1 minuta</span></div>
+  <div class="tiles">
+    <div class="tile"><h4>Svako vidi samo svoje</h4><p class="muted small">Prava po ulozi; nastavnik samo svoj predmet. Provjera se radi na serveru i u bazi, ne samo na ekranu.</p></div>
+    <div class="tile" style="border-top-color:var(--idss-sky)"><h4>Dnevnik pristupa</h4><p class="muted small">Svako otvaranje profila učenika i svaka važna radnja se bilježi.</p></div>
+    <div class="tile" style="border-top-color:var(--idss-yellow)"><h4>Povjerljive bilješke</h4><p class="muted small">Bilješke podrške ne idu u štampu ni u izvoz i ne vide ih nastavnici ni učenici.</p></div>
+    <div class="tile" style="border-top-color:var(--idss-red)"><h4>Spremnost nije ocjena</h4><p class="muted small">Interni pokazatelj IDSS-a iz zadnja tri ocijenjena probna ispita, nije službena procjena.</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="block" id="kraj" aria-labelledby="h-kraj">
+  <div class="section-head"><h2 id="h-kraj"><span class="num">8</span>Završetak</h2><span class="time">30 sekundi</span></div>
+  <div class="timeline">
+    <div class="tl"><strong>do 07.10.</strong>Testiranje i priprema nastavnika: potvrda planova ispita.</div>
+    <div class="tl"><strong>07.10.2026.</strong>Rezervna kopija baze, zatim brisanje svih probnih podataka.</div>
+    <div class="tl go"><strong>08.10.2026.</strong>Objava. Svi počinju od nule, sa stvarnim učenicima.</div>
+  </div>
+  <p class="speech" style="margin-top:24px">Detaljna uputstva po ulozi su u aplikaciji i u dokumentu Uputstvo za korisnike. <strong>Hvala. Pitanja?</strong></p>
+</section>
+
+<aside class="presenter" aria-labelledby="h-presenter">
+  <h3 id="h-presenter">Napomene za izlagača</h3>
+  <ul>
+    <li>Prije sastanka upisati stvarnu adresu aplikacije i provjeriti prijavu sa sva tri naloga.</li>
+    <li>Uživo pokazati nalogom nastavnika Matematike (<code>haris.hamzic@idss.ba</code>): Praćenje učenika, profil, Pošalji dio testa, odobravanje seta. Ne slati test stvarnim učenicima na prezentaciji.</li>
+    <li>Plan ispita za Njemački jezik još čeka potvrdu nastavnice; do tada probni ispit iz njemačkog nije dostupan.</li>
+    <li>Za Matematiku svaka pozicija službenog testa uzima zadatke iz svih oblasti, pa nastavnik pozicije bira po nivou (1 do 4 osnovni, 5 do 8 srednji, 9 i 10 napredni).</li>
+  </ul>
+</aside>
+
+</main>
+<footer>
+  <div class="wrap">IDSS - External Graduate Examination, Internationale Deutsche Schule Sarajevo. Prikazi ekrana su primjeri s izmišljenim podacima; stvarni ekrani mogu se neznatno razlikovati.</div>
+</footer>
+</body>
+</html>

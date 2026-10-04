@@ -137,3 +137,5 @@
 - [2026-10-04] F-04: Supabase free plan has no backups (Director screenshot); own pg_dump 17 steps refined in README (password prompted, never in the URL or chat)
 - [2026-10-04] F-04 resolved: Director pg_dump copy verified (3.26 MB, 1544 TOC entries); audit addendum, readiness, README updated
 - [2026-10-04] PR #58 found merged before the docs commits; opened PR #59 for SKRIPTA.md, 036 record and F-04
+- [2026-10-04 17:46] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/1639a183-b9a3-577d-b64a-6553cba7a517/scratchpad/skripta/template.html
+- [2026-10-04] SKRIPTA.html (standalone visual script, embedded logo, mockups); send form shows translated position formats and no longer preselects all positions when every position covers the area
