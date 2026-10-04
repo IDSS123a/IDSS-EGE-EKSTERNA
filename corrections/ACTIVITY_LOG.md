@@ -120,3 +120,4 @@
 - [2026-10-04] PDL-041 L2 refined (Vercel team idsssarajevo); README deployment steps; no Vercel project for the repo yet
 - [2026-10-04] pushStatus: malformed VAPID values reported, not thrown (Sistem tab crash reported by the Director)
 - [2026-10-04] Sprint 11 item 1: accessibility audit, axe spec, two fixes
+- [2026-10-04] Sprint 11 item 2: security adversarial pass, DB section 28

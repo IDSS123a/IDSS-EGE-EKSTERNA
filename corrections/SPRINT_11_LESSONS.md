@@ -21,6 +21,9 @@ Date: 2026-10-04 (open)
 - Opacity on a muted text lowers contrast below 4.5:1 (unearned badges, 4.35:1); muted state uses the muted ink
   colour and a dashed border instead.
 
+- A large adversarial DO block through the Supabase connector timed out after 60 s without leaving a session open;
+  split probes into small statements with `set local statement_timeout`.
+
 ## Commander Improvement Candidates
 None yet.
 

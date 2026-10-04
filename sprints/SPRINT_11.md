@@ -49,3 +49,16 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
 - [x] 1. Accessibility (WCAG 2.2 AA): `tests/e2e/accessibility.spec.ts` (axe, public pages, bs/de/en, desktop and phone,
   stable over 4 repeats); signed-in screens checked with fixtures (Game Hub, practice, staff home, Postavke, Director
   tabs): two findings fixed (badge contrast, keyboard access to scroll tables); keyboard focus visible globally.
+- [x] 2. Security adversarial pass (2026-10-04):
+  - Live, as `anon`: zero rows in every sensitive table (profiles, audit log, support and teacher notes, gifts,
+    practice answers, security events, push subscriptions).
+  - Live, as an authenticated student (rolled back): own role to superadmin 0 rows; own staff bundle refused (42501);
+    write or erase the audit log refused or 0 rows; Director functions posing as the Director refused (42501);
+    support notes, teacher notes, audit log and other students' answers 0 rows; profiles only the own row.
+  - Live catalogue: no public function executable by anon or authenticated; RLS on every public table; no write policy
+    for the API roles. DB section 28 now guards these invariants for every future migration.
+  - App layer: every action takes the actor from the session, never from the form; account changes refuse the own
+    account and superadmins; staff bundles only for administrators (existing unit tests); forged session cookie and
+    CSP injection covered by e2e; CSV formula injection covered by unit tests.
+  - Direct calls to the public API from this environment are blocked by its network policy; the same checks ran inside
+    the database under the API roles.

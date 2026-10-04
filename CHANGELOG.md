@@ -115,3 +115,4 @@
 [2026-10-04] [FIX] Sistem tab: malformed VAPID values are reported (which field) instead of crashing the page
 [2026-10-04] [A11Y] WCAG 2.2 AA: axe checks in e2e for public pages; scroll tables reachable by keyboard; unearned badge contrast
 [2026-10-04] [DEPENDENCY] @axe-core/playwright (devDependency): run npm install after git pull
+[2026-10-04] [SECURITY] Adversarial pass: live probes as anon and as a student all refused; DB section 28 guards RLS, write policies, function grants and search_path
