@@ -131,3 +131,4 @@
 - [2026-10-04] PDL-043 recorded; migration 035 live (md5-verified), DB section 29; 036 for the Director
 - [2026-10-04 16:10] Write: src/features/grading/components/send-test-screen.tsx
 - [2026-10-04] Teacher-led tests app layer: send page, labels, profile shortcuts, i18n, guide; typecheck, lint, check:text, unit 181, build, e2e 86 green
+- [2026-10-04] Migration 036 run by the Director, verified and recorded; live rolled-back send, approve and notice check passed; security advisor: only the known Auth WARN
