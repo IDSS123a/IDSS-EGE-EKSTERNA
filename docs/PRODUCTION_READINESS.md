@@ -45,3 +45,22 @@ production deploy, because testing continues until then. Not earlier.
   database refuses to change them. Proposal: export the test-phase rows to a signed file for the school archive, then
   remove them once with a dedicated, audited procedure that briefly lifts the append-only guard and records its own
   run (one row: who, when, how many). Alternative: keep them as the honest history of the setup phase.
+
+## 4. Launch day (PDL-041: Vercel team `idsssarajevo`, target 2026-10-06)
+Order: clean start the day before (section 2), then the Director's explicit go (M-23), then the import on Vercel by the
+Director (README, "Objava na Vercel"), then this verification by the ACA on the production address.
+
+### Post-deploy verification (Commander DONE_CHECKLIST)
+- [ ] The production address loads the home page and the splash leaves (not a Vercel error page).
+- [ ] Security headers present: nonce-based CSP that changes per request, no CSP violations in the console.
+- [ ] Sign-in with a staff account works; a wrong password shows the friendly message and is counted.
+- [ ] Core flows on the production address, each with zero uncaught console errors:
+  - [ ] staff home links per role; Direktorski pregled, all six tabs, Sistem shows notices on and push configured;
+  - [ ] a subject teacher opens Pregled pitanja and Ocjenjivanje;
+  - [ ] a student opens the Game Hub, answers one practice question and sees the feedback;
+  - [ ] the IDSS confirmation dialog appears on a confirm action and Cancel leaves everything unchanged.
+- [ ] Every environment variable is set in Vercel (Settings, Environment Variables): a missing one shows the error
+      page, not a code bug. Sistem tab names a malformed VAPID value.
+- [ ] Web Push: switch on "Obavijesti na ovom uređaju" on one phone and receive a test assignment notice.
+- [ ] Supabase security advisor: only the known Auth leaked-password WARN (mitigated in the app, PDL-030).
+- [ ] Inventory of section 1 re-counted: zero trial rows.
