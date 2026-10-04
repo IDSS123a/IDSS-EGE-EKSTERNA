@@ -53,3 +53,6 @@ Migration 030 verified and recorded; PDL-041 L2 refined; README deployment steps
 
 ### 2026-10-04 — No lessons this session (routine changes only)
 Migration 036 verified live and recorded; rolled-back end-to-end check of a teacher-sent part of a test.
+
+### 2026-10-04 — No lessons this session (routine changes only)
+Presentation script written from the user guide; facts checked against the live database (German blueprint not yet confirmed).
