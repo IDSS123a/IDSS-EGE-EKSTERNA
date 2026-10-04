@@ -12,17 +12,37 @@ import { logError } from "@/lib/logger";
 
 type Target = { endpoint: string; p256dh: string; auth: string; title?: string; subject?: string };
 
-let configured: boolean | null = null;
+/** off: a VAPID setting is missing; invalid: all three are set but one is malformed; on: push can be sent. */
+export type PushStatus = { state: "off" } | { state: "on" } | { state: "invalid"; field: "subject" | "publicKey" | "privateKey" };
 
-/** True when the three VAPID settings are present; configures the library once. */
-export function pushConfigured(): boolean {
-  if (configured !== null) return configured;
+let status: PushStatus | null = null;
+
+/**
+ * The VAPID settings checked once and the library configured. A malformed value (subject without "mailto:", a key
+ * with spaces or quotes, swapped keys) is reported, never thrown, so no page fails because of it; the message names
+ * only the field, never a key.
+ */
+export function pushStatus(): PushStatus {
+  if (status !== null) return status;
   const publicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
   const privateKey = process.env.VAPID_PRIVATE_KEY;
   const subject = process.env.VAPID_SUBJECT;
-  configured = Boolean(publicKey && privateKey && subject);
-  if (configured) webpush.setVapidDetails(subject as string, publicKey as string, privateKey as string);
-  return configured;
+  if (!publicKey || !privateKey || !subject) return (status = { state: "off" });
+  try {
+    webpush.setVapidDetails(subject, publicKey, privateKey);
+    status = { state: "on" };
+  } catch (error) {
+    const message = error instanceof Error ? error.message.toLowerCase() : "";
+    const field = message.includes("subject") ? "subject" : message.includes("public key") ? "publicKey" : "privateKey";
+    logError("push/pushStatus", new Error(`VAPID ${field} is malformed`));
+    status = { state: "invalid", field };
+  }
+  return status;
+}
+
+/** True when push can be sent (all three VAPID settings present and valid). */
+export function pushConfigured(): boolean {
+  return pushStatus().state === "on";
 }
 
 type Subscription = { endpoint: string; p256dh: string; auth: string };

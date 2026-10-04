@@ -6,7 +6,7 @@ import { requireAccount } from "@/features/authentication/session";
 import { DirectorScreen, type DirectorData } from "@/features/director/components/director-screen";
 import { parseAuditFilter, parsePeriod, parseTab, periodStart } from "@/features/director/domain/period";
 import { activeSchoolYearStart, directorAudit, directorContent, directorOverview, directorSubjects, directorSystem, directorTeachers } from "@/features/director/repository";
-import { pushConfigured } from "@/features/push/send";
+import { pushStatus } from "@/features/push/send";
 import { readAppSettings } from "@/features/settings/app-settings";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
@@ -47,7 +47,7 @@ async function loadTab(admin: SupabaseClient, actorUserId: string, tab: Director
   if (tab === "predmeti") return result({ tab, subjects: await directorSubjects(admin, actorUserId, since), minGroup: (await readAppSettings(admin)).minGroup });
   if (tab === "nastavnici") return result({ tab, teachers: await directorTeachers(admin, actorUserId, since) });
   if (tab === "sadrzaj") return result({ tab, content: await directorContent(admin, actorUserId), minGroup: (await readAppSettings(admin)).minGroup });
-  if (tab === "sistem") return result({ tab, system: await directorSystem(admin, actorUserId), pushConfigured: pushConfigured() });
+  if (tab === "sistem") return result({ tab, system: await directorSystem(admin, actorUserId), push: pushStatus() });
   const filter = parseAuditFilter(params);
   return result({ tab, audit: await directorAudit(admin, actorUserId, filter, AUDIT_PAGE_SIZE, (filter.page - 1) * AUDIT_PAGE_SIZE), filter, pageSize: AUDIT_PAGE_SIZE });
 }

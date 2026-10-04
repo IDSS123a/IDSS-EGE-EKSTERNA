@@ -1477,7 +1477,13 @@
         "succeeded": "succeeded",
         "failed": "failed"
       },
-      "migrations": "Latest database migrations"
+      "migrations": "Latest database migrations",
+      "pushInvalid": "Push notifications are off: the value {field} in .env.local is not valid. Correct it and restart the server.",
+      "pushFields": {
+        "subject": "VAPID_SUBJECT (must start with mailto:)",
+        "publicKey": "NEXT_PUBLIC_VAPID_PUBLIC_KEY",
+        "privateKey": "VAPID_PRIVATE_KEY"
+      }
     },
     "audit": {
       "title": "Audit log ({n} entries)",

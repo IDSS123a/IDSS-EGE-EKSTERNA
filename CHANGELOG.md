@@ -112,3 +112,4 @@
 [2026-10-04] [DOCS] PDL-041: Vercel (school account), matura.idss.ba, WCAG 2.2 AA, target launch 2026-10-06; Sprint 11 started
 [2026-10-04] [DATABASE] Migration 030 run by the Director: in-app notices for assignments and gifts are on
 [2026-10-04] [DOCS] PDL-041 L2 refined: Vercel team idsssarajevo on the Vercel address; README deployment steps
+[2026-10-04] [FIX] Sistem tab: malformed VAPID values are reported (which field) instead of crashing the page
