@@ -56,3 +56,6 @@ Migration 036 verified live and recorded; rolled-back end-to-end check of a teac
 
 ### 2026-10-04 — No lessons this session (routine changes only)
 Presentation script written from the user guide; facts checked against the live database (German blueprint not yet confirmed).
+
+### 2026-10-04 — No lessons this session (routine changes only)
+F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the cleanup.

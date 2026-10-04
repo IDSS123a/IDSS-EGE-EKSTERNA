@@ -134,3 +134,4 @@
 - [2026-10-04] Migration 036 run by the Director, verified and recorded; live rolled-back send, approve and notice check passed; security advisor: only the known Auth WARN
 - [2026-10-04 16:49] Write: docs/user-guide/SKRIPTA.md
 - [2026-10-04] Presentation script docs/user-guide/SKRIPTA.md for the external matura board meeting
+- [2026-10-04] F-04: Supabase free plan has no backups (Director screenshot); own pg_dump 17 steps refined in README (password prompted, never in the URL or chat)

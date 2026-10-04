@@ -59,14 +59,21 @@ Provjera: Direktorski pregled, kartica Sistem, "Obavijesti o zadacima i poklonim
 ## Rezervna kopija baze (prije čišćenja, audit F-04)
 1. Supabase, projekt `dezevstfmfliyasdeflj`, lijevo **Database**, pa **Backups**. Ako su tu navedene dnevne kopije
    (plaćeni plan Pro ili viši), kopija postoji: zapišite datum zadnje i javite ACA-u. Gotovo.
-2. Ako piše da kopije nisu dostupne (besplatni plan), napravite vlastitu kopiju:
-   - instalirajte PostgreSQL 17 sa https://www.postgresql.org/download/windows/ (dovoljno je "Command Line Tools");
-   - u Supabase kliknite **Connect**, izaberite **Session pooler**, kopirajte adresu i u nju upišite lozinku baze
-     (lozinka se nikad ne šalje u razgovor);
-   - u terminalu:
+2. Besplatni plan (provjereno 2026-10-04: "Free Plan does not include project backups") znači vlastitu kopiju.
+   Baza je PostgreSQL 17 (oko 26 MB), pa treba `pg_dump` verzije 17:
+   - instalirajte PostgreSQL 17 sa https://www.postgresql.org/download/windows/ (u instalaciji je dovoljno označiti
+     "Command Line Tools");
+   - u Supabase kliknite **Connect**, izaberite **Session pooler** i kopirajte adresu oblika
+     `postgresql://postgres.dezevstfmfliyasdeflj:[YOUR-PASSWORD]@aws-....pooler.supabase.com:5432/postgres`;
+     iz nje obrišite dio `:[YOUR-PASSWORD]` (lozinku će komanda tražiti sama, ne upisuje se u adresu ni u razgovor);
+   - u PowerShellu (adresu zalijepiti između navodnika):
      ```
-     "C:\Program Files\PostgreSQL\17\bin\pg_dump.exe" "ADRESA_SA_LOZINKOM" -Fc -f C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-05.dump
+     & "C:\Program Files\PostgreSQL\17\bin\pg_dump.exe" "postgresql://postgres.dezevstfmfliyasdeflj@aws-....pooler.supabase.com:5432/postgres" -Fc -f C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-07.dump
      ```
+     Na pitanje `Password:` upišite lozinku baze (ne vidi se dok kucate) i Enter. Ako lozinku ne znate: Supabase,
+     **Project Settings**, **Database**, **Reset database password** (aplikacija koristi API ključeve, ne ovu lozinku);
+   - provjera: `& "C:\Program Files\PostgreSQL\17\bin\pg_restore.exe" --list C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-07.dump | Select-Object -First 15`
+     ispiše popis sadržaja; veličina datoteke je nekoliko MB;
    - datoteka se čuva van repozitorija (sadrži lične podatke) i ne dijeli se.
 3. Katalozi (PDF) nisu dio kopije baze, ali su u repozitoriju i u pohrani; ne brišu se.
 
