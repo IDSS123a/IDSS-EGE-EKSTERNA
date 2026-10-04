@@ -1300,6 +1300,14 @@ select pg_temp.assert(jsonb_array_length(public.director_content('00000000-0000-
   'content health lists every subject');
 select pg_temp.assert((public.director_system('00000000-0000-0000-0000-00000000000a') ->> 'notification_kinds') like '%gift_given%',
   'the system view shows which notification kinds the database allows');
+-- As the app calls it: service_role, which has no usage on supabase_migrations (live failure 2026-10-04, migration 034).
+set role service_role;
+create temp table t_sys as select public.director_system('00000000-0000-0000-0000-00000000000a') as s;
+reset role;
+select pg_temp.assert((select jsonb_array_length(s -> 'migrations') from t_sys) >= 1 and not exists (select 1 from t_sys, jsonb_array_elements(s -> 'migrations') m where m ? 'statements'),
+  'the system view works as service_role and lists migrations by version and name only');
+select pg_temp.assert(not has_function_privilege('authenticated', 'private.recent_migrations(integer)', 'execute')
+  and not has_function_privilege('anon', 'private.recent_migrations(integer)', 'execute'), 'no other role reads the migration history');
 create temp table t_aud as select public.director_audit('00000000-0000-0000-0000-00000000000a', 'gift.given', null, null, null, 50, 0) as a;
 select pg_temp.assert((select (a ->> 'total')::int from t_aud) = 2 and not exists (select 1 from t_aud, jsonb_array_elements(a -> 'rows') r where r::text like '%geometriji%'),
   'the audit log filters by action and never shows a gift message (K4)');

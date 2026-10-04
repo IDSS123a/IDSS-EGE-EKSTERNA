@@ -114,3 +114,4 @@
 - [2026-10-04 10:50] Edit: README.md
 - [2026-10-04 10:50] Write: sprints/SPRINT_11.md
 - [2026-10-04] README: VAPID and migration 030 steps with exact Windows paths; Sprint 11 draft plan (L1 to L4)
+- [2026-10-04] IDSS confirmation dialog replaces window.confirm (10 places); migration 034 live (Sistem tab fix)

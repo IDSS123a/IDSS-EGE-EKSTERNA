@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, type FormEvent, type ReactNode } from "react";
+import { useActionState, type ReactNode } from "react";
 import { REVIEW_PATH, REVIEW_REGION_MARGIN_POINTS, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
 import { flagKey } from "@/features/ingestion/domain/report";
@@ -14,6 +14,7 @@ import type { AnswerKeyView, ErratumView, FollowUpView, QueueFilter, RecordForRe
 import { queueHref } from "./review-queue-screen";
 import { ReviewShell } from "./review-shell";
 import { SourceRegion } from "./source-region";
+import { useConfirmSubmit } from "@/features/shell/components/confirm-dialog";
 
 type Props = {
   review: RecordForReview;
@@ -151,10 +152,7 @@ function DecisionForm({ review }: { review: RecordForReview }): ReactNode {
   const defaultType = REVIEW_TASK_TYPES.find((type) => type === extractedType) ?? "";
   const canAccept = review.structuralStatus !== "failed";
 
-  const confirmAccept = (event: FormEvent<HTMLFormElement>): void => {
-    const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
-    if (submitter?.value === "accepted" && !window.confirm(labels.decision.confirmAccept)) event.preventDefault();
-  };
+  const confirmAccept = useConfirmSubmit((submitter) => (submitter?.value === "accepted" ? labels.decision.confirmAccept : null));
 
   return (
     <section className="card" aria-labelledby="decision-title">
@@ -205,9 +203,7 @@ function ErrataSection({ review, versionId, canEdit }: { review: RecordForReview
   const labels = dictionary.review;
   const [result, formAction, pending] = useActionState<ReviewActionResult | null, FormData>(recordErratumAction, null);
   const items = review.answerKeys.map((key) => key.itemNumber).filter((item): item is number => item !== null);
-  const confirmSave = (event: FormEvent<HTMLFormElement>): void => {
-    if (!window.confirm(labels.errata.confirm)) event.preventDefault();
-  };
+  const confirmSave = useConfirmSubmit(() => labels.errata.confirm);
 
   return (
     <section className="card" aria-labelledby="errata-title">

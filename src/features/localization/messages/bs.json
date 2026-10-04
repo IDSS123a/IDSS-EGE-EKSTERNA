@@ -229,7 +229,10 @@
     "errorTitle": "Stranica trenutno nije dostupna.",
     "errorBody": "Podaci se nisu mogli učitati. Pokušajte ponovo za trenutak.",
     "retry": "Pokušaj ponovo",
-    "loading": "Učitavanje"
+    "loading": "Učitavanje",
+    "confirmTitle": "Potvrda",
+    "confirmYes": "Potvrdi",
+    "confirmNo": "Odustani"
   },
   "ingestion": {
     "title": "Izdvajanje pitanja",

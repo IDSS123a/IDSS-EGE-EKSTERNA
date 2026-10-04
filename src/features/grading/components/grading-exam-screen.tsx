@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, type FormEvent, type ReactNode } from "react";
+import { useActionState, type ReactNode } from "react";
 import { GRADING_PATH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
 import { formatPoints, groupByPosition } from "@/features/exams/domain/exam";
@@ -10,6 +10,7 @@ import { ReviewShell } from "@/features/review/components/review-shell";
 import { approveSetAction, confirmGradesAction, discardSetAction, saveGradesAction } from "../actions";
 import { pairChoices } from "../domain/blueprint";
 import type { GradingActionResult, GradingView } from "../types";
+import { useConfirmSubmit } from "@/features/shell/components/confirm-dialog";
 
 /**
  * One mock exam for a teacher (Sprint 07, P-15). A set waiting for approval shows every question as printed with its
@@ -48,9 +49,7 @@ function ApprovalForms({ exam }: { exam: GradingView }): ReactNode {
   const [approved, approveAction, approving] = useActionState<GradingActionResult | null, FormData>(approveSetAction, null);
   const [discarded, discardAction, discarding] = useActionState<GradingActionResult | null, FormData>(discardSetAction, null);
   const done = approved?.success || discarded?.success;
-  const confirmApprove = (event: FormEvent<HTMLFormElement>): void => {
-    if (!window.confirm(labels.exam.confirmApprove)) event.preventDefault();
-  };
+  const confirmApprove = useConfirmSubmit(() => labels.exam.confirmApprove);
 
   return (
     <section className="card" aria-label={labels.exam.decision}>
@@ -91,9 +90,7 @@ function GradesForm({ exam, lang }: { exam: GradingView; lang: string }): ReactN
   const labels = dictionary.grading;
   const [saved, saveAction, saving] = useActionState<GradingActionResult | null, FormData>(saveGradesAction, null);
   const [confirmed, confirmAction, confirming] = useActionState<GradingActionResult | null, FormData>(confirmGradesAction, null);
-  const confirmResult = (event: FormEvent<HTMLFormElement>): void => {
-    if (!window.confirm(labels.exam.confirmResult)) event.preventDefault();
-  };
+  const confirmResult = useConfirmSubmit(() => labels.exam.confirmResult);
 
   return (
     <>

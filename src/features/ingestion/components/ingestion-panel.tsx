@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, type FormEvent, type ReactNode } from "react";
+import { useActionState, type ReactNode } from "react";
 import { formatDateTime } from "@/features/canon/components/format";
 import type { CanonVersionStatus } from "@/features/canon/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -8,6 +8,7 @@ import { runIngestionAction } from "../actions";
 import { groupFlags } from "../domain/report";
 import type { IngestionJobSummary } from "../repository";
 import type { IngestionActionResult, IngestionErrorCode } from "../types";
+import { useConfirmSubmit } from "@/features/shell/components/confirm-dialog";
 
 const INGESTIBLE: CanonVersionStatus[] = ["active", "validation_required"];
 
@@ -19,11 +20,9 @@ export function IngestionPanel({ versionId, status, job, canPublish }: { version
   const { dictionary, locale } = useI18n();
   const labels = dictionary.ingestion;
   const [result, formAction, pending] = useActionState<IngestionActionResult | null, FormData>(runIngestionAction, null);
+  const confirmRun = useConfirmSubmit(() => labels.confirm);
   if (!INGESTIBLE.includes(status) && !job) return null;
 
-  const confirmRun = (event: FormEvent<HTMLFormElement>): void => {
-    if (!window.confirm(labels.confirm)) event.preventDefault();
-  };
   const counts = job?.counts ?? {};
   const rows: [string, number | undefined][] = [
     [labels.units, counts.units],

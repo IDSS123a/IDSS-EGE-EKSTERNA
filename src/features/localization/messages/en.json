@@ -229,7 +229,10 @@
     "errorTitle": "This page is currently unavailable.",
     "errorBody": "The data could not be loaded. Please try again in a moment.",
     "retry": "Try again",
-    "loading": "Loading"
+    "loading": "Loading",
+    "confirmTitle": "Confirmation",
+    "confirmYes": "Confirm",
+    "confirmNo": "Cancel"
   },
   "ingestion": {
     "title": "Question extraction",

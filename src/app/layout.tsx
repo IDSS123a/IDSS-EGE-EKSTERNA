@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { Inter, Sora } from "next/font/google";
 import { BRAND_LOGO_PATH, SPLASH_SCRIPT_PATH, SPLASH_STYLESHEET_PATH } from "@/constants";
 import { I18nProvider } from "@/features/localization/i18n-provider";
+import { ConfirmProvider } from "@/features/shell/components/confirm-dialog";
 import { getDictionary, getRequestLocale } from "@/features/localization/server";
 import { SiteFooter } from "@/features/shell/components/site-footer";
 import { SplashScreen } from "@/features/splash/components/splash-screen";
@@ -62,9 +63,11 @@ export default async function RootLayout({ children }: { children: ReactNode }):
       <body>
         <SplashScreen locale={locale} dictionary={dictionary} firstIndex={firstSplashIndex} />
         <I18nProvider initialLocale={locale}>
-          {children}
-          <SiteFooter />
-          <SplashReadySignal />
+          <ConfirmProvider>
+            {children}
+            <SiteFooter />
+            <SplashReadySignal />
+          </ConfirmProvider>
         </I18nProvider>
         <Script src={SPLASH_SCRIPT_PATH} strategy="beforeInteractive" nonce={nonce} />
       </body>

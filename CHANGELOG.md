@@ -106,3 +106,5 @@
 [2026-10-04] [FEATURE] Direktorski pregled /app/direktor (PDL-040): Pregled, Predmeti, Nastavnici, Sadržaj, Sistem, Dnevnik; small-group protection; IDSS print; CSV for teachers and the audit log (audited)
 [2026-10-04] [FEATURE] Postavke: daily mission goal, IDSS points and badges, minimum group, each with history
 [2026-10-04] [DOCS] README: VAPID keys and migration 030 steps for the Director; Sprint 11 draft plan (L1 to L4)
+[2026-10-04] [UX] In-app confirmation dialog in the IDSS look replaces every browser confirm box (ten places)
+[2026-10-04] [FIX] Migration 034: the Sistem tab of the Director overview works as service_role (migration list via private.recent_migrations)

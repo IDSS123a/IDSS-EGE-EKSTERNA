@@ -229,7 +229,10 @@
     "errorTitle": "Die Seite ist derzeit nicht verfügbar.",
     "errorBody": "Die Daten konnten nicht geladen werden. Bitte gleich erneut versuchen.",
     "retry": "Erneut versuchen",
-    "loading": "Wird geladen"
+    "loading": "Wird geladen",
+    "confirmTitle": "Bestätigung",
+    "confirmYes": "Bestätigen",
+    "confirmNo": "Abbrechen"
   },
   "ingestion": {
     "title": "Aufgaben extrahieren",

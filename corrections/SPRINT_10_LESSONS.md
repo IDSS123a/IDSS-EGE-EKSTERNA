@@ -17,6 +17,15 @@ None yet.
   running across `git pull` (stale compiled modules). The pull instructions now say: stop the server, delete `.next`,
   `npm install`, start again. Before suspecting the code, read the Supabase logs of the Director's session.
 
+- 2026-10-04 (caught by the Director): the Sistem tab failed live with 403. `director_system` read
+  `supabase_migrations.schema_migrations`, and service_role has no usage on that schema. The live probe ran as the
+  owner and the local stub had no such schema, so neither saw it. Fix: migration 034 (security definer
+  `private.recent_migrations`), the stub mirrors the schema without grants, and the DB test calls the function as
+  service_role. Rule: a live probe of an app function runs under `set local role service_role`, the way the app calls it.
+- 2026-10-04 (Director): the browser's own confirm box looked foreign to the app. All ten `window.confirm` calls now use
+  the IDSS dialog (`ConfirmProvider`, `useConfirmSubmit`); the global CSS reset removes the dialog's auto-centring,
+  so the dialog sets `position: fixed; inset: 0; margin: auto` itself.
+
 ## Commander Improvement Candidates
 None yet.
 
