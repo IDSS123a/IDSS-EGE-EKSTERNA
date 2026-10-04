@@ -8,11 +8,13 @@ import { RegistryFunctionError } from "@/features/canon/repository";
 import { StudentProfileScreen } from "@/features/support/components/student-profile-screen";
 import { assignmentsOfPerson } from "@/features/assignments/repository";
 import { giftsOfPerson } from "@/features/gifts/repository";
+import { listSubjects } from "@/features/knowledge/repository";
+import type { SubjectCode } from "@/features/knowledge/types";
 import { readAppSettings } from "@/features/settings/app-settings";
 import { studentProfile, teacherNotes } from "@/features/support/repository";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
-import { canGiveGifts, canViewStudentProgress, canWriteTeacherNotes } from "@/lib/permissions";
+import { canGiveGifts, canGradeSubject, canViewStudentProgress, canWriteTeacherNotes, hasSubjectCapability } from "@/lib/permissions";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -26,7 +28,7 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
   if (!canViewStudentProgress(account)) return <ForbiddenScreen />;
   const { student } = await params;
   if (!UUID.test(student)) notFound();
-  let profile, notes, assignments, gifts;
+  let profile, notes, assignments, gifts, shortcuts: { assign: SubjectCode[]; send: SubjectCode[] };
   try {
     const admin = createSupabaseAdminClient();
     profile = await studentProfile(admin, {
@@ -35,6 +37,12 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
       missionGoal: (await readAppSettings(admin)).missionGoal,
       ipAddress: clientIpFrom((await headers()).get("x-forwarded-for")),
     });
+    const subjects = await listSubjects(admin);
+    // Shortcuts from a weak area (PDL-043): only for subjects the reader may assign practice in or send tests in.
+    shortcuts = {
+      assign: subjects.filter((subject) => hasSubjectCapability(account, "assignments.manage", subject.id)).map((subject) => subject.code),
+      send: subjects.filter((subject) => canGradeSubject(account, subject.id)).map((subject) => subject.code),
+    };
     [notes, assignments, gifts] = await Promise.all([
       canWriteTeacherNotes(account) ? teacherNotes(admin, account.userId, student) : Promise.resolve(null),
       assignmentsOfPerson(admin, account.userId, student),
@@ -46,5 +54,5 @@ export default async function StudentProfilePage({ params }: { params: Promise<{
     logError("app/pracenje/[student]/page", error);
     throw error;
   }
-  return <StudentProfileScreen profile={profile} teacherNotes={notes} assignments={assignments} gifts={gifts} canGiveGifts={canGiveGifts(account)} />;
+  return <StudentProfileScreen profile={profile} teacherNotes={notes} assignments={assignments} gifts={gifts} canGiveGifts={canGiveGifts(account)} shortcuts={shortcuts} />;
 }

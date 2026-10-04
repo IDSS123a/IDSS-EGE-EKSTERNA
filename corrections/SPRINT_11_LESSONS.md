@@ -42,3 +42,11 @@ Date: 2026-10-04 (open)
 
 ### 2026-10-04 — No lessons this session (routine changes only)
 Migration 030 verified and recorded; PDL-041 L2 refined; README deployment steps.
+
+### 2026-10-04 — Teacher-sent sets and the approval gate
+- A set the teacher sent is visible to the student in the overview as soon as it exists (one open exam per subject),
+  which would leak the teacher's message before approval (T4). The student screens now show only "the teacher is
+  preparing a test" until approval; check every new exam field against the approval gate.
+- A part of a test mixed into the profile trend compared points of different maxima; trends compare only exams of the
+  same kind and positions.
+

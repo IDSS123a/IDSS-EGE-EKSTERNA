@@ -14,6 +14,9 @@ Prijava: `nizama.memija@idss.ba`. Vaša prava važe samo za B/H/S jezik i knjiž
    izabranim, s rokom, i pratite ko je završio.
 5. **Poseban poklon**: na profilu učenika pošaljite jedan od šest 3D poklona s ličnom porukom, kad god želite
    nagraditi trud.
+6. **Pošalji test**: u Ocjenjivanju dugme **Pošalji test**; cijeli test ili samo pozicije gdje je učenik slabiji, s
+   vremenom koje Vi odredite, grupi ili pojedinim učenicima. Svaki set odobravate prije nego što ga učenik vidi. Na
+   profilu učenika, kod slabe oblasti, prečica **Pošalji dio testa** sve popuni umjesto Vas.
 
 ## Posebno za B/H/S
 - Zadaci povezivanja ocjenjuju se brojem tačnih parova; bodove računa službeno pravilo (2 ili 3 para 0,5 boda, 4 para 1

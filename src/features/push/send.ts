@@ -1,6 +1,6 @@
 import "server-only";
 import webpush from "web-push";
-import { ASSIGNMENTS_PUSH_URL, VITRINA_PATH } from "@/constants";
+import { ASSIGNMENTS_PUSH_URL, EXAM_PATH, VITRINA_PATH } from "@/constants";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError } from "@/lib/logger";
 
@@ -86,3 +86,13 @@ export async function notifyGift(giftId: string): Promise<number> {
   const list = await targets("push_targets_of_gift", { p_gift: giftId });
   return send(list, { body: "Imaš poseban poklon od nastavnika. Otvori ga u svojoj vitrini.", url: VITRINA_PATH, tag: `gift-${giftId}` });
 }
+
+/** "The teacher sent you a test" once the teacher approved the set (PDL-043 T4); nothing for a set the student asked for. */
+export async function notifyExamSent(examId: string): Promise<number> {
+  if (!pushConfigured()) return 0;
+  const list = await targets("push_targets_of_exam", { p_exam: examId }) as (Target & { kind?: string })[];
+  if (list.length === 0) return 0;
+  const body = list[0]?.kind === "part" ? "Nastavnik ti je poslao dio testa. Otvori ga u probnim ispitima." : "Nastavnik ti je poslao probni ispit. Otvori ga u probnim ispitima.";
+  return send(list, { body, url: `${EXAM_PATH}/${examId}`, tag: `exam-${examId}` });
+}
+

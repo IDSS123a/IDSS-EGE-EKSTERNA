@@ -129,3 +129,5 @@
 - [2026-10-04 13:53] Write: docs/architecture/TEACHER_LED_TESTS.md
 - [2026-10-04] Product logic check (teacher owns the process): gap found, proposal docs/architecture/TEACHER_LED_TESTS.md (T1 to T6)
 - [2026-10-04] PDL-043 recorded; migration 035 live (md5-verified), DB section 29; 036 for the Director
+- [2026-10-04 16:10] Write: src/features/grading/components/send-test-screen.tsx
+- [2026-10-04] Teacher-led tests app layer: send page, labels, profile shortcuts, i18n, guide; typecheck, lint, check:text, unit 181, build, e2e 86 green

@@ -170,6 +170,8 @@ export const EXAM_PATH = "/app/ispit";
 export const EXAM_AUTOSAVE_MS = 20_000;
 /** Teachers' mock exam area: blueprints, set approval and grading (Sprint 07). */
 export const GRADING_PATH = "/app/ocjenjivanje";
+/** Teacher sends a whole test or a part to a group or chosen students (PDL-043). */
+export const SEND_TEST_PATH = "/app/ocjenjivanje/posalji";
 /** Notifications shown on the home and grading screens. */
 export const NOTIFICATIONS_LIMIT = 20;
 /** Pwned Passwords range API (PDL-030): the 5-character SHA-1 prefix is appended. */

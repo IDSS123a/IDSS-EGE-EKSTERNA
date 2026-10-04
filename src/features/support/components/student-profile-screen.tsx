@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState, type ReactNode } from "react";
-import { SUPPORT_PATH } from "@/constants";
+import { ASSIGNMENTS_PATH, SEND_TEST_PATH, SUPPORT_PATH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
-import { formatPoints } from "@/features/exams/domain/exam";
+import { formatPoints, testLabel } from "@/features/exams/domain/exam";
+import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
 import type { PersonAssignment } from "@/features/assignments/types";
 import { ProfileGifts } from "@/features/gifts/components/profile-gifts";
@@ -21,7 +23,9 @@ const KINDS: NoteKind[] = ["student_talk", "parent_talk", "agreement", "observat
  * activity, mock exam trend against the student's own results, IDSS readiness (PDL-032), and support notes for the
  * pedagogue and the psychologist (D1 to D3). Opening this page is recorded in the access audit.
  */
-export function StudentProfileScreen({ profile, teacherNotes, assignments, gifts, canGiveGifts }: { profile: StudentProfile; teacherNotes: TeacherNote[] | null; assignments: PersonAssignment[]; gifts: Gift[]; canGiveGifts: boolean }): ReactNode {
+type Shortcuts = { assign: SubjectCode[]; send: SubjectCode[] };
+
+export function StudentProfileScreen({ profile, teacherNotes, assignments, gifts, canGiveGifts, shortcuts }: { profile: StudentProfile; teacherNotes: TeacherNote[] | null; assignments: PersonAssignment[]; gifts: Gift[]; canGiveGifts: boolean; shortcuts: Shortcuts }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.support;
   const activeDays = new Map(profile.days.map((day) => [day.day, day.answers]));
@@ -50,7 +54,7 @@ export function StudentProfileScreen({ profile, teacherNotes, assignments, gifts
       </section>
 
       {profile.subjects.map((subject) => (
-        <SubjectSection key={subject.code} subject={subject}>
+        <SubjectSection key={subject.code} subject={subject} personId={profile.personId} shortcuts={shortcuts}>
           {teacherNotes && <TeacherNotes personId={profile.personId} subject={subject.code} notes={teacherNotes.filter((note) => note.subject === subject.code)} />}
         </SubjectSection>
       ))}
@@ -63,7 +67,7 @@ export function StudentProfileScreen({ profile, teacherNotes, assignments, gifts
   );
 }
 
-function SubjectSection({ subject, children }: { subject: ProfileSubject; children?: ReactNode }): ReactNode {
+function SubjectSection({ subject, personId, shortcuts, children }: { subject: ProfileSubject; personId: string; shortcuts: Shortcuts; children?: ReactNode }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.support;
   const percent = (part: number, whole: number) => {
@@ -71,7 +75,11 @@ function SubjectSection({ subject, children }: { subject: ProfileSubject; childr
     return value === null ? labels.cell.noData : `${value} %`;
   };
   const weakest = subject.areas.filter((area) => area.answered > 0).sort((a, b) => a.correct / a.answered - b.correct / b.answered);
-  const graded = subject.exams.filter((exam) => exam.status === "graded" && exam.points !== null);
+  // A part of a test is no mock exam result (PDL-043 T5): the dimension shows whole tests only.
+  const graded = subject.exams.filter((exam) => exam.status === "graded" && exam.points !== null && exam.kind === "full");
+  const canAssign = shortcuts.assign.includes(subject.code);
+  const canSend = shortcuts.send.includes(subject.code);
+  const areaLink = (base: string, area: string) => `${base}?${new URLSearchParams({ predmet: subject.code, ucenik: personId, oblast: area }).toString()}`;
 
   return (
     <section className="card" aria-labelledby={`profile-${subject.code}`}>
@@ -88,13 +96,19 @@ function SubjectSection({ subject, children }: { subject: ProfileSubject; childr
         <summary>{labels.profile.areas}</summary>
         <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
-            <thead><tr><th>{labels.profile.area}</th><th>{labels.profile.answered}</th><th>{labels.profile.correctShare}</th></tr></thead>
+            <thead><tr><th>{labels.profile.area}</th><th>{labels.profile.answered}</th><th>{labels.profile.correctShare}</th>{(canAssign || canSend) && <th><span className="sr-only">{labels.profile.assignArea}</span></th>}</tr></thead>
             <tbody>
               {(weakest.length > 0 ? weakest : subject.areas).map((area) => (
                 <tr key={`${area.ordinal}-${area.area}`}>
                   <td>{area.area}</td>
                   <td>{area.answered} / {area.total}</td>
                   <td>{percent(area.correct, area.answered)}</td>
+                  {(canAssign || canSend) && (
+                    <td className="no-print">
+                      {canAssign && <Link href={areaLink(ASSIGNMENTS_PATH, area.area)} className="support-cell">{labels.profile.assignArea}</Link>}
+                      {canSend && <Link href={areaLink(SEND_TEST_PATH, area.area)} className="support-cell">{labels.profile.sendPart}</Link>}
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -124,11 +138,14 @@ function SubjectSection({ subject, children }: { subject: ProfileSubject; childr
             <thead><tr><th>{labels.profile.examDate}</th><th>{labels.profile.examPoints}</th><th>{labels.profile.examTime}</th><th>{labels.profile.examEmpty}</th></tr></thead>
             <tbody>
               {subject.exams.map((exam, index) => {
-                const previous = subject.exams.slice(0, index).reverse().find((entry) => entry.points !== null);
+                const previous = subject.exams.slice(0, index).reverse().find((entry) => entry.points !== null && entry.kind === exam.kind && String(entry.positions) === String(exam.positions));
                 const change = exam.points !== null && previous?.points != null ? exam.points - previous.points : null;
                 return (
                   <tr key={exam.id}>
-                    <td>{exam.submittedAt ? formatDateTime(exam.submittedAt, locale) : ""}</td>
+                    <td>
+                      {exam.submittedAt ? formatDateTime(exam.submittedAt, locale) : ""}
+                      {(exam.kind === "part" || exam.sent) && <span className="form__hint support-cell">{testLabel(exam.kind, exam.positions, { full: dictionary.exam.kindFull, part: dictionary.exam.kindPart })}{exam.sent ? `, ${dictionary.grading.queue.sent}` : ""}</span>}
+                    </td>
                     <td>
                       {exam.points === null ? labels.profile.awaitingGrade : `${formatPoints(exam.points, locale)} / ${formatPoints(exam.max, locale)}`}
                       {change !== null && change !== 0 && ` (${change > 0 ? "+" : ""}${formatPoints(change, locale)})`}

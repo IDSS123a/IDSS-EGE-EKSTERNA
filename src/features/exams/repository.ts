@@ -53,6 +53,10 @@ export type ViewRow = {
   minutes: number | null;
   total_points: number | string | null;
   server_now: string;
+  kind?: "full" | "part";
+  positions?: number[] | null;
+  sent_by?: string | null;
+  note?: string | null;
   items: UnitRow[];
   questions: Record<string, Omit<QuestionRow, "errata"> & { errata?: ErratumRow[] }>;
 };
@@ -82,6 +86,10 @@ export function toExamView(row: ViewRow): ExamView {
     minutes: row.minutes,
     totalPoints: num(row.total_points),
     serverNow: row.server_now,
+    kind: row.kind ?? "full",
+    positions: row.positions ?? null,
+    sentBy: row.sent_by ?? null,
+    note: row.note ?? null,
     units: (row.items ?? []).map((unit) => ({
       id: unit.id,
       position: unit.position,
@@ -106,8 +114,8 @@ export function toExamView(row: ViewRow): ExamView {
 /** mock_exam_overview: subjects with availability and the open exam, and the student's earlier exams. */
 export async function examOverview(admin: SupabaseClient, actorUserId: string): Promise<ExamOverview> {
   const raw = await call<{
-    subjects: { subject_id: string; subject_code: SubjectCode; available: boolean; minutes: number | null; total_points: number | string | null; open_exam_id: string | null; open_status: ExamStatus | null }[];
-    exams: { id: string; subject_code: SubjectCode; status: ExamStatus; created_at: string; submitted_at: string | null; graded_at: string | null; max_points: number | string; total_points: number | string | null }[];
+    subjects: { subject_id: string; subject_code: SubjectCode; available: boolean; minutes: number | null; total_points: number | string | null; open_exam_id: string | null; open_status: ExamStatus | null; open_kind?: "full" | "part" | null; open_sent?: boolean | null }[];
+    exams: { id: string; subject_code: SubjectCode; status: ExamStatus; kind?: "full" | "part"; positions?: number[] | null; sent?: boolean; created_at: string; submitted_at: string | null; graded_at: string | null; max_points: number | string; total_points: number | string | null }[];
   }>(admin, "mock_exam_overview", { p_actor: actorUserId });
   return {
     subjects: raw.subjects.map((subject) => ({
@@ -118,11 +126,16 @@ export async function examOverview(admin: SupabaseClient, actorUserId: string): 
       totalPoints: num(subject.total_points),
       openExamId: subject.open_exam_id,
       openStatus: subject.open_status,
+      openKind: subject.open_kind ?? null,
+      openSent: subject.open_sent === true,
     })),
     exams: raw.exams.map((exam) => ({
       id: exam.id,
       subjectCode: exam.subject_code,
       status: exam.status,
+      kind: exam.kind ?? "full",
+      positions: exam.positions ?? null,
+      sent: exam.sent === true,
       createdAt: exam.created_at,
       submittedAt: exam.submitted_at,
       gradedAt: exam.graded_at,

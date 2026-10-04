@@ -1,6 +1,9 @@
 import type { SubjectCode } from "@/features/knowledge/types";
 import type { PracticeQuestion } from "@/features/practice/types";
 
+/** A whole mock exam, or a part (chosen positions of the official test) a teacher sent (PDL-043). */
+export type TestKind = "full" | "part";
+
 /** Life of a mock exam (migration 022): a teacher approves the set before the student starts it. */
 export type ExamStatus = "awaiting_approval" | "approved" | "in_progress" | "submitted" | "graded" | "discarded";
 
@@ -41,6 +44,12 @@ export type ExamView = {
   minutes: number | null;
   totalPoints: number | null;
   serverNow: string;
+  kind: TestKind;
+  /** Positions of the official test in a part; null for a whole test. */
+  positions: number[] | null;
+  /** The teacher who sent it, null when the student asked for it. */
+  sentBy: string | null;
+  note: string | null;
   units: ExamUnit[];
   /** Questions by version id, as printed (crop) with errata; descriptions once graded. */
   questions: Record<string, PracticeQuestion & { errataDetails: { item: number | null; description: string; evidence: string }[] }>;
@@ -55,10 +64,12 @@ export type ExamSubject = {
   totalPoints: number | null;
   openExamId: string | null;
   openStatus: ExamStatus | null;
+  openKind: TestKind | null;
+  openSent: boolean;
 };
 
 /** One earlier exam of the student. */
-export type ExamSummary = { id: string; subjectCode: SubjectCode; status: ExamStatus; createdAt: string; submittedAt: string | null; gradedAt: string | null; maxPoints: number; totalPoints: number | null };
+export type ExamSummary = { id: string; subjectCode: SubjectCode; status: ExamStatus; kind: TestKind; positions: number[] | null; sent: boolean; createdAt: string; submittedAt: string | null; gradedAt: string | null; maxPoints: number; totalPoints: number | null };
 
 export type ExamOverview = { subjects: ExamSubject[]; exams: ExamSummary[] };
 

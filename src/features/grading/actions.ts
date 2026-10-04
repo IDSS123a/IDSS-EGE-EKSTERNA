@@ -2,7 +2,7 @@
 
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
-import { GRADING_PATH } from "@/constants";
+import { GRADING_PATH, SEND_TEST_PATH } from "@/constants";
 import { auditIfFailed, formId } from "@/features/audit/failures";
 import { clientIpFrom } from "@/features/authentication/domain";
 import { getCurrentAccount } from "@/features/authentication/session";
@@ -11,10 +11,11 @@ import type { SubjectCode } from "@/features/knowledge/types";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
 import { logError, logInfo } from "@/lib/logger";
 import { canGrade, canGradeSubject, canPublishCanon, canReviewSubject } from "@/lib/permissions";
-import { BlueprintReviewSchema, GradesSchema, PracticeVerdictSchema, SetDiscardSchema } from "@/lib/validation/schemas";
+import { notifyExamSent } from "@/features/push/send";
+import { BlueprintReviewSchema, GradesSchema, PracticeVerdictSchema, SendTestSchema, SetDiscardSchema } from "@/lib/validation/schemas";
 import { blueprintConfig } from "./blueprint-config";
-import { approveSet, confirmGrades, discardSet, loadBlueprint, reviewBlueprint, reviewPracticeAnswer, saveGrades } from "./repository";
-import type { GradingActionResult, GradingErrorCode } from "./types";
+import { approveSet, confirmGrades, discardSet, loadBlueprint, reviewBlueprint, reviewPracticeAnswer, saveGrades, sendTest } from "./repository";
+import type { GradingActionResult, GradingErrorCode, SendTestResult } from "./types";
 
 /**
  * Teachers' Server Actions (Sprint 07). Each follows E-6: authenticate, authorise (lib/permissions.ts with the
@@ -22,7 +23,7 @@ import type { GradingActionResult, GradingErrorCode } from "./types";
  * the actor against the exam's or blueprint's own subject and write the audit row.
  */
 
-const KNOWN: GradingErrorCode[] = ["FORBIDDEN", "VALIDATION", "NOT_FOUND", "CLOSED", "UNGRADED", "IN_PROGRESS", "NO_BLUEPRINT", "BLUEPRINT_UNFILLABLE", "POINTS_MISMATCH", "VERSION_EXISTS"];
+const KNOWN: GradingErrorCode[] = ["FORBIDDEN", "VALIDATION", "NOT_FOUND", "CLOSED", "UNGRADED", "IN_PROGRESS", "NO_BLUEPRINT", "BLUEPRINT_UNFILLABLE", "POINTS_MISMATCH", "VERSION_EXISTS", "NO_STUDENTS"];
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const SUBJECT_CODES: SubjectCode[] = ["bhs_language_literature", "mathematics", "german"];
 
@@ -126,6 +127,8 @@ async function approve(formData: FormData): Promise<GradingActionResult> {
   } catch (error) {
     return failure(error, "grading/actions.approveSetAction");
   }
+  // A set the teacher sent reaches the student now (PDL-043); push is best effort, the in-app notice is in the database.
+  await notifyExamSent(ids.examId).catch((error: unknown) => logError("grading/actions.approveSetAction push", error));
   revalidatePath(GRADING_PATH, "layout");
   return { success: true, data: { message: "SET_APPROVED" } };
 }
@@ -247,3 +250,54 @@ async function reviewAnswer(formData: FormData): Promise<GradingActionResult> {
   revalidatePath(GRADING_PATH, "layout");
   return { success: true, data: { message: "ANSWER_REVIEWED" } };
 }
+
+/**
+ * POST (Server Action) sendTestAction (PDL-043)
+ * Role required: exams.grade for the subject.
+ * Body: FormData { subjectId, kind: full|part, position[] (part), minutes (part, T3), audience: all|chosen, personIds[], note }.
+ * Composes one set per student by the confirmed blueprint (the chosen positions for a part); every set waits for the
+ * teacher's approval (T4); students with an open mock exam in the subject are skipped and named.
+ * Errors: UNAUTHENTICATED, FORBIDDEN, VALIDATION, NO_BLUEPRINT, BLUEPRINT_UNFILLABLE, NO_STUDENTS, UNAVAILABLE.
+ */
+export async function sendTestAction(_previous: SendTestResult | null, formData: FormData): Promise<SendTestResult> {
+  const result = await send(formData);
+  return auditIfFailed(result, { action: "exam.send", entityType: "subject", entityId: formId(formData, "subjectId") });
+}
+
+async function send(formData: FormData): Promise<SendTestResult> {
+  const actor = await getCurrentAccount();
+  if (!actor) return { success: false, code: "UNAUTHENTICATED" };
+  const kind = formData.get("kind");
+  const minutes = formData.get("minutes");
+  const parsed = SendTestSchema.safeParse({
+    subjectId: formData.get("subjectId"),
+    kind,
+    positions: kind === "part" ? formData.getAll("position") : [],
+    minutes: kind === "part" && typeof minutes === "string" && minutes.trim() !== "" ? minutes : null,
+    audience: formData.get("audience"),
+    persons: formData.get("audience") === "chosen" ? formData.getAll("personIds") : [],
+    note: formData.get("note") ?? "",
+  });
+  if (!parsed.success) return { success: false, code: "VALIDATION" };
+  if (!canGradeSubject(actor, parsed.data.subjectId)) return { success: false, code: "FORBIDDEN" };
+  let data;
+  try {
+    data = await sendTest(createSupabaseAdminClient(), {
+      actorUserId: actor.userId,
+      subjectId: parsed.data.subjectId,
+      kind: parsed.data.kind,
+      positions: parsed.data.kind === "part" ? [...new Set(parsed.data.positions)].sort((a, b) => a - b) : null,
+      minutes: parsed.data.minutes,
+      note: parsed.data.note === "" ? null : parsed.data.note,
+      persons: parsed.data.audience === "chosen" ? [...new Set(parsed.data.persons)] : null,
+      ipAddress: await requestIp(),
+    });
+    logInfo("grading/actions.sendTestAction", "test sent", { kind: parsed.data.kind, created: data.created, skipped: data.skipped.length });
+  } catch (error) {
+    return failure(error, "grading/actions.sendTestAction");
+  }
+  revalidatePath(GRADING_PATH);
+  revalidatePath(SEND_TEST_PATH);
+  return { success: true, data };
+}
+

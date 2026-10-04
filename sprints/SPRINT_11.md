@@ -75,3 +75,8 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
 - [ ] 5. Clean start: cleanup migration and archive export prepared on 2026-10-05, reviewed and run by the Director.
 - [ ] 6. Production deploy on the Director's go, then the post-deploy verification.
 - [x] 7a. Teacher-led tests in the database (PDL-043): migration 035 live, DB section 29; migration 036 handed to the Director.
+- [x] 7b. Teacher-led tests in the app (PDL-043): `/app/ocjenjivanje/posalji` (whole test or positions with the
+  teacher's minutes, all or chosen students, note, sent tests with every set), queue and student labels, student exam
+  screen (sender, note, part notice; nothing shown before approval), push to the student on approval, profile
+  shortcuts per weak area (assignment and part of a test, prefilled), profile trend compares like with like.
+  Unit tests `teacher-sent-tests.test.ts`; e2e guard for the new route. Live check with real students after 036.

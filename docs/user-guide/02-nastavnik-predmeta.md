@@ -18,6 +18,27 @@ pokazatelj IDSS-a, nije službena procjena). Filtere i sortiranje postavljate vi
   vidi. Upisana bilješka se ne mijenja i ne ide u štampu ni u izvoz.
 - Bilješke podrške ne vidite; one pripadaju pedagogu i psihologu.
 - **Analiza grupe** pokazuje zbirne podatke vašeg predmeta, bez imena.
+- Kod svake oblasti na profilu su dvije prečice: **Zadaj vježbu iz ove oblasti** (otvara Zadatke za učenike s
+  predmetom, oblasti i učenikom već izabranim) i **Pošalji dio testa** (otvara Pošalji test s učenikom i pozicijama
+  službenog testa koje pokrivaju tu oblast).
+
+## Pošalji test (Dostupno)
+Vi šaljete cijeli probni ispit ili dio testa grupi ili pojedinim učenicima (PDL-043).
+1. **Ocjenjivanje**, pa **Pošalji test**.
+2. Izaberite predmet i šta šaljete:
+   - **Cijeli test**: trajanje i bodovi su kako propisuje katalog;
+   - **Dio testa**: označite pozicije službenog testa (uz svaku piše format, bodovi i oblasti kataloga) i upišite
+     **Vrijeme za izradu** u minutama; vrijeme za dio testa određujete Vi.
+3. Izaberite **Svim učenicima predmeta** ili **Izabranim učenicima**; po želji upišite poruku učenicima.
+4. Kliknite **Složi setove**. Svaki učenik dobije vlastiti set složen po potvrđenom planu predmeta. Učenik koji već
+   ima otvoren probni ispit iz predmeta se preskače i navede se po imenu.
+5. Setovi se pojave u redu **Setovi koji čekaju odobrenje**. Učenik test vidi tek kad odobrite njegov set, i tada
+   dobije obavijest (i push obavijest ako ih je uključio).
+6. Pisanje, predaja i ocjenjivanje idu kao kod probnog ispita. Dio testa ne daje pokazatelj spremnosti ni značku za
+   cijeli probni ispit; IDSS bodovi za odgovore ostaju.
+7. Ispod forme je **Poslani testovi**: datum, predmet, test, minute, kome, ko je poslao i stanje seta svakog učenika
+   (klik na ime otvara set).
+Učenici i dalje mogu sami zatražiti probni ispit.
 
 ## Dnevni sažetak (Dostupno)
 Otvara se dugmetom **Dnevni sažetak** i prikazuje jučerašnji dan; drugi dan (do 30 dana unazad) birate poljem **Dan** i

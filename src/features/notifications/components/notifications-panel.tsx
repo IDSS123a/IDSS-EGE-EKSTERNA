@@ -26,7 +26,7 @@ export function NotificationsPanel({ notifications }: { notifications: AppNotifi
       <ul className="review-list">
         {notifications.map((notification) => {
           const subject = notification.subjectCode ? dictionary.subjects[notification.subjectCode] : "";
-          const href = notification.kind === "gift_given" ? VITRINA_PATH : notification.kind === "assignment_given" ? ASSIGNMENTS_PUSH_URL : notification.examId ? `${notification.kind === "mock_exam_graded" ? EXAM_PATH : GRADING_PATH}/${notification.examId}` : null;
+          const href = notification.kind === "gift_given" ? VITRINA_PATH : notification.kind === "assignment_given" ? ASSIGNMENTS_PUSH_URL : notification.examId ? `${notification.kind === "mock_exam_graded" || notification.kind === "mock_exam_assigned" ? EXAM_PATH : GRADING_PATH}/${notification.examId}` : null;
           const text = labels.kinds[notification.kind].replace("{subject}", subject);
           return (
             <li key={notification.id}>
