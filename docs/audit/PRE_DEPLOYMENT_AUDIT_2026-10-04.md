@@ -236,3 +236,15 @@ one verification pass; they are estimates, not measurements.
 
 Next step: the Director decides F-01 (a, b or c), confirms F-03, and approves the F-04 backup. The ACA then
 re-runs this gate and reports again. The deploy still requires "kreni" (M-23).
+
+## F. Addendum: Director decisions (2026-10-04, PDL-042)
+| Finding | Decision | Gate status |
+|---|---|---|
+| F-01 | Option (a): PDL-016 confirmed as a launch exception; teachers re-review after launch | Resolved by recorded Director decision |
+| F-03 | Public sign-up switched off earlier (Director's statement) | Accepted on the Director's statement |
+| F-04 | Director does not yet know how to check; steps given (README "Rezervna kopija baze") | **Open** |
+| F-05 | Teachers confirm after launch; Director confirmations removed in the clean start (ACA reading, step shown separately) | Resolved |
+
+**Updated executive decision: CONDITIONAL, NOT APPROVED.** The blocking finding is resolved by decision. What remains:
+F-04 (backup before the clean start) and the checks that cannot run from this environment (B.4). Once the Director
+confirms the backup exists, the ACA re-runs the gate the day of the clean start.

@@ -119,3 +119,4 @@
 [2026-10-04] [DOCS] PDL-041 L4 addendum: launch without the teachers' confirmations; they follow after launch
 [2026-10-04] [PERF] Phone-profile measurements recorded in SPRINT_11 (LCP 2.3 s on main pages)
 [2026-10-04] [AUDIT] Pre-deployment audit and release gate: BLOCKED on F-01 (bulk-accepted questions, PDL-016); report in docs/audit
+[2026-10-04] [DOCS] PDL-042: release gate decisions (F-01 option a, F-03, F-05); audit addendum CONDITIONAL; backup steps in README
