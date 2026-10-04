@@ -19,6 +19,7 @@ system forbids deletion (append-only audit), handled as the Director decides bel
 | Trial gift from Nizama Memija to a.b. and its opening | 1 + 1 (2026-10-04) | remove |
 | Mock exams, notifications, support notes, teacher notes, push subscriptions | 0 each (2026-10-04) | check again; remove trial rows |
 | Exam blueprints (Math, B/H/S, German) | 3 | **keep** (real data, waiting for the teachers' confirmation) |
+| Blueprint confirmations made with the Director's account (B/H/S 2026-10-03, Mathematics 2026-10-04) | 2 | **open question to the Director**: keep (mock exams open at launch for B/H/S and Mathematics) or treat as trial and remove (teachers confirm after launch, PDL-041 L4 addendum) |
 | Audit log | 704 rows (2026-10-04) | D-A decided: export to the school archive, then one audited removal |
 | Security events (failed logins during tests) | 6 | D-A decided (same procedure) |
 | Retrieval audit of test searches | 13 | D-A decided (same procedure) |
@@ -44,3 +45,24 @@ production deploy, because testing continues until then. Not earlier.
   database refuses to change them. Proposal: export the test-phase rows to a signed file for the school archive, then
   remove them once with a dedicated, audited procedure that briefly lifts the append-only guard and records its own
   run (one row: who, when, how many). Alternative: keep them as the honest history of the setup phase.
+
+## 4. Launch day (PDL-041: Vercel team `idsssarajevo`, target 2026-10-06)
+Order: clean start the day before (section 2), then the Director's explicit go (M-23), then the import on Vercel by the
+Director (README, "Objava na Vercel"), then this verification by the ACA on the production address.
+
+### Post-deploy verification (Commander DONE_CHECKLIST)
+- [ ] The production address loads the home page and the splash leaves (not a Vercel error page).
+- [ ] Security headers present: nonce-based CSP that changes per request, no CSP violations in the console.
+- [ ] Sign-in with a staff account works; a wrong password shows the friendly message and is counted.
+- [ ] Core flows on the production address, each with zero uncaught console errors:
+  - [ ] staff home links per role; Direktorski pregled, all six tabs, Sistem shows notices on and push configured;
+  - [ ] a subject teacher opens Pregled pitanja and Ocjenjivanje;
+  - [ ] a student opens the Game Hub and a practice question (with the first real student account; no trial account
+        is created after the clean start);
+  - [ ] the IDSS confirmation dialog appears on a confirm action and Odustani leaves everything unchanged (nothing
+        is confirmed in production for the check).
+- [ ] Every environment variable is set in Vercel (Settings, Environment Variables): a missing one shows the error
+      page, not a code bug. Sistem tab names a malformed VAPID value.
+- [ ] Web Push: confirmed with the first real assignment a teacher gives (no test assignment in production).
+- [ ] Supabase security advisor: only the known Auth leaked-password WARN (mitigated in the app, PDL-030).
+- [ ] Inventory of section 1 re-counted: zero trial rows.

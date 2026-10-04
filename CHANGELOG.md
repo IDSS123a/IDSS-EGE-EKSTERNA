@@ -116,3 +116,5 @@
 [2026-10-04] [A11Y] WCAG 2.2 AA: axe checks in e2e for public pages; scroll tables reachable by keyboard; unearned badge contrast
 [2026-10-04] [DEPENDENCY] @axe-core/playwright (devDependency): run npm install after git pull
 [2026-10-04] [SECURITY] Adversarial pass: live probes as anon and as a student all refused; DB section 28 guards RLS, write policies, function grants and search_path
+[2026-10-04] [DOCS] PDL-041 L4 addendum: launch without the teachers' confirmations; they follow after launch
+[2026-10-04] [PERF] Phone-profile measurements recorded in SPRINT_11 (LCP 2.3 s on main pages)
