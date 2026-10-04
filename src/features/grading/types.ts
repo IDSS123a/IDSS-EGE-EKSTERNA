@@ -40,6 +40,9 @@ export type GradingQueueEntry = {
   subjectCode: SubjectCode;
   student: string;
   status: ExamStatus;
+  kind: import("@/features/exams/types").TestKind;
+  positions: number[] | null;
+  sent: boolean;
   createdAt: string;
   submittedAt: string | null;
   autoSubmitted: boolean;
@@ -73,6 +76,33 @@ export type PracticeReviewEntry = {
   errata: { item: number | null; description: string; evidence: string }[];
 };
 
+/** What a teacher can send in a subject (PDL-043): the confirmed blueprint's positions and the official duration. */
+export type SendOptions = {
+  subjectId: string;
+  subjectCode: SubjectCode;
+  available: boolean;
+  minutes: number | null;
+  totalPoints: number | null;
+  positions: { position: number; format: string; points: number; areas: { id: string; name: string }[] }[];
+};
+
+/** One test a teacher sent, with every student's set. */
+export type SentTest = {
+  id: string;
+  subjectCode: SubjectCode;
+  kind: import("@/features/exams/types").TestKind;
+  positions: number[] | null;
+  minutes: number | null;
+  note: string | null;
+  audience: "all" | "chosen";
+  createdAt: string;
+  sentBy: string;
+  states: Partial<Record<ExamStatus, number>>;
+  sets: { id: string; student: string; status: ExamStatus; points: number | null; max: number }[];
+};
+
+export type SendTestResult = { success: true; data: { created: number; skipped: string[] } } | { success: false; code: GradingErrorCode };
+
 export type GradingErrorCode =
   | "UNAUTHENTICATED"
   | "FORBIDDEN"
@@ -86,6 +116,7 @@ export type GradingErrorCode =
   | "POINTS_MISMATCH"
   | "VERSION_EXISTS"
   | "NO_CONFIG"
+  | "NO_STUDENTS"
   | "UNAVAILABLE";
 
 export type GradingActionResult =

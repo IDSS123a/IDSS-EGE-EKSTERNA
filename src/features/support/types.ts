@@ -29,7 +29,7 @@ export type SupportNote = { id: string; kind: NoteKind | null; body: string; fol
 /** An academic teacher note (migration 028, PDL-034): per subject, append-only, never shown to the student. */
 export type TeacherNote = { id: string; subject: SubjectCode; body: string; createdAt: string; author: string; own: boolean };
 
-export type ProfileExam = { id: string; status: "submitted" | "graded"; submittedAt: string | null; gradedAt: string | null; points: number | null; max: number; auto: boolean; minutesUsed: number | null; minutes: number | null; emptyUnits: number; units: number };
+export type ProfileExam = { id: string; status: "submitted" | "graded"; kind: "full" | "part"; positions: number[] | null; sent: boolean; submittedAt: string | null; gradedAt: string | null; points: number | null; max: number; auto: boolean; minutesUsed: number | null; minutes: number | null; emptyUnits: number; units: number };
 
 export type ProfileSubject = {
   code: SubjectCode;

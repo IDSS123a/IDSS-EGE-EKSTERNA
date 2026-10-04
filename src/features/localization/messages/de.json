@@ -845,7 +845,14 @@
       "NO_RULE": "Die Prüfungsdauer ist noch nicht bestätigt.",
       "CLOSED": "Die Prüfung ist bereits abgegeben.",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
-    }
+    },
+    "kindFull": "Ganzer Test",
+    "kindPart": "Testteil (Positionen {positions})",
+    "kindPartShort": "Testteil",
+    "sentBy": "Test von: {name}",
+    "sentNote": "Nachricht der Lehrkraft: {note}",
+    "partHint": "Dies ist ein Testteil: nur ausgewählte Positionen des offiziellen Tests. Er ergibt keinen Bereitschaftsindikator und kein Abzeichen für eine ganze Probeprüfung; die IDSS-Punkte für Antworten bleiben.",
+    "sentWaiting": "Die Lehrkraft bereitet einen Test für dich vor. Sobald sie ihn freigibt, kannst du ihn hier beginnen."
   },
   "grading": {
     "navLink": "Probeprüfungen: Bewertung",
@@ -859,7 +866,8 @@
       "graded": "In den letzten 30 Tagen bewertet",
       "empty": "Nichts vorhanden.",
       "ungraded": "{n} von {total} unbewertet",
-      "auto": "automatisch abgegeben"
+      "auto": "automatisch abgegeben",
+      "sent": "Test der Lehrkraft"
     },
     "blueprints": {
       "title": "Prüfungspläne",
@@ -952,6 +960,7 @@
       "POINTS_MISMATCH": "Die Punkte des Plans stimmen nicht mit der bestätigten Gesamtpunktzahl überein.",
       "VERSION_EXISTS": "Diese Planversion ist bereits mit anderem Inhalt geladen.",
       "NO_CONFIG": "Für dieses Fach gibt es im Repository keinen Plan.",
+      "NO_STUDENTS": "Kein Schüler hat den Test erhalten (keine aktiven Schüler oder alle haben bereits eine offene Probeprüfung).",
       "UNAVAILABLE": "Der Dienst ist gerade nicht verfügbar. Bitte erneut versuchen."
     },
     "practice": {
@@ -971,6 +980,52 @@
       },
       "note": "Hinweis für den Schüler (optional)",
       "submit": "Bewertung speichern"
+    },
+    "send": {
+      "link": "Test senden",
+      "title": "Test an Schüler senden",
+      "subtitle": "Ganzer Test oder Testteil, an die Gruppe oder an einzelne Schüler",
+      "back": "Zurück zur Bewertung",
+      "hint": "Jeder Schüler erhält einen eigenen Aufgabensatz nach dem bestätigten Plan des Fachs. Bevor der Schüler ihn sieht, prüfen und genehmigen Sie jeden Satz in der Liste Sätze, die auf Genehmigung warten. Schüler mit einer offenen Probeprüfung im Fach werden übersprungen.",
+      "newTitle": "Neuer Test",
+      "subject": "Fach",
+      "kind": "Was Sie senden",
+      "kindFull": "Ganzer Test",
+      "kindPart": "Testteil (ausgewählte Positionen des offiziellen Tests)",
+      "positions": "Positionen des offiziellen Tests",
+      "position": "Position {n}",
+      "points": "Punkte: {points}",
+      "areas": "Bereiche: {areas}",
+      "selected": "Ausgewählte Positionen: {n}, Punkte gesamt: {points}.",
+      "minutes": "Bearbeitungszeit (Minuten)",
+      "minutesHint": "Der ganze Test dauert laut Katalog {n} Minuten. Für einen Testteil bestimmen Sie die Zeit.",
+      "fullMinutes": "Der ganze Test dauert {n} Minuten und hat {points} Punkte, wie der Katalog vorschreibt.",
+      "audience": "An wen",
+      "audienceAll": "Alle Schüler des Fachs",
+      "audienceChosen": "Ausgewählte Schüler",
+      "students": "Schüler",
+      "noStudents": "Keine Schüler.",
+      "note": "Nachricht an die Schüler (optional)",
+      "submit": "Sätze zusammenstellen",
+      "created": "Zusammengestellte Sätze: {n}. Genehmigen Sie sie in der Liste auf der Bewertungsseite.",
+      "skipped": "Übersprungen (haben bereits eine offene Probeprüfung): {names}",
+      "unavailable": "Für dieses Fach gibt es keinen bestätigten Prüfungsplan.",
+      "partNotCounted": "Ein Testteil ergibt keinen Bereitschaftsindikator und kein Abzeichen für eine ganze Probeprüfung; die IDSS-Punkte für Antworten bleiben.",
+      "list": "Gesendete Tests",
+      "none": "Noch kein Test gesendet.",
+      "columns": {
+        "date": "Gesendet",
+        "subject": "Fach",
+        "test": "Test",
+        "minutes": "Minuten",
+        "audience": "An wen",
+        "sentBy": "Gesendet von",
+        "sets": "Sätze der Schüler"
+      },
+      "audienceValue": {
+        "all": "alle Schüler",
+        "chosen": "ausgewählte Schüler"
+      }
     }
   },
   "notifications": {
@@ -982,7 +1037,8 @@
       "mock_exam_submitted": "Probeprüfung abgegeben: {subject}",
       "mock_exam_graded": "Deine Probeprüfung ist bewertet: {subject}",
       "assignment_given": "Neue Aufgabe der Lehrkraft: {subject}",
-      "gift_given": "Du hast ein besonderes Geschenk von einer Lehrkraft"
+      "gift_given": "Du hast ein besonderes Geschenk von einer Lehrkraft",
+      "mock_exam_assigned": "Die Lehrkraft hat dir einen Test geschickt: {subject}"
     }
   },
   "gamification": {
@@ -1087,7 +1143,9 @@
       "examTime": "Zeit",
       "examEmpty": "Ohne Antwort",
       "awaitingGrade": "wartet auf Bewertung",
-      "auto": "automatisch abgegeben"
+      "auto": "automatisch abgegeben",
+      "assignArea": "Übung aus diesem Bereich geben",
+      "sendPart": "Testteil senden"
     },
     "dimensions": {
       "completion": "Abdeckung",

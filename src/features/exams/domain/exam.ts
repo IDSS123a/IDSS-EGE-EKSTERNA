@@ -62,3 +62,8 @@ export function formatPoints(points: number, locale: string): string {
   const text = String(Math.round(points * 100) / 100);
   return locale === "en" ? text : text.replace(".", ",");
 }
+
+/** "Dio testa: pozicije 6, 7" for a part a teacher sent (PDL-043), the whole-test label otherwise. */
+export function testLabel(kind: "full" | "part", positions: readonly number[] | null, labels: { full: string; part: string }): string {
+  return kind === "part" && positions && positions.length > 0 ? labels.part.replace("{positions}", [...positions].sort((a, b) => a - b).join(", ")) : labels.full;
+}

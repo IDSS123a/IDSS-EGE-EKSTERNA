@@ -5,7 +5,7 @@ import { toExamView, type ViewRow } from "@/features/exams/repository";
 import { toQuestion, type QuestionRow } from "@/features/practice/repository";
 import type { Subject, SubjectCode } from "@/features/knowledge/types";
 import { blueprintConfig } from "./blueprint-config";
-import type { BlueprintContent, GradingQueueEntry, GradingView, PracticeReviewEntry, SubjectBlueprint } from "./types";
+import type { BlueprintContent, GradingQueueEntry, GradingView, PracticeReviewEntry, SendOptions, SentTest, SubjectBlueprint } from "./types";
 
 /**
  * Data for teachers (migrations 019, 022, 023; A-3). Reads of blueprints use the caller's client (RLS); queue, exams
@@ -81,6 +81,9 @@ type QueueRow = {
   subject_code: SubjectCode;
   student: string;
   status: GradingQueueEntry["status"];
+  kind?: "full" | "part";
+  positions?: number[] | null;
+  sent?: boolean;
   created_at: string;
   submitted_at: string | null;
   auto_submitted: boolean | null;
@@ -100,6 +103,9 @@ export async function gradingQueue(admin: SupabaseClient, actorUserId: string): 
     subjectCode: row.subject_code,
     student: row.student,
     status: row.status,
+    kind: row.kind ?? "full",
+    positions: row.positions ?? null,
+    sent: row.sent === true,
     createdAt: row.created_at,
     submittedAt: row.submitted_at,
     autoSubmitted: row.auto_submitted === true,
@@ -203,3 +209,39 @@ export async function practiceReviewQueue(admin: SupabaseClient, actorUserId: st
 export async function reviewPracticeAnswer(admin: SupabaseClient, input: { actorUserId: string; answerId: string; verdict: "correct" | "partly_correct" | "incorrect"; note: string | null; ipAddress: string | null }): Promise<void> {
   await call<string>(admin, "review_practice_answer", { p_actor: input.actorUserId, p_answer_id: input.answerId, p_verdict: input.verdict, p_note: input.note, p_ip: input.ipAddress });
 }
+
+/** mock_exam_send_options (exams.grade of the subject): positions of the confirmed blueprint with their catalogue areas. */
+export async function sendOptions(admin: SupabaseClient, actorUserId: string, subject: Subject): Promise<SendOptions> {
+  const raw = await call<{ available: boolean; minutes: number | null; total_points: number | string | null; positions: { position: number; format: string; points: number | string; areas: { id: string; name: string }[] }[] }>(
+    admin, "mock_exam_send_options", { p_actor: actorUserId, p_subject_id: subject.id });
+  return {
+    subjectId: subject.id,
+    subjectCode: subject.code,
+    available: raw.available,
+    minutes: raw.minutes,
+    totalPoints: num(raw.total_points),
+    positions: (raw.positions ?? []).map((position) => ({ position: Number(position.position), format: position.format, points: Number(position.points), areas: position.areas ?? [] })),
+  };
+}
+
+/** mock_exam_send: one set per student (skipping students with an open mock exam), each waiting for approval. */
+export async function sendTest(admin: SupabaseClient, input: { actorUserId: string; subjectId: string; kind: "full" | "part"; positions: number[] | null; minutes: number | null; note: string | null; persons: string[] | null; ipAddress: string | null }): Promise<{ created: number; skipped: string[] }> {
+  const raw = await call<{ created: number; skipped: string[] }>(admin, "mock_exam_send", {
+    p_actor: input.actorUserId, p_subject_id: input.subjectId, p_kind: input.kind, p_positions: input.positions, p_minutes: input.minutes,
+    p_note: input.note, p_persons: input.persons, p_ip: input.ipAddress,
+  });
+  return { created: Number(raw.created), skipped: raw.skipped ?? [] };
+}
+
+/** mock_exam_sends_overview (exams.grade): the tests sent in the teacher's subjects, newest first. */
+export async function sentTests(admin: SupabaseClient, actorUserId: string): Promise<SentTest[]> {
+  const rows = await call<{ id: string; subject_code: SubjectCode; kind: "full" | "part"; positions: number[] | null; minutes: number | null; note: string | null; audience: "all" | "chosen"; created_at: string; sent_by: string;
+    states: Record<string, number>; sets: { id: string; student: string; status: SentTest["sets"][number]["status"]; points: number | string | null; max: number | string }[] }[]>(admin, "mock_exam_sends_overview", { p_actor: actorUserId });
+  return rows.map((row) => ({
+    id: row.id, subjectCode: row.subject_code, kind: row.kind, positions: row.positions, minutes: row.minutes, note: row.note, audience: row.audience,
+    createdAt: row.created_at, sentBy: row.sent_by,
+    states: Object.fromEntries(Object.entries(row.states ?? {}).map(([state, count]) => [state, Number(count)])),
+    sets: (row.sets ?? []).map((set) => ({ id: set.id, student: set.student, status: set.status, points: num(set.points), max: Number(set.max) })),
+  }));
+}
+

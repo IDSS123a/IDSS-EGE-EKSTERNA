@@ -60,7 +60,7 @@ type RawSubject = {
   total: number; answered: number; checked: number; correct: number; checked_30: number; correct_30: number; mastered: number;
   areas: { area: string; ordinal: number; total: number; answered: number; correct: number }[];
   persistent_errors: { question_version_id: string; record_key: string; wrong: number; last_at: string }[];
-  exams: { id: string; status: "submitted" | "graded"; submitted_at: string | null; graded_at: string | null; points: number | string | null; max: number | string; auto: boolean | null; minutes_used: number | null; minutes: number | null; empty_units: number; units: number }[];
+  exams: { id: string; status: "submitted" | "graded"; kind?: "full" | "part"; positions?: number[] | null; sent?: boolean; submitted_at: string | null; graded_at: string | null; points: number | string | null; max: number | string; auto: boolean | null; minutes_used: number | null; minutes: number | null; empty_units: number; units: number }[];
   readiness: RawReadiness;
 };
 type RawProfile = {
@@ -88,7 +88,7 @@ export async function studentProfile(admin: SupabaseClient, input: { actorUserId
       areas: subject.areas.map((area) => ({ area: area.area, ordinal: n(area.ordinal), total: n(area.total), answered: n(area.answered), correct: n(area.correct) })),
       persistentErrors: subject.persistent_errors.map((error) => ({ questionVersionId: error.question_version_id, recordKey: error.record_key, wrong: n(error.wrong), lastAt: error.last_at })),
       exams: subject.exams.map((exam) => ({
-        id: exam.id, status: exam.status, submittedAt: exam.submitted_at, gradedAt: exam.graded_at,
+        id: exam.id, status: exam.status, kind: exam.kind ?? "full", positions: exam.positions ?? null, sent: exam.sent === true, submittedAt: exam.submitted_at, gradedAt: exam.graded_at,
         points: exam.points === null ? null : n(exam.points), max: n(exam.max), auto: exam.auto === true,
         minutesUsed: exam.minutes_used === null ? null : n(exam.minutes_used), minutes: exam.minutes === null ? null : n(exam.minutes),
         emptyUnits: n(exam.empty_units), units: n(exam.units),

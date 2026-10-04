@@ -7,7 +7,7 @@ import { formatDateTime } from "@/features/canon/components/format";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { ReviewShell } from "@/features/review/components/review-shell";
 import { requestExamAction } from "../actions";
-import { formatPoints } from "../domain/exam";
+import { formatPoints, testLabel } from "../domain/exam";
 import type { ExamActionResult, ExamOverview, ExamSubject } from "../types";
 
 /**
@@ -35,6 +35,7 @@ export function ExamOverviewScreen({ overview }: { overview: ExamOverview }): Re
               <li key={exam.id}>
                 <Link href={`${EXAM_PATH}/${exam.id}`} className="review-list__item review-list__item--compact">
                   <strong className="review-list__key">{dictionary.subjects[exam.subjectCode]}</strong>
+                  <span>{testLabel(exam.kind, exam.positions, { full: labels.kindFull, part: labels.kindPart })}{exam.sent ? `, ${dictionary.grading.queue.sent}` : ""}</span>
                   <span>{formatDateTime(exam.submittedAt ?? exam.createdAt, locale)}</span>
                   <span className="status-pill" data-exam={exam.status}>
                     {exam.status === "graded" && exam.totalPoints !== null
@@ -65,6 +66,11 @@ function SubjectCard({ subject }: { subject: ExamSubject }): ReactNode {
       {subject.openExamId && subject.openStatus ? (
         <>
           <p><span className="status-pill" data-exam={subject.openStatus}>{labels.states[subject.openStatus]}</span></p>
+          {subject.openSent && subject.openStatus === "awaiting_approval" ? (
+            <p className="form__hint">{labels.sentWaiting}</p>
+          ) : (subject.openSent || subject.openKind === "part") && (
+            <p className="form__hint">{subject.openKind === "part" ? labels.kindPartShort : labels.kindFull}{subject.openSent ? `, ${dictionary.grading.queue.sent}` : ""}</p>
+          )}
           <div className="link-row">
             <Link href={`${EXAM_PATH}/${subject.openExamId}`} className="button-primary">{labels.open}</Link>
           </div>

@@ -237,6 +237,23 @@ export const BlueprintReviewSchema = z
 /** POST discard a mock exam set with a reason, optionally composing a new set (migration 022). */
 export const SetDiscardSchema = z.object({ examId: z.uuid(), subjectId: z.uuid(), note: reviewText, newSet: z.boolean() });
 
+/**
+ * POST teacher sends a test (PDL-043): a whole test keeps the official duration; a part needs the chosen positions of
+ * the confirmed blueprint and the teacher's minutes (T3); all students or the chosen ones. The database checks again.
+ */
+export const SendTestSchema = z
+  .object({
+    subjectId: z.uuid(),
+    kind: z.enum(["full", "part"]),
+    positions: z.array(z.coerce.number().int().min(1).max(30)).max(30),
+    minutes: z.coerce.number().int().min(1).max(300).nullable(),
+    audience: z.enum(["all", "chosen"]),
+    persons: z.array(z.uuid()).max(500),
+    note: z.string().trim().max(1000),
+  })
+  .refine((value) => (value.kind === "full" ? value.positions.length === 0 && value.minutes === null : value.positions.length > 0 && value.minutes !== null), { path: ["kind"] })
+  .refine((value) => value.audience === "all" || value.persons.length > 0, { path: ["persons"] });
+
 /** POST teacher grades: points the unit allows, or correct pairs for matching units; the database checks both. */
 export const GradesSchema = z.object({
   examId: z.uuid(),

@@ -8,7 +8,7 @@ import { formatDateTime } from "@/features/canon/components/format";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { ReviewShell } from "@/features/review/components/review-shell";
 import { beginExamAction, saveExamAction, submitExamAction } from "../actions";
-import { answeredCount, clockOffsetMs, formatClock, formatPoints, groupByPosition, remainingMs } from "../domain/exam";
+import { answeredCount, clockOffsetMs, formatClock, formatPoints, groupByPosition, remainingMs, testLabel } from "../domain/exam";
 import type { ExamActionResult, ExamUnit, ExamView } from "../types";
 import { useConfirm, useConfirmSubmit } from "@/features/shell/components/confirm-dialog";
 
@@ -25,6 +25,7 @@ export function ExamScreen({ exam }: { exam: ExamView }): ReactNode {
 
   return (
     <ReviewShell backHref={EXAM_PATH} backLabel={labels.backToExams} title={dictionary.subjects[exam.subjectCode]} subtitle={labels.title} print={exam.status === "graded" ? { confidential: false } : undefined}>
+      {(exam.kind === "part" || exam.sentBy) && exam.status !== "awaiting_approval" && <SentInfo exam={exam} />}
       {exam.status === "awaiting_approval" && <Waiting exam={exam} />}
       {exam.status === "approved" && <BeforeStart exam={exam} />}
       {exam.status === "in_progress" && <Writer exam={exam} />}
@@ -43,11 +44,25 @@ function Waiting({ exam }: { exam: ExamView }): ReactNode {
   const router = useRouter();
   return (
     <section className="card">
-      <p className="notice" role="status">{labels.waiting}</p>
-      <p className="form__hint">{labels.requestedAt.replace("{date}", formatDateTime(exam.createdAt, locale))}</p>
+      <p className="notice" role="status">{exam.sentBy ? labels.sentWaiting : labels.waiting}</p>
+      {!exam.sentBy && <p className="form__hint">{labels.requestedAt.replace("{date}", formatDateTime(exam.createdAt, locale))}</p>}
       <div className="link-row">
         <button type="button" className="button-secondary" onClick={() => router.refresh()}>{labels.refresh}</button>
       </div>
+    </section>
+  );
+}
+
+/** A test the teacher sent or a part of a test (PDL-043): what it is, who sent it and the teacher's message. */
+function SentInfo({ exam }: { exam: ExamView }): ReactNode {
+  const { dictionary } = useI18n();
+  const labels = dictionary.exam;
+  return (
+    <section className="card" aria-labelledby="exam-sent-title">
+      <h2 id="exam-sent-title">{testLabel(exam.kind, exam.positions, { full: labels.kindFull, part: labels.kindPart })}</h2>
+      {exam.sentBy && <p>{labels.sentBy.replace("{name}", exam.sentBy)}</p>}
+      {exam.note && <p>{labels.sentNote.replace("{note}", exam.note)}</p>}
+      {exam.kind === "part" && <p className="form__hint">{labels.partHint}</p>}
     </section>
   );
 }

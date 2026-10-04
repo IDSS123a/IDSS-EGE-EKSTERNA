@@ -1343,3 +1343,72 @@ select pg_temp.assert(not exists (select 1 from pg_proc p join pg_namespace n on
 select pg_temp.assert(not has_table_privilege('anon', 'public.audit_logs', 'insert') or
   not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'audit_logs' and cmd in ('INSERT', 'ALL')),
   'nobody but the server writes the audit log');
+
+-- 29. Teacher-sent tests (migration 035, PDL-043): a subject teacher sends a whole test or a part (blueprint positions,
+-- own minutes) to all or chosen students; each set waits for approval; a part never counts as a full mock exam.
+set role service_role;
+select pg_temp.expect_error($$select public.mock_exam_send('00000000-0000-0000-0000-00000000000b', (select id from t_german), 'part', array[1], 7, null,
+  array['22222222-2222-2222-2222-22222222222d']::uuid[], null)$$, 'FORBIDDEN', 'a teacher of another subject cannot send a German test');
+select pg_temp.expect_error($$select public.mock_exam_send('00000000-0000-0000-0000-00000000000a', (select id from t_german), 'part', array[1], null, null,
+  array['22222222-2222-2222-2222-22222222222d']::uuid[], null)$$, 'VALIDATION', 'a part needs the teacher''s minutes (T3)');
+select pg_temp.expect_error($$select public.mock_exam_send('00000000-0000-0000-0000-00000000000a', (select id from t_german), 'full', null, 30, null,
+  array['22222222-2222-2222-2222-22222222222d']::uuid[], null)$$, 'VALIDATION', 'a whole test keeps the official duration');
+select pg_temp.expect_error($$select public.mock_exam_send('00000000-0000-0000-0000-00000000000a', (select id from t_german), 'part', array[2], 7, null,
+  array['22222222-2222-2222-2222-22222222222d']::uuid[], null)$$, 'VALIDATION', 'only positions of the confirmed blueprint');
+select pg_temp.expect_error($$select public.mock_exam_send('00000000-0000-0000-0000-00000000000a', (select id from t_german), 'part', array[1], 7, null,
+  array['00000000-0000-0000-0000-00000000000b']::uuid[], null)$$, 'VALIDATION', 'only active students receive a test');
+select pg_temp.assert((select (public.mock_exam_send_options('00000000-0000-0000-0000-00000000000a', (select id from t_german)) -> 'positions' -> 0 ->> 'position')::integer) = 1,
+  'the send options list the confirmed blueprint''s positions');
+create temp table t_send as select public.mock_exam_send('00000000-0000-0000-0000-00000000000a', (select id from t_german), 'part', array[1], 7, 'Gramatika',
+  array['22222222-2222-2222-2222-22222222222d']::uuid[], null) as r;
+create temp table t_part as select id from public.mock_exams where send_id = ((select r ->> 'send_id' from t_send))::uuid;
+select pg_temp.assert((select (r ->> 'created')::integer from t_send) = 1 and (select count(*) from t_part) = 1, 'one set per chosen student');
+select pg_temp.assert((select kind = 'part' and positions = array[1] and duration_minutes = 7 and status = 'awaiting_approval'
+  and sent_by = '00000000-0000-0000-0000-00000000000a' from public.mock_exams where id = (select id from t_part)),
+  'the set is a part with the teacher''s minutes and waits for approval (T4)');
+select pg_temp.assert((select count(distinct position) from public.mock_exam_items where mock_exam_id = (select id from t_part)) = 1
+  and not exists (select 1 from public.mock_exam_items where mock_exam_id = (select id from t_part) and position <> 1),
+  'the part is composed only from the chosen positions');
+select pg_temp.assert((select r -> 'skipped' ->> 0 from (select public.mock_exam_send('00000000-0000-0000-0000-00000000000a', (select id from t_german), 'part',
+  array[1], 7, null, array['22222222-2222-2222-2222-22222222222d']::uuid[], null) as r) x) = 'Test Student Two',
+  'a student with an open mock exam in the subject is skipped and named');
+select pg_temp.assert((select public.mock_exam_start('00000000-0000-0000-0000-00000000000d', (select id from t_german), null)) = (select id from t_part),
+  'the student''s own request returns the open set the teacher sent (T1)');
+select pg_temp.expect_error($$select public.mock_exam_begin('00000000-0000-0000-0000-00000000000d', (select id from t_part), null)$$,
+  'NOT_APPROVED', 'the student starts only after the teacher approves');
+select public.mock_exam_approve('00000000-0000-0000-0000-00000000000a', (select id from t_part), null);
+select pg_temp.assert((select count(*) from public.notifications where kind = 'mock_exam_assigned' and entity_id = (select id from t_part)
+  and recipient_user_id = '00000000-0000-0000-0000-00000000000d') = 1, 'approval tells the student about the test the teacher sent');
+select public.mock_exam_begin('00000000-0000-0000-0000-00000000000d', (select id from t_part), null);
+select pg_temp.assert((select deadline_at - started_at from public.mock_exams where id = (select id from t_part)) = interval '7 minutes'
+  and (public.mock_exam_view('00000000-0000-0000-0000-00000000000d', (select id from t_part)) ->> 'minutes')::integer = 7
+  and public.mock_exam_view('00000000-0000-0000-0000-00000000000d', (select id from t_part)) ->> 'kind' = 'part',
+  'the part runs for the teacher''s minutes and is labelled a part');
+select public.mock_exam_submit('00000000-0000-0000-0000-00000000000d', (select id from t_part),
+  (select jsonb_agg(jsonb_build_object('id', mi.id::text, 'response', 'r')) from public.mock_exam_items mi where mi.mock_exam_id = (select id from t_part)), null);
+select public.grading_save('00000000-0000-0000-0000-00000000000a', (select id from t_part),
+  (select jsonb_agg(case when mi.scoring = 'matching'
+     then jsonb_build_object('id', mi.id::text, 'pairs', (select max(k::integer) from jsonb_object_keys(private.exam_rule(mi.subject_id, 'exam.scoring') -> 'matching_points_by_correct_pairs') k))
+     else jsonb_build_object('id', mi.id::text, 'points', mi.max_points) end) from public.mock_exam_items mi where mi.mock_exam_id = (select id from t_part)), null);
+select public.grading_confirm('00000000-0000-0000-0000-00000000000a', (select id from t_part), null);
+select pg_temp.assert((private.support_readiness('22222222-2222-2222-2222-22222222222d', (select id from t_german)) ->> 'exams')::integer = 0,
+  'a graded part gives no readiness indicator (T5)');
+create temp table t_game as select public.gamification_overview('00000000-0000-0000-0000-00000000000d',
+  jsonb_build_object('xp', (select value -> 'xp' from public.system_settings where key = 'gamification.values'),
+                     'badges', (select value -> 'badges' from public.system_settings where key = 'gamification.values'), 'mission_goal', 5)) as g;
+select pg_temp.assert((select (g -> 'xp' ->> 'exams_submitted')::numeric from t_game) = 0
+  and (select jsonb_array_length(g -> 'badges' -> 'first_mock_exam') from t_game) = 0
+  and (select (g -> 'xp' ->> 'exams_graded')::numeric from t_game) > 0,
+  'a part gives no submission bonus and no first mock exam badge, but IDSS points for the answered points (T5)');
+create temp table t_full as select public.mock_exam_send('00000000-0000-0000-0000-00000000000a', (select id from t_german), 'full', null, null, null,
+  array['22222222-2222-2222-2222-22222222222d']::uuid[], null) as r;
+select pg_temp.assert((select r ->> 'created' from t_full) = '1'
+  and exists (select 1 from public.mock_exams where person_id = '22222222-2222-2222-2222-22222222222d' and kind = 'full' and sent_by is not null and duration_minutes is null),
+  'a whole test sent by the teacher keeps the official duration');
+select pg_temp.assert((select jsonb_array_length(public.mock_exam_sends_overview('00000000-0000-0000-0000-00000000000a'))) >= 3
+  and (select public.mock_exam_sends_overview('00000000-0000-0000-0000-00000000000a') -> 0 ->> 'kind') = 'full',
+  'the teacher sees the sent tests, newest first');
+select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'exam.sent'), 'sending is audited');
+reset role;
+select pg_temp.assert(not has_function_privilege('authenticated', 'public.mock_exam_send(uuid, uuid, text, integer[], integer, text, uuid[], inet)', 'execute'),
+  'only the server sends tests');

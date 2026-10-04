@@ -845,7 +845,14 @@
       "NO_RULE": "Trajanje ispita još nije potvrđeno.",
       "CLOSED": "Ispit je već predan.",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušaj ponovo."
-    }
+    },
+    "kindFull": "Cijeli test",
+    "kindPart": "Dio testa (pozicije {positions})",
+    "kindPartShort": "Dio testa",
+    "sentBy": "Test šalje: {name}",
+    "sentNote": "Poruka nastavnika: {note}",
+    "partHint": "Ovo je dio testa: samo izabrane pozicije službenog testa. Ne daje pokazatelj spremnosti ni značku za cijeli probni ispit; IDSS bodovi za odgovore ostaju.",
+    "sentWaiting": "Nastavnik priprema test za tebe. Kad ga odobri, ovdje ćeš ga moći početi."
   },
   "grading": {
     "navLink": "Probni ispiti: ocjenjivanje",
@@ -859,7 +866,8 @@
       "graded": "Ocijenjeno u zadnjih 30 dana",
       "empty": "Nema ničega.",
       "ungraded": "neocijenjeno {n} od {total}",
-      "auto": "predano automatski"
+      "auto": "predano automatski",
+      "sent": "test nastavnika"
     },
     "blueprints": {
       "title": "Planovi ispita",
@@ -952,6 +960,7 @@
       "POINTS_MISMATCH": "Bodovi plana se ne slažu s potvrđenim ukupnim brojem bodova.",
       "VERSION_EXISTS": "Ova verzija plana je već učitana s drugačijim sadržajem.",
       "NO_CONFIG": "Za ovaj predmet u repozitoriju nema plana.",
+      "NO_STUDENTS": "Nijedan učenik nije primio test (nema aktivnih učenika ili svi već imaju otvoren probni ispit).",
       "UNAVAILABLE": "Usluga trenutno nije dostupna. Pokušajte ponovo."
     },
     "practice": {
@@ -971,6 +980,52 @@
       },
       "note": "Napomena za učenika (nije obavezna)",
       "submit": "Sačuvaj ocjenu"
+    },
+    "send": {
+      "link": "Pošalji test",
+      "title": "Pošalji test učenicima",
+      "subtitle": "Cijeli test ili dio testa, grupi ili pojedinim učenicima",
+      "back": "Nazad na ocjenjivanje",
+      "hint": "Svaki učenik dobije vlastiti set zadataka složen po potvrđenom planu predmeta. Prije nego što ga učenik vidi, svaki set pregledate i odobrite u redu Setovi koji čekaju odobrenje. Učenik koji već ima otvoren probni ispit iz predmeta se preskače.",
+      "newTitle": "Novi test",
+      "subject": "Predmet",
+      "kind": "Šta šaljete",
+      "kindFull": "Cijeli test",
+      "kindPart": "Dio testa (izabrane pozicije službenog testa)",
+      "positions": "Pozicije službenog testa",
+      "position": "Pozicija {n}",
+      "points": "bodova: {points}",
+      "areas": "Oblasti: {areas}",
+      "selected": "Izabrano pozicija: {n}, ukupno bodova: {points}.",
+      "minutes": "Vrijeme za izradu (minute)",
+      "minutesHint": "Cijeli test po katalogu traje {n} minuta. Za dio testa vrijeme određujete Vi.",
+      "fullMinutes": "Cijeli test traje {n} minuta i nosi {points} bodova, kako propisuje katalog.",
+      "audience": "Kome",
+      "audienceAll": "Svim učenicima predmeta",
+      "audienceChosen": "Izabranim učenicima",
+      "students": "Učenici",
+      "noStudents": "Nema učenika.",
+      "note": "Poruka učenicima (nije obavezno)",
+      "submit": "Složi setove",
+      "created": "Složeno setova: {n}. Odobrite ih u redu za odobrenje na stranici ocjenjivanja.",
+      "skipped": "Preskočeni (već imaju otvoren probni ispit): {names}",
+      "unavailable": "Za ovaj predmet nema potvrđenog plana probnog ispita.",
+      "partNotCounted": "Dio testa ne daje pokazatelj spremnosti ni značku za cijeli probni ispit; IDSS bodovi za odgovore ostaju.",
+      "list": "Poslani testovi",
+      "none": "Još nije poslan nijedan test.",
+      "columns": {
+        "date": "Poslano",
+        "subject": "Predmet",
+        "test": "Test",
+        "minutes": "Minute",
+        "audience": "Kome",
+        "sentBy": "Pošiljalac",
+        "sets": "Setovi učenika"
+      },
+      "audienceValue": {
+        "all": "svi učenici",
+        "chosen": "izabrani učenici"
+      }
     }
   },
   "notifications": {
@@ -982,7 +1037,8 @@
       "mock_exam_submitted": "Predan probni ispit: {subject}",
       "mock_exam_graded": "Tvoj probni ispit je ocijenjen: {subject}",
       "assignment_given": "Novi zadatak nastavnika: {subject}",
-      "gift_given": "Imaš poseban poklon od nastavnika"
+      "gift_given": "Imaš poseban poklon od nastavnika",
+      "mock_exam_assigned": "Nastavnik ti je poslao test: {subject}"
     }
   },
   "gamification": {
@@ -1087,7 +1143,9 @@
       "examTime": "Vrijeme",
       "examEmpty": "Bez odgovora",
       "awaitingGrade": "čeka ocjenu",
-      "auto": "predano automatski"
+      "auto": "predano automatski",
+      "assignArea": "Zadaj vježbu iz ove oblasti",
+      "sendPart": "Pošalji dio testa"
     },
     "dimensions": {
       "completion": "Obuhvat",

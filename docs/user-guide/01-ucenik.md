@@ -32,6 +32,10 @@ bodovanje.
 6. Rezultat vidiš kad ga nastavnik ocijeni: bodove po zadatku, službeno rješenje, napomene nastavnika i opis greške u
    katalogu ako postoji. Dobiješ i obavijest.
 
+Nastavnik ti može i sam poslati cijeli test ili **dio testa** (samo neke pozicije službenog testa, s vremenom koje
+odredi nastavnik). Dobiješ obavijest "Nastavnik ti je poslao test", a na stranici ispita piše ko ga šalje i poruka
+nastavnika. Dio testa ne daje pokazatelj spremnosti ni značku Prvi probni ispit; IDSS bodovi za odgovore ostaju.
+
 ## Zadaci nastavnika (Dostupno)
 Na početnoj stranici je kartica **Zadaci nastavnika**: naziv, predmet, rok, ko je zadao zadatak i koliko si pitanja
 uradio. Dugme **Radi zadatak** (ili **Nastavi zadatak**) otvara pitanja zadatka jedno po jedno, u običnoj vježbi:
@@ -55,7 +59,7 @@ Poklon je priznanje, ne ocjena i ne donosi IDSS bodove. Pripada samo tebi i ne d
 | Netačan odgovor (trud) | 2 |
 | Ispunjena dnevna misija | 20 |
 | Svaki dan vježbanja | 5 |
-| Predan probni ispit | 30 |
+| Predan probni ispit (cijeli test) | 30 |
 | Ocijenjen probni ispit | 10 po osvojenom bodu (najviše 100) |
 
 Značke: Prvi korak, 7 dana zaredom, 50 odgovora u predmetu, Prvi probni ispit, Sva tri predmeta.

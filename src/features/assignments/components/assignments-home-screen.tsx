@@ -17,13 +17,15 @@ const STATES: AssignmentState[] = ["open", "complete", "late", "missed"];
  * from an area, to all active students or to chosen ones, with a required due date; below, the given assignments with
  * the number of students per state. Facts only: "complete" means every question answered, whatever the result (Z3).
  */
-export function AssignmentsHomeScreen({ assignments, options }: { assignments: AssignmentSummary[]; options: AssignmentFormOptions }): ReactNode {
+type Preset = { subject: string | null; student: string | null; area: string | null };
+
+export function AssignmentsHomeScreen({ assignments, options, preset }: { assignments: AssignmentSummary[]; options: AssignmentFormOptions; preset: Preset }): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.assignments;
 
   return (
     <ReviewShell backHref={APP_HOME_PATH} backLabel={labels.back} title={labels.title} subtitle={labels.subtitle} print={{ confidential: false }}>
-      {options.subjects.length > 0 && <NewAssignment options={options} />}
+      {options.subjects.length > 0 && <NewAssignment options={options} preset={preset} />}
 
       <section className="card" aria-labelledby="assignments-list">
         <h2 id="assignments-list">{labels.list}</h2>
@@ -70,13 +72,15 @@ export function AssignmentsHomeScreen({ assignments, options }: { assignments: A
   );
 }
 
-function NewAssignment({ options }: { options: AssignmentFormOptions }): ReactNode {
+function NewAssignment({ options, preset }: { options: AssignmentFormOptions; preset: Preset }): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.assignments;
   const [result, formAction, pending] = useActionState<AssignmentActionResult | null, FormData>(createAssignmentAction, null);
-  const [subject, setSubject] = useState<SubjectCode>(options.subjects[0].code);
-  const [content, setContent] = useState<"keys" | "area">("keys");
-  const [audience, setAudience] = useState<"all" | "chosen">("all");
+  const initial = options.subjects.find((entry) => entry.code === preset.subject) ?? options.subjects[0];
+  const presetArea = initial.areas.find((area) => area.label === preset.area)?.id;
+  const [subject, setSubject] = useState<SubjectCode>(initial.code);
+  const [content, setContent] = useState<"keys" | "area">(presetArea ? "area" : "keys");
+  const [audience, setAudience] = useState<"all" | "chosen">(preset.student ? "chosen" : "all");
   const areas = options.subjects.find((entry) => entry.code === subject)?.areas ?? [];
 
   return (
@@ -121,7 +125,7 @@ function NewAssignment({ options }: { options: AssignmentFormOptions }): ReactNo
           <div className="form--grid form">
             <div className="form__field">
               <label htmlFor="assignment-area">{labels.area}</label>
-              <select id="assignment-area" name="areaId" required>
+              <select id="assignment-area" name="areaId" required defaultValue={subject === initial.code ? presetArea : undefined}>
                 {areas.map((area) => <option key={area.id} value={area.id}>{area.label}</option>)}
               </select>
             </div>
@@ -144,7 +148,7 @@ function NewAssignment({ options }: { options: AssignmentFormOptions }): ReactNo
             <legend>{labels.students}</legend>
             {options.students.length === 0 ? <p>{labels.noStudents}</p> : options.students.map((student) => (
               <label key={student.personId} className="practice-choice">
-                <input type="checkbox" name="personIds" value={student.personId} /> <span>{student.name}</span>
+                <input type="checkbox" name="personIds" value={student.personId} defaultChecked={student.personId === preset.student} /> <span>{student.name}</span>
               </label>
             ))}
           </fieldset>

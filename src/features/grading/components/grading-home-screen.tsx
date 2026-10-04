@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useActionState, type ReactNode } from "react";
-import { APP_HOME_PATH, GRADING_PATH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
+import { APP_HOME_PATH, GRADING_PATH, REVIEW_TEXT_MAX_LENGTH, SEND_TEST_PATH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
-import { formatPoints } from "@/features/exams/domain/exam";
+import { formatPoints, testLabel } from "@/features/exams/domain/exam";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { NotificationsPanel } from "@/features/notifications/components/notifications-panel";
 import type { AppNotification } from "@/features/notifications/types";
@@ -42,6 +42,7 @@ export function GradingHomeScreen({ blueprints, queue, reviewable, canLoad, noti
     <ReviewShell backHref={APP_HOME_PATH} backLabel={labels.back} title={labels.title} subtitle={labels.subtitle}>
       <NotificationsPanel notifications={notifications} />
       <div className="link-row">
+        <Link href={SEND_TEST_PATH} className="button-primary">{labels.send.link}</Link>
         <Link href={`${GRADING_PATH}/vjezba`} className={practiceWaiting > 0 ? "button-primary" : "button-secondary"}>{labels.practice.link.replace("{n}", String(practiceWaiting))}</Link>
       </div>
       {groups.map((group) => (
@@ -83,6 +84,7 @@ function QueueLine({ entry }: { entry: GradingQueueEntry }): ReactNode {
       <Link href={`${GRADING_PATH}/${entry.id}`} className="review-list__item review-list__item--compact">
         <strong className="review-list__key">{entry.student}</strong>
         <span>{dictionary.subjects[entry.subjectCode]}</span>
+        <span>{testLabel(entry.kind, entry.positions, { full: exam.kindFull, part: exam.kindPart })}{entry.sent ? `, ${labels.queue.sent}` : ""}</span>
         <span>{formatDateTime(entry.submittedAt ?? entry.createdAt, locale)}{entry.autoSubmitted ? `, ${labels.queue.auto}` : ""}</span>
         <span className="status-pill" data-exam={entry.status}>{detail}</span>
       </Link>

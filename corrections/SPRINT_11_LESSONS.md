@@ -28,8 +28,25 @@ Date: 2026-10-04 (open)
   never scheduled and surfaced only at the release gate. Open risks in a handoff note need an owner and a sprint, or
   they reach launch silently.
 
+- The Director's restatement of the product logic two days before launch showed that the mock exam is still
+  student-initiated, while the mandate sees the teacher as owner of the whole process. A short "who starts what"
+  table per role, checked against the mandate at each sprint start, would have caught it earlier.
+
+- A DB test that calls a function and checks its effect in the same SQL statement sees the old snapshot; split the
+  call and the check into two statements.
+- Applying a large migration through the connector means retyping it; verify afterwards by comparing md5(prosrc) of
+  every function with the body in the file.
+
 ## Commander Improvement Candidates
 - Every "open risk" in a sprint handoff gets a tracked follow-up item in the next sprint plan, checked at sprint start.
 
 ### 2026-10-04 — No lessons this session (routine changes only)
 Migration 030 verified and recorded; PDL-041 L2 refined; README deployment steps.
+
+### 2026-10-04 — Teacher-sent sets and the approval gate
+- A set the teacher sent is visible to the student in the overview as soon as it exists (one open exam per subject),
+  which would leak the teacher's message before approval (T4). The student screens now show only "the teacher is
+  preparing a test" until approval; check every new exam field against the approval gate.
+- A part of a test mixed into the profile trend compared points of different maxima; trends compare only exams of the
+  same kind and positions.
+

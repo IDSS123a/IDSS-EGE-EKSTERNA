@@ -17,6 +17,7 @@ check, not for the final guide); "Live" = to capture from the real app with a re
 | Grading area | `/app/ocjenjivanje` | teacher, superadmin | queues, blueprints (load, confirm), notifications | Fixture 2026-10-03 |
 | Set approval | `/app/ocjenjivanje/[id]` | teacher | printed keys, errata, follow-ups, approve, discard | Live pending |
 | Grading | `/app/ocjenjivanje/[id]` | teacher | proposals, points, pairs, confirm | Fixture 2026-10-03 |
+| Send a test | `/app/ocjenjivanje/posalji` | teacher, superadmin | whole or part (positions, minutes), all or chosen, note, sent tests with sets | Live pending |
 | Practice answers | `/app/ocjenjivanje/vjezba` | teacher | answer beside key, verdict | Live pending |
 | Review queue | `/app/pregled` | teacher, superadmin | filters, open notices, key search | Live pending |
 | Review record | `/app/pregled/[id]` | teacher, superadmin | source region, errata form, follow-ups | Live pending |
