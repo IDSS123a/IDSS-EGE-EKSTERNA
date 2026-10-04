@@ -28,6 +28,10 @@ Date: 2026-10-04 (open)
   never scheduled and surfaced only at the release gate. Open risks in a handoff note need an owner and a sprint, or
   they reach launch silently.
 
+- The Director's restatement of the product logic two days before launch showed that the mock exam is still
+  student-initiated, while the mandate sees the teacher as owner of the whole process. A short "who starts what"
+  table per role, checked against the mandate at each sprint start, would have caught it earlier.
+
 ## Commander Improvement Candidates
 - Every "open risk" in a sprint handoff gets a tracked follow-up item in the next sprint plan, checked at sprint start.
 
