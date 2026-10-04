@@ -19,10 +19,11 @@ system forbids deletion (append-only audit), handled as the Director decides bel
 | Trial gift from Nizama Memija to a.b. and its opening | 1 + 1 (2026-10-04) | remove |
 | Mock exams, notifications, support notes, teacher notes, push subscriptions | 0 each (2026-10-04) | check again; remove trial rows |
 | Exam blueprints (Math, B/H/S, German) | 3 | **keep** (real data, waiting for the teachers' confirmation) |
-| Blueprint confirmations made with the Director's account (B/H/S 2026-10-03, Mathematics 2026-10-04) | 2 | **open question to the Director**: keep (mock exams open at launch for B/H/S and Mathematics) or treat as trial and remove (teachers confirm after launch, PDL-041 L4 addendum) |
+| Blueprint confirmations made with the Director's account (B/H/S 2026-10-03, Mathematics 2026-10-04) | 2 | remove as trial (PDL-042 F-05); shown as a separate step in the clean-start script |
 | Audit log | 704 rows (2026-10-04) | D-A decided: export to the school archive, then one audited removal |
 | Security events (failed logins during tests) | 6 | D-A decided (same procedure) |
 | Retrieval audit of test searches | 13 | D-A decided (same procedure) |
+| Stale staging copy of the German catalogue in storage `canon-documents/staging/` (audit F-06) | 1 | remove through the storage API (not SQL) |
 | Staff accounts and their passwords | 6 | keep the accounts; every staff member sets a new password at first real use |
 
 The inventory is re-run right before the cleanup; anything created after this date is added.
@@ -30,6 +31,8 @@ The inventory is re-run right before the cleanup; anything created after this da
 ## 2. How the cleanup runs (M-4, M-23)
 Timing: the last step before the production deploy, after all testing is finished (Director, 2026-10-03).
 
+0. Backup first (audit F-04): Supabase plan with daily backups, or the Director's own `pg_dump` file (README,
+   "Rezervna kopija baze"), kept with the D-A archive.
 1. The ACA prepares one reviewed cleanup migration (`migrations/9xx_production_clean_start.sql`) that removes exactly
    the rows listed in the inventory by their trial account, never by date or pattern alone, inside one transaction,
    and prints the counts before and after.

@@ -56,6 +56,20 @@ Otvoriti je u Notepadu, kopirati cijeli sadržaj, u Supabase (projekt `dezevstfm
 New query, zalijepiti, Run, i potvrditi upozorenje o brisanju (briše se samo stara provjera vrste obavijesti, ne podaci).
 Provjera: Direktorski pregled, kartica Sistem, "Obavijesti o zadacima i poklonima su uključene".
 
+## Rezervna kopija baze (prije čišćenja, audit F-04)
+1. Supabase, projekt `dezevstfmfliyasdeflj`, lijevo **Database**, pa **Backups**. Ako su tu navedene dnevne kopije
+   (plaćeni plan Pro ili viši), kopija postoji: zapišite datum zadnje i javite ACA-u. Gotovo.
+2. Ako piše da kopije nisu dostupne (besplatni plan), napravite vlastitu kopiju:
+   - instalirajte PostgreSQL 17 sa https://www.postgresql.org/download/windows/ (dovoljno je "Command Line Tools");
+   - u Supabase kliknite **Connect**, izaberite **Session pooler**, kopirajte adresu i u nju upišite lozinku baze
+     (lozinka se nikad ne šalje u razgovor);
+   - u terminalu:
+     ```
+     "C:\Program Files\PostgreSQL\17\bin\pg_dump.exe" "ADRESA_SA_LOZINKOM" -Fc -f C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-05.dump
+     ```
+   - datoteka se čuva van repozitorija (sadrži lične podatke) i ne dijeli se.
+3. Katalozi (PDF) nisu dio kopije baze, ali su u repozitoriju i u pohrani; ne brišu se.
+
 ## Objava na Vercel (Sprint 11, PDL-041)
 Objava se radi tek kad Direktor kaže "kreni" (M-23), a dan ranije ide čišćenje probnih podataka (PDL-038).
 Tim: https://vercel.com/idsssarajevo

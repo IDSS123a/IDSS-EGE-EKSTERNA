@@ -607,3 +607,19 @@ history; Game Hub and profile read the settings with code defaults as fallback. 
   teachers confirm the exam blueprints and enter erratum DEU-4.3.34 after the launch; until a blueprint is confirmed,
   students of that subject cannot request a mock exam (practice, assignments and gifts work). The clean start keeps
   the blueprints.
+
+## PDL-042: Release gate decisions after the pre-deployment audit (F-01, F-03, F-05)
+**Date:** 2026-10-04 (Director, answers to `docs/audit/PRE_DEPLOYMENT_AUDIT_2026-10-04.md`)
+**Decision:**
+- F-01, option (a): PDL-016 stands as an explicit launch exception. The 492 bulk-accepted questions (and the 8
+  accepted individually under the Director's account) stay available to pupils at launch. The subject teachers
+  re-review them after the launch; corrections go through key revisions and errata as before (P-15). The release
+  gate condition "no bypass of the teacher review" is met by this recorded decision of the Director, not by a
+  per-item teacher review.
+- F-03: the Director states that public sign-up in Supabase Auth was switched off earlier (not independently
+  verifiable with the ACA's tools).
+- F-05: "as defined earlier" (PDL-041 L4 addendum: the teachers confirm the blueprints after launch). Read by the ACA
+  as: the blueprint confirmations made with the Director's account (B/H/S 2026-10-03, Mathematics 2026-10-04) are
+  trial data and are removed in the clean start; until a teacher confirms, pupils cannot request mock exams. The
+  clean-start script shows this step separately, so the Director can keep them instead before running it.
+**Open:** F-04 (backup before the clean start).
