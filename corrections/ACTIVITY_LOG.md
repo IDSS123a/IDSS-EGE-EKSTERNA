@@ -111,3 +111,6 @@
 - [2026-10-03 23:12] Write: src/features/settings/components/app-settings-forms.tsx
 - [2026-10-03 23:14] Write: src/features/director/components/director-screen.tsx
 - [2026-10-04] Director Command Center screens, export route, i18n, home link, docs (PDL-040)
+- [2026-10-04 10:50] Edit: README.md
+- [2026-10-04 10:50] Write: sprints/SPRINT_11.md
+- [2026-10-04] README: VAPID and migration 030 steps with exact Windows paths; Sprint 11 draft plan (L1 to L4)

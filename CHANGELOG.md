@@ -105,3 +105,4 @@
 [2026-10-04] [DATABASE] Migration 033 (PDL-040): Director Command Center functions, settings with history (mission goal, IDSS points and badges, minimum group 3)
 [2026-10-04] [FEATURE] Direktorski pregled /app/direktor (PDL-040): Pregled, Predmeti, Nastavnici, Sadržaj, Sistem, Dnevnik; small-group protection; IDSS print; CSV for teachers and the audit log (audited)
 [2026-10-04] [FEATURE] Postavke: daily mission goal, IDSS points and badges, minimum group, each with history
+[2026-10-04] [DOCS] README: VAPID keys and migration 030 steps for the Director; Sprint 11 draft plan (L1 to L4)
