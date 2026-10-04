@@ -232,7 +232,8 @@
     "loading": "Wird geladen",
     "confirmTitle": "Bestätigung",
     "confirmYes": "Bestätigen",
-    "confirmNo": "Abbrechen"
+    "confirmNo": "Abbrechen",
+    "table": "Tabelle, horizontal verschiebbar"
   },
   "ingestion": {
     "title": "Aufgaben extrahieren",

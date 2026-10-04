@@ -232,7 +232,8 @@
     "loading": "Učitavanje",
     "confirmTitle": "Potvrda",
     "confirmYes": "Potvrdi",
-    "confirmNo": "Odustani"
+    "confirmNo": "Odustani",
+    "table": "Tabela, može se pomjerati lijevo i desno"
   },
   "ingestion": {
     "title": "Izdvajanje pitanja",

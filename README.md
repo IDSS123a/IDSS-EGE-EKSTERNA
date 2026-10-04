@@ -38,10 +38,13 @@ Ispis ima dva reda: `Public Key` i `Private Key`. U datoteku
 `C:\DAVOR_PRIVATE\AI\EKSTERNA-MATURA-2026-2027\.env.local` (otvoriti npr. `notepad .env.local`) upisati:
 
 ```
-NEXT_PUBLIC_VAPID_PUBLIC_KEY=<Public Key>
-VAPID_PRIVATE_KEY=<Private Key>
+NEXT_PUBLIC_VAPID_PUBLIC_KEY=BNx3...cijeli Public Key...
+VAPID_PRIVATE_KEY=Ki9...cijeli Private Key...
 VAPID_SUBJECT=mailto:ai@idss.ba
 ```
+
+Ključ se upisuje odmah iza znaka `=`, tačno kako ga je ispisala komanda: **bez zagrada, navodnika i razmaka**
+(pogrešno: `=(BNx3...)`, `="BNx3..."`). Datoteka mora biti `.env.local`, ne `.env`.
 
 Zatim zaustaviti server (Ctrl+C) i ponovo `npm run dev`. Privatni ključ se nikome ne šalje i ne ide u repozitorij;
 ako procuri, napravi se novi par, a korisnici ponovo uključe obavijesti. Isti par se kasnije upisuje i u postavke

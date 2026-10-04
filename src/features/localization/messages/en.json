@@ -232,7 +232,8 @@
     "loading": "Loading",
     "confirmTitle": "Confirmation",
     "confirmYes": "Confirm",
-    "confirmNo": "Cancel"
+    "confirmNo": "Cancel",
+    "table": "Table, scrolls left and right"
   },
   "ingestion": {
     "title": "Question extraction",

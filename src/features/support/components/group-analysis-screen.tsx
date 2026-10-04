@@ -24,7 +24,7 @@ export function GroupAnalysisScreen({ patterns, codes, canExport }: { patterns: 
       <section className="card" aria-labelledby="analysis-weeks">
         <h2 id="analysis-weeks">{labels.weeks}</h2>
         {patterns.weeks.length === 0 ? <p>{labels.empty}</p> : (
-          <div className="table-scroll">
+          <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
             <table className="data-table">
               <thead><tr><th>{labels.week}</th><th>{labels.activeStudents}</th><th>{labels.answers}</th></tr></thead>
               <tbody>{patterns.weeks.map((week) => <tr key={week.week}><td>{week.week}</td><td>{week.students}</td><td>{week.answers}</td></tr>)}</tbody>
@@ -42,7 +42,7 @@ export function GroupAnalysisScreen({ patterns, codes, canExport }: { patterns: 
             <h2 id={`analysis-${code}`}>{dictionary.subjects[code]}</h2>
             <h3>{labels.areas}</h3>
             {areas.length === 0 ? <p>{labels.empty}</p> : (
-              <div className="table-scroll">
+              <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
                 <table className="data-table">
                   <thead><tr><th>{labels.area}</th><th>{labels.checked}</th><th>{labels.correctShare}</th></tr></thead>
                   <tbody>{areas.map((area) => <tr key={`${area.ordinal}-${area.area}`}><td>{area.area}</td><td>{area.checked}</td><td>{percent(area.correct, area.checked)}</td></tr>)}</tbody>

@@ -10,7 +10,19 @@ Date: 2026-10-04 (open)
   malformed, not only absent.
 
 ## Gotchas Discovered
-None yet.
+- A placeholder in an instruction for the Director is copied literally: "(Public Key)" left the parentheses in
+  `.env.local` and made both VAPID keys invalid. Instructions show a shortened real-looking value and say explicitly
+  "no brackets, quotes or spaces".
+
+- axe measures colours mid-transition right after a click (the language switcher), which reports a false contrast
+  violation now and then; the accessibility spec waits for `document.getAnimations()` to finish first.
+- A horizontally scrolling table wrapper is unreachable by keyboard (`scrollable-region-focusable`); every
+  `.table-scroll` now has `tabIndex={0}`, `role="region"` and a label.
+- Opacity on a muted text lowers contrast below 4.5:1 (unearned badges, 4.35:1); muted state uses the muted ink
+  colour and a dashed border instead.
+
+- A large adversarial DO block through the Supabase connector timed out after 60 s without leaving a session open;
+  split probes into small statements with `set local statement_timeout`.
 
 ## Commander Improvement Candidates
 None yet.

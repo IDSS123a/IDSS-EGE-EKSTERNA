@@ -1327,3 +1327,19 @@ select pg_temp.assert(private.min_group() = 1
 select pg_temp.assert((public.director_overview('00000000-0000-0000-0000-00000000000a', now() - interval '30 days') ->> 'answers') is not null,
   'with a minimum group of one every figure shows');
 select public.set_setting('00000000-0000-0000-0000-00000000000a', 'privacy.min_group', '{"value": 3}', null);
+
+-- 28. Security invariants (Sprint 11, adversarial pass): the API roles reach the data only through RLS reads and the
+-- server's service_role functions. Guards every future migration against an accidental opening.
+select pg_temp.assert(not exists (select 1 from pg_class c join pg_namespace n on n.oid = c.relnamespace
+  where n.nspname = 'public' and c.relkind = 'r' and not c.relrowsecurity), 'every public table has RLS on');
+select pg_temp.assert(not exists (select 1 from pg_policies where schemaname = 'public' and cmd <> 'SELECT'
+  and (roles && array['anon', 'authenticated', 'public']::name[])), 'no write policy for anon or authenticated on any public table');
+select pg_temp.assert(not exists (select 1 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+  where n.nspname = 'public' and p.prokind = 'f' and (has_function_privilege('anon', p.oid, 'execute') or has_function_privilege('authenticated', p.oid, 'execute'))),
+  'no public function is executable by anon or authenticated (all go through the server)');
+select pg_temp.assert(not exists (select 1 from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+  where n.nspname in ('public', 'private') and p.prosecdef and not exists (select 1 from unnest(coalesce(p.proconfig, '{}')) cfg where cfg like 'search_path=%')),
+  'every security definer function pins its search_path');
+select pg_temp.assert(not has_table_privilege('anon', 'public.audit_logs', 'insert') or
+  not exists (select 1 from pg_policies where schemaname = 'public' and tablename = 'audit_logs' and cmd in ('INSERT', 'ALL')),
+  'nobody but the server writes the audit log');

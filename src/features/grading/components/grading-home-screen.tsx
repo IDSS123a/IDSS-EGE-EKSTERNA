@@ -147,7 +147,7 @@ function Positions({ content }: { content: BlueprintContent }): ReactNode {
       <summary>{labels.details.replace("{n}", String(content.positions.length)).replace("{points}", formatPoints(total, locale))}</summary>
       <p className="form__hint">{labels.checker.replace("{name}", content.reviewer)}</p>
       <p className="form__hint">{labels.evidence.replace("{text}", content.evidence)}</p>
-      <div className="table-scroll">
+      <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
         <table className="data-table">
           <thead>
             <tr><th>{labels.columns.position}</th><th>{labels.columns.format}</th><th>{labels.columns.points}</th><th>{labels.columns.pool}</th></tr>

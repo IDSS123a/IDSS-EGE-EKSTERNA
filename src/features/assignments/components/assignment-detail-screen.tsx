@@ -37,7 +37,7 @@ export function AssignmentDetailScreen({ assignment, canExport, canOpenProfiles 
 
       <section className="card" aria-labelledby="assignment-recipients">
         <h2 id="assignment-recipients">{labels.detail.recipients}</h2>
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={dictionary.common.table}>
           <table className="data-table">
             <thead>
               <tr>
