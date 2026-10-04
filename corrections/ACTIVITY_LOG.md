@@ -128,3 +128,4 @@
 - [2026-10-04] PDL-042 recorded; audit decision updated to CONDITIONAL (F-04 open)
 - [2026-10-04 13:53] Write: docs/architecture/TEACHER_LED_TESTS.md
 - [2026-10-04] Product logic check (teacher owns the process): gap found, proposal docs/architecture/TEACHER_LED_TESTS.md (T1 to T6)
+- [2026-10-04] PDL-043 recorded; migration 035 live (md5-verified), DB section 29; 036 for the Director

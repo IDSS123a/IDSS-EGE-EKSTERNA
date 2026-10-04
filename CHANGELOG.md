@@ -121,3 +121,4 @@
 [2026-10-04] [AUDIT] Pre-deployment audit and release gate: BLOCKED on F-01 (bulk-accepted questions, PDL-016); report in docs/audit
 [2026-10-04] [DOCS] PDL-042: release gate decisions (F-01 option a, F-03, F-05); audit addendum CONDITIONAL; backup steps in README
 [2026-10-04] [DOCS] Teacher-led tests design proposal (T1 to T6): whole test and parts of a test sent by the teacher
+[2026-10-04] [DATABASE] Migration 035 (PDL-043): teacher sends a whole test or a part (blueprint positions, own minutes) to a group or chosen students; 036 handed to the Director

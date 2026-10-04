@@ -32,6 +32,11 @@ Date: 2026-10-04 (open)
   student-initiated, while the mandate sees the teacher as owner of the whole process. A short "who starts what"
   table per role, checked against the mandate at each sprint start, would have caught it earlier.
 
+- A DB test that calls a function and checks its effect in the same SQL statement sees the old snapshot; split the
+  call and the check into two statements.
+- Applying a large migration through the connector means retyping it; verify afterwards by comparing md5(prosrc) of
+  every function with the body in the file.
+
 ## Commander Improvement Candidates
 - Every "open risk" in a sprint handoff gets a tracked follow-up item in the next sprint plan, checked at sprint start.
 

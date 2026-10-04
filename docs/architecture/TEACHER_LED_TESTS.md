@@ -1,6 +1,6 @@
 # Teacher-led tests (design proposal)
 
-Status: **proposal, waiting for the Director (decisions T1 to T6)** · Date: 2026-10-04
+Status: **approved 2026-10-04 (PDL-043: proposals 1 to 4 and T1 to T6)** · Date: 2026-10-04
 Trigger: the Director's restatement of the product logic: "Nastavnik je vlasnik cijelog procesa pripreme učenika za
 eksternu maturu. Nastavnik može dati pitanja grupi učenika ili pojedinačno učeniku. Nastavnik prati razvoj svakog
 učenika i može grupi učenika ili pojedinačnom učeniku poslati cijeli test ili samo dijelove testa gdje vidi da učenik

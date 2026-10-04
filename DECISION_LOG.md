@@ -623,3 +623,19 @@ history; Game Hub and profile read the settings with code defaults as fallback. 
   trial data and are removed in the clean start; until a teacher confirms, pupils cannot request mock exams. The
   clean-start script shows this step separately, so the Director can keep them instead before running it.
 **Open:** F-04 (backup before the clean start).
+
+## PDL-043: Teacher-led tests (decisions T1 to T6)
+**Date:** 2026-10-04 (Director, answers to `docs/architecture/TEACHER_LED_TESTS.md`; proposals 1 to 4 approved)
+**Decision:**
+- The teacher sends a whole test or part of a test to the whole group or to chosen students, by the teacher's own
+  judgement, and sends the parts of the test where a student is weaker.
+- T1: students may still request a mock exam themselves.
+- T2: a part is chosen by positions of the official test (the confirmed blueprint).
+- T3: the teacher sets the time for a part; a whole test keeps the official duration.
+- T4: the teacher approves every composed set before the group or the student sees it, as today.
+- T5: a part gives no readiness indicator and no badge for a full mock exam; IDSS points for answers stay.
+- T6: the launch moves to Thursday 2026-10-08 (PDL-041 L4 updated).
+**Implementation:** migration 035 (mock_exam_sends; kind, positions, duration_minutes, sent_by, send_id on mock
+exams; mock_exam_send, mock_exam_send_options, mock_exam_sends_overview; composition limited to the chosen positions;
+parts excluded from readiness, trend, points distributions, submission bonus and exam badges); migration 036 (notice
+kind mock_exam_assigned, run by the Director); DB tests section 29.

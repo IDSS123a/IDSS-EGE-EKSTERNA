@@ -1,6 +1,6 @@
 # SPRINT 11 — Hardening and launch
 
-Status: **in progress** · Started 2026-10-04 (Director approved L1 to L4, PDL-041; target launch 2026-10-06)
+Status: **in progress** · Started 2026-10-04 (Director approved L1 to L4, PDL-041; target launch moved to 2026-10-08, PDL-043)
 Source: `docs/IMPLEMENTATION_PLAN.md` row 11; CONSTITUTION P-13, P-14; Commander E-15, M-4, M-23; PDL-038 (clean start).
 Required reading (Tier 2): Commander M-1…M-5, ENGINEERING_RULES, ARCHITECTURE_PATTERNS, DONE_CHECKLIST (post-deploy
 verification), `docs/PRODUCTION_READINESS.md`.
@@ -74,3 +74,4 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
   (no trial data created in production). No project for this repository exists yet in team `idsssarajevo`.
 - [ ] 5. Clean start: cleanup migration and archive export prepared on 2026-10-05, reviewed and run by the Director.
 - [ ] 6. Production deploy on the Director's go, then the post-deploy verification.
+- [x] 7a. Teacher-led tests in the database (PDL-043): migration 035 live, DB section 29; migration 036 handed to the Director.
