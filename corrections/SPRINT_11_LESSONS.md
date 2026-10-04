@@ -69,3 +69,9 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
 - After #58 was merged, four doc commits (SKRIPTA.md, 036 record, F-04) were pushed to the session branch and reported
   to the Director as "in PR #58"; they never reached main. Before reporting where a change is, check the PR state
   (`gh api repos/.../pulls/N --jq .merged`) and open a new PR when the previous one is merged.
+
+### 2026-10-04 — Building presentation mockups exposed two UI gaps
+- The send form printed raw format codes ("choice", "working") while the blueprint card translated them; reuse the
+  existing label map whenever a data code reaches the screen.
+- Mathematics draws every position from every area, so "Pošalji dio testa" from a weak area preselected all ten
+  positions (a whole test labelled as a part). Preselection now applies only when the area covers a proper subset.

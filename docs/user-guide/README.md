@@ -20,6 +20,7 @@ screens show them.
 | `osobe/*.md` | personal start page per named staff member: what to do first, with links to the chapters |
 | `SCREENSHOTS.md` | every screen to capture, with role, state and status |
 | `SKRIPTA.md` | short live presentation script for teachers, pedagogue and psychologist (board meeting) |
+| `SKRIPTA.html` | the same script as a standalone visual page with app screen mockups (open in a browser, print to PDF) |
 
 Status markers used in the chapters: **Dostupno** (in the app now), **Uskoro** (planned, sprint named), so a reader never
 looks for a screen that does not exist yet.

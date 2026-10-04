@@ -42,15 +42,16 @@ export function SendTestScreen({ options, students, sent, preset }: Props): Reac
 function SendForm({ options, students, preset }: Omit<Props, "sent">): ReactNode {
   const { dictionary, locale } = useI18n();
   const labels = dictionary.grading.send;
+  const formats = dictionary.grading.blueprints.formats;
   const [result, formAction, pending] = useActionState<SendTestResult | null, FormData>(sendTestAction, null);
   const initial = options.find((entry) => entry.subjectCode === preset.subject) ?? options[0];
-  const presetPositions = (subject: SendOptions): number[] =>
-    preset.area && subject.subjectCode === initial.subjectCode
-      ? subject.positions.filter((position) => position.areas.some((area) => area.name === preset.area)).map((position) => position.position)
-      : [];
+  // Positions whose catalogue ranges cover the weak area. When every position covers it (Mathematics draws each
+  // position from all areas), nothing is preselected: the teacher picks the positions.
+  const covering = preset.area ? initial.positions.filter((position) => position.areas.some((area) => area.name === preset.area)).map((position) => position.position) : [];
+  const presetPositions = covering.length < initial.positions.length ? covering : [];
   const [subjectId, setSubjectId] = useState(initial.subjectId);
-  const [chosen, setChosen] = useState<number[]>(() => presetPositions(initial));
-  const [kind, setKind] = useState<"full" | "part">(() => (presetPositions(initial).length > 0 ? "part" : "full"));
+  const [chosen, setChosen] = useState<number[]>(presetPositions);
+  const [kind, setKind] = useState<"full" | "part">(covering.length > 0 ? "part" : "full");
   const [audience, setAudience] = useState<"all" | "chosen">(preset.student ? "chosen" : "all");
   const subject = options.find((entry) => entry.subjectId === subjectId) ?? initial;
   const chosenPoints = subject.positions.filter((position) => chosen.includes(position.position)).reduce((sum, position) => sum + position.points, 0);
@@ -101,7 +102,7 @@ function SendForm({ options, students, preset }: Omit<Props, "sent">): ReactNode
                     <label key={position.position} className="practice-choice">
                       <input type="checkbox" name="position" value={position.position} checked={chosen.includes(position.position)} onChange={(event) => toggle(position.position, event.target.checked)} />{" "}
                       <span>
-                        <strong>{labels.position.replace("{n}", String(position.position))}</strong>, {position.format}, {labels.points.replace("{points}", formatPoints(position.points, locale))}
+                        <strong>{labels.position.replace("{n}", String(position.position))}</strong>, {formats[position.format as keyof typeof formats] ?? position.format}, {labels.points.replace("{points}", formatPoints(position.points, locale))}
                         {position.areas.length > 0 && <span className="form__hint"> {labels.areas.replace("{areas}", position.areas.map((area) => area.name).join(", "))}</span>}
                       </span>
                     </label>
