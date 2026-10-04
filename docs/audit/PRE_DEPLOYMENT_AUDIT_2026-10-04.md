@@ -242,9 +242,9 @@ re-runs this gate and reports again. The deploy still requires "kreni" (M-23).
 |---|---|---|
 | F-01 | Option (a): PDL-016 confirmed as a launch exception; teachers re-review after launch | Resolved by recorded Director decision |
 | F-03 | Public sign-up switched off earlier (Director's statement) | Accepted on the Director's statement |
-| F-04 | Director does not yet know how to check; steps given (README "Rezervna kopija baze") | **Open** |
+| F-04 | Supabase free plan has no backups (Director, dashboard 2026-10-04); Director made an own `pg_dump` 17.11 copy of the 17.6 database on 2026-10-04 19:14: custom format, 1544 TOC entries, 3.26 MB, verified with `pg_restore --list`, kept outside the repository. Repeated right before the clean start | Resolved |
 | F-05 | Teachers confirm after launch; Director confirmations removed in the clean start (ACA reading, step shown separately) | Resolved |
 
-**Updated executive decision: CONDITIONAL, NOT APPROVED.** The blocking finding is resolved by decision. What remains:
-F-04 (backup before the clean start) and the checks that cannot run from this environment (B.4). Once the Director
-confirms the backup exists, the ACA re-runs the gate the day of the clean start.
+**Updated executive decision: CONDITIONAL, NOT APPROVED.** The blocking finding is resolved by decision and F-04 is
+resolved (2026-10-04). What remains: the checks that cannot run from this environment (B.4), the clean start itself and
+the Director's go (M-23). The ACA re-runs the gate the day of the clean start.

@@ -79,4 +79,5 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssaraje
   teacher's minutes, all or chosen students, note, sent tests with every set), queue and student labels, student exam
   screen (sender, note, part notice; nothing shown before approval), push to the student on approval, profile
   shortcuts per weak area (assignment and part of a test, prefilled), profile trend compares like with like.
-  Unit tests `teacher-sent-tests.test.ts`; e2e guard for the new route. Live check with real students after 036.
+  Unit tests `teacher-sent-tests.test.ts`; e2e guard for the new route. Live check after 036 (rolled back): part of a test, positions 6 and 7, 20 minutes, sent by a Mathematics teacher; set composed, approved, student notice created, student view shows part, positions, minutes and sender.
+- [x] 4a. Backup (audit F-04): free plan has no backups; the Director's own pg_dump copy verified 2026-10-04 (3.26 MB, 1544 entries). Repeated right before the clean start.

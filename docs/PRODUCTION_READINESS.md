@@ -31,8 +31,9 @@ The inventory is re-run right before the cleanup; anything created after this da
 ## 2. How the cleanup runs (M-4, M-23)
 Timing: the last step before the production deploy, after all testing is finished (Director, 2026-10-03).
 
-0. Backup first (audit F-04): Supabase plan with daily backups, or the Director's own `pg_dump` file (README,
-   "Rezervna kopija baze"), kept with the D-A archive.
+0. Backup first (audit F-04): the Supabase plan is free and has no backups, so the Director makes an own `pg_dump`
+   file (README, "Rezervna kopija baze"), kept with the D-A archive. First copy verified 2026-10-04 (3.26 MB,
+   1544 entries); the same three PowerShell commands are repeated right before the cleanup.
 1. The ACA prepares one reviewed cleanup migration (`migrations/9xx_production_clean_start.sql`) that removes exactly
    the rows listed in the inventory by their trial account, never by date or pattern alone, inside one transaction,
    and prints the counts before and after.
@@ -49,7 +50,7 @@ production deploy, because testing continues until then. Not earlier.
   remove them once with a dedicated, audited procedure that briefly lifts the append-only guard and records its own
   run (one row: who, when, how many). Alternative: keep them as the honest history of the setup phase.
 
-## 4. Launch day (PDL-041: Vercel team `idsssarajevo`, target 2026-10-06)
+## 4. Launch day (PDL-041: Vercel team `idsssarajevo`, target 2026-10-08, PDL-043)
 Order: clean start the day before (section 2), then the Director's explicit go (M-23), then the import on Vercel by the
 Director (README, "Objava na Vercel"), then this verification by the ACA on the production address.
 
