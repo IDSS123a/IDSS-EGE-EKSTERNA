@@ -12,6 +12,11 @@ None yet.
 - After removing a temporary preview route, `.next/dev/types` still references it and `tsc` fails; delete
   `.next/dev/types` (generated) before the typecheck.
 
+- 2026-10-04: the Director saw the error page on `/app` after pulling Sprint 10. Supabase logs showed every request of
+  his session answered 200 and the same staff home rendered cleanly here, so the fault was local: a dev server left
+  running across `git pull` (stale compiled modules). The pull instructions now say: stop the server, delete `.next`,
+  `npm install`, start again. Before suspecting the code, read the Supabase logs of the Director's session.
+
 ## Commander Improvement Candidates
 None yet.
 
