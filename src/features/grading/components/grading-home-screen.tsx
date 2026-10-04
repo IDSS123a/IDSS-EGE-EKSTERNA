@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, type FormEvent, type ReactNode } from "react";
+import { useActionState, type ReactNode } from "react";
 import { APP_HOME_PATH, GRADING_PATH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
 import { formatPoints } from "@/features/exams/domain/exam";
@@ -12,6 +12,7 @@ import { ReviewShell } from "@/features/review/components/review-shell";
 import { loadBlueprintAction, reviewBlueprintAction } from "../actions";
 import { poolRange } from "../domain/blueprint";
 import type { BlueprintContent, GradingActionResult, GradingQueueEntry, SubjectBlueprint } from "../types";
+import { useConfirmSubmit } from "@/features/shell/components/confirm-dialog";
 
 type Props = {
   blueprints: SubjectBlueprint[];
@@ -180,10 +181,7 @@ function ReviewForm({ blueprintId, subjectId }: { blueprintId: string; subjectId
   const { dictionary } = useI18n();
   const labels = dictionary.grading.blueprints;
   const [result, formAction, pending] = useActionState<GradingActionResult | null, FormData>(reviewBlueprintAction, null);
-  const confirmChoice = (event: FormEvent<HTMLFormElement>): void => {
-    const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
-    if (submitter?.value === "confirmed" && !window.confirm(labels.confirmQuestion)) event.preventDefault();
-  };
+  const confirmChoice = useConfirmSubmit((submitter) => (submitter?.value === "confirmed" ? labels.confirmQuestion : null));
   return (
     <form action={formAction} onSubmit={confirmChoice} className="form">
       <input type="hidden" name="blueprintId" value={blueprintId} />

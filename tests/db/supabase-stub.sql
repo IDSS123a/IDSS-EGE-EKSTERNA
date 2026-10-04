@@ -26,3 +26,8 @@ create table storage.buckets (id text primary key, name text not null, public bo
 -- Supabase keeps extensions (pgvector) in schema "extensions", usable by the API roles.
 create schema if not exists extensions;
 grant usage on schema extensions to anon, authenticated, service_role;
+
+-- Supabase's migration history: owned by postgres, no privileges for the API roles (as on the live project).
+create schema supabase_migrations;
+create table supabase_migrations.schema_migrations (version text primary key, statements text[], name text);
+insert into supabase_migrations.schema_migrations (version, name) values ('20260101000000', '001_identity');

@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, type FormEvent, type ReactNode } from "react";
+import { useActionState, type ReactNode } from "react";
 import { CANON_PATH, CANON_REASON_MAX_LENGTH } from "@/constants";
 import { IngestionPanel } from "@/features/ingestion/components/ingestion-panel";
 import { FactsPanel, type FactsStatus } from "@/features/knowledge/components/facts-panel";
@@ -11,6 +11,7 @@ import { availableActions, requiresReason, shortHash } from "../domain";
 import type { CanonActionResult, CanonVersion } from "../types";
 import { CanonFeedback } from "./canon-feedback";
 import { formatBytes, formatDateTime } from "./format";
+import { useConfirmSubmit } from "@/features/shell/components/confirm-dialog";
 
 /** One version of a canonical document: metadata, status, download and lifecycle actions. */
 export function VersionCard({ version, job, facts, canPublish }: { version: CanonVersion; job: IngestionJobSummary | null; facts: FactsStatus | null; canPublish: boolean }): ReactNode {
@@ -20,11 +21,10 @@ export function VersionCard({ version, job, facts, canPublish }: { version: Cano
   const actions = canPublish ? availableActions(version.status) : [];
   const needsReason = actions.some(requiresReason);
 
-  const confirmSubmit = (event: FormEvent<HTMLFormElement>): void => {
-    const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
+  const confirmSubmit = useConfirmSubmit((submitter) => {
     const action = submitter?.value as keyof typeof labels.confirm | undefined;
-    if (action && !window.confirm(labels.confirm[action])) event.preventDefault();
-  };
+    return action && labels.confirm[action] ? labels.confirm[action] : null;
+  });
 
   return (
     <li className="canon-version" data-status={version.status}>

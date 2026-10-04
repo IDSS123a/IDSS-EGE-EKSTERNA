@@ -591,3 +591,13 @@ also allows 'gift_given'.
 each re-checks `analytics.view_institution`, the log `audit.view`); `/app/direktor` with six tabs, IDSS print on every
 tab, IDSS CSV for Nastavnici and Dnevnik (`/app/direktor/izvoz`, audited, at most 5000 log rows); Postavke forms with
 history; Game Hub and profile read the settings with code defaults as fallback. DB tests section 27.
+
+## PDL-041: Hardening and launch (decisions L1 to L4)
+**Date:** 2026-10-04 (Director, answers to `sprints/SPRINT_11.md`)
+**Decision:**
+- L1: hosting on Vercel, under the school's own account; the Director enters the keys in the hosting settings himself.
+- L2: production address `matura.idss.ba` (DNS entry by whoever manages idss.ba); the free Vercel address until then.
+- L3: accessibility level WCAG 2.2 AA.
+- L4: target launch Tuesday 2026-10-06; the clean start (PDL-038) runs the day before. The deploy itself still needs
+  the Director's explicit go (M-23) once testing and the teachers' confirmations are done; the date moves if they are
+  not.

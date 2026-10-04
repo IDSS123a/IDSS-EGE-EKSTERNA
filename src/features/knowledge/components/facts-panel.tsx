@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState, type FormEvent, type ReactNode } from "react";
+import { useActionState, type ReactNode } from "react";
 import type { CanonVersionStatus } from "@/features/canon/types";
 import { useI18n } from "@/features/localization/i18n-provider";
 import { loadCanonicalFactsAction } from "../actions";
 import type { KnowledgeActionResult } from "../types";
+import { useConfirmSubmit } from "@/features/shell/components/confirm-dialog";
 
 /** What the server knows about the canonical facts of one catalogue version. */
 export type FactsStatus = { available: boolean; loadedRules: number };
@@ -20,11 +21,9 @@ export function FactsPanel({ versionId, status, facts, canPublish }: { versionId
   const labels = dictionary.facts;
   const [result, formAction, pending] = useActionState<KnowledgeActionResult | null, FormData>(loadCanonicalFactsAction, null);
   const loaded = facts.loadedRules > 0 || result?.success === true;
+  const confirmLoad = useConfirmSubmit(() => labels.confirm);
   if (!facts.available && !loaded) return null;
 
-  const confirmLoad = (event: FormEvent<HTMLFormElement>): void => {
-    if (!window.confirm(labels.confirm)) event.preventDefault();
-  };
 
   return (
     <div className="ingestion-panel">

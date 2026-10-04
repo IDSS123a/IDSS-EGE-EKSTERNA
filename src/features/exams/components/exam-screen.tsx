@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useActionState, useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import { useActionState, useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { EXAM_AUTOSAVE_MS, EXAM_PATH, PRACTICE_RESPONSE_MAX_LENGTH } from "@/constants";
 import { formatDateTime } from "@/features/canon/components/format";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -10,6 +10,7 @@ import { ReviewShell } from "@/features/review/components/review-shell";
 import { beginExamAction, saveExamAction, submitExamAction } from "../actions";
 import { answeredCount, clockOffsetMs, formatClock, formatPoints, groupByPosition, remainingMs } from "../domain/exam";
 import type { ExamActionResult, ExamUnit, ExamView } from "../types";
+import { useConfirm, useConfirmSubmit } from "@/features/shell/components/confirm-dialog";
 
 type Question = ExamView["questions"][string];
 
@@ -60,9 +61,7 @@ function BeforeStart({ exam }: { exam: ExamView }): ReactNode {
     if (outcome.success) router.refresh();
     return outcome;
   }, null);
-  const confirmStart = (event: FormEvent<HTMLFormElement>): void => {
-    if (!window.confirm(labels.confirmStart)) event.preventDefault();
-  };
+  const confirmStart = useConfirmSubmit(() => labels.confirmStart);
 
   return (
     <section className="card" aria-labelledby="exam-start-title">
@@ -86,6 +85,7 @@ type SaveState = "idle" | "saving" | "saved" | "error";
 
 function Writer({ exam }: { exam: ExamView }): ReactNode {
   const { dictionary } = useI18n();
+  const ask = useConfirm();
   const labels = dictionary.exam;
   const router = useRouter();
   const lang = exam.subjectCode === "german" ? "de" : "bs";
@@ -177,7 +177,7 @@ function Writer({ exam }: { exam: ExamView }): ReactNode {
   const confirmSubmit = () => {
     const open = exam.units.length - answeredCount(latest.current);
     const question = open > 0 ? labels.confirmSubmitOpen.replace("{n}", String(open)) : labels.confirmSubmit;
-    if (window.confirm(question)) void submit(false);
+    void ask(question).then((ok) => { if (ok) void submit(false); });
   };
 
   return (
