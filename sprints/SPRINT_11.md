@@ -44,3 +44,4 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 `matura.idss.ba`; L3 WC
 ## Progress
 - [x] 0. Draft plan with decisions L1 to L4.
 - [x] 0a. Decisions L1 to L4 recorded (PDL-041).
+- [x] 0b. Migration 030 run by the Director, verified live; every migration 001 to 034 is in the database.
