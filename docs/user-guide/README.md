@@ -24,3 +24,12 @@ screens show them.
 
 Status markers used in the chapters: **Dostupno** (in the app now), **Uskoro** (planned, sprint named), so a reader never
 looks for a screen that does not exist yet.
+
+## In the application (PDL-031, 2026-10-04)
+The guide users read is `/app/uputstvo` (button **Uputstvo** on every home page), built from
+`src/features/guide/content.ts`; each account sees its own guide, the Director every guide. Screenshots:
+`public/guide/*.webp`, taken by `tools/guide-screens/capture.mjs` from the real screens with trial data (no database
+rows). After a screen changes: `PW_CHROMIUM_PATH=/opt/pw-browsers/chromium node tools/guide-screens/capture.mjs <image>`
+(no name: all), then `npx vitest run tests/unit/guide.test.ts` checks that every step has its screenshot.
+The Markdown chapters here stay the source for the comprehensive printed guide.
+

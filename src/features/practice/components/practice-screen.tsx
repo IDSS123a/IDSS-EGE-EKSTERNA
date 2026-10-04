@@ -9,16 +9,23 @@ import { ReviewShell } from "@/features/review/components/review-shell";
 import { submitPracticeAnswerAction } from "../actions";
 import type { PracticeItem, PracticeQuestion, PracticeResult, PracticeSubmitResult } from "../types";
 
-type Props = { code: SubjectCode; areaId: string | null; question: PracticeQuestion | null; assignment?: { id: string; title: string; answered: number; total: number } };
+type Props = {
+  code: SubjectCode;
+  areaId: string | null;
+  question: PracticeQuestion | null;
+  assignment?: { id: string; title: string; answered: number; total: number };
+  /** An already submitted answer to show (user guide screenshots); the page never passes it. */
+  initialResult?: PracticeSubmitResult;
+};
 
 /**
  * One practice question (Sprint 06, PDL-018): the student answers first; only the database's answer to the submission
  * carries the solution. Catalogue text is shown verbatim in its source language (AMB-13, P-13 exempt).
  */
-export function PracticeScreen({ code, areaId, question, assignment }: Props): ReactNode {
+export function PracticeScreen({ code, areaId, question, assignment, initialResult }: Props): ReactNode {
   const { dictionary } = useI18n();
   const labels = dictionary.practice;
-  const [result, formAction, pending] = useActionState<PracticeSubmitResult | null, FormData>(submitPracticeAnswerAction, null);
+  const [result, formAction, pending] = useActionState<PracticeSubmitResult | null, FormData>(submitPracticeAnswerAction, initialResult ?? null);
   const lang = code === "german" ? "de" : "bs";
   const answered = result?.success ? result.data : null;
   const nextHref = assignment

@@ -99,6 +99,11 @@ Tim: https://vercel.com/idsssarajevo
 Napomena: varijable koje počinju sa `NEXT_PUBLIC_` ugrađuju se pri izgradnji; nakon njihove promjene na Vercelu
 treba **Redeploy**.
 
+## Uputstvo u aplikaciji (PDL-031)
+Svaki korisnik na početnoj stranici ima dugme **Uputstvo** s ličnim uputstvom i slikom ekrana uz svaki korak; Direktor
+tu otvara i štampa uputstvo svakog učesnika. Slike su u `public/guide/`; nakon promjene ekrana ponovo se prave komandom
+`node tools/guide-screens/capture.mjs` (radi ACA).
+
 ## Prvi nalog (Superadministrator)
 
 Jednom, na vlastitom računaru, nakon što su ključevi upisani u `.env.local`:

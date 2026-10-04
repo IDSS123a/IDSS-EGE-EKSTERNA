@@ -996,6 +996,7 @@
       "position": "Pozicija {n}",
       "points": "bodova: {points}",
       "areas": "Oblasti: {areas}",
+      "allAreas": "sve oblasti kataloga",
       "selected": "Izabrano pozicija: {n}, ukupno bodova: {points}.",
       "minutes": "Vrijeme za izradu (minute)",
       "minutesHint": "Cijeli test po katalogu traje {n} minuta. Za dio testa vrijeme određujete Vi.",
@@ -1562,5 +1563,15 @@
       "page": "Strana {p} od {n}",
       "hint": "Dnevnik se ne može mijenjati. Izvoz sadrži najviše 5000 zapisa i i sam se bilježi."
     }
+  },
+  "guide": {
+    "navLink": "Uputstvo",
+    "back": "Nazad na početnu",
+    "subtitle": "Lično uputstvo, korak po korak, sa slikama ekrana",
+    "languageNote": "",
+    "choose": "Uputstvo za",
+    "contents": "Sadržaj",
+    "trialData": "Slike ekrana su napravljene u aplikaciji s probnim podacima; imena učenika su izmišljena.",
+    "screenshot": "Slika ekrana"
   }
 }

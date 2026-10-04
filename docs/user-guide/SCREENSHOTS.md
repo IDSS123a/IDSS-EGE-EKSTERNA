@@ -1,5 +1,7 @@
 # Screenshots for the user guide
 
+Status 2026-10-04: the in-app guide uses 113 screenshots in `public/guide/`, rendered from the real screens with trial data by `tools/guide-screens` (list: `tools/guide-screens/shots.mjs`). The table below remains the plan for the comprehensive printed guide.
+
 Every screen of the guide with role and state. "Fixture" = captured with sample data in the build sandbox (layout
 check, not for the final guide); "Live" = to capture from the real app with a real sign-in for the final guide.
 

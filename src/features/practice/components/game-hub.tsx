@@ -6,7 +6,7 @@ import { HubGiftsCard } from "@/features/gifts/components/hub-gifts-card";
 import type { Gift } from "@/features/gifts/types";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { EXAM_PATH, OWN_ACCOUNT_PATH, PRACTICE_PATH, SUBJECT_PATH } from "@/constants";
+import { EXAM_PATH, GUIDE_PATH, OWN_ACCOUNT_PATH, PRACTICE_PATH, SUBJECT_PATH } from "@/constants";
 import { logoutAction } from "@/features/authentication/actions";
 import type { SubjectCode } from "@/features/knowledge/types";
 import { useI18n } from "@/features/localization/i18n-provider";
@@ -40,6 +40,7 @@ export function GameHub({ displayName, overview, dailyGoal, notifications, gamif
       <SiteHeader
         actions={
           <>
+            <Link href={GUIDE_PATH} className="button-secondary">{dictionary.guide.navLink}</Link>
             <Link href={OWN_ACCOUNT_PATH} className="button-secondary">{dictionary.ownAccount.navLink}</Link>
             <form action={logoutAction}>
               <button type="submit" className="button-secondary">{dictionary.account.logout}</button>

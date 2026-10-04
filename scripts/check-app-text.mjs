@@ -42,6 +42,8 @@ const targets = [
   [join(root, "public/splash/messages.json"), jsonTexts(JSON.parse(readFileSync(join(root, "public/splash/messages.json"), "utf8")))],
   [join(root, "public/splash/index.html"), [readFileSync(join(root, "public/splash/index.html"), "utf8").replace(/<!--[\s\S]*?-->/g, "")]],
   ...walk(join(root, "src"), (p) => p.endsWith(".tsx")).map((p) => [p, [withoutComments(readFileSync(p, "utf8"))]]),
+  // The user guide text is app text written in a .ts module (PDL-031).
+  ...walk(join(root, "src/features/guide"), (p) => p.endsWith("content.ts")).map((p) => [p, [withoutComments(readFileSync(p, "utf8"))]]),
 ];
 
 const problems = [];

@@ -996,6 +996,7 @@
       "position": "Position {n}",
       "points": "points: {points}",
       "areas": "Areas: {areas}",
+      "allAreas": "all areas of the catalogue",
       "selected": "Positions chosen: {n}, points in total: {points}.",
       "minutes": "Time to complete (minutes)",
       "minutesHint": "The whole test takes {n} minutes by the catalogue. For a part, you set the time.",
@@ -1562,5 +1563,15 @@
       "page": "Page {p} of {n}",
       "hint": "The log cannot be changed. An export holds at most 5000 entries and is itself recorded."
     }
+  },
+  "guide": {
+    "navLink": "Guide",
+    "back": "Back to home",
+    "subtitle": "Your personal guide, step by step, with screenshots",
+    "languageNote": "This guide is available in Bosnian for now.",
+    "choose": "Guide for",
+    "contents": "Contents",
+    "trialData": "The screenshots were taken in the application with trial data; the student names are invented.",
+    "screenshot": "Screenshot"
   }
 }
