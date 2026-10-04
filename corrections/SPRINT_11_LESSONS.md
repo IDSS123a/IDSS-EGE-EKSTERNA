@@ -10,7 +10,9 @@ Date: 2026-10-04 (open)
   malformed, not only absent.
 
 ## Gotchas Discovered
-None yet.
+- A placeholder in an instruction for the Director is copied literally: "(Public Key)" left the parentheses in
+  `.env.local` and made both VAPID keys invalid. Instructions show a shortened real-looking value and say explicitly
+  "no brackets, quotes or spaces".
 
 ## Commander Improvement Candidates
 None yet.
