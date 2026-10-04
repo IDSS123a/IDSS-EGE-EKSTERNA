@@ -24,7 +24,7 @@ verification), `docs/PRODUCTION_READINESS.md`.
 Classes and generations beyond IX 2026/27 (wait for the school's labels); e-mail or SMS notices; paid services.
 
 ## Decisions of the Director (PDL-041)
-Approved 2026-10-04: L1 Vercel on the school account; L2 `matura.idss.ba`; L3 WCAG 2.2 AA; L4 target launch Tuesday
+Approved 2026-10-04: L1 Vercel on the school account; L2 Vercel team `idsssarajevo` on the free Vercel address (`matura.idss.ba` possibly later); L3 WCAG 2.2 AA; L4 target launch Tuesday
 2026-10-06, clean start the day before.
 
 - **L1 Hosting.** Proposal: Vercel (PDL-001), free Hobby plan while the school tests, under the school's own account;
@@ -45,3 +45,4 @@ Approved 2026-10-04: L1 Vercel on the school account; L2 `matura.idss.ba`; L3 WC
 - [x] 0. Draft plan with decisions L1 to L4.
 - [x] 0a. Decisions L1 to L4 recorded (PDL-041).
 - [x] 0b. Migration 030 run by the Director, verified live; every migration 001 to 034 is in the database.
+- [x] 0c. Director: VAPID keys are in `.env.local`; hosting team `idsssarajevo` (no project for this repository yet, checked 2026-10-04); deployment steps in README.

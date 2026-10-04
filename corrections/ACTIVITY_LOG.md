@@ -117,3 +117,4 @@
 - [2026-10-04] IDSS confirmation dialog replaces window.confirm (10 places); migration 034 live (Sistem tab fix)
 - [2026-10-04] Sprint 10 closed; PDL-041 (L1 to L4); Sprint 11 started
 - [2026-10-04] Migration 030 run by the Director; verified live (rolled back) and recorded in the migration history
+- [2026-10-04] PDL-041 L2 refined (Vercel team idsssarajevo); README deployment steps; no Vercel project for the repo yet
