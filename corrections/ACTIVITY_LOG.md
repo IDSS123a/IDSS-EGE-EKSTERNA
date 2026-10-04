@@ -139,3 +139,4 @@
 - [2026-10-04] PR #58 found merged before the docs commits; opened PR #59 for SKRIPTA.md, 036 record and F-04
 - [2026-10-04 17:46] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/1639a183-b9a3-577d-b64a-6553cba7a517/scratchpad/skripta/template.html
 - [2026-10-04] SKRIPTA.html (standalone visual script, embedded logo, mockups); send form shows translated position formats and no longer preselects all positions when every position covers the area
+- [2026-10-04] Director asked why individual guides (PDL-031) were not delivered; gap acknowledged, plan proposed

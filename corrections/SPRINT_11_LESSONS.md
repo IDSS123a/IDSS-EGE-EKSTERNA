@@ -75,3 +75,10 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
   existing label map whenever a data code reaches the screen.
 - Mathematics draws every position from every area, so "Pošalji dio testa" from a weak area preselected all ten
   positions (a whole test labelled as a part). Preselection now applies only when the area covers a proper subset.
+
+### 2026-10-04 — A deferred Director request was never scheduled
+- PDL-031 (2026-10-03) asked for individual user guides per participant, inside the app, printable, with screenshots.
+  Only the source was written (role chapters, six short personal start pages, a screenshot list); the in-app guide was
+  deferred "until the screens are stable" without a sprint item or a date, and the Director had to ask. A deferral of a
+  Director request always gets a tracked item with a date in the current sprint plan, and is raised before launch.
+- Screenshots need realistic data: they must be taken before the clean start (PDL-038), not after.
