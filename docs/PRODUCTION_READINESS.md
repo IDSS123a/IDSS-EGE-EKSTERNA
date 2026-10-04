@@ -57,10 +57,12 @@ Director (README, "Objava na Vercel"), then this verification by the ACA on the 
 - [ ] Core flows on the production address, each with zero uncaught console errors:
   - [ ] staff home links per role; Direktorski pregled, all six tabs, Sistem shows notices on and push configured;
   - [ ] a subject teacher opens Pregled pitanja and Ocjenjivanje;
-  - [ ] a student opens the Game Hub, answers one practice question and sees the feedback;
-  - [ ] the IDSS confirmation dialog appears on a confirm action and Cancel leaves everything unchanged.
+  - [ ] a student opens the Game Hub and a practice question (with the first real student account; no trial account
+        is created after the clean start);
+  - [ ] the IDSS confirmation dialog appears on a confirm action and Odustani leaves everything unchanged (nothing
+        is confirmed in production for the check).
 - [ ] Every environment variable is set in Vercel (Settings, Environment Variables): a missing one shows the error
       page, not a code bug. Sistem tab names a malformed VAPID value.
-- [ ] Web Push: switch on "Obavijesti na ovom uređaju" on one phone and receive a test assignment notice.
+- [ ] Web Push: confirmed with the first real assignment a teacher gives (no test assignment in production).
 - [ ] Supabase security advisor: only the known Auth leaked-password WARN (mitigated in the app, PDL-030).
 - [ ] Inventory of section 1 re-counted: zero trial rows.
