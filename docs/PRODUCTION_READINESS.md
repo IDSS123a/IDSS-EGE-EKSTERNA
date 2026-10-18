@@ -16,7 +16,16 @@ retrieval audit emptied except the one `system.clean_start` row with the removed
 18 exam items ...); canon intact (500 questions, 600 keys, 20 rules, 3 blueprints, 6 follow-ups, 514 chunks and
 embeddings); all 34 row guards and 34 truncate guards enabled; security advisor: only the known Auth WARN.
 The SQL editor showed an error after the commit (a temp table no longer existed); the live check is what counts.
-Remaining: the stale staging upload in storage (removed by the Director in the dashboard), then the deploy.
+The stale staging upload was removed by the Director in the dashboard (verified: only the 3 catalogue sources remain).
+
+**Deployed 2026-10-18:** Vercel team idsssarajevo, project `idss-ege-eksterna`, https://idss-ege-eksterna.vercel.app
+(deployment dpl_ECw4JvEVKdWA9jXQMS9JhQEvBtsv, READY, from main e8c73a5). Verified by the ACA through the Vercel tools:
+`/prijava` 200 with the nonce CSP (new nonce per request), HSTS, X-Frame-Options DENY, nosniff, Referrer-Policy,
+Permissions-Policy, COOP; `/app` signed out lands on the login page; `/splash/palette` reads the database; all 16
+environment variables set (Supabase 3, Gemini 10, VAPID 3); no runtime errors. Functions run in iad1 (US East) while
+Supabase is in eu-central-1: the Director set the function region to fra1 (Frankfurt) and redeployed
+(dpl_HnLdqhvj5TgBVPEURv4nvxby5g3P; responses now served by fra1). The Director signed in as Superadministrator and
+checked the home page and all six Director Command Center tabs, including Sistem: everything in order.
 
 ## 1. Inventory of trial data (live, 2026-10-03)
 | What | Live now | Action before production |
