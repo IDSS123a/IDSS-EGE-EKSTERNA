@@ -23,8 +23,9 @@ The stale staging upload was removed by the Director in the dashboard (verified:
 `/prijava` 200 with the nonce CSP (new nonce per request), HSTS, X-Frame-Options DENY, nosniff, Referrer-Policy,
 Permissions-Policy, COOP; `/app` signed out lands on the login page; `/splash/palette` reads the database; all 16
 environment variables set (Supabase 3, Gemini 10, VAPID 3); no runtime errors. Functions run in iad1 (US East) while
-Supabase is in eu-central-1: setting the function region to fra1 (Frankfurt) is recommended.
-Open: the signed-in checks below need the Director's own sign-in.
+Supabase is in eu-central-1: the Director set the function region to fra1 (Frankfurt) and redeployed
+(dpl_HnLdqhvj5TgBVPEURv4nvxby5g3P; responses now served by fra1). The Director signed in as Superadministrator and
+checked the home page and all six Director Command Center tabs, including Sistem: everything in order.
 
 ## 1. Inventory of trial data (live, 2026-10-03)
 | What | Live now | Action before production |
