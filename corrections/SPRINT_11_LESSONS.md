@@ -107,3 +107,7 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
   that expected a silent no-op must expect the error instead.
 - Supabase Auth has no admin sign-out by user id; after a reset, sign in once with the new password (never stored) and
   sign out with scope global.
+
+### 2026-10-18 — Migration 037 applied
+- Verify a grants migration live with counts, not by eye: 0 tables writable by the API roles, 54 readable, 34 truncate
+  guards; then record the history row and run the security advisor in the same turn.
