@@ -131,5 +131,5 @@
 [2026-10-18] [SECURITY] Password reset signs out every session of the account; own password change signs out the other sessions
 [2026-10-18] [FIX] Failed account creation removes person, profile and auth user in order; failed Auth ban restores the status
 [2026-10-18] [AUDIT] Assignment export and group analysis export write audit rows
-[2026-10-18] [DATABASE] Migration 037 (written, awaits the Director): API roles read only, TRUNCATE refused on history tables
+[2026-10-18] [DATABASE] Migration 037 applied by the Director: API roles read only, TRUNCATE refused on history tables
 [2026-10-18] [CI] Checks workflow (typecheck, lint, text, unit, DB, build); keepalive fails loudly; read-only workflow token

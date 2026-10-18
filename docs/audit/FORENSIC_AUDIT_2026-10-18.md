@@ -249,7 +249,7 @@ step before the deploy.
 | SEC-4 | fixed | `PUSH_SERVICE_HOSTS` allowlist (FCM, Mozilla, Windows, Apple); host, port and credentials checked | unit tests (accepted and refused addresses) |
 | SW-1 | fixed | `sameOriginPath` in `public/sw.js`: only paths of this origin, else `/app` | e2e green |
 | EXP-1 | fixed | `assignment.exported` and `support.analysis_exported` audit rows | typecheck, build |
-| DB-1 | written, **awaits the Director** | `migrations/037_api_role_write_grants.sql`: API roles read only (also for tables created later); TRUNCATE refused on all 34 append-only and frozen tables; clean start procedure updated | DB tests: 4 new assertions, existing ones adapted (writes are now refused instead of silently ignored) |
+| DB-1 | fixed, applied live 18.10.2026 by the Director | `migrations/037_api_role_write_grants.sql`: API roles read only (also for tables created later); TRUNCATE refused on all 34 append-only and frozen tables; clean start procedure updated | DB tests: 4 new assertions, existing ones adapted (writes are now refused instead of silently ignored); live: 0 tables writable by the API roles, 54 readable, 34 truncate guards; history recorded as 20261018213500; security advisor: only the known Auth leaked-password WARN (PDL-030) |
 | CI-1 | fixed | keepalive: `--fail`, retries, a real read of `subjects`, secrets as environment variables, missing secrets fail the run | workflow |
 | CI-2 | fixed | new `checks.yml` (typecheck, lint, text style, unit, DB tests, build); `permissions: contents: read` on every workflow | first run on this pull request |
 | CODE-1 | fixed | dead exports removed; doc comment moved to `SupportNoteSchema` | typecheck, lint |
