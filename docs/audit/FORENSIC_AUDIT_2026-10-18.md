@@ -237,3 +237,25 @@ layout contain no data. UI hiding is never the only barrier.
 
 Steps 1 to 5 and 7 to 8 fit in one pull request. Step 6 is a separate migration. Step 9 stays the very last
 step before the deploy.
+
+## 6. Remediation status (approved by the Director, 18.10.2026)
+
+| Finding | Status | Change | Evidence |
+|---|---|---|---|
+| DEP-1 | fixed | next and eslint-config-next 16.4.2; source-map-js updated; `npm audit --omit=dev`: 0 vulnerabilities. The remaining dev-only advisories (eslint chain) need a breaking `--force` and never reach the app. | npm audit |
+| ACC-1 | fixed | `removeHalfCreatedAccount`: person, then profile, then the auth user; the first error is logged | unit test (order, stop on failure) |
+| ACC-2 | fixed | a failed Auth ban restores the earlier status before the failure is reported (and audited as `account.status_change_failed`) | typecheck, code review |
+| SEC-3 | fixed | reset by the Superadmin: global sign-out of the target (`sessions_revoked` in the audit row); own change: all other sessions signed out (`other_sessions_revoked`) | unit test |
+| SEC-4 | fixed | `PUSH_SERVICE_HOSTS` allowlist (FCM, Mozilla, Windows, Apple); host, port and credentials checked | unit tests (accepted and refused addresses) |
+| SW-1 | fixed | `sameOriginPath` in `public/sw.js`: only paths of this origin, else `/app` | e2e green |
+| EXP-1 | fixed | `assignment.exported` and `support.analysis_exported` audit rows | typecheck, build |
+| DB-1 | fixed, applied live 18.10.2026 by the Director | `migrations/037_api_role_write_grants.sql`: API roles read only (also for tables created later); TRUNCATE refused on all 34 append-only and frozen tables; clean start procedure updated | DB tests: 4 new assertions, existing ones adapted (writes are now refused instead of silently ignored); live: 0 tables writable by the API roles, 54 readable, 34 truncate guards; history recorded as 20261018213500; security advisor: only the known Auth leaked-password WARN (PDL-030) |
+| CI-1 | fixed | keepalive: `--fail`, retries, a real read of `subjects`, secrets as environment variables, missing secrets fail the run | workflow |
+| CI-2 | fixed | new `checks.yml` (typecheck, lint, text style, unit, DB tests, build); `permissions: contents: read` on every workflow | first run on this pull request |
+| CODE-1 | fixed | dead exports removed; doc comment moved to `SupportNoteSchema` | typecheck, lint |
+| DB-2 | left as is | optional LF re-apply not needed: function logic is identical | section 3 |
+| SEC-1, SEC-2 | documented | accepted (Vercel overwrites X-Forwarded-For; lockout trade-off) | section 3 |
+| DB-4 | open | clean start on the new launch date, then "kreni" | PDL-038 |
+
+Checks after the remediation: typecheck, lint, check:text (105 files), 203 unit tests (31 files), DB tests, build
+(33 pages) and 86 e2e tests: all green.

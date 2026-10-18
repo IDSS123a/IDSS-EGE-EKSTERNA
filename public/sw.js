@@ -2,6 +2,17 @@
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
 
+/** A path inside this app, or "/app": "//host" and absolute addresses never leave the origin. */
+function sameOriginPath(value) {
+  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) return "/app";
+  try {
+    const url = new URL(value, self.location.origin);
+    return url.origin === self.location.origin ? url.pathname + url.search + url.hash : "/app";
+  } catch {
+    return "/app";
+  }
+}
+
 self.addEventListener("push", (event) => {
   let data = {};
   try {
@@ -15,14 +26,14 @@ self.addEventListener("push", (event) => {
     icon: "/brand/idss-push-icon.png",
     badge: "/brand/idss-push-icon.png",
     tag: typeof data.tag === "string" ? data.tag : undefined,
-    data: { url: typeof data.url === "string" && data.url.startsWith("/") ? data.url : "/app" },
+    data: { url: sameOriginPath(data.url) },
   };
   event.waitUntil(self.registration.showNotification(title, options));
 });
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const target = new URL(event.notification.data && event.notification.data.url ? event.notification.data.url : "/app", self.location.origin).href;
+  const target = new URL(sameOriginPath(event.notification.data && event.notification.data.url), self.location.origin).href;
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
       for (const client of windows) {

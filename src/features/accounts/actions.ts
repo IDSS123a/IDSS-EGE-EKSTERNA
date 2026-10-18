@@ -15,7 +15,7 @@ import { canChangeAccount, canManageAccounts, canResetPasswords } from "@/lib/pe
 import { BundleChangeSchema, ChangeStatusSchema, createAccountSchema, resetPasswordSchema } from "@/lib/validation/schemas";
 import { authBanFor, needsPersonRecord } from "./domain";
 import { subjectExists } from "@/features/knowledge/repository";
-import { findAccountTarget, grantBundle, insertPerson, insertProfile, revokeBundle, updateAccountStatus, usernameExists } from "./repository";
+import { findAccountTarget, grantBundle, insertPerson, insertProfile, removeHalfCreatedAccount, revokeAllSessions, revokeBundle, updateAccountStatus, usernameExists } from "./repository";
 import type { AccountActionResult } from "./types";
 
 /**
@@ -86,9 +86,9 @@ async function createAccount(_previous: AccountActionResult | null, formData: Fo
   } catch (error) {
     logError("accounts/actions.createAccountAction", error);
     if (admin && createdUserId) {
-      // Remove the half-created auth user so the username can be used again (DONE checklist: cleanup checks errors).
-      const cleanup = await admin.auth.admin.deleteUser(createdUserId);
-      if (cleanup.error) logError("accounts/actions.createAccountAction.cleanup", cleanup.error, { userId: createdUserId });
+      // Remove the half-created account so the username can be used again (DONE checklist: cleanup checks errors).
+      const cleanupError = await removeHalfCreatedAccount(admin, createdUserId);
+      if (cleanupError) logError("accounts/actions.createAccountAction.cleanup", new Error(cleanupError), { userId: createdUserId });
     }
     return { success: false, code: "UNAVAILABLE" };
   }
@@ -116,7 +116,12 @@ async function changeAccountStatus(_previous: AccountActionResult | null, formDa
     if (!canChangeAccount(actor, target)) return { success: false, code: "FORBIDDEN" };
     if (!(await updateAccountStatus(admin, target.userId, parsed.data.status))) return { success: false, code: "NOT_FOUND" };
     const banned = await admin.auth.admin.updateUserById(target.userId, { ban_duration: authBanFor(parsed.data.status) });
-    if (banned.error) throw new Error(`auth ban update failed: ${banned.error.message}`);
+    if (banned.error) {
+      // ACC-2: database and Auth must agree; the earlier status is restored before the failure is reported.
+      const restored = await updateAccountStatus(admin, target.userId, target.status).catch(() => false);
+      if (!restored) logError("accounts/actions.changeAccountStatusAction.restore", new Error("status not restored"), { userId: target.userId });
+      throw new Error(`auth ban update failed: ${banned.error.message}`);
+    }
     await insertAuditLog(admin, {
       actorUserId: actor.userId,
       action: "account.status_changed",
@@ -201,12 +206,16 @@ async function resetPassword(_previous: AccountActionResult | null, formData: Fo
     if ((await isPasswordPwned(parsed.data.password)) === true) return { success: false, code: "PWNED_PASSWORD" };
     const updated = await admin.auth.admin.updateUserById(target.userId, { password: parsed.data.password });
     if (updated.error) throw new Error(`auth password update failed: ${updated.error.message}`);
+    // SEC-3: whoever was signed in with the old password is signed out everywhere.
+    const sessionsRevoked = await revokeAllSessions(admin, usernameToAuthEmail(target.username), parsed.data.password);
+    if (!sessionsRevoked) logError("accounts/actions.resetPasswordAction.sessions", new Error("sessions not revoked"), { userId: target.userId });
     await insertAuditLog(admin, {
       actorUserId: actor.userId,
       action: "account.password_reset",
       entityType: "profile",
       entityId: target.userId,
       ipAddress: await requestIp(),
+      details: { sessions_revoked: String(sessionsRevoked) },
     });
   } catch (error) {
     logError("accounts/actions.resetPasswordAction", error);

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PRACTICE_RESPONSE_MAX_LENGTH, RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
+import { PRACTICE_RESPONSE_MAX_LENGTH, PUSH_SERVICE_HOSTS, RETRIEVAL_QUERY_MAX_LENGTH, RETRIEVAL_QUERY_MIN_LENGTH, REVIEW_TEXT_MAX_LENGTH } from "@/constants";
 
 /**
  * Shared Zod schemas (Commander E-2: every boundary validated, schemas in one place).
@@ -19,7 +19,6 @@ export const LoginSchema = z.object({
     .regex(USERNAME_PATTERN),
   password: z.string().min(1).max(200),
 });
-export type LoginInput = z.infer<typeof LoginSchema>;
 
 /** Roles that may be created through the UI; the Superadministrator is designated, not created (§7A.1). */
 export const CREATABLE_ROLES = ["administrator", "student"] as const;
@@ -114,7 +113,6 @@ export const CanonRegisterSchema = z
   .refine((value) => value.documentId !== null || (Boolean(value.typeCode) && value.documentTitle !== null), {
     message: "DOCUMENT_REQUIRED",
   });
-export type CanonRegisterInput = z.infer<typeof CanonRegisterSchema>;
 
 /** POST lifecycle change of one version. Reason length matches the database check (1..500). */
 export const CanonTransitionSchema = z.object({
@@ -276,7 +274,6 @@ export const PracticeVerdictSchema = z.object({
   note: optionalReviewText,
 });
 
-/** POST a support note (migration 026): neutral type (D3), visibility (D1), optional follow-up date. */
 /** POST a new assignment (PDL-035): keys or an area with a count; all active students or chosen ones; due date in Sarajevo time. */
 export const AssignmentSchema = z
   .object({
@@ -297,9 +294,23 @@ export const AssignmentSchema = z
 /** POST withdraw an assignment with a reason. */
 export const AssignmentWithdrawalSchema = z.object({ assignmentId: z.uuid(), reason: z.string().trim().min(1).max(500) });
 
+/** True when the address belongs to a browser push service (an exact host, or a subdomain of a "." entry). */
+export function isPushServiceEndpoint(endpoint: string): boolean {
+  let host: string;
+  try {
+    const url = new URL(endpoint);
+    if (url.protocol !== "https:" || url.port !== "" || url.username !== "" || url.password !== "") return false;
+    host = url.hostname.toLowerCase();
+  } catch {
+    return false;
+  }
+  return PUSH_SERVICE_HOSTS.some((entry) => (entry.startsWith(".") ? host.endsWith(entry) && host.length > entry.length : host === entry));
+}
+
 /** POST the push subscription of the browser in use (Web Push, PDL-037). */
 export const PushSubscriptionSchema = z.object({
-  endpoint: z.string().url().startsWith("https://").max(1000),
+  // Only the browsers' own push services (SEC-4): the server sends to this address, so no other host is accepted.
+  endpoint: z.string().url().startsWith("https://").max(1000).refine(isPushServiceEndpoint),
   p256dh: z.string().min(20).max(200),
   auth: z.string().min(8).max(100),
   userAgent: z.string().max(300).nullable(),
@@ -318,6 +329,7 @@ export const TeacherNoteSchema = z.object({
   body: z.string().trim().min(1).max(4000),
 });
 
+/** POST a support note (migration 026): neutral type (D3), visibility (D1), optional follow-up date. */
 export const SupportNoteSchema = z.object({
   personId: z.uuid(),
   kind: z.preprocess((value) => (value === "" ? null : value), z.enum(["student_talk", "parent_talk", "agreement", "observation"]).nullable()),

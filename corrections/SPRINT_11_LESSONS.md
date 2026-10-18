@@ -101,3 +101,13 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
 - Workflows added on GitHub's web editor bypass every local check (keepalive.yml had no --fail); CI must run the full
   check set, not only the project guard.
 - Live table names differ from guesses (`audit_logs`, `submitted_at`): read the migration before writing a live query.
+- `npm audit fix --omit=dev` also prunes the dev dependencies from node_modules (vitest, types vanished and typecheck
+  failed); run `npm ci` afterwards before any check.
+- Revoking table write rights from the API roles turns RLS's silent "0 rows updated" into "permission denied": DB tests
+  that expected a silent no-op must expect the error instead.
+- Supabase Auth has no admin sign-out by user id; after a reset, sign in once with the new password (never stored) and
+  sign out with scope global.
+
+### 2026-10-18 — Migration 037 applied
+- Verify a grants migration live with counts, not by eye: 0 tables writable by the API roles, 54 readable, 34 truncate
+  guards; then record the history row and run the security advisor in the same turn.

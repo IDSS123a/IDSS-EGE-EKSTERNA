@@ -64,8 +64,6 @@ export const REVIEW_REGION_MARGIN_POINTS = 12;
 export const REVIEW_RENDER_SCALE = 1.5;
 /** Outline of the record's region on a whole-page source view (drawn on canvas, where CSS tokens do not apply). */
 export const REVIEW_REGION_STROKE = "rgba(200, 30, 30, 0.9)";
-/** Longest question text or stem a reviewed text revision may carry (matches the migration 013 checks). */
-export const QUESTION_TEXT_MAX_LENGTH = 20000;
 
 /** Staff search over trusted canon (Sprint 05, retrieval foundation). */
 export const SEARCH_PATH = "/app/pretraga";
@@ -133,8 +131,6 @@ export const GUIDE_PATH = "/app/uputstvo";
 
 /** Application settings for the Superadmin (PDL-020). */
 export const SETTINGS_PATH = "/app/postavke";
-/** Public, unauthenticated route the splash reads its palette from (outside the auth proxy, like /splash/*). */
-export const SPLASH_PALETTE_PATH = "/splash/palette";
 /** Browser and CDN cache of the splash palette; a change shows within this time. */
 export const SPLASH_PALETTE_MAX_AGE_SECONDS = 60;
 /** Private storage bucket for canonical source files (created by migration 006). */
@@ -188,6 +184,12 @@ export const ASSIGNMENTS_PATH = "/app/zadaci";
 
 /** Where a push notice about a new assignment opens: the student's Game Hub with the "Zadaci nastavnika" card. */
 export const ASSIGNMENTS_PUSH_URL = "/app#zadaci";
+
+/**
+ * Push services of the browsers (SEC-4): Chrome, Edge (FCM and Windows), Firefox, Safari. An entry starting with "."
+ * allows its subdomains. Subscriptions to any other host are refused, because the server sends to that address.
+ */
+export const PUSH_SERVICE_HOSTS = ["fcm.googleapis.com", "android.googleapis.com", "updates.push.services.mozilla.com", ".push.services.mozilla.com", ".notify.windows.com", "web.push.apple.com", ".push.apple.com"] as const;
 
 /** IDSS Vitrina: the student's special gifts in 3D (PDL-039). */
 export const VITRINA_PATH = "/app/vitrina";
