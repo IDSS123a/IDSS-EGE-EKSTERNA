@@ -92,3 +92,12 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
 - Fixtures copied from one subject leaked into others (Mathematics titles in German screens); give every
   subject-specific value its own table and review each subject's screenshots.
 
+
+### 2026-10-18 — Forensic audit
+- A cleanup path must be tested against the real foreign keys: `profiles.user_id` is ON DELETE RESTRICT, so deleting
+  the auth user after a later insert failed cannot succeed (ACC-1). Clean up child rows first, or use one transaction.
+- Live function drift is best compared on the function body with CRLF and comments stripped; 8 functions applied from
+  the Windows SQL editor carry CRLF and look "changed" although they are identical.
+- Workflows added on GitHub's web editor bypass every local check (keepalive.yml had no --fail); CI must run the full
+  check set, not only the project guard.
+- Live table names differ from guesses (`audit_logs`, `submitted_at`): read the migration before writing a live query.
