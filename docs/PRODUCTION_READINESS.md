@@ -8,6 +8,16 @@ canon (catalogues, reviewed records, rules, blueprints, errata confirmed by teac
 the configuration. Every trial account and everything produced while testing is removed or, where the law of the
 system forbids deletion (append-only audit), handled as the Director decides below.
 
+## 0. Status: clean start DONE (2026-10-18)
+Backup by the Director (pg_dump, 3.29 MB, kept outside the repository). The clean-start script ran in the Supabase SQL
+editor in one transaction; verified live by the ACA: 6 staff accounts and 6 Auth users remain, 0 trial rows (answers,
+reviews, mock exams, sends, assignments, gifts, notifications, blueprint confirmations), audit log, security events and
+retrieval audit emptied except the one `system.clean_start` row with the removed counts (713 audit rows, 28 answers,
+18 exam items ...); canon intact (500 questions, 600 keys, 20 rules, 3 blueprints, 6 follow-ups, 514 chunks and
+embeddings); all 34 row guards and 34 truncate guards enabled; security advisor: only the known Auth WARN.
+The SQL editor showed an error after the commit (a temp table no longer existed); the live check is what counts.
+Remaining: the stale staging upload in storage (removed by the Director in the dashboard), then the deploy.
+
 ## 1. Inventory of trial data (live, 2026-10-03)
 | What | Live now | Action before production |
 |---|---|---|

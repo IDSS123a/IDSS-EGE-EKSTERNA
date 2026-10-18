@@ -125,3 +125,9 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
 - A password pasted into the hidden `Password:` prompt failed repeatedly. Setting it with
   `$env:PGPASSWORD = Read-Host` (visible, local only) and an alphanumeric password worked; remove the variable after
   the dump.
+
+### 2026-10-18 — Clean start ran
+- The Supabase SQL editor reported `relation "clean_trial_users" does not exist` after the script had already
+  committed (`on commit drop` temp tables are gone once the transaction ends). An editor error does not prove a
+  rollback: always check the live state before re-running a destructive script. Future one-time scripts should not
+  use `on commit drop` tables after their own `commit`.

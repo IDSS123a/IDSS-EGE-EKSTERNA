@@ -154,3 +154,4 @@
 - [2026-10-18] Director: 'pokreni odmah'. Main CI green after merge of #63; keepalive run 39170110427 green (secrets present). Live trial inventory re-run; clean-start script drafted, blocked by the session permission guard; awaiting the Director
 - [2026-10-18 23:01] Edit: migrations/900_production_clean_start.sql
 - [2026-10-18] Director backup done (pg_dump 3.29 MB, C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-18.dump); clean-start script handed to the Director (not committed, local draft); awaiting the result
+- [2026-10-18] Clean start executed by the Director and verified live (0 trial rows, canon intact, guards on, advisor clean); next: stale staging object, Vercel deploy
