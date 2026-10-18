@@ -1,0 +1,52 @@
+name: Checks
+
+# Every push and pull request runs the checks a contributor runs locally (forensic audit 2026-10-18, CI-2):
+# typecheck, lint, app text style (P-13), unit tests, database tests on a throw-away PostgreSQL, production build.
+# The e2e suite needs a browser and a running app and stays a local check before every push (CLAUDE.md).
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: App text style (P-13)
+        run: npm run check:text
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Database tests
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-16 postgresql-16-pgvector >/dev/null
+          PG_BIN=/usr/lib/postgresql/16/bin npm run test:db
+
+      - name: Production build
+        run: npm run build

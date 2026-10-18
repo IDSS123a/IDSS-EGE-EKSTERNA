@@ -64,9 +64,15 @@ select pg_temp.assert((select count(*) from public.enrolments) = 1, 'student see
 select pg_temp.assert((select count(*) from public.persons where profile_user_id <> auth.uid()) = 0, 'student cannot see other persons');
 select pg_temp.assert(private.has_capability('practice.participate'), 'student may practise');
 select pg_temp.assert(not private.has_capability('students.view_progress'), 'student cannot view others'' progress');
-update public.profiles set role = 'superadmin' where user_id = auth.uid();
+do $$ begin
+  update public.profiles set role = 'superadmin' where user_id = auth.uid();
+exception when insufficient_privilege then raise notice 'ok - student has no write right on profiles (migration 037)';
+end $$;
 select pg_temp.assert((select role from public.profiles where user_id = auth.uid()) = 'student', 'self-escalation of role has no effect');
-update public.profiles set account_status = 'active' where user_id = '00000000-0000-0000-0000-00000000000e';
+do $$ begin
+  update public.profiles set account_status = 'active' where user_id = '00000000-0000-0000-0000-00000000000e';
+exception when insufficient_privilege then null;
+end $$;
 do $$ begin
   insert into public.profile_bundles (profile_user_id, bundle_code) values (auth.uid(), 'pedagogue');
   raise exception 'FAIL: student granted itself a bundle';
@@ -1412,3 +1418,28 @@ select pg_temp.assert(exists (select 1 from public.audit_logs where action = 'ex
 reset role;
 select pg_temp.assert(not has_function_privilege('authenticated', 'public.mock_exam_send(uuid, uuid, text, integer[], integer, text, uuid[], inet)', 'execute'),
   'only the server sends tests');
+
+-- Migration 037 (forensic audit DB-1): the API roles read only, and history cannot be truncated.
+select pg_temp.assert(not exists (
+    select 1 from pg_class c where c.relnamespace = 'public'::regnamespace and c.relkind in ('r', 'p')
+      and (has_table_privilege('anon', c.oid, 'insert, update, delete, truncate')
+        or has_table_privilege('authenticated', c.oid, 'insert, update, delete, truncate'))),
+  'anon and authenticated hold no write or truncate right on any public table');
+create table public.zz_later_table (id integer);
+select pg_temp.assert(not has_table_privilege('authenticated', 'public.zz_later_table', 'insert')
+  and not has_table_privilege('anon', 'public.zz_later_table', 'truncate')
+  and has_table_privilege('authenticated', 'public.zz_later_table', 'select'),
+  'tables created later give the API roles read access only');
+drop table public.zz_later_table;
+do $$
+begin
+  truncate public.audit_logs;
+  raise exception 'truncate was allowed';
+exception when others then
+  if sqlerrm not like 'audit records are append-only (TRUNCATE on audit_logs)%' then raise; end if;
+end;
+$$;
+select pg_temp.assert(true, 'the audit log refuses TRUNCATE even for the owner');
+select pg_temp.assert((select count(*) from pg_trigger t join pg_class c on c.oid = t.tgrelid
+    where t.tgname like '%\_no\_truncate' and c.relnamespace = 'public'::regnamespace) = 34,
+  'all 34 append-only or frozen tables refuse TRUNCATE');

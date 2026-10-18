@@ -31,7 +31,6 @@ const EditionSchema = z.object({
 const FactsFileSchema = z.object({ version: z.number().int().positive(), editions: z.array(EditionSchema) });
 
 export type FactEvidence = z.infer<typeof EvidenceSchema>;
-export type CanonicalRuleFact = z.infer<typeof RuleSchema>;
 export type EditionFacts = z.infer<typeof EditionSchema>;
 
 const FILE = FactsFileSchema.parse(facts);

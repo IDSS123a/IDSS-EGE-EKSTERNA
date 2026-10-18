@@ -1,6 +1,7 @@
 import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { AccountRole, AccountStatus } from "@/features/authentication/types";
+import { createSupabaseVerifierClient } from "@/lib/db/supabase-verifier";
 import type { AccountSummary } from "./types";
 
 /**
@@ -41,14 +42,14 @@ export async function listAccounts(client: SupabaseClient, limit: number): Promi
 }
 
 /** Target account for a lifecycle change (service role; caller already authorised). */
-export async function findAccountTarget(admin: SupabaseClient, userId: string): Promise<{ userId: string; role: AccountRole; status: AccountStatus } | null> {
+export async function findAccountTarget(admin: SupabaseClient, userId: string): Promise<{ userId: string; username: string; role: AccountRole; status: AccountStatus } | null> {
   const { data, error } = await admin
     .from("profiles")
-    .select("user_id, role, account_status")
+    .select("user_id, username, role, account_status")
     .eq("user_id", userId)
-    .maybeSingle<{ user_id: string; role: AccountRole; account_status: AccountStatus }>();
+    .maybeSingle<{ user_id: string; username: string; role: AccountRole; account_status: AccountStatus }>();
   if (error) throw new Error(`findAccountTarget failed: ${error.message}`);
-  return data ? { userId: data.user_id, role: data.role, status: data.account_status } : null;
+  return data ? { userId: data.user_id, username: data.username, role: data.role, status: data.account_status } : null;
 }
 
 /** True when a profile with this username exists (usernames are stored lower-case; exact match avoids LIKE wildcards). */
@@ -75,6 +76,33 @@ export async function insertProfile(
 export async function insertPerson(admin: SupabaseClient, userId: string): Promise<void> {
   const { data, error } = await admin.from("persons").insert({ profile_user_id: userId }).select("id").maybeSingle();
   if (error || !data) throw new Error(`insertPerson failed: ${error?.message ?? "0 rows"}`);
+}
+
+/**
+ * Removes a half-created account (ACC-1): person, then profile, then the auth user. Every reference to the auth user
+ * is ON DELETE RESTRICT, so the rows must go first. Returns the first error, or null.
+ */
+export async function removeHalfCreatedAccount(admin: SupabaseClient, userId: string): Promise<string | null> {
+  const person = await admin.from("persons").delete().eq("profile_user_id", userId);
+  if (person.error) return `persons: ${person.error.message}`;
+  const profile = await admin.from("profiles").delete().eq("user_id", userId);
+  if (profile.error) return `profiles: ${profile.error.message}`;
+  const user = await admin.auth.admin.deleteUser(userId);
+  return user.error ? `auth user: ${user.error.message}` : null;
+}
+
+/**
+ * Ends every session of an account after its password was reset (SEC-3). Supabase Auth signs out by token only, so a
+ * short-lived session is opened with the new password (never stored) and signed out with scope global, which revokes
+ * all refresh tokens of the user. Returns false when that was not possible (for example a blocked account, which
+ * cannot refresh anyway).
+ */
+export async function revokeAllSessions(admin: SupabaseClient, authEmail: string, password: string): Promise<boolean> {
+  const session = await createSupabaseVerifierClient().auth.signInWithPassword({ email: authEmail, password });
+  const token = session.data.session?.access_token;
+  if (session.error || !token) return false;
+  const { error } = await admin.auth.admin.signOut(token, "global");
+  return !error;
 }
 
 /** Update status; checks the affected row (A-3: a by-id write that touched nothing is a failure). */

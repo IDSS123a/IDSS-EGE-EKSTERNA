@@ -49,6 +49,9 @@ production deploy, because testing continues until then. Not earlier.
   database refuses to change them. Proposal: export the test-phase rows to a signed file for the school archive, then
   remove them once with a dedicated, audited procedure that briefly lifts the append-only guard and records its own
   run (one row: who, when, how many). Alternative: keep them as the honest history of the setup phase.
+- Since migration 037 (forensic audit 2026-10-18, DB-1) the append-only and frozen tables also refuse TRUNCATE
+  (`<table>_no_truncate` statement triggers). The cleanup migration removes rows with DELETE while it lifts the row
+  guards (`<table>_append_only`, `*_frozen`); it never uses TRUNCATE, and it restores every guard before it ends.
 
 ## 4. Launch day (PDL-041: Vercel team `idsssarajevo`, target 2026-10-08, PDL-043)
 Order: clean start the day before (section 2), then the Director's explicit go (M-23), then the import on Vercel by the

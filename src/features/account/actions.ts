@@ -7,6 +7,7 @@ import { clientIpFrom, hashUsername, isLoginLocked, usernameToAuthEmail } from "
 import { countRecentLoginFailures, insertAuditLog, insertSecurityEvent } from "@/features/authentication/repository";
 import { getCurrentAccount } from "@/features/authentication/session";
 import { createSupabaseAdminClient } from "@/lib/db/supabase-admin";
+import { createSupabaseServerClient } from "@/lib/db/supabase-server";
 import { createSupabaseVerifierClient } from "@/lib/db/supabase-verifier";
 import { isPasswordPwned } from "@/lib/security/pwned-passwords";
 import { logError, logInfo } from "@/lib/logger";
@@ -57,7 +58,10 @@ async function changeOwnPassword(formData: FormData): Promise<OwnPasswordResult>
     if ((await isPasswordPwned(parsed.data.newPassword)) === true) return { success: false, code: "PWNED_PASSWORD" };
     const updated = await admin.auth.admin.updateUserById(actor.userId, { password: parsed.data.newPassword });
     if (updated.error) throw new Error(`auth password update failed: ${updated.error.message}`);
-    await insertAuditLog(admin, { actorUserId: actor.userId, action: "account.own_password_changed", entityType: "profile", entityId: actor.userId, ipAddress });
+    // SEC-3: every other session of this account (other devices, and the check above) is signed out; this one stays.
+    const others = await (await createSupabaseServerClient()).auth.signOut({ scope: "others" });
+    if (others.error) logError("account/actions.changeOwnPasswordAction.sessions", others.error);
+    await insertAuditLog(admin, { actorUserId: actor.userId, action: "account.own_password_changed", entityType: "profile", entityId: actor.userId, ipAddress, details: { other_sessions_revoked: String(!others.error) } });
     logInfo("account/actions.changeOwnPasswordAction", "own password changed", {});
   } catch (error) {
     logError("account/actions.changeOwnPasswordAction", error);

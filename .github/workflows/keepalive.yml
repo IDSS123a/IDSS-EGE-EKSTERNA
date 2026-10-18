@@ -4,12 +4,27 @@ on:
     - cron: '0 12 */3 * *'   # svaka 3 dana u 12:00 UTC
   workflow_dispatch:          # omogućuje ručno pokretanje
 
+permissions:
+  contents: read
+
 jobs:
   keepalive:
     runs-on: ubuntu-latest
     steps:
+      # A real read through the API (RLS returns no rows to anon, but the database answers the query), so the
+      # project counts as active. --fail turns 401, 404 and 5xx into a red run instead of a silent green one
+      # (forensic audit 2026-10-18, CI-1). Secrets stay in environment variables, never in the command text.
       - name: Ping Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          curl -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}"
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "Repository secrets SUPABASE_URL and SUPABASE_ANON_KEY are missing." >&2
+            exit 1
+          fi
+          curl --fail --silent --show-error --max-time 30 --retry 2 \
+            "$SUPABASE_URL/rest/v1/subjects?select=id&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -o /dev/null -w "Supabase answered %{http_code}\n"

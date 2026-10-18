@@ -126,3 +126,10 @@
 [2026-10-04] [FEATURE] Test labels (whole, part, from the teacher) on the grading queue, student exam screens and the student profile; weak-area shortcuts to assignments and Pošalji test
 [2026-10-04] [FEATURE] Personal user guide /app/uputstvo (PDL-031): own guide per account (student, teacher per subject, pedagogue, psychologist, Director), 113 screenshots from the real screens with trial data, print in IDSS format
 [2026-10-04] [UX] Pošalji test: a position drawing from every catalogue area says "sve oblasti kataloga"
+[2026-10-18] [AUDIT] Forensic audit of the whole project (docs/audit/FORENSIC_AUDIT_2026-10-18.md): no critical finding
+[2026-10-18] [SECURITY] next 16.4.2; push endpoints limited to browser push services; service worker opens own-origin paths only
+[2026-10-18] [SECURITY] Password reset signs out every session of the account; own password change signs out the other sessions
+[2026-10-18] [FIX] Failed account creation removes person, profile and auth user in order; failed Auth ban restores the status
+[2026-10-18] [AUDIT] Assignment export and group analysis export write audit rows
+[2026-10-18] [DATABASE] Migration 037 (written, awaits the Director): API roles read only, TRUNCATE refused on history tables
+[2026-10-18] [CI] Checks workflow (typecheck, lint, text, unit, DB, build); keepalive fails loudly; read-only workflow token

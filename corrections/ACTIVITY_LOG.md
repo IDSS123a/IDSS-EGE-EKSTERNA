@@ -147,3 +147,5 @@
 - [2026-10-04] In-app personal user guides with 113 screenshots (tools/guide-screens, public/guide); typecheck, lint, check:text, unit 186, build, e2e 86 green
 - [2026-10-18 20:39] Write: docs/audit/FORENSIC_AUDIT_2026-10-18.md
 - [2026-10-18] Forensic audit of the whole project (docs/audit/FORENSIC_AUDIT_2026-10-18.md): baseline green, live DB identical to repo, 0 critical, 2 high (launch/clean start pending, next 16.4.2), 5 medium; remediation plan awaits the Director
+- [2026-10-18 21:15] Write: tests/unit/audit-remediation.test.ts
+- [2026-10-18] Forensic audit remediation approved by the Director: DEP-1, ACC-1/2, SEC-3, SEC-4, SW-1, EXP-1, CI-1/2, CODE-1 fixed; migration 037 written for the Director; all checks green (unit 203, DB, build, e2e 86)

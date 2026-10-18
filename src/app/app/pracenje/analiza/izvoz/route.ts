@@ -1,4 +1,7 @@
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { clientIpFrom } from "@/features/authentication/domain";
+import { insertAuditLog } from "@/features/authentication/repository";
 import { getCurrentAccount } from "@/features/authentication/session";
 import { share } from "@/features/support/domain/indicators";
 import { exportDictionary, idssCsvResponse } from "@/features/support/export";
@@ -9,14 +12,15 @@ import { canViewStudentProgress, hasCapability } from "@/lib/permissions";
 
 /**
  * GET /app/pracenje/analiza/izvoz — group analysis as IDSS CSV (PDL-036). Role required: students.view_progress (own
- * subjects for a teacher) and reports.export. Aggregates only, no student named.
+ * subjects for a teacher) and reports.export. Aggregates only, no student named; audited like every export (EXP-1).
  */
 export async function GET(): Promise<Response> {
   const account = await getCurrentAccount();
   if (!account) return new NextResponse("Unauthorized", { status: 401 });
   if (!canViewStudentProgress(account) || !hasCapability(account, "reports.export")) return new NextResponse("Forbidden", { status: 403 });
   try {
-    const patterns = await groupPatterns(createSupabaseAdminClient(), account.userId);
+    const admin = createSupabaseAdminClient();
+    const patterns = await groupPatterns(admin, account.userId);
     const dictionary = await exportDictionary();
     const labels = dictionary.support.analysis;
     const rows: (string | number | null)[][] = [[labels.subtitle.replace("{n}", String(patterns.students))], []];
@@ -28,6 +32,7 @@ export async function GET(): Promise<Response> {
     for (const row of patterns.examPoints) rows.push([dictionary.subjects[row.subject], row.points, row.exams]);
     rows.push([], [labels.missed], [dictionary.support.filters.subject, labels.key, labels.wrong, labels.students]);
     for (const row of patterns.missedQuestions) rows.push([dictionary.subjects[row.subject], row.recordKey, row.wrong, row.students]);
+    await insertAuditLog(admin, { actorUserId: account.userId, action: "support.analysis_exported", entityType: "persons", ipAddress: clientIpFrom((await headers()).get("x-forwarded-for")), details: { students: String(patterns.students) } });
     return await idssCsvResponse({ title: labels.title, confidential: false, rows });
   } catch (error) {
     logError("app/pracenje/analiza/izvoz.GET", error);
