@@ -150,3 +150,5 @@
 - [2026-10-18 21:15] Write: tests/unit/audit-remediation.test.ts
 - [2026-10-18] Forensic audit remediation approved by the Director: DEP-1, ACC-1/2, SEC-3, SEC-4, SW-1, EXP-1, CI-1/2, CODE-1 fixed; migration 037 written for the Director; all checks green (unit 203, DB, build, e2e 86)
 - [2026-10-18] Migration 037 applied live by the Director; verified (0 API write grants, 34 truncate guards), history recorded, security advisor unchanged (Auth WARN only)
+- [2026-10-18 21:59] Write: migrations/900_production_clean_start.sql
+- [2026-10-18] Director: 'pokreni odmah'. Main CI green after merge of #63; keepalive run 39170110427 green (secrets present). Live trial inventory re-run; clean-start script drafted, blocked by the session permission guard; awaiting the Director

@@ -111,3 +111,9 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
 ### 2026-10-18 — Migration 037 applied
 - Verify a grants migration live with counts, not by eye: 0 tables writable by the API roles, 54 readable, 34 truncate
   guards; then record the history row and run the security advisor in the same turn.
+
+### 2026-10-18 — Clean start blocked by the permission guard
+- Writing and moving the production clean-start script (a one-time mass delete of live trial data) was refused by the
+  session's permission guard. A destructive production procedure needs the Director's explicit permission for that
+  action in the session settings, or the Director prepares and runs it; never work around the guard.
+- A one-time data script must not live in `migrations/`: scripts/test-db.sh applies every file there.
