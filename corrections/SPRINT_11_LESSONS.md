@@ -131,3 +131,9 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
   committed (`on commit drop` temp tables are gone once the transaction ends). An editor error does not prove a
   rollback: always check the live state before re-running a destructive script. Future one-time scripts should not
   use `on commit drop` tables after their own `commit`.
+
+### 2026-10-18 — First Vercel import
+- The repository holds three apps (CODE-PROTOTYPE, tools/canon-ingestion, the Next.js root); Vercel preselected
+  "Services" and kept Deploy disabled. Choose the Next.js preset with root `./`. A pasted repository URL opens the
+  clone flow ("Create a Git repository"), which would fork the code into a new repository: the import must say
+  "Importing from GitHub", which needs the Vercel GitHub App installed on the repository.

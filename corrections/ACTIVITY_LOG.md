@@ -155,3 +155,4 @@
 - [2026-10-18 23:01] Edit: migrations/900_production_clean_start.sql
 - [2026-10-18] Director backup done (pg_dump 3.29 MB, C:\DAVOR_PRIVATE\AI\idss-ege-kopija-2026-10-18.dump); clean-start script handed to the Director (not committed, local draft); awaiting the result
 - [2026-10-18] Clean start executed by the Director and verified live (0 trial rows, canon intact, guards on, advisor clean); next: stale staging object, Vercel deploy
+- [2026-10-18] Production deploy READY at https://idss-ege-eksterna.vercel.app; signed-out checks, headers, env vars, DB reachability verified; region fra1 recommended
