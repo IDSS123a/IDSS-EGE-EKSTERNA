@@ -117,3 +117,11 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
   session's permission guard. A destructive production procedure needs the Director's explicit permission for that
   action in the session settings, or the Director prepares and runs it; never work around the guard.
 - A one-time data script must not live in `migrations/`: scripts/test-db.sh applies every file there.
+
+### 2026-10-18 — Backup on the Windows machine
+- The Supabase Connect dialog moved Session pooler under the "Direct" tab. A pasted pooler URL can lose the
+  `.dezevstfmfliyasdeflj` part of the user name, and an empty `$db` makes pg_dump try `localhost` as the Windows user.
+  The reliable form is separate `-h`, `-U postgres.<project-ref>` and `-d postgres` flags.
+- A password pasted into the hidden `Password:` prompt failed repeatedly. Setting it with
+  `$env:PGPASSWORD = Read-Host` (visible, local only) and an alphanumeric password worked; remove the variable after
+  the dump.
