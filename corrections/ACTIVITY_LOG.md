@@ -160,3 +160,5 @@
 - [2026-10-20 19:42] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/f5bc0988-4167-5fb7-9879-da596db5f585/scratchpad/mpe-discovery-report.html
 - [2026-10-20 19:44] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/f5bc0988-4167-5fb7-9879-da596db5f585/scratchpad/d18/CH02-S05.md
 - [2026-10-20 19:46] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/f5bc0988-4167-5fb7-9879-da596db5f585/scratchpad/sec19.html
+- [2026-10-20 20:07] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/f5bc0988-4167-5fb7-9879-da596db5f585/scratchpad/corr/content.txt
+- [2026-10-20 20:08] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/f5bc0988-4167-5fb7-9879-da596db5f585/scratchpad/corr/apply.py
