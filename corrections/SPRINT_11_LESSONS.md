@@ -144,3 +144,9 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
   still appended the scratchpad paths to `corrections/ACTIVITY_LOG.md`. Removing those lines was refused as audit-log
   tampering, so they stay. Lesson: run unrelated mandates from a session on their own repository, so this project's
   hooks do not log foreign work.
+
+### 2026-10-20 — Verify findings against the exact file the owner reads
+- The owner could not find reported source defects in the DOCX. A word-level diff proved the DOCX and the audited PDF
+  identical, and exact Ctrl+F strings located every finding. Report source findings as verbatim search strings plus
+  location, never as paraphrases. A self-written verification script chained replacements across paragraphs and
+  produced false alarms; apply each logged change only to its own paragraph when proving a document diff.
