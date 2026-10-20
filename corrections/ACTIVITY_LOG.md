@@ -157,3 +157,6 @@
 - [2026-10-18] Clean start executed by the Director and verified live (0 trial rows, canon intact, guards on, advisor clean); next: stale staging object, Vercel deploy
 - [2026-10-18] Production deploy READY at https://idss-ege-eksterna.vercel.app; signed-out checks, headers, env vars, DB reachability verified; region fra1 recommended
 - [2026-10-18] Function region fra1 live; Director signed in on production and checked all six Command Center tabs: OK
+- [2026-10-20 19:42] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/f5bc0988-4167-5fb7-9879-da596db5f585/scratchpad/mpe-discovery-report.html
+- [2026-10-20 19:44] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/f5bc0988-4167-5fb7-9879-da596db5f585/scratchpad/d18/CH02-S05.md
+- [2026-10-20 19:46] Write: ../../../tmp/claude-0/-home-user-IDSS-EGE-EKSTERNA/f5bc0988-4167-5fb7-9879-da596db5f585/scratchpad/sec19.html

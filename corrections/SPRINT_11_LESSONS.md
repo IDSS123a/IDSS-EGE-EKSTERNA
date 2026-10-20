@@ -137,3 +137,10 @@ F-04 backup path settled: free plan, own pg_dump 17 copy on the day of the clean
   "Services" and kept Deploy disabled. Choose the Next.js preset with root `./`. A pasted repository URL opens the
   clone flow ("Create a Git repository"), which would fork the code into a new repository: the import must say
   "Importing from GitHub", which needs the Vercel GitHub App installed on the repository.
+
+### 2026-10-20 — Session used for an unrelated mandate (MPE)
+- This session ran the Director's discovery mandate for a different product (Mastering Prompt Engineering, interactive
+  edition). All its work lived in the session scratchpad; no IDSS EGE code or docs changed. The write-logging hook
+  still appended the scratchpad paths to `corrections/ACTIVITY_LOG.md`. Removing those lines was refused as audit-log
+  tampering, so they stay. Lesson: run unrelated mandates from a session on their own repository, so this project's
+  hooks do not log foreign work.
